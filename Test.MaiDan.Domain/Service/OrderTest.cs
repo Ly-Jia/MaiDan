@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using NUnit.Framework;
-using NFluent;
+using System.Linq;
 using MaiDan.Domain.Service;
+using NFluent;
+using NUnit.Framework;
 using Test.MaiDan.Service;
 
 namespace Test.MaiDan.Domain.Service
@@ -29,5 +30,16 @@ namespace Test.MaiDan.Domain.Service
 			Check.That(order.Lines).Contains(line);
 		}
 		
+		[Test]
+		public void should_add_directly_quantity_and_dish_to_an_order()
+		{
+			var order = new AnOrder().Build();
+			var line = new Line(2, "Burgers");
+			
+			order = order.Add(2, "Burgers");
+			var createdLine = order.Lines.First();
+			
+			Check.That(order.Lines).Contains(line);
+		}
 	}
 }

@@ -22,5 +22,10 @@ namespace MaiDan.Domain.Service
 			Lines.Add(line);
 			return this;
 		}
+		
+		public Order Add(int quantity, String dishName)
+		{
+			return this.Add(new Line(quantity, dishName));
+		}
 	}
 }
