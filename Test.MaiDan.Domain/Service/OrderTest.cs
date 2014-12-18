@@ -20,7 +20,7 @@ namespace Test.MaiDan.Domain.Service
 		}
 		
 		[Test]
-		public void should_add_line_to_an_order()
+		public void can_add_line_to_an_order()
 		{
 			var order = new AnOrder().Build();
 			var line = new Line(2, "Burgers");
@@ -31,7 +31,7 @@ namespace Test.MaiDan.Domain.Service
 		}
 		
 		[Test]
-		public void should_add_directly_quantity_and_dish_to_an_order()
+		public void can_add_directly_quantity_and_dish_to_an_order()
 		{
 			var order = new AnOrder().Build();
 			var line = new Line(2, "Burgers");

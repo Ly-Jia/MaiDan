@@ -12,7 +12,7 @@ namespace Test.MaiDan.DAL
 	public class OrderBookTest
 	{
 		[Test]
-		public void should_add_order()
+		public void can_add_order()
 		{
 			var orderBook = new OrderBook();
 			var order = new AnOrder().Build();
