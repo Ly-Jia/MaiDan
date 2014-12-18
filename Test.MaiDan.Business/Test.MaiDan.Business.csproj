@@ -103,6 +103,10 @@
       <Project>{F80E8620-560A-42C3-83E4-5A398BF03BAE}</Project>
       <Name>MaiDan.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Test.MaiDan\Test.MaiDan.csproj">
+      <Project>{FD684185-5741-4EDB-95CA-92284CE768DF}</Project>
+      <Name>Test.MaiDan</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

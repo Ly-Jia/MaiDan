@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using MaiDan.DAL;
 using MaiDan.Domain.Service;
+using Test.MaiDan.Service;
 using NUnit.Framework;
 using NFluent;
 
@@ -14,7 +15,7 @@ namespace Test.MaiDan.DAL
 		public void should_add_order()
 		{
 			var orderBook = new OrderBook();
-			var order = new Order(new DateTime(2012,12,21));
+			var order = new AnOrder().Build();
 			
 			orderBook.Add(order);
 			

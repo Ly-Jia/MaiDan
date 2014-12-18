@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
   <PropertyGroup>
-    <ProjectGuid>{19E01235-AB20-452D-ABCC-A42E6CA4F33B}</ProjectGuid>
+    <ProjectGuid>{FD684185-5741-4EDB-95CA-92284CE768DF}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>Library</OutputType>
-    <RootNamespace>Test.MaiDan.DAL</RootNamespace>
-    <AssemblyName>Test.MaiDan.DAL</AssemblyName>
+    <RootNamespace>Test.MaiDan</RootNamespace>
+    <AssemblyName>Test.MaiDan</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -30,29 +30,7 @@
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Platform)' == 'x64' " />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <OutputPath>bin\Debug\x86\</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <OutputPath>bin\Debug\x64\</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\Release\x64\</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\Release\x86\</OutputPath>
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NFluent">
-      <HintPath>..\packages\NFluent.1.3.1.0\lib\net40\NFluent.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -63,25 +41,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="OrderBookTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\AnOrder.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MaiDan.DAL\MaiDan.DAL.csproj">
-      <Project>{9C351C83-D8D0-4839-A895-BDD8278B4086}</Project>
-      <Name>MaiDan.DAL</Name>
-    </ProjectReference>
+    <Folder Include="Service" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\MaiDan.Domain\MaiDan.Domain.csproj">
       <Project>{F80E8620-560A-42C3-83E4-5A398BF03BAE}</Project>
       <Name>MaiDan.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Test.MaiDan\Test.MaiDan.csproj">
-      <Project>{FD684185-5741-4EDB-95CA-92284CE768DF}</Project>
-      <Name>Test.MaiDan</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

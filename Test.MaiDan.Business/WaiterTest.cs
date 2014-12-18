@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using MaiDan.Business;
 using MaiDan.Domain.Service;
 using MaiDan.DAL;
+using Test.MaiDan.Service;
 using NUnit.Framework;
 using NFluent;
 using Moq;
@@ -17,7 +18,7 @@ namespace Test.MaiDan.Business
 		{
 			var orderBook = new Mock<IRepository<Order>>();
 			var waiter = new Waiter(orderBook.Object);
-			var order = new Order(new DateTime(2012,12,21));
+			var order = new AnOrder().Build();
 			
 			waiter.Take(order);
 			
