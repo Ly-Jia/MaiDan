@@ -14,7 +14,7 @@ namespace Test.MaiDan.DAL
 		public void should_add_order()
 		{
 			var orderBook = new OrderBook();
-			var order = new Order();
+			var order = new Order(new DateTime(2012,12,21));
 			
 			orderBook.Add(order);
 			

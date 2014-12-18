@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.MaiDan.Business", "Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.MaiDan.DAL", "Test.MaiDan.DAL\Test.MaiDan.DAL.csproj", "{19E01235-AB20-452D-ABCC-A42E6CA4F33B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.MaiDan.Domain", "Test.MaiDan.Domain\Test.MaiDan.Domain.csproj", "{BA2B2995-0BD1-4EA7-8942-F031F7EB1F24}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -106,6 +108,22 @@ Global
 		{19E01235-AB20-452D-ABCC-A42E6CA4F33B}.Release|x64.ActiveCfg = Release|Any CPU
 		{19E01235-AB20-452D-ABCC-A42E6CA4F33B}.Release|x86.Build.0 = Release|Any CPU
 		{19E01235-AB20-452D-ABCC-A42E6CA4F33B}.Release|x86.ActiveCfg = Release|Any CPU
+		{BA2B2995-0BD1-4EA7-8942-F031F7EB1F24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA2B2995-0BD1-4EA7-8942-F031F7EB1F24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA2B2995-0BD1-4EA7-8942-F031F7EB1F24}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{BA2B2995-0BD1-4EA7-8942-F031F7EB1F24}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{BA2B2995-0BD1-4EA7-8942-F031F7EB1F24}.Debug|x64.Build.0 = Debug|Any CPU
+		{BA2B2995-0BD1-4EA7-8942-F031F7EB1F24}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BA2B2995-0BD1-4EA7-8942-F031F7EB1F24}.Debug|x86.Build.0 = Debug|Any CPU
+		{BA2B2995-0BD1-4EA7-8942-F031F7EB1F24}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BA2B2995-0BD1-4EA7-8942-F031F7EB1F24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA2B2995-0BD1-4EA7-8942-F031F7EB1F24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA2B2995-0BD1-4EA7-8942-F031F7EB1F24}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{BA2B2995-0BD1-4EA7-8942-F031F7EB1F24}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BA2B2995-0BD1-4EA7-8942-F031F7EB1F24}.Release|x64.Build.0 = Release|Any CPU
+		{BA2B2995-0BD1-4EA7-8942-F031F7EB1F24}.Release|x64.ActiveCfg = Release|Any CPU
+		{BA2B2995-0BD1-4EA7-8942-F031F7EB1F24}.Release|x86.Build.0 = Release|Any CPU
+		{BA2B2995-0BD1-4EA7-8942-F031F7EB1F24}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

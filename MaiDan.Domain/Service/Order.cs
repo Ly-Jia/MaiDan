@@ -7,8 +7,10 @@ namespace MaiDan.Domain.Service
 	/// </summary>
 	public class Order
 	{
-		public Order()
+		public DateTime Id;
+		public Order(DateTime creationDate)
 		{
+			Id = creationDate;
 		}
 	}
 }

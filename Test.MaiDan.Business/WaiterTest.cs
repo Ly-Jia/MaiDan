@@ -13,11 +13,11 @@ namespace Test.MaiDan.Business
 	public class WaiterTest
 	{
 		[Test]
-		public void should_take_an_order()
+		public void can_take_an_order_from_a_date()
 		{
 			var orderBook = new Mock<IRepository<Order>>();
 			var waiter = new Waiter(orderBook.Object);
-			var order = new Order();
+			var order = new Order(new DateTime(2012,12,21));
 			
 			waiter.Take(order);
 			
