@@ -41,5 +41,27 @@ namespace Test.MaiDan.Domain.Service
 			
 			Check.That(order.Lines).Contains(line);
 		}
+		
+		[Test] 
+		public void should_be_equal_when_id_is_the_same()
+		{
+			var order1 = new AnOrder(2012,12,21).Build();
+			var order2 = new AnOrder(2012,12,21).Build();
+			
+			var isEqual = order1.Equals(order2);
+			
+			Check.That(isEqual).IsTrue();
+		}
+		
+		[Test]
+		public void should_not_be_equal_when_id_is_not_the_same()
+		{
+			var order1 = new AnOrder(2012,12,12).Build();
+			var order2 = new AnOrder(2011,11,11).Build();
+			
+			var isEqual = order1.Equals(order2);
+			
+			Check.That(isEqual).IsFalse();
+		}
 	}
 }

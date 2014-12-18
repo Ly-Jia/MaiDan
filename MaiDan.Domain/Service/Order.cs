@@ -27,5 +27,14 @@ namespace MaiDan.Domain.Service
 		{
 			return this.Add(new Line(quantity, dishName));
 		}
+		
+		public override bool Equals(object obj)
+		{
+			Order other = obj as Order;
+			if (other == null)
+				return false;
+			return this.Id == other.Id;
+		}
+
 	}
 }

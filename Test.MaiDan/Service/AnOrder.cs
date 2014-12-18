@@ -15,9 +15,9 @@ namespace Test.MaiDan.Service
 		/// Initialize the future order with a specific Id (creation date)
 		/// </summary>
 		/// <param name="creationDate"></param>
-		public AnOrder(DateTime creationDate)
+		public AnOrder(int year, int month, int day)
 		{
-			Id = creationDate;
+			Id = new DateTime(year, month, day);
 		}
 		
 		/// <summary>
