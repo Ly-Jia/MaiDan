@@ -25,16 +25,5 @@ namespace Test.MaiDan.Business
 			orderBook.Verify(OrderBook => OrderBook.Add(order));
 		}
 		
-		[Test]
-		public void should_modify_an_order()
-		{	
-		}
-		
-		[Test]
-		public void should_delete_an_order()
-		{
-			
-		}
-		
 	}
 }
