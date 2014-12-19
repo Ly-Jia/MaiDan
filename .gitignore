@@ -60,3 +60,5 @@ NHibernate.3.3.3.4001
 NHibernate.4.0.2.4000
 NUnit.2.6.3
 mightymoose.bat
+*.suo
+*.user
