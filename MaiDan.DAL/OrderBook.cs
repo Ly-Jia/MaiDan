@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using MaiDan.Domain.Service;
 
 namespace MaiDan.DAL
@@ -20,5 +21,10 @@ namespace MaiDan.DAL
 		{
 			Orders.Add(order);
 		}
+
+	    public object Get(DateTime orderId)
+	    {
+	        return Orders.Single(o => o.Id == orderId);
+	    }
 	}
 }
