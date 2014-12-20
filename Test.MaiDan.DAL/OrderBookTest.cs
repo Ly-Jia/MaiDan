@@ -33,5 +33,12 @@ namespace Test.MaiDan.DAL
 	        Check.That(retrievedOrder).Equals(wantedOrder);
 	    }
 
+	    [Test]
+	    public void should_show_error_when_order_is_not_found()
+	    {
+            var orderBook = new OrderBook();
+
+            Assert.Throws<ItemNotFoundException>(() => orderBook.Get(new DateTime(2012, 12, 21)));
+	    }
 	}
 }

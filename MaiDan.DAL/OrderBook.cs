@@ -24,7 +24,12 @@ namespace MaiDan.DAL
 
 	    public object Get(DateTime orderId)
 	    {
-	        return Orders.Single(o => o.Id == orderId);
+	        var order = Orders.SingleOrDefault(o => o.Id == orderId);
+	        if (order == null)
+	        {
+	            throw new ItemNotFoundException();
+	        }
+	        return order;
 	    }
 	}
 }
