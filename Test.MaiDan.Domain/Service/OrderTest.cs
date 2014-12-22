@@ -67,22 +67,14 @@ namespace Test.MaiDan.Domain.Service
 		[Test]
 		public void can_update_lines()
 		{
-			var order = new Order(new DateTime(2012,12,21))
-			{
-				Lines = new List<Line>
-				{
-					new Line(1, "Taco")
-				}
-			};
+			var initialLine = new Line(1, "Taco");
+			var order = new AnOrder().With(initialLine).Build();
 			
-			var updatedLines = new List<Line>
-			{
-				new Line(1, "Burrito")
-			};
-			
-			order.Update(updatedLines);
+			var updatedLine = new Line(1, "Burrito");
+			order.Update(new List<Line> {updatedLine});
 				
-			Check.That(order.Lines.First()).Equals(updatedLines.First());
+			Check.That(order.Lines).Contains(updatedLine);
+			Check.That(order.Lines).Not.Contains(initialLine);
 		}
 	}
 }
