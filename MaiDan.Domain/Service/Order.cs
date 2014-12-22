@@ -36,5 +36,10 @@ namespace MaiDan.Domain.Service
 			return this.Id == other.Id;
 		}
 
+		
+		public void Update(List<Line> updatedLines)
+		{
+			Lines = updatedLines;
+		}
 	}
 }

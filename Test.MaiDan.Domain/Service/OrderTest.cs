@@ -63,5 +63,26 @@ namespace Test.MaiDan.Domain.Service
 			
 			Check.That(isEqual).IsFalse();
 		}
+		
+		[Test]
+		public void can_update_lines()
+		{
+			var order = new Order(new DateTime(2012,12,21))
+			{
+				Lines = new List<Line>
+				{
+					new Line(1, "Taco")
+				}
+			};
+			
+			var updatedLines = new List<Line>
+			{
+				new Line(1, "Burrito")
+			};
+			
+			order.Update(updatedLines);
+				
+			Check.That(order.Lines.First()).Equals(updatedLines.First());
+		}
 	}
 }
