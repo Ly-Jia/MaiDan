@@ -24,6 +24,18 @@ namespace Test.MaiDan.Business
 			
 			orderBook.Verify(OrderBook => OrderBook.Add(order));
 		}
+
+	    [Test]
+	    public void can_update_an_order()
+	    {
+	        var orderBook = new Mock<IRepository<Order>>();
+            var waiter = new Waiter(orderBook.Object);
+
+	        var updatedOrder = new AnOrder().Build();
+            waiter.Update(updatedOrder);
+
+            orderBook.Verify(o => o.Update(updatedOrder));
+	    }
 		
 	}
 }

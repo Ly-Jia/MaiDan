@@ -31,5 +31,10 @@ namespace MaiDan.DAL
 	        }
 	        return order;
 	    }
+
+	    public void Update(Order item)
+	    {
+	        throw new NotImplementedException();
+	    }
 	}
 }

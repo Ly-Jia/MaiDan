@@ -21,6 +21,11 @@ namespace MaiDan.Business
 		{
 			OrderBook.Add(order);
 		}
+
+	    public void Update(Order updatedOrder)
+	    {
+	        OrderBook.Update(updatedOrder);
+	    }
 	}
 	
 	
