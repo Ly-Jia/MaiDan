@@ -11,6 +11,14 @@ namespace MaiDan.Domain.Service
 		public DateTime Id;
 		public IList<Line> Lines;
 		
+		/// <summary>
+		/// Constructor for test purpose only (mock in OrderBookTest)
+		/// </summary>
+		public Order():this(new DateTime())
+		{
+			
+		}
+		
 		public Order(DateTime creationDate)
 		{
 			Id = creationDate;
@@ -36,8 +44,12 @@ namespace MaiDan.Domain.Service
 			return this.Id == other.Id;
 		}
 
-		
-		public void Update(List<Line> updatedLines)
+		/// <remarks>
+		/// virtual attribute was added for testing purpose only
+		/// (mock in OrderBookTest)
+		/// </remarks>
+		/// <param name="updatedLines">new values</param>
+		public virtual void Update(IList<Line> updatedLines)
 		{
 			Lines = updatedLines;
 		}

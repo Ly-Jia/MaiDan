@@ -22,7 +22,7 @@ namespace MaiDan.DAL
 			Orders.Add(order);
 		}
 
-	    public object Get(DateTime orderId)
+	    public virtual Order Get(DateTime orderId)
 	    {
 	        var order = Orders.SingleOrDefault(o => o.Id == orderId);
 	        if (order == null)
@@ -34,7 +34,8 @@ namespace MaiDan.DAL
 
 	    public void Update(Order item)
 	    {
-	        throw new NotImplementedException();
+	    	var orderToUpdate = this.Get(item.Id);
+	    	orderToUpdate.Update(item.Lines);
 	    }
 	}
 }
