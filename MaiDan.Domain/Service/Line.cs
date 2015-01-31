@@ -8,12 +8,12 @@ namespace MaiDan.Domain.Service
 	public class Line
 	{
 		public int Quantity;
-		public String DishName;
+		public String DishCode;
 		
-		public Line(int quantity, String dishName)
+		public Line(int quantity, String dishCode)
 		{
 			Quantity = quantity;
-			DishName = dishName;
+			DishCode = dishCode;
 		}
 		
 		public override bool Equals(object obj)
@@ -21,7 +21,7 @@ namespace MaiDan.Domain.Service
 			Line other = obj as Line;
 			if (other == null)
 				return false;
-			return this.Quantity == other.Quantity && this.DishName == other.DishName;
+			return this.Quantity == other.Quantity && this.DishCode == other.DishCode;
 		}
 
 	}

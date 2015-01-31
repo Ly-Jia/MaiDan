@@ -51,9 +51,7 @@
     <Compile Include="Service\LineTest.cs" />
     <Compile Include="Service\OrderTest.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Service" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
@@ -66,6 +64,9 @@
       <Project>{FD684185-5741-4EDB-95CA-92284CE768DF}</Project>
       <Name>Test.MaiDan</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
