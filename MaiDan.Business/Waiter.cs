@@ -26,6 +26,11 @@ namespace MaiDan.Business
 	    {
 	        OrderBook.Update(updatedOrder);
 	    }
+
+	    public void AddDishToAnOrder(DateTime orderId, int quantity, string dishCode)
+	    {
+	        throw new ItemNotFoundException();
+	    }
 	}
 	
 	
