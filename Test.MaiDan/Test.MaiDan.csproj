@@ -31,6 +31,9 @@
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.2.1409.1722\lib\net40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -43,11 +46,18 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\AnOrder.cs" />
+    <Compile Include="Service\AWaiter.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Service" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\MaiDan.Business\MaiDan.Business.csproj">
+      <Project>{9EE73C3E-7B08-4BAA-914B-3E6F290DD391}</Project>
+      <Name>MaiDan.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MaiDan.DAL\MaiDan.DAL.csproj">
+      <Project>{9C351C83-D8D0-4839-A895-BDD8278B4086}</Project>
+      <Name>MaiDan.DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MaiDan.Domain\MaiDan.Domain.csproj">
       <Project>{F80E8620-560A-42C3-83E4-5A398BF03BAE}</Project>
       <Name>MaiDan.Domain</Name>
