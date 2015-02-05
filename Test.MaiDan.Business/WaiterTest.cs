@@ -35,6 +35,7 @@ namespace Test.MaiDan.Business
             Assert.Throws<ItemNotFoundException>(() => waiter.AddDishToAnOrder(new DateTime(), 2, "Fried rice"));
 	    }
 
+
 	    [Test]
 	    public void can_update_an_order()
 	    {
@@ -45,6 +46,15 @@ namespace Test.MaiDan.Business
             waiter.Update(updatedOrder);
 
             orderBook.Verify(o => o.Update(updatedOrder));
+	    }
+
+	    [Test]
+	    public void should_not_update_a_missing_order()
+	    {
+	        var waiter = new AWaiter().WithoutOrder().Build();
+	        var order = new AnOrder().Build();
+
+	        Assert.Throws<ItemNotFoundException>(() => waiter.Update(order));
 	    }
 		
 	}

@@ -24,7 +24,15 @@ namespace MaiDan.Business
 
 	    public void Update(Order updatedOrder)
 	    {
-	        OrderBook.Update(updatedOrder);
+	        try
+	        {
+                OrderBook.Update(updatedOrder);
+	        }
+	        catch (ItemNotFoundException e)
+	        {
+	            throw e;
+	        }
+	        
 	    }
 
 	    public void AddDishToAnOrder(DateTime orderId, int quantity, string dishCode)
