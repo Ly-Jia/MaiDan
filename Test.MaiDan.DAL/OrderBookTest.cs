@@ -24,7 +24,7 @@ namespace Test.MaiDan.DAL
 		}
 
 	    [Test]
-	    public void can_show_a_specific_order_from_the_id()
+	    public void should_show_a_specific_order_from_the_id()
 	    {
             var wantedOrder = new AnOrder(2012, 12, 21).Build();
 	        var orderBook = new OrderBook() {Orders = new List<Order> {wantedOrder}};
