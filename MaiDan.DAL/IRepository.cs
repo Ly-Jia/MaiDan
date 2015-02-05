@@ -7,7 +7,8 @@ namespace MaiDan.DAL
 	/// Description of IRepository.
 	/// </summary>
 	public interface IRepository<T>
-	{		
+	{
+	    T Get(DateTime id); 
 		void Add(T item);
 	    void Update(T item);
 	}
