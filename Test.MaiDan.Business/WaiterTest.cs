@@ -30,9 +30,24 @@ namespace Test.MaiDan.Business
         [Test]
         public void should_not_add_a_dish_to_a_missing_order()
 	    {
-            var waiter = new AWaiter().Build();
+            var waiter = new AWaiter().WithoutOrder().Build();
 
             Assert.Throws<ItemNotFoundException>(() => waiter.AddDishToAnOrder(new DateTime(), 2, "Fried rice"));
+	    }
+
+	    [Test]
+	    public void should_add_a_dish_to_an_order()
+	    {
+	        var existingOrder = new AnOrder().With(1, "Coffee").Build();
+	        var waiterMock = new AWaiter().With(existingOrder);
+
+	        var waiter = waiterMock.Build();
+
+            waiter.AddDishToAnOrder(existingOrder.Id, 2, "Donut");
+
+	        var updatedOrder = new AnOrder(existingOrder.Id).With(1, "Coffee").And(2, "Donut").Build();
+
+	        waiterMock.OrderBook.Verify(ob => ob.Update(updatedOrder));
 	    }
 
 

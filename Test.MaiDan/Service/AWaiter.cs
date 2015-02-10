@@ -10,29 +10,29 @@ namespace Test.MaiDan.Service
 {
     public class AWaiter
     {
-        private Mock<IRepository<Order>> orderBook;
+        public Mock<IRepository<Order>> OrderBook;
 
         public AWaiter()
         {
-            orderBook = new Mock<IRepository<Order>>();
+            OrderBook = new Mock<IRepository<Order>>();
         }
 
         public AWaiter With(Order order)
         {
-            orderBook.Setup(ob => ob.Get(order.Id)).Returns(order);
+            OrderBook.Setup(ob => ob.Get(order.Id)).Returns(order);
             return this;
         }
 
         public AWaiter WithoutOrder()
         {
-            orderBook.Setup(ob => ob.Get(It.IsAny<DateTime>())).Throws<ItemNotFoundException>();
-            orderBook.Setup(ob => ob.Update(It.IsAny<Order>())).Throws<ItemNotFoundException>();
+            OrderBook.Setup(ob => ob.Get(It.IsAny<DateTime>())).Throws<ItemNotFoundException>();
+            OrderBook.Setup(ob => ob.Update(It.IsAny<Order>())).Throws<ItemNotFoundException>();
             return this;
         }
 
         public Waiter Build()
         {
-            return new Waiter(orderBook.Object);
+            return new Waiter(OrderBook.Object);
         }
     }
 }

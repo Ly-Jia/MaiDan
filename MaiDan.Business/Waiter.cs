@@ -37,7 +37,16 @@ namespace MaiDan.Business
 
 	    public void AddDishToAnOrder(DateTime orderId, int quantity, string dishCode)
 	    {
-	        throw new ItemNotFoundException();
+	        try
+	        {
+                var order = OrderBook.Get(orderId);
+                order.Add(quantity, dishCode);
+                OrderBook.Update(order);
+	        }
+            catch (ItemNotFoundException e)
+	        {
+	            throw e;
+	        }
 	    }
 	}
 	
