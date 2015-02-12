@@ -10,11 +10,13 @@ namespace MaiDan.Business
 	/// </summary>
 	public class Waiter
 	{
-		public IRepository<Order> OrderBook;
+		private IRepository<Order> OrderBook;
+	    private IList<String> Menu; 
 		
-		public Waiter(IRepository<Order> orderBook)
+		public Waiter(IRepository<Order> orderBook, IList<String> menu)
 		{
 			OrderBook = orderBook;
+		    Menu = menu;
 		}
 
 		public void Take(Order order)
@@ -40,6 +42,10 @@ namespace MaiDan.Business
 	        try
 	        {
                 var order = OrderBook.Get(orderId);
+                if (!Menu.Contains(dishCode))
+                {
+                    throw new ItemNotFoundException();
+                }
                 order.Add(quantity, dishCode);
                 OrderBook.Update(order);
 	        }

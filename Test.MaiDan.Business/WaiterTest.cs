@@ -1,14 +1,11 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using MaiDan.Business;
-using MaiDan.Domain.Service;
 using MaiDan.DAL;
-using Test.MaiDan.Service;
-using NUnit.Framework;
-using NFluent;
+using MaiDan.Domain.Service;
 using Moq;
+using NUnit.Framework;
+using Test.MaiDan.Service;
 
 namespace Test.MaiDan.Business
 {
@@ -18,13 +15,14 @@ namespace Test.MaiDan.Business
 		[Test]
 		public void can_take_an_order_from_a_date()
 		{
-		    var orderBook = new Mock<IRepository<Order>>();
-		    var waiter = new Waiter(orderBook.Object);
+		    var waiterMock = new AWaiter();
+		    var waiter = waiterMock.Build();
+
 			var order = new AnOrder().Build();
 			
 			waiter.Take(order);
 			
-			orderBook.Verify(OrderBook => OrderBook.Add(order));
+			waiterMock.OrderBook.Verify(OrderBook => OrderBook.Add(order));
 		}
 
         [Test]
@@ -38,8 +36,10 @@ namespace Test.MaiDan.Business
 	    [Test]
 	    public void should_add_a_dish_to_an_order()
 	    {
+	        var aMenu = new List<String> {"Coffee", "Donut"};
+
 	        var existingOrder = new AnOrder().With(1, "Coffee").Build();
-	        var waiterMock = new AWaiter().With(existingOrder);
+	        var waiterMock = new AWaiter().Handing(aMenu).With(existingOrder);
 
 	        var waiter = waiterMock.Build();
 
@@ -54,13 +54,13 @@ namespace Test.MaiDan.Business
 	    [Test]
 	    public void can_update_an_order()
 	    {
-            var orderBook = new Mock<IRepository<Order>>();
-            var waiter = new Waiter(orderBook.Object);
+            var waiterMock = new AWaiter();
+	        var waiter = waiterMock.Build();
 
 	        var updatedOrder = new AnOrder().Build();
             waiter.Update(updatedOrder);
 
-            orderBook.Verify(o => o.Update(updatedOrder));
+            waiterMock.OrderBook.Verify(o => o.Update(updatedOrder));
 	    }
 
 	    [Test]
@@ -71,6 +71,14 @@ namespace Test.MaiDan.Business
 
 	        Assert.Throws<ItemNotFoundException>(() => waiter.Update(order));
 	    }
-		
+
+	    [Test]
+	    public void should_not_add_a_missing_dish_to_an_order()
+	    {
+	        var order = new AnOrder().Build();
+	        var waiter = new AWaiter().With(order).Build();
+
+	        Assert.Throws<ItemNotFoundException>(() => waiter.AddDishToAnOrder(order.Id, 1, "Unknown"));
+	    }
 	}
 }
