@@ -11,10 +11,10 @@ namespace MaiDan.Business
 	/// </summary>
 	public class Waiter
 	{
-		private IRepository<Order> OrderBook;
-	    private IList<String> Menu; 
-		
-		public Waiter(IRepository<Order> orderBook, IList<String> menu)
+		private IRepository<Order, DateTime> OrderBook;
+	    private IRepository<Dish, String> Menu;
+
+        public Waiter(IRepository<Order, DateTime> orderBook, IRepository<Dish, String> menu)
 		{
 			OrderBook = orderBook;
 		    Menu = menu;

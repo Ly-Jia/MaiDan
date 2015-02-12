@@ -8,7 +8,7 @@ namespace MaiDan.DAL
 	/// <summary>
 	/// Description of OrderBook.
 	/// </summary>
-	public class OrderBook : IRepository<Order>
+	public class OrderBook : IRepository<Order, DateTime>
 	{
 		public IList<Order> Orders;
 		
@@ -36,6 +36,11 @@ namespace MaiDan.DAL
 	    {
 	    	var orderToUpdate = this.Get(item.Id);
 	    	orderToUpdate.Update(item.Lines);
+	    }
+
+	    public bool Contains(DateTime id)
+	    {
+	        throw new NotImplementedException();
 	    }
 	}
 }

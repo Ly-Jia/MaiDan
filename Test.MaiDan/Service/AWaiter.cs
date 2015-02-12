@@ -9,13 +9,13 @@ namespace Test.MaiDan.Service
 {
     public class AWaiter
     {
-        public Mock<IRepository<Order>> OrderBook;
-        private IList<string> Menu; 
+        public Mock<IRepository<Order,DateTime>> OrderBook;
+        private Mock<IRepository<Dish, String>> Menu; 
 
         public AWaiter()
         {
-            OrderBook = new Mock<IRepository<Order>>();
-            Menu = new List<string>();
+            OrderBook = new Mock<IRepository<Order,DateTime>>();
+            Menu = new Mock<IRepository<Dish, String>>();
         }
 
         public AWaiter With(Order order)
@@ -33,13 +33,16 @@ namespace Test.MaiDan.Service
 
         public AWaiter Handing(IList<String> menu)
         {
-            Menu = menu;
+            foreach (var dish in menu)
+            {
+                Menu.Setup(m => m.Contains(dish)).Returns(true);
+            }
             return this;
         }
 
         public Waiter Build()
         {
-            return new Waiter(OrderBook.Object, Menu);
+            return new Waiter(OrderBook.Object, Menu.Object);
         }
     }
 }
