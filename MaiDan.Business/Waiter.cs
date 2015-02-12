@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using MaiDan.Domain.Service;
 using MaiDan.DAL;
 
@@ -26,6 +27,10 @@ namespace MaiDan.Business
 
 	    public void Update(Order updatedOrder)
 	    {
+	        if (updatedOrder.Lines.Any(line => !Menu.Contains(line.DishCode)))
+	        {
+	            throw new ItemNotFoundException();
+	        }
 	        try
 	        {
                 OrderBook.Update(updatedOrder);
@@ -34,7 +39,6 @@ namespace MaiDan.Business
 	        {
 	            throw e;
 	        }
-	        
 	    }
 
 	    public void AddDishToAnOrder(DateTime orderId, int quantity, string dishCode)
@@ -42,12 +46,8 @@ namespace MaiDan.Business
 	        try
 	        {
                 var order = OrderBook.Get(orderId);
-                if (!Menu.Contains(dishCode))
-                {
-                    throw new ItemNotFoundException();
-                }
                 order.Add(quantity, dishCode);
-                OrderBook.Update(order);
+                this.Update(order);
 	        }
             catch (ItemNotFoundException e)
 	        {

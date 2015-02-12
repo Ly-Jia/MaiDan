@@ -80,5 +80,17 @@ namespace Test.MaiDan.Business
 
 	        Assert.Throws<ItemNotFoundException>(() => waiter.AddDishToAnOrder(order.Id, 1, "Unknown"));
 	    }
+
+	    [Test]
+	    public void should_not_update_an_order_with_a_missing_dish()
+	    {
+	        var order = new AnOrder().Build();
+	        var waiter = new AWaiter().With(order).Build();
+
+	        var orderToUpdate = new AnOrder(order.Id).With(1, "Unknown").Build();
+
+	        Assert.Throws<ItemNotFoundException>(() => waiter.Update(orderToUpdate));
+
+	    }
 	}
 }
