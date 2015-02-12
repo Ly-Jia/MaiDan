@@ -40,8 +40,10 @@ namespace Test.MaiDan.DAL
 	    public void should_show_error_when_order_is_not_found()
 	    {
             var orderBook = new OrderBook(new List<Order>());
+	        var orderId = new DateTime(2012, 12, 21);
 
-            Assert.Throws<ItemNotFoundException>(() => orderBook.Get(new DateTime(2012, 12, 21)));
+            var exception = Assert.Throws<InvalidOperationException>(() => orderBook.Get(orderId));
+	        Check.That(exception.Message).Equals("Order " + orderId + "was not found");
 	    }
 
 	    [Test]
@@ -64,5 +66,24 @@ namespace Test.MaiDan.DAL
             //verify update sur la commande
             orderToUpdate.Verify(o => o.Update(order.Lines));
 	    }
+
+        [Test]
+        /// <summary>
+        /// a(nother ugly) test to ensure that update fails when order is not found
+        /// when deleting it, remember to delete virtual attribute added to
+        /// "Order" class constructor and its "Update" function 
+        /// They were necessary for mocking.
+        /// </summary>
+        public void should_not_update_a_missing_order()
+        {
+            var orderBookMock = new Mock<OrderBook>() { CallBase = true };
+            var order = new AnOrder().With(1, "Cheese Nan").Build();
+
+            orderBookMock.Setup(ob => ob.Get(order.Id)).Throws(new InvalidOperationException());
+
+            //verify update sur la commande
+            var exception = Assert.Throws<InvalidOperationException>(() => orderBookMock.Object.Update(order));
+            Check.That(exception.Message).Equals("Cannot update order : " + order.Id);
+        }
 	}
 }

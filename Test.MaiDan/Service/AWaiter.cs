@@ -26,8 +26,8 @@ namespace Test.MaiDan.Service
 
         public AWaiter WithoutOrder()
         {
-            OrderBook.Setup(ob => ob.Get(It.IsAny<DateTime>())).Throws<ItemNotFoundException>();
-            OrderBook.Setup(ob => ob.Update(It.IsAny<Order>())).Throws<ItemNotFoundException>();
+            OrderBook.Setup(ob => ob.Get(It.IsAny<DateTime>())).Throws<InvalidOperationException>();
+            OrderBook.Setup(ob => ob.Update(It.IsAny<Order>())).Throws<InvalidOperationException>();
             return this;
         }
 

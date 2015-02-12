@@ -35,15 +35,22 @@ namespace MaiDan.DAL
 	        var order = orders.SingleOrDefault(o => o.Id == orderId);
 	        if (order == null)
 	        {
-	            throw new ItemNotFoundException();
+                throw new InvalidOperationException("Order " + orderId + "was not found");
 	        }
 	        return order;
 	    }
 
 	    public void Update(Order item)
 	    {
-	    	var orderToUpdate = this.Get(item.Id);
-	    	orderToUpdate.Update(item.Lines);
+	        try
+	        {
+	            var orderToUpdate = Get(item.Id);
+	            orderToUpdate.Update(item.Lines);
+	        }
+	        catch (Exception e)
+	        {
+                throw new InvalidOperationException("Cannot update order : " + item.Id, e);
+	        }
 	    }
 
 	    public bool Contains(DateTime id)

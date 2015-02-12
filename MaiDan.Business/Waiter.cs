@@ -27,17 +27,20 @@ namespace MaiDan.Business
 
 	    public void Update(Order updatedOrder)
 	    {
-	        if (updatedOrder.Lines.Any(line => !Menu.Contains(line.DishCode)))
+	        foreach (var line in updatedOrder.Lines)
 	        {
-	            throw new ItemNotFoundException();
+	            if (!Menu.Contains(line.DishCode))
+	            {
+	                throw new InvalidOperationException("Cannot add an unknown dish : " + line.DishCode);
+	            }
 	        }
 	        try
 	        {
                 OrderBook.Update(updatedOrder);
 	        }
-	        catch (ItemNotFoundException e)
+	        catch (Exception e)
 	        {
-	            throw e;
+                throw new InvalidOperationException("Cannot update order : " + updatedOrder.Id, e);
 	        }
 	    }
 
@@ -49,9 +52,9 @@ namespace MaiDan.Business
                 order.Add(quantity, dishCode);
                 this.Update(order);
 	        }
-            catch (ItemNotFoundException e)
+            catch (Exception e)
 	        {
-	            throw e;
+                throw new InvalidOperationException("Cannot add a dish to an order : " + orderId, e);
 	        }
 	    }
 	}

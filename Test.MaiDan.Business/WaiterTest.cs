@@ -4,6 +4,7 @@ using MaiDan.Business;
 using MaiDan.DAL;
 using MaiDan.Domain.Service;
 using Moq;
+using NFluent;
 using NUnit.Framework;
 using Test.MaiDan.Service;
 
@@ -29,8 +30,11 @@ namespace Test.MaiDan.Business
         public void should_not_add_a_dish_to_a_missing_order()
 	    {
             var waiter = new AWaiter().WithoutOrder().Build();
+            var orderId = new DateTime();
 
-            Assert.Throws<ItemNotFoundException>(() => waiter.AddDishToAnOrder(new DateTime(), 2, "Fried rice"));
+            var exception = Assert.Throws<InvalidOperationException>(() => waiter.AddDishToAnOrder(orderId, 2, "Fried rice"));
+            
+            Check.That(exception.Message).Equals("Cannot add a dish to an order : " + orderId);
 	    }
 
 	    [Test]
@@ -69,28 +73,23 @@ namespace Test.MaiDan.Business
 	        var waiter = new AWaiter().WithoutOrder().Build();
 	        var order = new AnOrder().Build();
 
-	        Assert.Throws<ItemNotFoundException>(() => waiter.Update(order));
+	        var exception = Assert.Throws<InvalidOperationException>(() => waiter.Update(order));
+
+	        Check.That(exception.Message).Equals("Cannot update order : " + order.Id);
 	    }
 
-	    [Test]
-	    public void should_not_add_a_missing_dish_to_an_order()
-	    {
-	        var order = new AnOrder().Build();
-	        var waiter = new AWaiter().With(order).Build();
-
-	        Assert.Throws<ItemNotFoundException>(() => waiter.AddDishToAnOrder(order.Id, 1, "Unknown"));
-	    }
-
+	   
 	    [Test]
 	    public void should_not_update_an_order_with_a_missing_dish()
 	    {
 	        var order = new AnOrder().Build();
 	        var waiter = new AWaiter().With(order).Build();
+	        var dishCode = "Unknown";
+	        var orderToUpdate = new AnOrder(order.Id).With(1, dishCode).Build();
 
-	        var orderToUpdate = new AnOrder(order.Id).With(1, "Unknown").Build();
+            var exception = Assert.Throws<InvalidOperationException>(() => waiter.Update(orderToUpdate));
 
-	        Assert.Throws<ItemNotFoundException>(() => waiter.Update(orderToUpdate));
-
+            Check.That(exception.Message).Equals("Cannot add an unknown dish : " + dishCode);
 	    }
 	}
 }

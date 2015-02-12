@@ -77,7 +77,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IRepository.cs" />
-    <Compile Include="ItemNotFoundException.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="OrderBook.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
