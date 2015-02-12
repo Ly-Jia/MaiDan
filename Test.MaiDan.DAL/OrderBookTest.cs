@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using MaiDan.DAL;
 using MaiDan.Domain.Service;
@@ -15,19 +16,20 @@ namespace Test.MaiDan.DAL
 		[Test]
 		public void can_add_order()
 		{
-			var orderBook = new OrderBook();
+		    var orders = new Mock<IList<Order>>();
+			var orderBook = new OrderBook(orders.Object);
 			var order = new AnOrder().Build();
 			
 			orderBook.Add(order);
 			
-			Check.That(orderBook.Orders).Contains(order);
+			orders.Verify(o => o.Add(order));
 		}
 
 	    [Test]
 	    public void should_show_a_specific_order_from_the_id()
 	    {
             var wantedOrder = new AnOrder(2012, 12, 21).Build();
-	        var orderBook = new OrderBook() {Orders = new List<Order> {wantedOrder}};
+	        var orderBook = new OrderBook(new List<Order> {wantedOrder});
 
 	        var retrievedOrder = orderBook.Get(new DateTime(2012, 12, 21));
 
@@ -37,7 +39,7 @@ namespace Test.MaiDan.DAL
 	    [Test]
 	    public void should_show_error_when_order_is_not_found()
 	    {
-            var orderBook = new OrderBook();
+            var orderBook = new OrderBook(new List<Order>());
 
             Assert.Throws<ItemNotFoundException>(() => orderBook.Get(new DateTime(2012, 12, 21)));
 	    }

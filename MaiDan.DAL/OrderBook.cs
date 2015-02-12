@@ -10,21 +10,29 @@ namespace MaiDan.DAL
 	/// </summary>
 	public class OrderBook : IRepository<Order, DateTime>
 	{
-		public IList<Order> Orders;
-		
-		public OrderBook()
+		private IList<Order> orders;
+
+        /// <summary>
+        /// Constructor only for test in OrderBookTest
+        /// </summary>
+	    public OrderBook()
+	    {
+	        
+	    }
+
+		public OrderBook(IList<Order> _orders)
 		{
-			Orders = new List<Order>();
+            orders = _orders;
 		}
 		
 		public void Add(Order order)
 		{
-			Orders.Add(order);
+			orders.Add(order);
 		}
 
 	    public virtual Order Get(DateTime orderId)
 	    {
-	        var order = Orders.SingleOrDefault(o => o.Id == orderId);
+	        var order = orders.SingleOrDefault(o => o.Id == orderId);
 	        if (order == null)
 	        {
 	            throw new ItemNotFoundException();
