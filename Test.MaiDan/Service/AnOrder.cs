@@ -79,10 +79,7 @@ namespace Test.MaiDan.Service
 		/// <returns></returns>
 		public Order Build()
 		{
-			return new Order(Id)
-			{
-				Lines = this.Lines
-			};
+			return new Order(Id,Lines);
 		}
 	}
 }

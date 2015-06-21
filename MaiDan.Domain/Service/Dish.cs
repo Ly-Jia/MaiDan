@@ -2,7 +2,7 @@
 
 namespace MaiDan.Domain.Service
 {
-    public class Dish
+    public class Dish 
     {
         public String Id;
 

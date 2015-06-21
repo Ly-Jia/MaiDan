@@ -29,9 +29,9 @@ namespace MaiDan.Business
 	    {
 	        foreach (var line in updatedOrder.Lines)
 	        {
-	            if (!Menu.Contains(line.DishCode))
+	            if (!Menu.Contains(line.DishId))
 	            {
-	                throw new InvalidOperationException("Cannot add an unknown dish : " + line.DishCode);
+	                throw new InvalidOperationException("Cannot add an unknown dish : " + line.DishId);
 	            }
 	        }
 	        try

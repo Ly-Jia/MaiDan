@@ -15,7 +15,7 @@ namespace Test.MaiDan.Domain.Service
 		public void should_be_identifiable_by_the_creation_date()
 		{
 			var creationDate = new DateTime(2012,12,21);
-			var order = new Order(creationDate);
+			var order = new Order(creationDate, new List<Line>());
 			Check.That(order.Id).Equals(creationDate);
 		}
 		

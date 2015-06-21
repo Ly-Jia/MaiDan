@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using MaiDan.DAL;
 using MaiDan.Domain.Service;
+using MaiDan.Infrastructure;
 using Moq;
-using Test.MaiDan.Service;
-using NUnit.Framework;
 using NFluent;
+using NHibernate;
+using NUnit.Framework;
+using Test.MaiDan.Service;
 
 namespace Test.MaiDan.DAL
 {
@@ -16,20 +16,29 @@ namespace Test.MaiDan.DAL
 		[Test]
 		public void can_add_order()
 		{
-		    var orders = new Mock<IList<Order>>();
-			var orderBook = new OrderBook(orders.Object);
+		    var transaction = new Mock<ITransaction>();
+		    var session = new Mock<ISession>();
+		    session.Setup(s => s.Transaction).Returns(transaction.Object);
+		    var database = new Mock<IDataBase>();
+		    database.Setup(d => d.OpenSession()).Returns(session.Object);
+
+			var orderBook = new OrderBook(database.Object);
 			var order = new AnOrder().Build();
 			
 			orderBook.Add(order);
 			
-			orders.Verify(o => o.Add(order));
+			session.Verify(o => o.Save(order));
 		}
 
 	    [Test]
 	    public void should_show_a_specific_order_from_the_id()
 	    {
             var wantedOrder = new AnOrder(2012, 12, 21).Build();
-	        var orderBook = new OrderBook(new List<Order> {wantedOrder});
+	        var session = new Mock<ISession>();
+	        session.Setup(s => s.Get<Order>(wantedOrder.Id)).Returns(wantedOrder);
+            var database = new Mock<IDataBase>();
+	        database.Setup(d => d.OpenSession()).Returns(session.Object);
+	        var orderBook = new OrderBook(database.Object);
 
 	        var retrievedOrder = orderBook.Get(new DateTime(2012, 12, 21));
 
@@ -39,9 +48,13 @@ namespace Test.MaiDan.DAL
 	    [Test]
 	    public void should_show_error_when_order_is_not_found()
 	    {
-            var orderBook = new OrderBook(new List<Order>());
-	        var orderId = new DateTime(2012, 12, 21);
+            var session = new Mock<ISession>();
+            session.Setup(s => s.Get<Order>(It.IsAny<DateTime>())).Returns((Order) null);
+            var database = new Mock<IDataBase>();
+            database.Setup(d => d.OpenSession()).Returns(session.Object);
+            var orderBook = new OrderBook(database.Object);
 
+            var orderId = new DateTime(2012, 12, 21);
             var exception = Assert.Throws<InvalidOperationException>(() => orderBook.Get(orderId));
 	        Check.That(exception.Message).Equals("Order " + orderId + "was not found");
 	    }

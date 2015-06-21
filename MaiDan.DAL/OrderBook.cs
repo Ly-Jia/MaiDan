@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using MaiDan.Domain.Service;
+using MaiDan.Infrastructure;
 
 namespace MaiDan.DAL
 {
@@ -10,9 +11,8 @@ namespace MaiDan.DAL
 	/// </summary>
 	public class OrderBook : IRepository<Order, DateTime>
 	{
-		private IList<Order> orders;
-
-        /// <summary>
+	    private IDataBase database;
+		/// <summary>
         /// Constructor only for test in OrderBookTest
         /// </summary>
 	    public OrderBook()
@@ -20,19 +20,29 @@ namespace MaiDan.DAL
 	        
 	    }
 
-		public OrderBook(IList<Order> _orders)
+		public OrderBook(IDataBase _database)
 		{
-            orders = _orders;
+            database = _database;
 		}
 		
 		public void Add(Order order)
 		{
-			orders.Add(order);
+		    using (var session = database.OpenSession())
+		    {
+		        session.Transaction.Begin();
+		        session.Save(order);
+		        session.Transaction.Commit();
+		    }
 		}
 
 	    public virtual Order Get(DateTime orderId)
 	    {
-	        var order = orders.SingleOrDefault(o => o.Id == orderId);
+	        Order order;
+	        using (var session = database.OpenSession())
+	        {
+	            order = session.Get<Order>(orderId);
+	        }
+
 	        if (order == null)
 	        {
                 throw new InvalidOperationException("Order " + orderId + "was not found");

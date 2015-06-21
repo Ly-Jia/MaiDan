@@ -8,30 +8,30 @@ namespace MaiDan.Domain.Service
 	/// </summary>
 	public class Order
 	{
-		public DateTime Id;
-		public IList<Line> Lines;
+		public virtual DateTime Id { get; protected set; }
+		public virtual IList<Line> Lines { get; protected set; }
 		
 		/// <summary>
-		/// Constructor for test purpose only (mock in OrderBookTest)
+		/// Constructor for NHibernate
 		/// </summary>
-		public Order():this(new DateTime())
+        protected Order()
 		{
 			
 		}
 		
-		public Order(DateTime creationDate)
+		public Order(DateTime creationDate, IList<Line> lines)
 		{
 			Id = creationDate;
-			Lines = new List<Line>();
+			Lines = lines;
 		}
 		
-		public Order Add(Line line)
+		public virtual Order Add(Line line)
 		{
 			Lines.Add(line);
 			return this;
 		}
 		
-		public Order Add(int quantity, String dishName)
+		public virtual Order Add(int quantity, String dishName)
 		{
 			return this.Add(new Line(quantity, dishName));
 		}

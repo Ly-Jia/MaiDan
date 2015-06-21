@@ -2,18 +2,27 @@
 
 namespace MaiDan.Domain.Service
 {
-	/// <summary>
-	/// Description of Line.
-	/// </summary>
 	public class Line
 	{
-		public int Quantity;
-		public String DishCode;
-		
-		public Line(int quantity, String dishCode)
+        /// <summary>
+        /// Id used only for NHibernate
+        /// </summary>
+        public virtual int Id { get; protected set; } 
+		public virtual int Quantity { get; protected set; }
+		public virtual String DishId { get; protected set; }
+
+        /// <summary>
+        /// constructor only used by NHibernate
+        /// </summary>
+	    protected Line()
+	    {
+	        
+	    }
+
+		public Line(int quantity, String dishId)
 		{
 			Quantity = quantity;
-			DishCode = dishCode;
+			DishId = dishId;
 		}
 		
 		public override bool Equals(object obj)
@@ -21,7 +30,7 @@ namespace MaiDan.Domain.Service
 			Line other = obj as Line;
 			if (other == null)
 				return false;
-			return this.Quantity == other.Quantity && this.DishCode == other.DishCode;
+			return this.Quantity == other.Quantity && this.DishId == other.DishId;
 		}
 
 	}
