@@ -44,11 +44,6 @@ namespace MaiDan.Domain.Service
 			return this.Id == other.Id;
 		}
 
-		/// <remarks>
-		/// virtual attribute was added for testing purpose only
-		/// (mock in OrderBookTest)
-		/// </remarks>
-		/// <param name="updatedLines">new values</param>
 		public virtual void Update(IList<Line> updatedLines)
 		{
 			Lines = updatedLines;

@@ -9,7 +9,7 @@ namespace Test.MaiDan.Service
 {
     public class AWaiter
     {
-        public Mock<IRepository<Order,DateTime>> OrderBook;
+        public Mock<IRepository<Order,DateTime>> OrderBook { get; private set; }
         private Mock<IRepository<Dish, String>> Menu; 
 
         public AWaiter()

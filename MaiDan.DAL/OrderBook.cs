@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using MaiDan.Domain.Service;
 using MaiDan.Infrastructure;
 
@@ -11,16 +9,9 @@ namespace MaiDan.DAL
 	/// </summary>
 	public class OrderBook : IRepository<Order, DateTime>
 	{
-	    private IDataBase database;
-		/// <summary>
-        /// Constructor only for test in OrderBookTest
-        /// </summary>
-	    public OrderBook()
-	    {
-	        
-	    }
-
-		public OrderBook(IDataBase _database)
+	    private IDatabase database;
+		
+		public OrderBook(IDatabase _database)
 		{
             database = _database;
 		}
@@ -52,15 +43,22 @@ namespace MaiDan.DAL
 
 	    public void Update(Order item)
 	    {
+	        var session = database.OpenSession();
 	        try
 	        {
-	            var orderToUpdate = Get(item.Id);
-	            orderToUpdate.Update(item.Lines);
+	            session.Transaction.Begin();
+	            session.Update(item);
+	            session.Transaction.Commit();
 	        }
 	        catch (Exception e)
 	        {
-                throw new InvalidOperationException("Cannot update order : " + item.Id, e);
+	            throw new InvalidOperationException("Cannot update order : " + item.Id, e);
 	        }
+	        finally
+	        {
+	            session.Close();
+	        }
+
 	    }
 
 	    public bool Contains(DateTime id)

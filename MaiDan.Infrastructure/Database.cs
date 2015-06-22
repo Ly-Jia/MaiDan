@@ -8,7 +8,7 @@ using NHibernate.Mapping.ByCode;
 
 namespace MaiDan.Infrastructure
 {
-    public class Database : IDataBase
+    public class Database : IDatabase
     {
         private ISessionFactory _sessionFactory;
         private Configuration _configuration;
@@ -85,7 +85,7 @@ namespace MaiDan.Infrastructure
         }
     }
 
-    public interface IDataBase
+    public interface IDatabase
     {
         ISession OpenSession();
     }

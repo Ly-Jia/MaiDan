@@ -41,6 +41,10 @@
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.2.1409.1722\lib\net40\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="NHibernate, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NHibernate.4.0.3.4000\lib\net40\NHibernate.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -51,6 +55,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infrastructure\ADatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\AnOrder.cs" />
     <Compile Include="Service\AWaiter.cs" />
@@ -68,6 +73,10 @@
     <ProjectReference Include="..\MaiDan.Domain\MaiDan.Domain.csproj">
       <Project>{F80E8620-560A-42C3-83E4-5A398BF03BAE}</Project>
       <Name>MaiDan.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MaiDan.Infrastructure\MaiDan.Infrastructure.csproj">
+      <Project>{1B10E3EC-C22A-4E78-BF37-339B2801DCD6}</Project>
+      <Name>MaiDan.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
