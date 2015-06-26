@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MaiDan.DAL;
 using MaiDan.Domain.Service;
@@ -44,8 +45,21 @@ namespace Test.MaiDan.DAL.Integration
         [Given(@"an order in my orderbook")]
         public void GivenAnOrderInMyOrderbook()
         {
-            _order = new AnOrder().Build();
+            GivenAnOrderInMyOrderbookWith(new Table("Quantity","Dish"));
+        }
 
+        [Given(@"an order in my orderbook with")]
+        public void GivenAnOrderInMyOrderbookWith(Table lines)
+        {
+            var anOrder = new AnOrder();
+
+            foreach (var line in lines.Rows)
+            {
+                anOrder.With(Convert.ToInt32(line["Quantity"]), line["Dish"]);
+            }
+            
+            _order = anOrder.Build();
+            
             using (var session = _database.OpenSession())
             {
                 session.Transaction.Begin();
@@ -65,6 +79,26 @@ namespace Test.MaiDan.DAL.Integration
         public void ThenICanConsultTheOrderSDetails()
         {
             Check.That(_retrievedOrder).Equals(_order);
+        }
+
+        [When(@"I modify it with ([0-9]*) (.*)")]
+        public void WhenIModifyItWithCoffee(int quantity, string dishName)
+        {
+            var orderToUpdate = new AnOrder(_order.Id).With(quantity, dishName).Build();
+
+            _orderBook = new OrderBook(_database);
+            _orderBook.Update(orderToUpdate);
+            _order = orderToUpdate;
+        }
+
+        [Then(@"this order should be")]
+        public void ThenThisOrderShouldBe(Table table)
+        {
+            using (var session = _database.OpenSession())
+            {
+                var orderInOrderbook = session.Get<Order>(_order.Id);
+                Check.That(orderInOrderbook).Equals(_order);
+            }
         }
 
         [BeforeScenario()]

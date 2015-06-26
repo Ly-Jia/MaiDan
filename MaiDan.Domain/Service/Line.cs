@@ -10,7 +10,7 @@ namespace MaiDan.Domain.Service
         public virtual int Id { get; protected set; } 
 		public virtual int Quantity { get; protected set; }
 		public virtual String DishId { get; protected set; }
-
+        
         /// <summary>
         /// constructor only used by NHibernate
         /// </summary>

@@ -32,7 +32,7 @@ namespace Test.MaiDan.DAL.Integration
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "OrderBook (orders persistance)", "In order to not lose my orders\nAs a waiter/waitress\nI want to store my orders", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "OrderBook (orders persistance)", "In order to not lose my orders\r\nAs a waiter/waitress\r\nI want to store my orders", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -94,6 +94,37 @@ this.ScenarioSetup(scenarioInfo);
  testRunner.When("I search it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 15
  testRunner.Then("I can consult the order\'s details", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Modifying an order")]
+        public virtual void ModifyingAnOrder()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Modifying an order", ((string[])(null)));
+#line 17
+this.ScenarioSetup(scenarioInfo);
+#line hidden
+            TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Quantity",
+                        "Dish"});
+            table1.AddRow(new string[] {
+                        "1",
+                        "Coffee"});
+#line 18
+ testRunner.Given("an order in my orderbook with", ((string)(null)), table1, "Given ");
+#line 21
+ testRunner.When("I modify it with 2 Coffee", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Quantity",
+                        "Dish"});
+            table2.AddRow(new string[] {
+                        "2",
+                        "Coffee"});
+#line 22
+ testRunner.Then("this order should be", ((string)(null)), table2, "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

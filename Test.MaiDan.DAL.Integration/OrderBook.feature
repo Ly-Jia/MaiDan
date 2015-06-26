@@ -13,3 +13,12 @@ Scenario: Consulting an order
 	Given an order in my orderbook
 	When I search it
 	Then I can consult the order's details
+
+Scenario: Modifying an order
+	Given an order in my orderbook with
+	| Quantity | Dish   |
+	| 1        | Coffee |
+	When I modify it with 2 Coffee 
+	Then this order should be
+	| Quantity | Dish   |
+	| 2        | Coffee |

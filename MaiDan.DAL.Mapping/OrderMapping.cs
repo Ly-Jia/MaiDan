@@ -19,7 +19,7 @@ namespace MaiDan.DAL.Mapping
                 });
                 c.Cascade(Cascade.All);
                 c.Table("[Service.Line]");
-            }, r => r.ManyToMany(m => m.Column("[Id]")));
+            }, r => r.OneToMany(m => m.Class(typeof(Line))));
         }
     }
 }

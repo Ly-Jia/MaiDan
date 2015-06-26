@@ -9,7 +9,8 @@ namespace MaiDan.DAL.Mapping
         public LineMapping()
         {
             Table("[Service.Line]");
-            Id(x => x.Id, m => m.Generator(Generators.Assigned));
+            Id(x => x.Id, m => m.Generator(new IdentityGeneratorDef()));
+            
         }
     }
 }
