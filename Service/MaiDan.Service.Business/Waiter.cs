@@ -1,9 +1,13 @@
 ﻿using System;
+using System.ServiceModel;
+using MaiDan.Infrastructure;
 using MaiDan.Infrastructure.Contract;
+using MaiDan.Service.Dal;
 using MaiDan.Service.Domain;
 
 namespace MaiDan.Service.Business
 {
+    [ServiceContract]
     public class Waiter
 	{
 		private IRepository<Order, DateTime> OrderBook;
@@ -15,11 +19,15 @@ namespace MaiDan.Service.Business
 		    Menu = menu;
 		}
 
+        public Waiter() : this(new OrderBook(), new Menu()) { }
+
+        [OperationContract]
 		public void Take(Order order)
 		{
 			OrderBook.Add(order);
 		}
 
+        [OperationContract]
 	    public void Update(Order updatedOrder)
 	    {
 	        foreach (var line in updatedOrder.Lines)
@@ -39,6 +47,7 @@ namespace MaiDan.Service.Business
 	        }
 	    }
 
+        [OperationContract]
 	    public void AddDishToAnOrder(DateTime orderId, int quantity, string dishCode)
 	    {
 	        try

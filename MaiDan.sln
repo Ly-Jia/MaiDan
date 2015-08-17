@@ -37,6 +37,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{DCA94556-6673-4EB1-A15E-75B0F096DDAD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaiDan.Infrastructure.ServiceHost", "Infrastructure\MaiDan.Infrastructure.ServiceHost\MaiDan.Infrastructure.ServiceHost.csproj", "{6C476256-5221-491F-B9AD-C6B3AA57DD0C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -221,6 +223,18 @@ Global
 		{E0EBA34D-F1E7-4C50-AF4A-FD066A3014FC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E0EBA34D-F1E7-4C50-AF4A-FD066A3014FC}.Release|x64.ActiveCfg = Release|Any CPU
 		{E0EBA34D-F1E7-4C50-AF4A-FD066A3014FC}.Release|x86.ActiveCfg = Release|Any CPU
+		{6C476256-5221-491F-B9AD-C6B3AA57DD0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C476256-5221-491F-B9AD-C6B3AA57DD0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C476256-5221-491F-B9AD-C6B3AA57DD0C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{6C476256-5221-491F-B9AD-C6B3AA57DD0C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{6C476256-5221-491F-B9AD-C6B3AA57DD0C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6C476256-5221-491F-B9AD-C6B3AA57DD0C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6C476256-5221-491F-B9AD-C6B3AA57DD0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C476256-5221-491F-B9AD-C6B3AA57DD0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C476256-5221-491F-B9AD-C6B3AA57DD0C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{6C476256-5221-491F-B9AD-C6B3AA57DD0C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{6C476256-5221-491F-B9AD-C6B3AA57DD0C}.Release|x64.ActiveCfg = Release|Any CPU
+		{6C476256-5221-491F-B9AD-C6B3AA57DD0C}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -240,5 +254,6 @@ Global
 		{E0EBA34D-F1E7-4C50-AF4A-FD066A3014FC} = {25DE1EE8-F8C6-466F-8ED9-5F609AC33878}
 		{B7A73E20-6475-4CE4-8866-4D6732A8632E} = {4DB42735-C56F-4FF6-A069-2E3313750AC0}
 		{DCA94556-6673-4EB1-A15E-75B0F096DDAD} = {4DB42735-C56F-4FF6-A069-2E3313750AC0}
+		{6C476256-5221-491F-B9AD-C6B3AA57DD0C} = {25DE1EE8-F8C6-466F-8ED9-5F609AC33878}
 	EndGlobalSection
 EndGlobal

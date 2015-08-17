@@ -13,7 +13,9 @@ namespace MaiDan.Service.Dal
 		{
             database = _database;
 		}
-		
+
+	    public OrderBook() : this(new Database()){ }	
+	
 		public void Add(Order order)
 		{
 		    using (var session = database.OpenSession())

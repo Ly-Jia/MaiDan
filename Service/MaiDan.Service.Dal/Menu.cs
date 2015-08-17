@@ -15,6 +15,8 @@ namespace MaiDan.Service.Dal
             dishes = _dishes;
         }
 
+        public Menu() : this(new List<Dish>()) { }
+
         public Dish Get(string id)
         {
             throw new NotImplementedException();

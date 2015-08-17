@@ -99,6 +99,10 @@
       <Project>{E0EBA34D-F1E7-4C50-AF4A-FD066A3014FC}</Project>
       <Name>MaiDan.Infrastructure.Contract</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\MaiDan.Infrastructure\MaiDan.Infrastructure.csproj">
+      <Project>{1b10e3ec-c22a-4e78-bf37-339b2801dcd6}</Project>
+      <Name>MaiDan.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MaiDan.Service.Dal\MaiDan.Service.Dal.csproj">
       <Project>{9C351C83-D8D0-4839-A895-BDD8278B4086}</Project>
       <Name>MaiDan.Service.Dal</Name>
@@ -111,6 +115,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
