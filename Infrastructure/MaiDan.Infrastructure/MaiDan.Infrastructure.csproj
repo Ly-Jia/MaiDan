@@ -46,9 +46,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Service\MaiDan.Service.DAL.Mapping\MaiDan.Service.DAL.Mapping.csproj">
+    <ProjectReference Include="..\..\Service\MaiDan.Service.Dal.Mapping\MaiDan.Service.Dal.Mapping.csproj">
       <Project>{fce8ae51-939b-4965-8228-48ec941b77a7}</Project>
-      <Name>MaiDan.Service.DAL.Mapping</Name>
+      <Name>MaiDan.Service.Dal.Mapping</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

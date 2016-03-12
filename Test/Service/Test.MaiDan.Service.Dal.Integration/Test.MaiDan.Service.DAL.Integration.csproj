@@ -75,7 +75,7 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\Service\MaiDan.Service.Dal\MaiDan.Service.Dal.csproj">
       <Project>{9C351C83-D8D0-4839-A895-BDD8278B4086}</Project>
-      <Name>MaiDan.Service.DAL</Name>
+      <Name>MaiDan.Service.Dal</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Service\MaiDan.Service.Domain\MaiDan.Service.Domain.csproj">
       <Project>{F80E8620-560A-42C3-83E4-5A398BF03BAE}</Project>
