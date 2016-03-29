@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using MaiDan.Infrastructure;
 using MaiDan.Infrastructure.Contract;
 using MaiDan.Service.Domain;
 
@@ -8,23 +7,28 @@ namespace MaiDan.Service.Dal
 {
     public class Menu : IRepository<Dish, String>
     {
-        private IList<Dish> dishes;
+        private IDatabase database;
 
-        public Menu(IList<Dish> _dishes)
+        public Menu(IDatabase _database)
         {
-            dishes = _dishes;
+            database = _database;
         }
 
-        public Menu() : this(new List<Dish>()) { }
+        public Menu() : this(new Database()) { }
 
         public Dish Get(string id)
         {
             throw new NotImplementedException();
         }
 
-        public void Add(Dish item)
+        public void Add(Dish dish)
         {
-            throw new NotImplementedException();
+            using (var session = database.OpenSession())
+		    {
+		        session.Transaction.Begin();
+                session.Save(dish);
+		        session.Transaction.Commit();
+		    }
         }
 
         public void Update(Dish item)
@@ -34,7 +38,13 @@ namespace MaiDan.Service.Dal
 
         public bool Contains(String id)
         {
-            return dishes.Any(d => d.Id == id);
+            Dish dish;
+            using (var session = database.OpenSession())
+            {
+                dish = session.Get<Dish>(id);
+            }
+
+            return dish != null;
         }
     }
 }

@@ -8,6 +8,7 @@ namespace MaiDan.Service.Dal.Mapping
     {
         public DishMapping()
         {
+            Table("[Service.Dish]");
             Id(x => x.Id, m => m.Generator(Generators.Assigned));
         }
     }

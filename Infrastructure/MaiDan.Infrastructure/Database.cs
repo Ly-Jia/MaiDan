@@ -77,7 +77,8 @@ namespace MaiDan.Infrastructure
             mapper.AddMappings(new List<Type>
             {
                 typeof(OrderMapping),
-                typeof(LineMapping)
+                typeof(LineMapping),
+                typeof(DishMapping)
             });
           //  mapper.AddMapping(new LineMapping());
             //Create and return a HbmMapping of the model mapping in code
