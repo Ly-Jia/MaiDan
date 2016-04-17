@@ -1,42 +1,46 @@
 ﻿using System;
 using System.Linq;
 using MaiDan.Infrastructure;
+using MaiDan.Infrastructure.Contract;
+using MaiDan.Service.Business;
 using MaiDan.Service.Dal;
 using MaiDan.Service.Domain;
 using NFluent;
 using NHibernate.Linq;
 using TechTalk.SpecFlow;
 
-namespace Test.MaiDan.Service.Dal.Integration
+namespace Test.MaiDan.Service.Business.Integration
 {
     [Binding]
     public class OrderBookSteps
     {
-        private OrderBook _orderBook;
-        private Order _order;
-        private Order _retrievedOrder;
-        private readonly Database _database = new Database();
+        private IRepository<Order, DateTime> orderBook;
+        private IRepository<Dish, String> menu;
+        private Order order;
+        private Order retrievedOrder;
+        private Waiter waiter;
+        private readonly Database database = new Database();
+
 
         [Given(@"an order")]
         public void GivenAnOrder()
         {
-            _orderBook = new OrderBook(_database);
-            _order = new AnOrder().Build();
+            order = new AnOrder().Build();
         }
 
         [When(@"I take it")]
         public void WhenITakeIt()
         {
-            _orderBook.Add(_order);
+            waiter.Take(order);
         }
 
         [Then(@"I can keep it in my orderbook")]
         public void ICanKeepItInMyOrderbook()
         {
-            using (var session = _database.OpenSession())
+            using (var session = database.OpenSession())
             {
                 var order = session.Query<Order>().Single();
-                Check.That(order).Equals(_order);
+                Check.That(order).Equals(this.order);
             }
         }
 
@@ -50,18 +54,18 @@ namespace Test.MaiDan.Service.Dal.Integration
         public void GivenAnOrderInMyOrderbookWith(Table lines)
         {
             var anOrder = new AnOrder();
-
+            
             foreach (var line in lines.Rows)
             {
                 anOrder.With(Convert.ToInt32(line["Quantity"]), line["Dish"]);
             }
             
-            _order = anOrder.Build();
+            order = anOrder.Build();
             
-            using (var session = _database.OpenSession())
+            using (var session = database.OpenSession())
             {
                 session.Transaction.Begin();
-                session.Save(_order);
+                session.Save(order);
                 session.Transaction.Commit();
             }
         }
@@ -69,46 +73,51 @@ namespace Test.MaiDan.Service.Dal.Integration
         [When(@"I search it")]
         public void WhenISearchIt()
         {
-            _orderBook = new OrderBook(_database);
-            _retrievedOrder = _orderBook.Get(_order.Id);
+            orderBook = new OrderBook(database);
+            retrievedOrder = orderBook.Get(order.Id);
         }
 
         [Then(@"I can consult the order's details")]
         public void ThenICanConsultTheOrderSDetails()
         {
-            Check.That(_retrievedOrder).Equals(_order);
+            Check.That(retrievedOrder).Equals(order);
         }
 
         [When(@"I modify it with ([0-9]*) (.*)")]
         public void WhenIModifyItWithCoffee(int quantity, string dishName)
         {
-            var orderToUpdate = new AnOrder(_order.Id).With(quantity, dishName).Build();
+            var orderToUpdate = new AnOrder(order.Id).With(quantity, dishName).Build();
 
-            _orderBook = new OrderBook(_database);
-            _orderBook.Update(orderToUpdate);
-            _order = orderToUpdate;
+            waiter.Update(orderToUpdate);
+            order = orderToUpdate;
         }
 
         [Then(@"this order should be")]
         public void ThenThisOrderShouldBe(Table table)
         {
-            using (var session = _database.OpenSession())
+            using (var session = database.OpenSession())
             {
-                var orderInOrderbook = session.Get<Order>(_order.Id);
-                Check.That(orderInOrderbook).Equals(_order);
+                var orderInOrderbook = session.Get<Order>(order.Id);
+                Check.That(orderInOrderbook).Equals(order);
             }
         }
 
-        [BeforeScenario()]
+        [BeforeScenario("waiter")]
         public void deleteOrders()
         {
-            using (var session = _database.OpenSession())
+            using (var session = database.OpenSession())
             {
                 session.Transaction.Begin();
+                session.Delete("from Dish");
                 session.Delete("from Line");
                 session.Delete("from Order");
                 session.Transaction.Commit();
             }
+
+            orderBook = new OrderBook(database);
+            menu = new Menu(database);
+            menu.Add(new Dish("Coffee"));
+            waiter = new Waiter(orderBook, menu);
         }
     }
 }
