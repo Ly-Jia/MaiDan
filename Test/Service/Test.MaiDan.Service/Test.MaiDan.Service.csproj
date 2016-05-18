@@ -41,7 +41,11 @@
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.2.1409.1722\lib\net40\Moq.dll</HintPath>
     </Reference>
-	<Reference Include="System" />
+    <Reference Include="nunit.framework, Version=3.2.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\NUnit.3.2.1\lib\net45\nunit.framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
@@ -49,7 +53,6 @@
     <Compile Include="AnOrder.cs" />
     <Compile Include="AWaiter.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\..\Infrastructure\MaiDan.Infrastructure.Contract\MaiDan.Infrastructure.Contract.csproj">
       <Project>{E0EBA34D-F1E7-4C50-AF4A-FD066A3014FC}</Project>
@@ -63,6 +66,9 @@
       <Project>{F80E8620-560A-42C3-83E4-5A398BF03BAE}</Project>
       <Name>MaiDan.Service.Domain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
