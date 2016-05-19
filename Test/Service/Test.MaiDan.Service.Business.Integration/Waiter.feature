@@ -18,9 +18,9 @@ Scenario: Consulting an order
 @waiter
 Scenario: Modifying an order
 	Given an order in my orderbook with
-	| Quantity | Dish   |
+	| Quantity | DishId   |
 	| 1        | Coffee |
 	When I modify it with 2 Coffee 
 	Then this order should be
-	| Quantity | Dish   |
+	| Quantity | DishId   |
 	| 2        | Coffee |

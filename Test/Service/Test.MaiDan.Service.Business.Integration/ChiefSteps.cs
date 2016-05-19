@@ -27,7 +27,7 @@ namespace Test.MaiDan.Service.Business.Integration
         [When(@"I add it to the menu")]
         public void WhenIAddItToTheMenu()
         {
-            this.chief.AddToMenu(dishName);
+            this.chief.AddToMenu(dishName, dishName);
         }
 
         [Then(@"the dish (.*) can be ordered by the customers")]
@@ -35,7 +35,7 @@ namespace Test.MaiDan.Service.Business.Integration
         {
             using (var session = database.OpenSession())
             {
-                var dishInMenu = session.Get<Dish>(dishName);
+                var dishInMenu = session.QueryOver<Dish>().Where(d => d.Name == dishName).SingleOrDefault();
                 Check.That(dishInMenu).IsNotNull();
             }
         }

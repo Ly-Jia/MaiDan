@@ -47,7 +47,7 @@ namespace Test.MaiDan.Service.Business.Integration
         [Given(@"an order in my orderbook")]
         public void GivenAnOrderInMyOrderbook()
         {
-            GivenAnOrderInMyOrderbookWith(new Table("Quantity","Dish"));
+            GivenAnOrderInMyOrderbookWith(new Table("Quantity","DishId"));
         }
 
         [Given(@"an order in my orderbook with")]
@@ -57,7 +57,7 @@ namespace Test.MaiDan.Service.Business.Integration
             
             foreach (var line in lines.Rows)
             {
-                anOrder.With(Convert.ToInt32(line["Quantity"]), line["Dish"]);
+                anOrder.With(Convert.ToInt32(line["Quantity"]), line["DishId"]);
             }
             
             order = anOrder.Build();
@@ -116,7 +116,7 @@ namespace Test.MaiDan.Service.Business.Integration
 
             orderBook = new OrderBook(database);
             menu = new Menu(database);
-            menu.Add(new Dish("Coffee"));
+            menu.Add(new Dish("Coffee", "Coffee made with love"));
             waiter = new Waiter(orderBook, menu);
         }
     }

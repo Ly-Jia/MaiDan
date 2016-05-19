@@ -12,9 +12,9 @@ namespace MaiDan.Service.Business
             this.menu = menu;
         }
 
-        public void AddToMenu(string dishName)
+        public void AddToMenu(string id, string dishName)
         {
-            menu.Add(new Dish(dishName));
+            menu.Add(new Dish(id, dishName));
         }
     }
 }

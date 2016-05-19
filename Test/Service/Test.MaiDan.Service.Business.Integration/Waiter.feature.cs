@@ -114,7 +114,7 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
                         "Quantity",
-                        "Dish"});
+                        "DishId"});
             table1.AddRow(new string[] {
                         "1",
                         "Coffee"});
@@ -125,7 +125,7 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
                         "Quantity",
-                        "Dish"});
+                        "DishId"});
             table2.AddRow(new string[] {
                         "2",
                         "Coffee"});

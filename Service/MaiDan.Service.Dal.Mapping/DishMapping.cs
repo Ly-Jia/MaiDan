@@ -10,6 +10,7 @@ namespace MaiDan.Service.Dal.Mapping
         {
             Table("[Service.Dish]");
             Id(x => x.Id, m => m.Generator(Generators.Assigned));
+            Property(x => x.Name);
         }
     }
 }

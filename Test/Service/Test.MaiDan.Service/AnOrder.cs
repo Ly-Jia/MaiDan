@@ -43,11 +43,11 @@ namespace Test.MaiDan.Service
 		/// Add a new line to the created order
 		/// </summary>
 		/// <param name="quantity"></param>
-		/// <param name="dishName"></param>
+		/// <param name="dishId"></param>
 		/// <returns></returns>
-		public AnOrder With(int quantity, String dishName)
+		public AnOrder With(int quantity, String dishId)
 		{
-			return With(new Line (quantity, dishName));
+			return With(new Line (quantity, dishId));
 		}
 		
 		/// <summary>
@@ -65,12 +65,12 @@ namespace Test.MaiDan.Service
         /// Add a new line to the created order
         /// </summary>
         /// <param name="quantity"></param>
-        /// <param name="dishName"></param>
+        /// <param name="dishId"></param>
         /// <returns></returns>
 
-	    public AnOrder And(int quantity, String dishCode)
+	    public AnOrder And(int quantity, String dishId)
 	    {
-	        return With(quantity, dishCode); 
+	        return With(quantity, dishId); 
 	    }
 		
 		/// <summary>
