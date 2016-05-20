@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using MaiDan.Infrastructure.Contract;
-using MaiDan.Service.Business;
 using MaiDan.Service.Domain;
 using Moq;
+using NFluent;
 using NUnit.Framework;
 
 namespace Test.MaiDan.Service.Business
@@ -18,15 +12,28 @@ namespace Test.MaiDan.Service.Business
         [Test]
         public void can_update_a_dish()
         {
-            var menuMock = new Mock<IRepository<Dish, string>>();
-            var chief = new Chief(menuMock.Object);
+            var chiefMock = new AChief();
+            var chief = chiefMock.Build();
 
             var dishId = "anId";
             var newDishName = "aName";
             var dish = new Dish(dishId, newDishName);
 
             chief.Update(dishId,newDishName);
-            menuMock.Verify(menu => menu.Update(dish),Times.Once);
+
+            chiefMock.Menu.Verify(menu => menu.Update(dish),Times.Once);
+        }
+
+        [Test]
+        public void should_not_update_a_missing_dish()
+        {
+            var chief = new AChief().WithEmptyMenu().Build();
+
+            var dishId = "anId";
+            var newDishName = "aName";
+            var exception = Assert.Throws<InvalidOperationException>(() => chief.Update(dishId, newDishName));
+
+            Check.That(exception.Message).Equals($"Cannot update dish {dishId} - {newDishName} (does not exist)");
         }
     }
 }
