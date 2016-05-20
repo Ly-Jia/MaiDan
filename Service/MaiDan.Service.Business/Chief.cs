@@ -1,5 +1,5 @@
-﻿using MaiDan.Infrastructure.Contract;
-using MaiDan.Service.Dal;
+﻿using System;
+using MaiDan.Infrastructure.Contract;
 using MaiDan.Service.Domain;
 
 namespace MaiDan.Service.Business
@@ -20,7 +20,15 @@ namespace MaiDan.Service.Business
 
         public void Update(string id, string newDishName)
         {
-            menu.Update(new Dish(id, newDishName));
+            try
+            {
+                menu.Update(new Dish(id, newDishName));
+            }
+            catch (Exception e)
+            {
+                throw new InvalidOperationException($"Cannot update dish {id} - {newDishName} (does not exist)", e);
+            }
+            
         }
     }
 }
