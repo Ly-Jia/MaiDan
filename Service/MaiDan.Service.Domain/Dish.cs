@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Remoting;
 
 namespace MaiDan.Service.Domain
 {
@@ -26,6 +27,13 @@ namespace MaiDan.Service.Domain
         {
             Id = id;
             Name = name;
+        }
+
+        public override bool Equals(object obj)
+        {
+            var dishToCompare = obj as Dish;
+
+            return dishToCompare.Id == this.Id && dishToCompare.Name == this.Name;
         }
     }
 }

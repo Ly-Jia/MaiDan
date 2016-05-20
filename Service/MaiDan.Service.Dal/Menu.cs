@@ -23,17 +23,22 @@ namespace MaiDan.Service.Dal
 
         public void Add(Dish dish)
         {
-            using (var session = database.OpenSession())
-		    {
-		        session.Transaction.Begin();
-                session.Save(dish);
-		        session.Transaction.Commit();
-		    }
+            AddOrUpdate(dish);
         }
 
-        public void Update(Dish item)
+        public void Update(Dish dish)
         {
-            throw new NotImplementedException();
+            AddOrUpdate(dish);
+        }
+
+        private void AddOrUpdate(Dish dish)
+        {
+            using (var session = database.OpenSession())
+            {
+                session.Transaction.Begin();
+                session.Save(dish);
+                session.Transaction.Commit();
+            }
         }
 
         public bool Contains(String id)
