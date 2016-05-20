@@ -103,7 +103,16 @@ namespace Test.MaiDan.Service.Business.Integration
         }
 
         [BeforeScenario("waiter")]
-        public void deleteOrders()
+        public void Setup()
+        {
+            orderBook = new OrderBook(database);
+            menu = new Menu(database);
+            menu.Add(new Dish("Coffee", "Coffee made with love"));
+            waiter = new Waiter(orderBook, menu);
+        }
+
+        [AfterScenario("waiter")]
+        public void TearDown()
         {
             using (var session = database.OpenSession())
             {
@@ -113,11 +122,6 @@ namespace Test.MaiDan.Service.Business.Integration
                 session.Delete("from Order");
                 session.Transaction.Commit();
             }
-
-            orderBook = new OrderBook(database);
-            menu = new Menu(database);
-            menu.Add(new Dish("Coffee", "Coffee made with love"));
-            waiter = new Waiter(orderBook, menu);
         }
     }
 }

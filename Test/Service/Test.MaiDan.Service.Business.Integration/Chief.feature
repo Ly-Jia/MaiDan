@@ -3,12 +3,13 @@
 	As a restaurant chief
 	I want to elaborate the menu
 
-@menu
+@chief
 Scenario: Add a dish to the menu
 	Given A dish Fried rice that I want to propose to my customers
 	When I add it to the menu
 	Then the dish Fried rice can be ordered by the customers
 
+@chief
 Scenario: Remove a dish from the menu
 	Given A dish NG - Nasi gorang in the menu
 	When I update the name to Nasi goreng

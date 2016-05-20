@@ -66,11 +66,11 @@ namespace Test.MaiDan.Service.Business.Integration
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Add a dish to the menu")]
-        [NUnit.Framework.CategoryAttribute("menu")]
+        [NUnit.Framework.CategoryAttribute("chief")]
         public virtual void AddADishToTheMenu()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add a dish to the menu", new string[] {
-                        "menu"});
+                        "chief"});
 #line 7
 this.ScenarioSetup(scenarioInfo);
 #line 8
@@ -85,16 +85,18 @@ this.ScenarioSetup(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Remove a dish from the menu")]
+        [NUnit.Framework.CategoryAttribute("chief")]
         public virtual void RemoveADishFromTheMenu()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Remove a dish from the menu", ((string[])(null)));
-#line 12
-this.ScenarioSetup(scenarioInfo);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Remove a dish from the menu", new string[] {
+                        "chief"});
 #line 13
- testRunner.Given("A dish NG - Nasi gorang in the menu", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 14
- testRunner.When("I update the name to Nasi goreng", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Given("A dish NG - Nasi gorang in the menu", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 15
+ testRunner.When("I update the name to Nasi goreng", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 16
  testRunner.Then("the dish NG is displayed as Nasi goreng", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

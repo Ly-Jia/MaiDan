@@ -20,7 +20,6 @@ namespace Test.MaiDan.Service.Business.Integration
         [Given(@"A dish (.*) that I want to propose to my customers")]
         public void GivenADishThatIWantToProposeToMyCustomers(string dish)
         {
-            this.chief = new Chief(menu);
             this.dishName = dish;
         }
 
@@ -43,7 +42,6 @@ namespace Test.MaiDan.Service.Business.Integration
         [Given(@"A dish (.*) \- (.*) in the menu")]
         public void GivenADishInTheMenu(string id, string name)
         {
-            this.chief = new Chief(menu);
             this.dishId = id;
             this.dishName = name;
         }
@@ -63,6 +61,22 @@ namespace Test.MaiDan.Service.Business.Integration
                 Check.That(dishInMenu.Name).Equals(name);
             }
         }
-        
+
+        [BeforeScenario("chief")]
+        public void Initialize()
+        {
+            this.chief = new Chief(menu);
+        }
+
+        [AfterScenario("chief")]
+        public void Cleanup()
+        {
+            using (var session = database.OpenSession())
+            {
+                session.Transaction.Begin();
+                session.Delete("from Dish");
+                session.Transaction.Commit();
+            }
+        }
     }
 }
