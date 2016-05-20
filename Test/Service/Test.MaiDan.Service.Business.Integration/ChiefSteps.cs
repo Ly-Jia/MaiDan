@@ -44,6 +44,12 @@ namespace Test.MaiDan.Service.Business.Integration
         {
             this.dishId = id;
             this.dishName = name;
+            using (var session = database.OpenSession())
+            {
+                session.Transaction.Begin();
+                session.Save(new Dish(id, name));
+                session.Transaction.Commit();
+            }
         }
 
         [When(@"I update the name to (.*)")]

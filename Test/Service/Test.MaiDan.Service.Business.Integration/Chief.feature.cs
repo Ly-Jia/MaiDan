@@ -84,11 +84,11 @@ this.ScenarioSetup(scenarioInfo);
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Remove a dish from the menu")]
+        [NUnit.Framework.DescriptionAttribute("Update a dish in the menu")]
         [NUnit.Framework.CategoryAttribute("chief")]
-        public virtual void RemoveADishFromTheMenu()
+        public virtual void UpdateADishInTheMenu()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Remove a dish from the menu", new string[] {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Update a dish in the menu", new string[] {
                         "chief"});
 #line 13
 this.ScenarioSetup(scenarioInfo);

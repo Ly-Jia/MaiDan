@@ -23,16 +23,6 @@ namespace MaiDan.Service.Dal
 
         public void Add(Dish dish)
         {
-            AddOrUpdate(dish);
-        }
-
-        public void Update(Dish dish)
-        {
-            AddOrUpdate(dish);
-        }
-
-        private void AddOrUpdate(Dish dish)
-        {
             using (var session = database.OpenSession())
             {
                 session.Transaction.Begin();
@@ -41,6 +31,16 @@ namespace MaiDan.Service.Dal
             }
         }
 
+        public void Update(Dish dish)
+        {
+            using (var session = database.OpenSession())
+            {
+                session.Transaction.Begin();
+                session.Update(dish);
+                session.Transaction.Commit();
+            }
+        }
+        
         public bool Contains(String id)
         {
             Dish dish;

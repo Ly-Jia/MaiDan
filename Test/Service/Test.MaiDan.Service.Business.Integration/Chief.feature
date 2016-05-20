@@ -10,7 +10,7 @@ Scenario: Add a dish to the menu
 	Then the dish Fried rice can be ordered by the customers
 
 @chief
-Scenario: Remove a dish from the menu
+Scenario: Update a dish in the menu
 	Given A dish NG - Nasi gorang in the menu
 	When I update the name to Nasi goreng
 	Then the dish NG is displayed as Nasi goreng
