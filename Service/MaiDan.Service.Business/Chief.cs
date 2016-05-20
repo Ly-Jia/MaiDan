@@ -1,9 +1,11 @@
 ﻿using System;
+using System.ServiceModel;
 using MaiDan.Infrastructure.Contract;
 using MaiDan.Service.Domain;
 
 namespace MaiDan.Service.Business
 {
+    [ServiceContract]
     public class Chief
     {
         private IRepository<Dish, string> menu;
@@ -13,11 +15,13 @@ namespace MaiDan.Service.Business
             this.menu = menu;
         }
 
+        [OperationContract]
         public void AddToMenu(string id, string dishName)
         {
             menu.Add(new Dish(id, dishName));
         }
 
+        [OperationContract]
         public void Update(string id, string newDishName)
         {
             try
