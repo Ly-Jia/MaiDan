@@ -21,13 +21,15 @@ namespace Test.MaiDan.Service.Business.Integration
         [Given(@"A dish (.*) that I want to propose to my customers")]
         public void GivenADishThatIWantToProposeToMyCustomers(string dish)
         {
+            this.dishId = dish;
             this.dishName = dish;
         }
 
         [When(@"I add it to the menu")]
         public void WhenIAddItToTheMenu()
         {
-            this.chief.AddToMenu(dishName, dishName);
+            var dishContract = new DishDataContract { Id = dishId, Name = dishName };
+            this.chief.AddToMenu(dishContract);
         }
 
         [Then(@"the dish (.*) can be ordered by the customers")]

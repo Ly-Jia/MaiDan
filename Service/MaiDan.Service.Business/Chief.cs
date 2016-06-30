@@ -19,9 +19,9 @@ namespace MaiDan.Service.Business
 
         [OperationContract]
         [WebInvoke(Method = "PUT", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, UriTemplate = "/AddToMenu/")]
-        public void AddToMenu(string id, string dishName)
+        public void AddToMenu(DishDataContract contract)
         {
-            menu.Add(new Dish(id, dishName));
+            menu.Add(new Dish(contract.Id, contract.Name));
         }
 
         [OperationContract]
