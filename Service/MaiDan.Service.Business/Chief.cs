@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ServiceModel;
+using System.ServiceModel.Web;
 using MaiDan.Infrastructure.Contract;
+using MaiDan.Service.Business.DataContract;
 using MaiDan.Service.Domain;
 
 namespace MaiDan.Service.Business
@@ -16,21 +18,23 @@ namespace MaiDan.Service.Business
         }
 
         [OperationContract]
+        [WebInvoke(Method = "PUT", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, UriTemplate = "/AddToMenu/")]
         public void AddToMenu(string id, string dishName)
         {
             menu.Add(new Dish(id, dishName));
         }
 
         [OperationContract]
-        public void Update(string id, string newDishName)
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, UriTemplate = "/Update/")]
+        public void Update(DishDataContract contract)
         {
             try
             {
-                menu.Update(new Dish(id, newDishName));
+                menu.Update(new Dish(contract.Id, contract.Name));
             }
             catch (Exception e)
             {
-                throw new InvalidOperationException($"Cannot update dish {id} - {newDishName} (does not exist)", e);
+                throw new InvalidOperationException($"Cannot update dish {contract.Id} - {contract.Name} (does not exist)", e);
             }
             
         }

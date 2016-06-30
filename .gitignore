@@ -67,3 +67,4 @@ mightymoose.bat
 *.ncrunchproject
 *.ncrunchsolution
 _NCrunch_MaiDan/MaiDan.crunchsolution.cache
+.vs/config/applicationhost.config

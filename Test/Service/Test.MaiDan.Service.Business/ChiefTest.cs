@@ -1,4 +1,5 @@
 ﻿using System;
+using MaiDan.Service.Business.DataContract;
 using MaiDan.Service.Domain;
 using Moq;
 using NFluent;
@@ -18,8 +19,9 @@ namespace Test.MaiDan.Service.Business
             var dishId = "anId";
             var newDishName = "aName";
             var dish = new Dish(dishId, newDishName);
+            var dishContract = new DishDataContract { Id = dishId, Name = newDishName };
 
-            chief.Update(dishId,newDishName);
+            chief.Update(dishContract);
 
             chiefMock.Menu.Verify(menu => menu.Update(dish),Times.Once);
         }
@@ -31,7 +33,8 @@ namespace Test.MaiDan.Service.Business
 
             var dishId = "anId";
             var newDishName = "aName";
-            var exception = Assert.Throws<InvalidOperationException>(() => chief.Update(dishId, newDishName));
+            var dishContract = new DishDataContract { Id = dishId, Name = newDishName };
+            var exception = Assert.Throws<InvalidOperationException>(() => chief.Update(dishContract));
 
             Check.That(exception.Message).Equals($"Cannot update dish {dishId} - {newDishName} (does not exist)");
         }

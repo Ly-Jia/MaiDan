@@ -1,5 +1,6 @@
 ﻿using MaiDan.Infrastructure;
 using MaiDan.Service.Business;
+using MaiDan.Service.Business.DataContract;
 using MaiDan.Service.Dal;
 using MaiDan.Service.Domain;
 using NFluent;
@@ -55,7 +56,8 @@ namespace Test.MaiDan.Service.Business.Integration
         [When(@"I update the name to (.*)")]
         public void WhenIUpdateTheNameTo(string newDishName)
         {
-            this.chief.Update(dishId, newDishName);
+            var dishContract = new DishDataContract { Id = dishId, Name = newDishName };
+            this.chief.Update(dishContract);
         }
 
         [Then(@"the dish (.*) is displayed as (.*)")]

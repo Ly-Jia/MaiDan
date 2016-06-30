@@ -109,6 +109,10 @@
       <Project>{1B10E3EC-C22A-4E78-BF37-339B2801DCD6}</Project>
       <Name>MaiDan.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Service\MaiDan.Service.Business.DataContract\MaiDan.Service.Business.DataContract.csproj">
+      <Project>{6518857e-47e6-461e-b010-020dfc9b5dba}</Project>
+      <Name>MaiDan.Service.Business.DataContract</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Service\MaiDan.Service.Business\MaiDan.Service.Business.csproj">
       <Project>{9EE73C3E-7B08-4BAA-914B-3E6F290DD391}</Project>
       <Name>MaiDan.Service.Business</Name>
