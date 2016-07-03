@@ -21,7 +21,7 @@ namespace MaiDan.Service.Business
         [WebInvoke(Method = "PUT", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, UriTemplate = "/AddToMenu/")]
         public void AddToMenu(DishDataContract contract)
         {
-            menu.Add(new Dish(contract.Id, contract.Name));
+            menu.Add(contract.ToDish());
         }
 
         [OperationContract]
@@ -30,7 +30,7 @@ namespace MaiDan.Service.Business
         {
             try
             {
-                menu.Update(new Dish(contract.Id, contract.Name));
+                menu.Update(contract.ToDish());
             }
             catch (Exception e)
             {
