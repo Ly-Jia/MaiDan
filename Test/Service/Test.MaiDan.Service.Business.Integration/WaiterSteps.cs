@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MaiDan.Infrastructure;
 using MaiDan.Infrastructure.Contract;
 using MaiDan.Service.Business;
+using MaiDan.Service.Business.DataContract;
 using MaiDan.Service.Dal;
 using MaiDan.Service.Domain;
 using NFluent;
@@ -31,7 +33,8 @@ namespace Test.MaiDan.Service.Business.Integration
         [When(@"I take it")]
         public void WhenITakeIt()
         {
-            waiter.Take(order);
+            var orderDataContract = new OrderDataContract() {Id = order.Id, Lines = new List<LineDataContract>()};
+            waiter.Take(orderDataContract);
         }
 
         [Then(@"I can keep it in my orderbook")]

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MaiDan.Service.Business.DataContract;
 using NFluent;
 using NUnit.Framework;
 
@@ -14,9 +15,10 @@ namespace Test.MaiDan.Service.Business
 		    var waiterMock = new AWaiter();
 		    var waiter = waiterMock.Build();
 
-			var order = new AnOrder().Build();
+            var orderDataContract = new OrderDataContract() { Id = AnOrder.DEFAULT_ID, Lines = new List<LineDataContract>()};
+            var order = new AnOrder().Build();
 			
-			waiter.Take(order);
+			waiter.Take(orderDataContract);
 			
 			waiterMock.OrderBook.Verify(OrderBook => OrderBook.Add(order));
 		}

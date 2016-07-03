@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.ServiceModel;
 using MaiDan.Infrastructure;
 using MaiDan.Infrastructure.Contract;
+using MaiDan.Service.Business.DataContract;
 using MaiDan.Service.Dal;
 using MaiDan.Service.Domain;
 
@@ -22,9 +24,9 @@ namespace MaiDan.Service.Business
         public Waiter() : this(new OrderBook(), new Menu()) { }
 
         [OperationContract]
-		public void Take(Order order)
+		public void Take(OrderDataContract order)
 		{
-			OrderBook.Add(order);
+			OrderBook.Add(new Order(order.Id,order.Lines.Select(l => l.ToLine()).ToList()));
 		}
 
         [OperationContract]
