@@ -17,7 +17,18 @@ namespace MaiDan.Service.Business.DataContract
 
         public Order ToOrder()
         {
-            return new Order(this.Id, this.Lines.Select(l => l.ToLine()).ToList());
+            IList<Line> lines;
+
+            if (this.Lines != null)
+            {
+                lines = this.Lines.Select(l => l.ToLine()).ToList();
+            }
+            else
+            {
+                lines = new List<Line>();
+            }
+
+            return new Order(this.Id, lines);
         }
     }
 }

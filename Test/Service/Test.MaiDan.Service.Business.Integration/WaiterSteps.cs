@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using MaiDan.Infrastructure;
 using MaiDan.Infrastructure.Contract;
@@ -33,7 +32,7 @@ namespace Test.MaiDan.Service.Business.Integration
         [When(@"I take it")]
         public void WhenITakeIt()
         {
-            var orderDataContract = new OrderDataContract() {Id = order.Id, Lines = new List<LineDataContract>()};
+            var orderDataContract = new OrderDataContract() {Id = order.Id };
             waiter.Take(orderDataContract);
         }
 

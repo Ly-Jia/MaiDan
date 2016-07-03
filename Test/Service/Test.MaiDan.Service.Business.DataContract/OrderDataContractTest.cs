@@ -19,5 +19,15 @@ namespace Test.MaiDan.Service.Business.DataContract
             Check.That(convertedOrder).Equals(order);
             Check.That(convertedOrder.Lines).ContainsExactly(order.Lines);
         }
+
+        [Test]
+        public void should_not_fail_when_lines_are_not_provided_in_data_contract()
+        {
+            var orderDataContract = new OrderDataContract() { Id = AnOrder.DEFAULT_ID };
+
+            var convertedOrder = orderDataContract.ToOrder();
+
+            Check.That(convertedOrder.Lines).IsNotNull();
+        }
     }
 }

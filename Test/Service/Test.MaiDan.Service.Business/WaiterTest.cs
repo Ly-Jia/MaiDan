@@ -15,7 +15,7 @@ namespace Test.MaiDan.Service.Business
 		    var waiterMock = new AWaiter();
 		    var waiter = waiterMock.Build();
 
-            var orderDataContract = new OrderDataContract() { Id = AnOrder.DEFAULT_ID, Lines = new List<LineDataContract>()};
+            var orderDataContract = new OrderDataContract() { Id = AnOrder.DEFAULT_ID };
             var order = new AnOrder().Build();
 			
 			waiter.Take(orderDataContract);
