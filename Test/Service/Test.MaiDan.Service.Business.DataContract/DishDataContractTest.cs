@@ -1,4 +1,5 @@
-﻿using MaiDan.Service.Business.DataContract;
+﻿using System;
+using MaiDan.Service.Business.DataContract;
 using MaiDan.Service.Domain;
 using NFluent;
 using NUnit.Framework;
@@ -17,9 +18,17 @@ namespace Test.MaiDan.Service.Business.DataContract
             var dishDataContract = new DishDataContract() {Id = id, Name = name};
             var dish = new Dish(id, name);
 
-            var convertedDish = dishDataContract.ToDish();
+            var convertedDish = dishDataContract.ToDomainObject();
 
             Check.That(convertedDish).Equals(dish);
+        }
+
+        [Test]
+        public void should_fail_when_id_is_not_provided_in_data_contract()
+        {
+            var dishDataContract = new DishDataContract() {Name = "Name"};
+
+            Check.ThatCode(() => dishDataContract.ToDomainObject()).Throws<ArgumentNullException>();
         }
     }
 }

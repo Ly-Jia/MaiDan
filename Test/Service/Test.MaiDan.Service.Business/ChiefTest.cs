@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using MaiDan.Service.Business.DataContract;
 using MaiDan.Service.Domain;
 using Moq;
@@ -37,6 +38,19 @@ namespace Test.MaiDan.Service.Business
             var exception = Assert.Throws<InvalidOperationException>(() => chief.Update(dishContract));
 
             Check.That(exception.Message).Equals($"Cannot update dish {dishId} - {newDishName} (does not exist)");
+        }
+
+        [Test]
+        public void should_show_an_error_during_dish_creation_when_mandatory_fields_are_not_provided_in_data_contract()
+        {
+            var aChief = new AChief();
+            var chief = aChief.Build();
+            var dishDataContract = new Mock<IDataContract<Dish>>();
+            dishDataContract.Setup(d => d.ToDomainObject()).Throws<ArgumentNullException>();
+
+            chief.AddToMenu(dishDataContract.Object);
+
+            aChief.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusCode = HttpStatusCode.PreconditionFailed);
         }
     }
 }

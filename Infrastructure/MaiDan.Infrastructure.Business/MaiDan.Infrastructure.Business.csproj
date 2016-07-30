@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6518857E-47E6-461E-B010-020DFC9B5DBA}</ProjectGuid>
+    <ProjectGuid>{9CD37BFE-37E6-4CA0-BAE4-F963FF27752B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MaiDan.Service.Business.DataContract</RootNamespace>
-    <AssemblyName>MaiDan.Service.Business.DataContract</AssemblyName>
+    <RootNamespace>MaiDan.Infrastructure.Business</RootNamespace>
+    <AssemblyName>MaiDan.Infrastructure.Business</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -33,7 +33,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,16 +43,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DishDataContract.cs" />
-    <Compile Include="IDataContract.cs" />
-    <Compile Include="LineDataContract.cs" />
-    <Compile Include="OrderDataContract.cs" />
+    <Compile Include="IncomingWebRequestContextWrapper.cs" />
+    <Compile Include="OutgoingWebResponseContextWrapper.cs" />
+    <Compile Include="WebOperationContextWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MaiDan.Service.Domain\MaiDan.Service.Domain.csproj">
-      <Project>{F80E8620-560A-42C3-83E4-5A398BF03BAE}</Project>
-      <Name>MaiDan.Service.Domain</Name>
+    <ProjectReference Include="..\MaiDan.Infrastructure.Contract\MaiDan.Infrastructure.Contract.csproj">
+      <Project>{E0EBA34D-F1E7-4C50-AF4A-FD066A3014FC}</Project>
+      <Name>MaiDan.Infrastructure.Contract</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
