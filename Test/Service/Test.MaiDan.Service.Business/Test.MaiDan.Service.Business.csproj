@@ -121,6 +121,10 @@
       <Project>{F80E8620-560A-42C3-83E4-5A398BF03BAE}</Project>
       <Name>MaiDan.Service.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\Test.MaiDan.Infrastructure\Test.MaiDan.Infrastructure.csproj">
+      <Project>{E2A39310-94C0-40D9-9B6F-0F1DCE11B1EB}</Project>
+      <Name>Test.MaiDan.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Test.MaiDan.Service\Test.MaiDan.Service.csproj">
       <Project>{FD684185-5741-4EDB-95CA-92284CE768DF}</Project>
       <Name>Test.MaiDan.Service</Name>
