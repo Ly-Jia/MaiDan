@@ -37,7 +37,7 @@ namespace Test.MaiDan.Service.Business
             var dishContract = new DishDataContract { Id = dishId, Name = newDishName };
             var exception = Assert.Throws<InvalidOperationException>(() => chief.Update(dishContract));
 
-            Check.That(exception.Message).Equals($"Cannot update dish {dishId} - {newDishName} (does not exist)");
+            Check.That(exception.Message).Equals(String.Format("Cannot update dish {0} - {1} (does not exist)", dishId, newDishName));
         }
 
         [Test]
