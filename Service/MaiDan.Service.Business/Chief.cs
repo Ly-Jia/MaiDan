@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ServiceModel;
 using System.ServiceModel.Web;
+using MaiDan.Infrastructure.Business;
 using MaiDan.Infrastructure.Contract;
 using MaiDan.Service.Business.DataContract;
+using MaiDan.Service.Dal;
 using MaiDan.Service.Domain;
 
 namespace MaiDan.Service.Business
@@ -12,6 +14,10 @@ namespace MaiDan.Service.Business
     {
         private IWebOperationContext context;
         private IRepository<Dish, string> menu;
+
+        public Chief() : this(new WebOperationContextWrapper(WebOperationContext.Current), new Menu())
+        {
+        }
 
         public Chief(IWebOperationContext context, IRepository<Dish, string> menu)
         {
