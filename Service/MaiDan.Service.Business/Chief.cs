@@ -44,7 +44,8 @@ namespace MaiDan.Service.Business
             }
             catch (Exception e)
             {
-                throw new InvalidOperationException($"Cannot update dish {contract.Id} - {contract.Name} (does not exist)", e);
+                var message = String.Format("Cannot update dish {0} - {1} (does not exist)",contract.Id,contract.Name);
+                throw new InvalidOperationException(message, e);
             }
             
         }
