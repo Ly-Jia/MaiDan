@@ -30,14 +30,18 @@ namespace Test.MaiDan.Service.Business
         [Test]
         public void should_not_update_a_missing_dish()
         {
-            var chief = new AChief().WithEmptyMenu().Build();
+            var aChief = new AChief().WithEmptyMenu();
+            var chief = aChief.Build();
+            var dishDataContract = new Mock<IDataContract<Dish>>();
+            dishDataContract.Setup(d => d.ToDomainObject()).Throws<ArgumentNullException>();
 
             var dishId = "anId";
             var newDishName = "aName";
             var dishContract = new DishDataContract { Id = dishId, Name = newDishName };
-            var exception = Assert.Throws<InvalidOperationException>(() => chief.Update(dishContract));
+            
+            chief.Update(dishContract);
 
-            Check.That(exception.Message).Equals(String.Format("Cannot update dish {0} - {1} (does not exist)", dishId, newDishName));
+            aChief.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusCode = HttpStatusCode.InternalServerError);
         }
 
         [Test]
