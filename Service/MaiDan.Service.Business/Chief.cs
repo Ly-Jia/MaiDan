@@ -35,7 +35,6 @@ namespace MaiDan.Service.Business
             }
             catch (ArgumentNullException e)
             {
-                Console.WriteLine(e);
                 context.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.PreconditionFailed;
             }
         }
