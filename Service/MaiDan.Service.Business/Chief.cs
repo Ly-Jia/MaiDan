@@ -50,8 +50,7 @@ namespace MaiDan.Service.Business
             }
             catch (Exception e)
             {
-                var message = String.Format("Cannot update dish {0} - {1} (does not exist)",contract.Id,contract.Name);
-                throw new InvalidOperationException(message, e);
+                context.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.InternalServerError;
             }
             
         }
