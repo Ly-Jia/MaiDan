@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ServiceModel;
+using System.ServiceModel.Web;
+using MaiDan.Infrastructure.Business;
 using MaiDan.Infrastructure.Contract;
 using MaiDan.Service.Business.DataContract;
 using MaiDan.Service.Dal;
@@ -10,16 +12,18 @@ namespace MaiDan.Service.Business
     [ServiceContract]
     public class Waiter
 	{
+        private IWebOperationContext context;
 		private IRepository<Order, DateTime> OrderBook;
 	    private IRepository<Dish, String> Menu;
 
-        public Waiter(IRepository<Order, DateTime> orderBook, IRepository<Dish, String> menu)
+        public Waiter(IWebOperationContext context, IRepository<Order, DateTime> orderBook, IRepository<Dish, String> menu)
 		{
 			OrderBook = orderBook;
 		    Menu = menu;
+            this.context = context;
 		}
 
-        public Waiter() : this(new OrderBook(), new Menu()) { }
+        public Waiter() : this(new WebOperationContextWrapper(WebOperationContext.Current),new OrderBook(), new Menu()) { }
 
         [OperationContract]
 		public void Take(OrderDataContract order)
@@ -34,7 +38,8 @@ namespace MaiDan.Service.Business
 	        {
 	            if (!Menu.Contains(line.DishId))
 	            {
-	                throw new InvalidOperationException("Cannot add an unknown dish : " + line.DishId);
+                    context.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.InternalServerError;
+                    context.OutgoingResponse.StatusDescription = "Cannot add an unknown dish : " + line.DishId;
 	            }
 	        }
 	        try
