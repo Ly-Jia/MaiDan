@@ -39,7 +39,7 @@ namespace MaiDan.Service.Business
 	            if (!Menu.Contains(line.DishId))
 	            {
                     context.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.InternalServerError;
-                    context.OutgoingResponse.StatusDescription = "Cannot add an unknown dish : " + line.DishId;
+                    context.OutgoingResponse.StatusDescription = String.Format("Cannot add an unknown dish: {0}",line.DishId);
 	            }
 	        }
 	        try
@@ -48,7 +48,7 @@ namespace MaiDan.Service.Business
 	        }
 	        catch (Exception e)
 	        {
-                throw new InvalidOperationException("Cannot update order : " + updatedOrder.Id, e);
+                throw new InvalidOperationException(String.Format("Cannot update order: {0}", updatedOrder.Id), e);
 	        }
 	    }
 
@@ -63,7 +63,7 @@ namespace MaiDan.Service.Business
 	        }
             catch (Exception e)
 	        {
-                throw new InvalidOperationException("Cannot add a dish to an order : " + orderId, e);
+                throw new InvalidOperationException(String.Format("Cannot add a dish to an order: {0}",orderId), e);
 	        }
 	    }
 	}

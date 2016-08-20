@@ -32,7 +32,7 @@ namespace Test.MaiDan.Service.Business
 
             var exception = Assert.Throws<InvalidOperationException>(() => waiter.AddDishToAnOrder(orderId, 2, "Fried rice"));
             
-            Check.That(exception.Message).Equals("Cannot add a dish to an order : " + orderId);
+            Check.That(exception.Message).Equals("Cannot add a dish to an order: " + orderId);
 	    }
 
 	    [Test]
@@ -73,7 +73,7 @@ namespace Test.MaiDan.Service.Business
 
 	        var exception = Assert.Throws<InvalidOperationException>(() => waiter.Update(order));
 
-	        Check.That(exception.Message).Equals("Cannot update order : " + order.Id);
+	        Check.That(exception.Message).Equals("Cannot update order: " + order.Id);
 	    }
 
 	   
@@ -85,11 +85,12 @@ namespace Test.MaiDan.Service.Business
 	        var waiter = aWaiter.Build();
 	        var dishCode = "Unknown";
 	        var orderToUpdate = new AnOrder(order.Id).With(1, dishCode).Build();
+            var statusDescription = "Cannot add an unknown dish: "+ dishCode;
 
 	        waiter.Update(orderToUpdate);
 
             aWaiter.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusCode = HttpStatusCode.InternalServerError);
-            aWaiter.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusDescription = ("Cannot add an unknown dish : " + dishCode));
+	        aWaiter.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusDescription = statusDescription);
 	    }
 	}
 }
