@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using MaiDan.Service.Business.DataContract;
 using NFluent;
 using NUnit.Framework;
@@ -80,13 +81,15 @@ namespace Test.MaiDan.Service.Business
 	    public void should_not_update_an_order_with_a_missing_dish()
 	    {
 	        var order = new AnOrder().Build();
-	        var waiter = new AWaiter().With(order).Build();
+	        var aWaiter = new AWaiter().With(order);
+	        var waiter = aWaiter.Build();
 	        var dishCode = "Unknown";
 	        var orderToUpdate = new AnOrder(order.Id).With(1, dishCode).Build();
 
-            var exception = Assert.Throws<InvalidOperationException>(() => waiter.Update(orderToUpdate));
+	        waiter.Update(orderToUpdate);
 
-            Check.That(exception.Message).Equals("Cannot add an unknown dish : " + dishCode);
+            aWaiter.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusCode = HttpStatusCode.InternalServerError);
+            aWaiter.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusDescription = ("Cannot add an unknown dish : " + dishCode));
 	    }
 	}
 }

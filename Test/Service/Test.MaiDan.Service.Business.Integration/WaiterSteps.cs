@@ -6,6 +6,7 @@ using MaiDan.Service.Business;
 using MaiDan.Service.Business.DataContract;
 using MaiDan.Service.Dal;
 using MaiDan.Service.Domain;
+using Moq;
 using NFluent;
 using NHibernate.Linq;
 using TechTalk.SpecFlow;
@@ -110,7 +111,7 @@ namespace Test.MaiDan.Service.Business.Integration
             orderBook = new OrderBook(database);
             menu = new Menu(database);
             menu.Add(new Dish("Coffee", "Coffee made with love"));
-            waiter = new Waiter(orderBook, menu);
+            waiter = new Waiter(new Mock<IWebOperationContext>().Object,orderBook, menu);
         }
 
         [AfterScenario("waiter")]

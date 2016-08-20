@@ -4,18 +4,21 @@ using MaiDan.Infrastructure.Contract;
 using MaiDan.Service.Business;
 using MaiDan.Service.Domain;
 using Moq;
+using Test.MaiDan.Infrastructure;
 
 namespace Test.MaiDan.Service
 {
     public class AWaiter
     {
         public Mock<IRepository<Order,DateTime>> OrderBook { get; private set; }
-        private Mock<IRepository<Dish, String>> Menu; 
+        private Mock<IRepository<Dish, String>> Menu;
+        public AWebOperationContext Context;
 
         public AWaiter()
         {
             OrderBook = new Mock<IRepository<Order,DateTime>>();
             Menu = new Mock<IRepository<Dish, String>>();
+            Context = new AWebOperationContext();
         }
 
         public AWaiter With(Order order)
@@ -42,7 +45,7 @@ namespace Test.MaiDan.Service
 
         public Waiter Build()
         {
-            return new Waiter(OrderBook.Object, Menu.Object);
+            return new Waiter(Context.Object, OrderBook.Object, Menu.Object);
         }
     }
 }
