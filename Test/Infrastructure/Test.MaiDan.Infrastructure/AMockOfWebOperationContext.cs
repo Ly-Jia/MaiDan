@@ -8,12 +8,12 @@ namespace Test.MaiDan.Infrastructure
     /***
      *  Code taken from http://weblogs.asp.net/cibrax/unit-tests-for-wcf
      ***/
-    public class AWebOperationContext : Mock<IWebOperationContext>
+    public class AMockOfWebOperationContext : Mock<IWebOperationContext>
     {
         Mock<IIncomingWebRequestContext> requestContextMock = new Mock<IIncomingWebRequestContext>();
         Mock<IOutgoingWebResponseContext> responseContextMock = new Mock<IOutgoingWebResponseContext>();
 
-        public AWebOperationContext() : base()
+        public AMockOfWebOperationContext() : base()
         {
             this.SetupGet(webContext => webContext.OutgoingResponse).Returns(responseContextMock.Object);
             this.SetupGet(webContext => webContext.IncomingRequest).Returns(requestContextMock.Object);
