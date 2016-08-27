@@ -36,6 +36,7 @@ namespace MaiDan.Service.Business
             catch (ArgumentNullException e)
             {
                 context.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.PreconditionFailed;
+                context.OutgoingResponse.StatusDescription = "All mandatory fields are not provided";
             }
         }
 
@@ -50,6 +51,7 @@ namespace MaiDan.Service.Business
             catch (Exception e)
             {
                 context.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.InternalServerError;
+                context.OutgoingResponse.StatusDescription = String.Format("Cannot update dish {0} - {1} (does not exist)", contract.Id, contract.Name);
             }
             
         }

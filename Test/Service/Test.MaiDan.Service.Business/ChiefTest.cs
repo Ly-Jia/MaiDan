@@ -38,10 +38,12 @@ namespace Test.MaiDan.Service.Business
             var dishId = "anId";
             var newDishName = "aName";
             var dishContract = new DishDataContract { Id = dishId, Name = newDishName };
-            
+            var statusDescription = String.Format("Cannot update dish {0} - {1} (does not exist)", dishId, newDishName);
+
             chief.Update(dishContract);
 
             aChief.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusCode = HttpStatusCode.InternalServerError);
+            aChief.Context.OutgoingResponse.VerifySet(outgointResponse => outgointResponse.StatusDescription = statusDescription);
         }
 
         [Test]
@@ -51,10 +53,12 @@ namespace Test.MaiDan.Service.Business
             var chief = aChief.Build();
             var dishDataContract = new Mock<IDataContract<Dish>>();
             dishDataContract.Setup(d => d.ToDomainObject()).Throws<ArgumentNullException>();
+            var statusDescription = "All mandatory fields are not provided";
 
             chief.AddToMenu(dishDataContract.Object);
 
             aChief.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusCode = HttpStatusCode.PreconditionFailed);
+            aChief.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusDescription = statusDescription);
         }
     }
 }
