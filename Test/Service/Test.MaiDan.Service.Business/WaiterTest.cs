@@ -68,12 +68,15 @@ namespace Test.MaiDan.Service.Business
 	    [Test]
 	    public void should_not_update_a_missing_order()
 	    {
-	        var waiter = new AWaiter().WithoutOrder().Build();
+	        var aWaiter = new AWaiter().WithoutOrder();
+	        var waiter = aWaiter.Build();
 	        var order = new AnOrder().Build();
+	        var statusDescription = "Cannot update order: " + order.Id;
 
-	        var exception = Assert.Throws<InvalidOperationException>(() => waiter.Update(order));
-
-	        Check.That(exception.Message).Equals("Cannot update order: " + order.Id);
+            waiter.Update(order);
+            
+            aWaiter.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusCode = HttpStatusCode.InternalServerError);
+            aWaiter.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusDescription = statusDescription);
 	    }
 
 	   

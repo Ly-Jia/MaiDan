@@ -48,7 +48,8 @@ namespace MaiDan.Service.Business
 	        }
 	        catch (Exception e)
 	        {
-                throw new InvalidOperationException(String.Format("Cannot update order: {0}", updatedOrder.Id), e);
+                context.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.InternalServerError;
+                context.OutgoingResponse.StatusDescription = String.Format("Cannot update order: {0}", updatedOrder.Id);
 	        }
 	    }
 
