@@ -12,13 +12,13 @@ namespace Test.MaiDan.Service
     {
         public Mock<IRepository<Order,DateTime>> OrderBook { get; private set; }
         private Mock<IRepository<Dish, String>> Menu;
-        public AWebOperationContext Context;
+        public AMockOfWebOperationContext Context;
 
         public AWaiter()
         {
             OrderBook = new Mock<IRepository<Order,DateTime>>();
             Menu = new Mock<IRepository<Dish, String>>();
-            Context = new AWebOperationContext();
+            Context = new AMockOfWebOperationContext();
         }
 
         public AWaiter With(Order order)

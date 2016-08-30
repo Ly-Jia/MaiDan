@@ -52,7 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ADatabase.cs" />
-    <Compile Include="AWebOperationContext.cs" />
+    <Compile Include="AMockOfWebOperationContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

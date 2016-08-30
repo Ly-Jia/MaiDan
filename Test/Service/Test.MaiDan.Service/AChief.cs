@@ -10,12 +10,12 @@ namespace Test.MaiDan.Service
     public class AChief
     {
         public Mock<IRepository<Dish, string>> Menu { get; private set; }
-        public AWebOperationContext Context;
+        public AMockOfWebOperationContext Context;
 
         public AChief()
         {
             Menu = new Mock<IRepository<Dish, string>>();
-            Context = new AWebOperationContext();
+            Context = new AMockOfWebOperationContext();
         }
 
         public AChief WithEmptyMenu()
