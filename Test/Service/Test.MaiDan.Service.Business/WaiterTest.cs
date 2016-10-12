@@ -13,16 +13,18 @@ namespace Test.MaiDan.Service.Business
 		[Test]
 		public void can_take_an_order_from_a_date()
 		{
-		    var waiterMock = new AWaiter();
-		    var waiter = waiterMock.Build();
+		    var aWaiter = new AWaiter();
+		    var waiter = aWaiter.Build();
 
             var orderDataContract = new OrderDataContract() { Id = AnOrder.DEFAULT_ID };
             var order = new AnOrder().Build();
 			
 			waiter.Take(orderDataContract);
-			
-			waiterMock.OrderBook.Verify(OrderBook => OrderBook.Add(order));
-		}
+
+            aWaiter.OrderBook.Verify(OrderBook => OrderBook.Add(order));
+            
+            aWaiter.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusCode = HttpStatusCode.OK);
+        }
 
         [Test]
         public void should_not_add_a_dish_to_a_missing_order()

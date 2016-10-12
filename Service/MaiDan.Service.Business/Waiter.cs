@@ -29,7 +29,8 @@ namespace MaiDan.Service.Business
 		public void Take(OrderDataContract order)
 		{
 			OrderBook.Add(order.ToOrder());
-		}
+            context.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.OK;
+        }
 
         [OperationContract]
 	    public void Update(Order updatedOrder)
