@@ -38,7 +38,7 @@ namespace MaiDan.Service.Business
                 SetContextOutgoingResponseStatusToKO(statusDescription);
             }
 
-            context.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.OK;
+            SetContextOutgoingResponseStatusToOK();
         }
         
         [OperationContract]
@@ -61,8 +61,10 @@ namespace MaiDan.Service.Business
 	            var statusDescription = String.Format("Cannot update order: {0}", updatedOrder.Id);
 	            SetContextOutgoingResponseStatusToKO(statusDescription);
 	        }
-	    }
 
+            SetContextOutgoingResponseStatusToOK();
+        }
+        
         [OperationContract]
 	    public void AddDishToAnOrder(DateTime orderId, int quantity, string dishCode)
 	    {
@@ -78,6 +80,10 @@ namespace MaiDan.Service.Business
 	        }
 	    }
 
+        private void SetContextOutgoingResponseStatusToOK()
+        {
+            context.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.OK;
+        }
         private void SetContextOutgoingResponseStatusToKO(string statusDescription)
         {
             context.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.InternalServerError;

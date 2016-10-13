@@ -81,7 +81,9 @@ namespace Test.MaiDan.Service.Business
             waiter.Update(updatedOrder);
 
             waiterMock.OrderBook.Verify(o => o.Update(updatedOrder));
-	    }
+
+            waiterMock.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusCode = HttpStatusCode.OK);
+        }
 
 	    [Test]
 	    public void should_not_update_a_missing_order()
