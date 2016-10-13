@@ -28,10 +28,19 @@ namespace MaiDan.Service.Business
         [OperationContract]
 		public void Take(OrderDataContract order)
 		{
-			OrderBook.Add(order.ToOrder());
+            try
+            {
+                OrderBook.Add(order.ToOrder());
+            }
+            catch (Exception)
+            {
+                var statusDescription = String.Format("Order n°{0} could not be taken", order.Id);
+                SetContextOutgoingResponseStatusToKO(statusDescription);
+            }
+
             context.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.OK;
         }
-
+        
         [OperationContract]
 	    public void Update(Order updatedOrder)
 	    {
@@ -39,18 +48,18 @@ namespace MaiDan.Service.Business
 	        {
 	            if (!Menu.Contains(line.DishId))
 	            {
-                    context.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.InternalServerError;
-                    context.OutgoingResponse.StatusDescription = String.Format("Cannot add an unknown dish: {0}",line.DishId);
+	                var statusDescription = String.Format("Cannot add an unknown dish: {0}",line.DishId);
+	                SetContextOutgoingResponseStatusToKO(statusDescription);
 	            }
 	        }
 	        try
 	        {
                 OrderBook.Update(updatedOrder);
 	        }
-	        catch (Exception e)
+	        catch (Exception)
 	        {
-                context.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.InternalServerError;
-                context.OutgoingResponse.StatusDescription = String.Format("Cannot update order: {0}", updatedOrder.Id);
+	            var statusDescription = String.Format("Cannot update order: {0}", updatedOrder.Id);
+	            SetContextOutgoingResponseStatusToKO(statusDescription);
 	        }
 	    }
 
@@ -68,7 +77,13 @@ namespace MaiDan.Service.Business
                 throw new InvalidOperationException(String.Format("Cannot add a dish to an order: {0}",orderId), e);
 	        }
 	    }
-	}
+
+        private void SetContextOutgoingResponseStatusToKO(string statusDescription)
+        {
+            context.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.InternalServerError;
+            context.OutgoingResponse.StatusDescription = statusDescription;
+        }
+    }
 	
 	
 }

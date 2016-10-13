@@ -26,6 +26,22 @@ namespace Test.MaiDan.Service.Business
             aWaiter.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusCode = HttpStatusCode.OK);
         }
 
+	    [Test]
+	    public void should_notify_when_taking_order_failed()
+	    {
+            var aWaiter = new AWaiter();
+            var waiter = aWaiter.WithFailingOrderBook().Build();
+
+            var orderDataContract = new OrderDataContract() { Id = AnOrder.DEFAULT_ID };
+            var statusDescription = String.Format("Order n°{0} could not be taken", orderDataContract.Id);
+
+            waiter.Take(orderDataContract);
+            
+            aWaiter.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusCode = HttpStatusCode.InternalServerError);
+            aWaiter.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusDescription = statusDescription);
+
+        }
+
         [Test]
         public void should_not_add_a_dish_to_a_missing_order()
 	    {

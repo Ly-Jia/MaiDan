@@ -34,6 +34,12 @@ namespace Test.MaiDan.Service
             return this;
         }
 
+        public AWaiter WithFailingOrderBook()
+        {
+            OrderBook.Setup(ob => ob.Add(It.IsAny<Order>())).Throws<InvalidOperationException>();
+            return this.WithoutOrder();
+        }
+
         public AWaiter Handing(IList<String> menu)
         {
             foreach (var dish in menu)
