@@ -45,12 +45,15 @@ namespace Test.MaiDan.Service.Business
         [Test]
         public void should_not_add_a_dish_to_a_missing_order()
 	    {
-            var waiter = new AWaiter().WithoutOrder().Build();
-            var orderId = new DateTime();
-
-            var exception = Assert.Throws<InvalidOperationException>(() => waiter.AddDishToAnOrder(orderId, 2, "Fried rice"));
+            var aWaiter = new AWaiter().WithoutOrder();
+            var waiter = aWaiter.Build();
+            var orderId = AnOrder.DEFAULT_ID;
             
-            Check.That(exception.Message).Equals("Cannot add a dish to an order: " + orderId);
+            waiter.AddDishToAnOrder(orderId, 2, "Fried rice");
+
+            var statusDescription = String.Format("Cannot add a dish to an order: {0}", orderId);
+            aWaiter.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusCode = HttpStatusCode.InternalServerError);
+            aWaiter.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusDescription = statusDescription);
 	    }
 
 	    [Test]

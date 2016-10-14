@@ -75,15 +75,17 @@ namespace MaiDan.Service.Business
                 this.Update(order);
 	        }
             catch (Exception e)
-	        {
-                throw new InvalidOperationException(String.Format("Cannot add a dish to an order: {0}",orderId), e);
-	        }
+            {
+                var statusDescription = String.Format("Cannot add a dish to an order: {0}",orderId);
+                SetContextOutgoingResponseStatusToKO(statusDescription);
+            }
 	    }
 
         private void SetContextOutgoingResponseStatusToOK()
         {
             context.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.OK;
         }
+
         private void SetContextOutgoingResponseStatusToKO(string statusDescription)
         {
             context.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.InternalServerError;
