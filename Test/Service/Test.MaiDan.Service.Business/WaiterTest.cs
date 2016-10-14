@@ -13,64 +13,57 @@ namespace Test.MaiDan.Service.Business
 		[Test]
 		public void can_take_an_order_from_a_date()
 		{
-		    var aWaiter = new AWaiter();
-		    var waiter = aWaiter.Build();
-
+		    var waiterMock = new AWaiter();
+		    var waiter = waiterMock.Build();
             var orderDataContract = new OrderDataContract() { Id = AnOrder.DEFAULT_ID };
-            var order = new AnOrder().Build();
-			
+            
 			waiter.Take(orderDataContract);
 
-            aWaiter.OrderBook.Verify(OrderBook => OrderBook.Add(order));
-            
-            aWaiter.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusCode = HttpStatusCode.OK);
+            var order = new AnOrder().Build();
+            waiterMock.OrderBook.Verify(OrderBook => OrderBook.Add(order));
+            waiterMock.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusCode = HttpStatusCode.OK);
         }
 
 	    [Test]
 	    public void should_notify_when_taking_order_failed()
 	    {
-            var aWaiter = new AWaiter();
-            var waiter = aWaiter.WithFailingOrderBook().Build();
-
+            var waiterWithFailingOrderBookMock = new AWaiter().WithFailingOrderBook();
+            var waiterWithFailingOrderBook = waiterWithFailingOrderBookMock.Build();
             var orderDataContract = new OrderDataContract() { Id = AnOrder.DEFAULT_ID };
-            var statusDescription = String.Format("Order n°{0} could not be taken", orderDataContract.Id);
-
-            waiter.Take(orderDataContract);
             
-            aWaiter.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusCode = HttpStatusCode.InternalServerError);
-            aWaiter.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusDescription = statusDescription);
+            waiterWithFailingOrderBook.Take(orderDataContract);
 
+            var statusDescription = String.Format("Order n°{0} could not be taken", orderDataContract.Id);
+            waiterWithFailingOrderBookMock.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusCode = HttpStatusCode.InternalServerError);
+            waiterWithFailingOrderBookMock.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusDescription = statusDescription);
         }
 
         [Test]
         public void should_not_add_a_dish_to_a_missing_order()
 	    {
-            var aWaiter = new AWaiter().WithoutOrder();
-            var waiter = aWaiter.Build();
+            var waiterWithoutOrderMock = new AWaiter().WithoutOrder();
+            var waiterWithoutOrder = waiterWithoutOrderMock.Build();
             var orderId = AnOrder.DEFAULT_ID;
             
-            waiter.AddDishToAnOrder(orderId, 2, "Fried rice");
+            waiterWithoutOrder.AddDishToAnOrder(orderId, 2, "Fried rice");
 
             var statusDescription = String.Format("Cannot add a dish to an order: {0}", orderId);
-            aWaiter.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusCode = HttpStatusCode.InternalServerError);
-            aWaiter.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusDescription = statusDescription);
+            waiterWithoutOrderMock.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusCode = HttpStatusCode.InternalServerError);
+            waiterWithoutOrderMock.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusDescription = statusDescription);
 	    }
 
 	    [Test]
 	    public void should_add_a_dish_to_an_order()
 	    {
 	        var aMenu = new List<String> {"Coffee", "Donut"};
-
 	        var existingOrder = new AnOrder().With(1, "Coffee").Build();
-	        var waiterMock = new AWaiter().Handing(aMenu).With(existingOrder);
+	        var waiterWithMenuAndOrderMock = new AWaiter().Handing(aMenu).With(existingOrder);
+	        var waiterWithMenuAndOrder = waiterWithMenuAndOrderMock.Build();
 
-	        var waiter = waiterMock.Build();
-
-            waiter.AddDishToAnOrder(existingOrder.Id, 2, "Donut");
+            waiterWithMenuAndOrder.AddDishToAnOrder(existingOrder.Id, 2, "Donut");
 
 	        var updatedOrder = new AnOrder(existingOrder.Id).With(1, "Coffee").And(2, "Donut").Build();
-
-	        waiterMock.OrderBook.Verify(ob => ob.Update(updatedOrder));
+	        waiterWithMenuAndOrderMock.OrderBook.Verify(ob => ob.Update(updatedOrder));
 	    }
 
 
@@ -79,27 +72,26 @@ namespace Test.MaiDan.Service.Business
 	    {
             var waiterMock = new AWaiter();
 	        var waiter = waiterMock.Build();
-
 	        var updatedOrder = new AnOrder().Build();
+
             waiter.Update(updatedOrder);
 
             waiterMock.OrderBook.Verify(o => o.Update(updatedOrder));
-
             waiterMock.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusCode = HttpStatusCode.OK);
         }
 
 	    [Test]
 	    public void should_not_update_a_missing_order()
 	    {
-	        var aWaiter = new AWaiter().WithoutOrder();
-	        var waiter = aWaiter.Build();
+	        var waiterWithoutOrderMock = new AWaiter().WithoutOrder();
+	        var waiterWithoutOrder = waiterWithoutOrderMock.Build();
 	        var order = new AnOrder().Build();
-	        var statusDescription = "Cannot update order: " + order.Id;
 
-            waiter.Update(order);
-            
-            aWaiter.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusCode = HttpStatusCode.InternalServerError);
-            aWaiter.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusDescription = statusDescription);
+            waiterWithoutOrder.Update(order);
+
+            var statusDescription = "Cannot update order: " + order.Id;
+            waiterWithoutOrderMock.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusCode = HttpStatusCode.InternalServerError);
+            waiterWithoutOrderMock.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusDescription = statusDescription);
 	    }
 
 	   
@@ -107,16 +99,16 @@ namespace Test.MaiDan.Service.Business
 	    public void should_not_update_an_order_with_a_missing_dish()
 	    {
 	        var order = new AnOrder().Build();
-	        var aWaiter = new AWaiter().With(order);
-	        var waiter = aWaiter.Build();
-	        var dishCode = "Unknown";
-	        var orderToUpdate = new AnOrder(order.Id).With(1, dishCode).Build();
-            var statusDescription = "Cannot add an unknown dish: "+ dishCode;
+	        var waiterWithOrderMock = new AWaiter().With(order);
+	        var waiterWithOrder = waiterWithOrderMock.Build();
+	        var unknownDishCode = "Unknown";
+	        var orderToUpdate = new AnOrder(order.Id).With(1, unknownDishCode).Build();
+            
+	        waiterWithOrder.Update(orderToUpdate);
 
-	        waiter.Update(orderToUpdate);
-
-            aWaiter.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusCode = HttpStatusCode.InternalServerError);
-	        aWaiter.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusDescription = statusDescription);
+            var statusDescription = "Cannot add an unknown dish: " + unknownDishCode;
+            waiterWithOrderMock.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusCode = HttpStatusCode.InternalServerError);
+	        waiterWithOrderMock.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusDescription = statusDescription);
 	    }
 	}
 }
