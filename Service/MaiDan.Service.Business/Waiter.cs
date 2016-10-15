@@ -65,22 +65,6 @@ namespace MaiDan.Service.Business
             SetContextOutgoingResponseStatusToOK();
         }
         
-        [OperationContract]
-	    public void AddDishToAnOrder(DateTime orderId, int quantity, string dishCode)
-	    {
-	        try
-	        {
-                var order = OrderBook.Get(orderId);
-                order.Add(quantity, dishCode);
-                this.Update(order);
-	        }
-            catch (Exception e)
-            {
-                var statusDescription = String.Format("Cannot add a dish to an order: {0}",orderId);
-                SetContextOutgoingResponseStatusToKO(statusDescription);
-            }
-	    }
-
         private void SetContextOutgoingResponseStatusToOK()
         {
             context.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.OK;

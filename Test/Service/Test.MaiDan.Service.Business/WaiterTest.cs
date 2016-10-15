@@ -37,36 +37,7 @@ namespace Test.MaiDan.Service.Business
             waiterWithFailingOrderBookMock.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusCode = HttpStatusCode.InternalServerError);
             waiterWithFailingOrderBookMock.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusDescription = statusDescription);
         }
-
-        [Test]
-        public void should_not_add_a_dish_to_a_missing_order()
-	    {
-            var waiterWithoutOrderMock = new AWaiter().WithoutOrder();
-            var waiterWithoutOrder = waiterWithoutOrderMock.Build();
-            var orderId = AnOrder.DEFAULT_ID;
-            
-            waiterWithoutOrder.AddDishToAnOrder(orderId, 2, "Fried rice");
-
-            var statusDescription = String.Format("Cannot add a dish to an order: {0}", orderId);
-            waiterWithoutOrderMock.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusCode = HttpStatusCode.InternalServerError);
-            waiterWithoutOrderMock.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusDescription = statusDescription);
-	    }
-
-	    [Test]
-	    public void should_add_a_dish_to_an_order()
-	    {
-	        var aMenu = new List<String> {"Coffee", "Donut"};
-	        var existingOrder = new AnOrder().With(1, "Coffee").Build();
-	        var waiterWithMenuAndOrderMock = new AWaiter().Handing(aMenu).With(existingOrder);
-	        var waiterWithMenuAndOrder = waiterWithMenuAndOrderMock.Build();
-
-            waiterWithMenuAndOrder.AddDishToAnOrder(existingOrder.Id, 2, "Donut");
-
-	        var updatedOrder = new AnOrder(existingOrder.Id).With(1, "Coffee").And(2, "Donut").Build();
-	        waiterWithMenuAndOrderMock.OrderBook.Verify(ob => ob.Update(updatedOrder));
-	    }
-
-
+        
 	    [Test]
 	    public void can_update_an_order()
 	    {
