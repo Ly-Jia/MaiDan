@@ -6,7 +6,6 @@ using MaiDan.Service.Business;
 using MaiDan.Service.Business.DataContract;
 using MaiDan.Service.Dal;
 using MaiDan.Service.Domain;
-using Moq;
 using NFluent;
 using NHibernate.Linq;
 using TechTalk.SpecFlow;
@@ -90,10 +89,9 @@ namespace Test.MaiDan.Service.Business.Integration
         [When(@"I modify it with ([0-9]*) (.*)")]
         public void WhenIModifyItWithCoffee(int quantity, string dishName)
         {
-            var orderToUpdate = new AnOrder(order.Id).With(quantity, dishName).Build();
-
+            var orderToUpdate = new AnOrder(order.Id).With(quantity, dishName).ToOrderContract();
             waiter.Update(orderToUpdate);
-            order = orderToUpdate;
+            order = orderToUpdate.ToOrder();
         }
 
         [Then(@"this order should be")]

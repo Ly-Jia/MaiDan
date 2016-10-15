@@ -42,7 +42,7 @@ namespace MaiDan.Service.Business
         }
         
         [OperationContract]
-	    public void Update(Order updatedOrder)
+	    public void Update(OrderDataContract updatedOrder)
 	    {
 	        foreach (var line in updatedOrder.Lines)
 	        {
@@ -54,7 +54,7 @@ namespace MaiDan.Service.Business
 	        }
 	        try
 	        {
-                OrderBook.Update(updatedOrder);
+                OrderBook.Update(updatedOrder.ToOrder());
 	        }
 	        catch (Exception)
 	        {

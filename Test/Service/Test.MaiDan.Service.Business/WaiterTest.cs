@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
-using MaiDan.Service.Business.DataContract;
-using NFluent;
 using NUnit.Framework;
 
 namespace Test.MaiDan.Service.Business
@@ -15,9 +12,9 @@ namespace Test.MaiDan.Service.Business
 		{
 		    var waiterMock = new AWaiter();
 		    var waiter = waiterMock.Build();
-            var orderDataContract = new OrderDataContract() { Id = AnOrder.DEFAULT_ID };
-            
-			waiter.Take(orderDataContract);
+            var orderDataContract = new AnOrder().ToOrderContract();
+
+            waiter.Take(orderDataContract);
 
             var order = new AnOrder().Build();
             waiterMock.OrderBook.Verify(OrderBook => OrderBook.Add(order));
@@ -29,7 +26,7 @@ namespace Test.MaiDan.Service.Business
 	    {
             var waiterWithFailingOrderBookMock = new AWaiter().WithFailingOrderBook();
             var waiterWithFailingOrderBook = waiterWithFailingOrderBookMock.Build();
-            var orderDataContract = new OrderDataContract() { Id = AnOrder.DEFAULT_ID };
+            var orderDataContract = new AnOrder().ToOrderContract();
             
             waiterWithFailingOrderBook.Take(orderDataContract);
 
@@ -43,11 +40,11 @@ namespace Test.MaiDan.Service.Business
 	    {
             var waiterMock = new AWaiter();
 	        var waiter = waiterMock.Build();
-	        var updatedOrder = new AnOrder().Build();
+	        var updatedOrder = new AnOrder().ToOrderContract();
 
             waiter.Update(updatedOrder);
 
-            waiterMock.OrderBook.Verify(o => o.Update(updatedOrder));
+            waiterMock.OrderBook.Verify(o => o.Update(updatedOrder.ToOrder()));
             waiterMock.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusCode = HttpStatusCode.OK);
         }
 
@@ -56,7 +53,7 @@ namespace Test.MaiDan.Service.Business
 	    {
 	        var waiterWithoutOrderMock = new AWaiter().WithoutOrder();
 	        var waiterWithoutOrder = waiterWithoutOrderMock.Build();
-	        var order = new AnOrder().Build();
+	        var order = new AnOrder().ToOrderContract();
 
             waiterWithoutOrder.Update(order);
 
@@ -73,9 +70,9 @@ namespace Test.MaiDan.Service.Business
 	        var waiterWithOrderMock = new AWaiter().With(order);
 	        var waiterWithOrder = waiterWithOrderMock.Build();
 	        var unknownDishCode = "Unknown";
-	        var orderToUpdate = new AnOrder(order.Id).With(1, unknownDishCode).Build();
-            
-	        waiterWithOrder.Update(orderToUpdate);
+	        var orderToUpdate = new AnOrder(order.Id).With(1, unknownDishCode).ToOrderContract();
+
+            waiterWithOrder.Update(orderToUpdate);
 
             var statusDescription = "Cannot add an unknown dish: " + unknownDishCode;
             waiterWithOrderMock.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusCode = HttpStatusCode.InternalServerError);
