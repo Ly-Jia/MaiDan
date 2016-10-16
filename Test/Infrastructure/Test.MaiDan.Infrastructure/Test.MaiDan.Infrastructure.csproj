@@ -54,6 +54,7 @@
     <Compile Include="ADatabase.cs" />
     <Compile Include="AMockOfWebOperationContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VerifyContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Infrastructure\MaiDan.Infrastructure.Contract\MaiDan.Infrastructure.Contract.csproj">

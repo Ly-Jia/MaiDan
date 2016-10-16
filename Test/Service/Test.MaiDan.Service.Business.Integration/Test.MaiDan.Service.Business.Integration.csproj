@@ -109,6 +109,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Infrastructure\MaiDan.Infrastructure.Business\MaiDan.Infrastructure.Business.csproj">
+      <Project>{9cd37bfe-37e6-4ca0-bae4-f963ff27752b}</Project>
+      <Name>MaiDan.Infrastructure.Business</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Infrastructure\MaiDan.Infrastructure.Contract\MaiDan.Infrastructure.Contract.csproj">
       <Project>{E0EBA34D-F1E7-4C50-AF4A-FD066A3014FC}</Project>
       <Name>MaiDan.Infrastructure.Contract</Name>
