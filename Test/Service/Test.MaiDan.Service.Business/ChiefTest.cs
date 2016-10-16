@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Net;
 using MaiDan.Service.Business.DataContract;
 using MaiDan.Service.Domain;
 using Moq;
-using NFluent;
 using NUnit.Framework;
+using Test.MaiDan.Infrastructure;
 
 namespace Test.MaiDan.Service.Business
 {
@@ -32,18 +31,14 @@ namespace Test.MaiDan.Service.Business
         {
             var aChief = new AChief().WithEmptyMenu();
             var chief = aChief.Build();
-            var dishDataContract = new Mock<IDataContract<Dish>>();
-            dishDataContract.Setup(d => d.ToDomainObject()).Throws<ArgumentNullException>();
-
             var dishId = "anId";
             var newDishName = "aName";
-            var dishContract = new DishDataContract { Id = dishId, Name = newDishName };
-            var statusDescription = String.Format("Cannot update dish {0} - {1} (does not exist)", dishId, newDishName);
+            var dishDataContract = new DishDataContract { Id = dishId, Name = newDishName };
+            
+            chief.Update(dishDataContract);
 
-            chief.Update(dishContract);
-
-            aChief.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusCode = HttpStatusCode.InternalServerError);
-            aChief.Context.OutgoingResponse.VerifySet(outgointResponse => outgointResponse.StatusDescription = statusDescription);
+            var expectedStatusDescription = String.Format("Cannot update dish {0} - {1} (does not exist)", dishId, newDishName);
+            VerifyContext.OutgoingResponseIsKO(aChief.Context, expectedStatusDescription);
         }
 
         [Test]
@@ -53,12 +48,10 @@ namespace Test.MaiDan.Service.Business
             var chief = aChief.Build();
             var dishDataContract = new Mock<IDataContract<Dish>>();
             dishDataContract.Setup(d => d.ToDomainObject()).Throws<ArgumentNullException>();
-            var statusDescription = "All mandatory fields are not provided";
-
+            
             chief.AddToMenu(dishDataContract.Object);
-
-            aChief.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusCode = HttpStatusCode.PreconditionFailed);
-            aChief.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusDescription = statusDescription);
+            
+            VerifyContext.OutgoingResponseIsKOMissingMandatoryFields(aChief.Context);
         }
     }
 }

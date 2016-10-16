@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Net;
 using NUnit.Framework;
+using Test.MaiDan.Infrastructure;
 
 namespace Test.MaiDan.Service.Business
 {
@@ -18,7 +18,7 @@ namespace Test.MaiDan.Service.Business
 
             var order = new AnOrder().Build();
             waiterMock.OrderBook.Verify(OrderBook => OrderBook.Add(order));
-            waiterMock.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusCode = HttpStatusCode.OK);
+		    VerifyContext.OutgoingResponseIsOK(waiterMock.Context);
         }
 
 	    [Test]
@@ -30,10 +30,9 @@ namespace Test.MaiDan.Service.Business
             
             waiterWithFailingOrderBook.Take(orderDataContract);
 
-            var statusDescription = String.Format("Order n°{0} could not be taken", orderDataContract.Id);
-            waiterWithFailingOrderBookMock.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusCode = HttpStatusCode.InternalServerError);
-            waiterWithFailingOrderBookMock.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusDescription = statusDescription);
-        }
+            var expectedStatusDescription = String.Format("Order n°{0} could not be taken", orderDataContract.Id);
+	        VerifyContext.OutgoingResponseIsKO(waiterWithFailingOrderBookMock.Context, expectedStatusDescription);
+	    }
         
 	    [Test]
 	    public void can_update_an_order()
@@ -45,7 +44,7 @@ namespace Test.MaiDan.Service.Business
             waiter.Update(updatedOrder);
 
             waiterMock.OrderBook.Verify(o => o.Update(updatedOrder.ToOrder()));
-            waiterMock.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusCode = HttpStatusCode.OK);
+            VerifyContext.OutgoingResponseIsOK(waiterMock.Context);
         }
 
 	    [Test]
@@ -57,10 +56,9 @@ namespace Test.MaiDan.Service.Business
 
             waiterWithoutOrder.Update(order);
 
-            var statusDescription = "Cannot update order: " + order.Id;
-            waiterWithoutOrderMock.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusCode = HttpStatusCode.InternalServerError);
-            waiterWithoutOrderMock.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusDescription = statusDescription);
-	    }
+            var expectedStatusDescription = String.Format("Cannot update order: {0}",order.Id);
+            VerifyContext.OutgoingResponseIsKO(waiterWithoutOrderMock.Context, expectedStatusDescription);
+        }
 
 	   
 	    [Test]
@@ -74,9 +72,8 @@ namespace Test.MaiDan.Service.Business
 
             waiterWithOrder.Update(orderToUpdate);
 
-            var statusDescription = "Cannot add an unknown dish: " + unknownDishCode;
-            waiterWithOrderMock.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusCode = HttpStatusCode.InternalServerError);
-	        waiterWithOrderMock.Context.OutgoingResponse.VerifySet(outgoingResponse => outgoingResponse.StatusDescription = statusDescription);
-	    }
+            var expectedStatusDescription = String.Format("Cannot add an unknown dish: {0}", unknownDishCode);
+            VerifyContext.OutgoingResponseIsKO(waiterWithOrderMock.Context, expectedStatusDescription);
+        }
 	}
 }
