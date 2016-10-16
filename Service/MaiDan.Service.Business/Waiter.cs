@@ -25,7 +25,8 @@ namespace MaiDan.Service.Business
         public Waiter() : this(new WebOperationContextWrapper(WebOperationContext.Current),new OrderBook(), new Menu()) { }
 
         [OperationContract]
-		public void Take(OrderDataContract order)
+        [WebInvoke(Method = "PUT", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, UriTemplate = "/Take/")]
+        public void Take(OrderDataContract order)
 		{
             try
             {
@@ -41,7 +42,8 @@ namespace MaiDan.Service.Business
         }
         
         [OperationContract]
-	    public void Update(OrderDataContract updatedOrder)
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, UriTemplate = "/Update/")]
+        public void Update(OrderDataContract updatedOrder)
 	    {
 	        foreach (var line in updatedOrder.Lines)
 	        {
