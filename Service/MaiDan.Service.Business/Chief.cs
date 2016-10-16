@@ -10,9 +10,8 @@ using MaiDan.Service.Domain;
 namespace MaiDan.Service.Business
 {
     [ServiceContract]
-    public class Chief
+    public class Chief : AbstractService
     {
-        private IWebOperationContext context;
         private IRepository<Dish, string> menu;
 
         public Chief() : this(new WebOperationContextWrapper(WebOperationContext.Current), new Menu())
@@ -21,7 +20,7 @@ namespace MaiDan.Service.Business
 
         public Chief(IWebOperationContext context, IRepository<Dish, string> menu)
         {
-            this.context = context;
+            this.Context = context;
             this.menu = menu;
         }
 
@@ -33,10 +32,9 @@ namespace MaiDan.Service.Business
             {
                 menu.Add(contract.ToDomainObject());
             }
-            catch (ArgumentNullException e)
+            catch (ArgumentNullException)
             {
-                context.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.PreconditionFailed;
-                context.OutgoingResponse.StatusDescription = "All mandatory fields are not provided";
+                SetContextOutgoingResponseToKOMissingFields();
             }
         }
 
@@ -48,10 +46,10 @@ namespace MaiDan.Service.Business
             {
                 menu.Update(contract.ToDomainObject());
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                context.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.InternalServerError;
-                context.OutgoingResponse.StatusDescription = String.Format("Cannot update dish {0} - {1} (does not exist)", contract.Id, contract.Name);
+                var statusDescription = String.Format("Cannot update dish {0} - {1} (does not exist)", contract.Id,contract.Name);
+                this.SetContextOutgoingResponseStatusToKO(statusDescription);
             }
             
         }

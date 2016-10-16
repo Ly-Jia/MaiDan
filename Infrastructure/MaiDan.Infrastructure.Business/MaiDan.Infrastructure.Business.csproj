@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractService.cs" />
     <Compile Include="IncomingWebRequestContextWrapper.cs" />
     <Compile Include="OutgoingWebResponseContextWrapper.cs" />
     <Compile Include="WebOperationContextWrapper.cs" />

@@ -10,18 +10,17 @@ using MaiDan.Service.Domain;
 namespace MaiDan.Service.Business
 {
     [ServiceContract]
-    public class Waiter
+    public class Waiter : AbstractService
 	{
-        private IWebOperationContext context;
-		private IRepository<Order, DateTime> OrderBook;
+        private IRepository<Order, DateTime> OrderBook;
 	    private IRepository<Dish, String> Menu;
 
         public Waiter(IWebOperationContext context, IRepository<Order, DateTime> orderBook, IRepository<Dish, String> menu)
 		{
 			OrderBook = orderBook;
 		    Menu = menu;
-            this.context = context;
-		}
+            this.Context = context;
+        }
 
         public Waiter() : this(new WebOperationContextWrapper(WebOperationContext.Current),new OrderBook(), new Menu()) { }
 
@@ -35,10 +34,10 @@ namespace MaiDan.Service.Business
             catch (Exception)
             {
                 var statusDescription = String.Format("Order n°{0} could not be taken", order.Id);
-                SetContextOutgoingResponseStatusToKO(statusDescription);
+                this.SetContextOutgoingResponseStatusToKO(statusDescription);
             }
 
-            SetContextOutgoingResponseStatusToOK();
+            this.SetContextOutgoingResponseStatusToOK();
         }
         
         [OperationContract]
@@ -49,7 +48,7 @@ namespace MaiDan.Service.Business
 	            if (!Menu.Contains(line.DishId))
 	            {
 	                var statusDescription = String.Format("Cannot add an unknown dish: {0}",line.DishId);
-	                SetContextOutgoingResponseStatusToKO(statusDescription);
+                    this.SetContextOutgoingResponseStatusToKO(statusDescription);
 	            }
 	        }
 	        try
@@ -59,23 +58,12 @@ namespace MaiDan.Service.Business
 	        catch (Exception)
 	        {
 	            var statusDescription = String.Format("Cannot update order: {0}", updatedOrder.Id);
-	            SetContextOutgoingResponseStatusToKO(statusDescription);
+                this.SetContextOutgoingResponseStatusToKO(statusDescription);
 	        }
 
-            SetContextOutgoingResponseStatusToOK();
+            this.SetContextOutgoingResponseStatusToOK();
         }
-        
-        private void SetContextOutgoingResponseStatusToOK()
-        {
-            context.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.OK;
-        }
-
-        private void SetContextOutgoingResponseStatusToKO(string statusDescription)
-        {
-            context.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.InternalServerError;
-            context.OutgoingResponse.StatusDescription = statusDescription;
-        }
-    }
+	}
 	
 	
 }
