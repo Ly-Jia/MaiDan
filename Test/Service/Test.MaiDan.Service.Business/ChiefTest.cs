@@ -24,6 +24,7 @@ namespace Test.MaiDan.Service.Business
             chief.Update(dishContract);
 
             chiefMock.Menu.Verify(menu => menu.Update(dish),Times.Once);
+            VerifyContext.OutgoingResponseIsOK(chiefMock.Context);
         }
 
         [Test]

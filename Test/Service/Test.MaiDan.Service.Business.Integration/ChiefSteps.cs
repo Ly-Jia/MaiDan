@@ -1,12 +1,11 @@
 ﻿using MaiDan.Infrastructure;
-using MaiDan.Infrastructure.Contract;
 using MaiDan.Service.Business;
 using MaiDan.Service.Business.DataContract;
 using MaiDan.Service.Dal;
 using MaiDan.Service.Domain;
-using Moq;
 using NFluent;
 using TechTalk.SpecFlow;
+using Test.MaiDan.Infrastructure;
 
 
 namespace Test.MaiDan.Service.Business.Integration
@@ -77,7 +76,7 @@ namespace Test.MaiDan.Service.Business.Integration
         [BeforeScenario("chief")]
         public void Initialize()
         {
-            this.chief = new Chief(new Mock<IWebOperationContext>().Object, menu);
+            this.chief = new Chief(new AMockOfWebOperationContext().Object, menu);
         }
 
         [AfterScenario("chief")]

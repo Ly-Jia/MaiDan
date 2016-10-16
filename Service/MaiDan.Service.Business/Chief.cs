@@ -51,7 +51,8 @@ namespace MaiDan.Service.Business
                 var statusDescription = String.Format("Cannot update dish {0} - {1} (does not exist)", contract.Id,contract.Name);
                 this.SetContextOutgoingResponseStatusToKO(statusDescription);
             }
-            
+
+            SetContextOutgoingResponseStatusToOK();
         }
     }
 }
