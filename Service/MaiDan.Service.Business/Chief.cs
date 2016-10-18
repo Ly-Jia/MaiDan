@@ -36,6 +36,8 @@ namespace MaiDan.Service.Business
             {
                 SetContextOutgoingResponseToKOMissingFields();
             }
+
+            SetContextOutgoingResponseStatusToOK();
         }
 
         [OperationContract]
