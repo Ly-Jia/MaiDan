@@ -68,8 +68,9 @@
   <ItemGroup>
     <Content Include="App\app.css" />
     <Content Include="App\app.js" />
-    <Content Include="App\app.spec.js" />
+    <Content Include="App\menu.component.spec.js" />
     <Content Include="App\index.html" />
+    <Content Include="App\menu.component.js" />
     <Content Include="packages.config" />
     <Content Include="Scripts\version.json" />
     <Content Include="Scripts\errors.json" />
