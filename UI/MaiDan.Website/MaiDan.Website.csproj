@@ -69,6 +69,7 @@
   <ItemGroup>
     <Content Include="App\app.css" />
     <Content Include="App\app.module.js" />
+    <Content Include="App\Service\menu-template.html" />
     <Content Include="App\Service\menu.component.spec.js" />
     <Content Include="App\index.html" />
     <Content Include="App\Service\menu.component.js" />
