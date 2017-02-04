@@ -3,13 +3,7 @@
 angular.
   module('menu').
   component('menu', {
-      template:
-        '<ul>' +
-          '<li ng-repeat="dish in $ctrl.menu">' +
-            '<span>{{dish.id}}</span>' +
-            '<p>{{dish.name}}</p>' +
-          '</li>' +
-        '</ul>',
+      templateUrl: 'Service/menu-template.html',
       controller: function MenuController() {
             this.menu = [
                 {
