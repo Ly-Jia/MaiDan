@@ -6,6 +6,7 @@
   "repository": "https://github.com/Ly-Jia/MaiDan",
   "license": "",
   "devDependencies": {
+	"bower": "^1.3.5.2",
     "http-server": "^0.9.0",
     "jasmine-core": "^2.4.1",
     "karma": "^0.13.22",
@@ -15,6 +16,8 @@
     "protractor": "^4.0.9"
   },
   "scripts": {
+	"postinstall": ".\bin\bower.cmd install",
+	
     "prestart": "npm install",
     "start": "http-server ./app -a localhost -p 8000 -c-1",
 

@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\Bower.js.1.2.7.10\build\bower.js.props" Condition="Exists('..\..\packages\Bower.js.1.2.7.10\build\bower.js.props')" />
   <Import Project="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="..\..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -67,11 +68,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\app.css" />
-    <Content Include="App\app.js" />
-    <Content Include="App\menu.component.spec.js" />
+    <Content Include="App\app.module.js" />
+    <Content Include="App\Service\menu.component.spec.js" />
     <Content Include="App\index.html" />
-    <Content Include="App\menu.component.js" />
+    <Content Include="App\Service\menu.component.js" />
+    <Content Include="App\Service\menu.module.js" />
+    <Content Include="npmPlaceholder.txt" />
     <Content Include="packages.config" />
+    <Content Include="Scripts\lib\readmelibs.txt" />
     <Content Include="Scripts\version.json" />
     <Content Include="Scripts\errors.json" />
     <Content Include="Scripts\angular.min.js.map" />
@@ -86,6 +90,10 @@
     <Content Include="Scripts\angular-cookies.min.js.map" />
     <Content Include="Scripts\angular-aria.min.js.map" />
     <Content Include="Scripts\angular-animate.min.js.map" />
+    <None Include=".bin\bower.cmd" />
+    <None Include=".bin\git.cmd" />
+    <None Include=".bin\node.cmd" />
+    <Content Include=".bowerrc" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -902,7 +910,12 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
     <Error Condition="!Exists('..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\..\packages\Npm.js.1.3.15.4\build\npm.js.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Npm.js.1.3.15.4\build\npm.js.targets'))" />
+    <Error Condition="!Exists('..\..\packages\Bower.js.1.2.7.10\build\bower.js.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Bower.js.1.2.7.10\build\bower.js.props'))" />
+    <Error Condition="!Exists('..\..\packages\Bower.js.1.2.7.10\build\bower.js.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Bower.js.1.2.7.10\build\bower.js.targets'))" />
   </Target>
+  <Import Project="..\..\packages\Npm.js.1.3.15.4\build\npm.js.targets" Condition="Exists('..\..\packages\Npm.js.1.3.15.4\build\npm.js.targets')" />
+  <Import Project="..\..\packages\Bower.js.1.2.7.10\build\bower.js.targets" Condition="Exists('..\..\packages\Bower.js.1.2.7.10\build\bower.js.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

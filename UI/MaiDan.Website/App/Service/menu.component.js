@@ -1,5 +1,7 @@
-﻿angular.
-  module('maidanApp').
+﻿'use strict';
+
+angular.
+  module('menu').
   component('menu', {
       template:
         '<ul>' +

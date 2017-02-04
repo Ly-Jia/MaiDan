@@ -7,9 +7,9 @@ module.exports = function(config) {
     files: [
       '../Scripts/angular.js',
       '../Scripts/angular-mocks.js',
-      '../App/**/*.module.js',
+      '**/*.module.js',
       '*!(.module|.spec).js',
-      '!../Scripts/**/*!(.module|.spec).js',
+      '!(Scripts)/**/*!(.module|.spec).js',
       '**/*.spec.js'
     ],
 

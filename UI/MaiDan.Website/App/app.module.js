@@ -1,4 +1,4 @@
 ﻿'use strict';
 
 // Define the `maidanApp` module
-angular.module('maidanApp', []);
+angular.module('maidanApp', ['menu']);

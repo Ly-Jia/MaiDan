@@ -70,3 +70,4 @@ _NCrunch_MaiDan/MaiDan.crunchsolution.cache
 .vs/config/applicationhost.config
 /UI/MaiDan.Website/Scripts
 /UI/MaiDan.Website/node_modules/
+*.cmd
