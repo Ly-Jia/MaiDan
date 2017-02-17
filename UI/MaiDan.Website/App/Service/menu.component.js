@@ -17,5 +17,6 @@ angular.
                     name: 'Beijing duck'
                 }
             ];
+            this.orderProp = 'id';
         }
     });

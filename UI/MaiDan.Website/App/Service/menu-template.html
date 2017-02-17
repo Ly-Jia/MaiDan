@@ -1,12 +1,21 @@
 ﻿<div class="container-fluid">
     <div class="row">
         <div class="col-md-2">
-            Search: <input ng-model="$ctrl.query" />
+            <p>
+                Search: <input ng-model="$ctrl.query"/>
+            </p>
+            <p>
+                Sort by:
+                <select ng-model="$ctrl.orderProp">
+                    <option value="id">Id</option>
+                    <option value="name">Alphabetical</option>
+                </select>
+            </p>
         </div>
 
         <div class="col-md-10">
             <!--Body content--><ul>
-                <li ng-repeat="dish in $ctrl.menu | filter:$ctrl.query">
+                <li ng-repeat="dish in $ctrl.menu | filter:$ctrl.query | orderBy:$ctrl.orderProp">
                     <span>{{dish.id}}</span>
                     <p>{{dish.name}}</p>
                 </li>
