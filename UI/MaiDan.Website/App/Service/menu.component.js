@@ -4,19 +4,12 @@ angular.
   module('menu').
   component('menu', {
       templateUrl: 'Service/menu-template.html',
-      controller: function MenuController() {
-            this.menu = [
-                {
-                    id: 1,
-                    name: 'Fried Rice'
-                }, {
-                    id: 2,
-                    name: 'Spring roll'
-                }, {
-                    id: 3,
-                    name: 'Beijing duck'
-                }
-            ];
-            this.orderProp = 'id';
+      controller: function MenuController($http) {
+          var self = this;
+          self.orderProp = 'id';
+
+          $http.get('Service/Data/menu.json').then(function(response) {
+              self.menu = response.data;
+           });
         }
     });
