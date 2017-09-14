@@ -9,5 +9,8 @@
     "angular": "1.5.x",
     "angular-mocks": "1.5.x",
     "bootstrap": "3.3.x"
+  },
+  "resolutions": {
+    "angular": "1.6.6-build.5420+sha.af83c15"
   }
 }

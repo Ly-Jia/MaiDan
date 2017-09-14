@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MaiDan.Infrastructure.Contract")]
+[assembly: AssemblyProduct("MaiDan.Ordering.Api.DataContract")]
 [assembly: AssemblyTrademark("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
@@ -16,4 +16,4 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("56f123b8-6dfe-4409-82cb-e56d0c95716e")]
+[assembly: Guid("19826d38-69cb-44cd-a117-0b0cb85e6301")]

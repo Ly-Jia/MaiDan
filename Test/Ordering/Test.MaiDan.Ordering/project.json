@@ -1,0 +1,19 @@
+{
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "MaiDan.Ordering.Api.DataContract": "1.0.0-*",
+    "MaiDan.Ordering.Domain": "1.0.0-*",
+    "moq.netcore": "4.4.0-beta8",
+    "NETStandard.Library": "1.6.0"
+  },
+
+  "frameworks": {
+    "netcoreapp1.0": {
+      "imports": [
+        "dotnet5.6",
+        "portable-net45+win8"
+      ]
+    }
+  }
+}

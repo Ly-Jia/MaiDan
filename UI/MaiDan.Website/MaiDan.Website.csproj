@@ -62,10 +62,10 @@
   <ItemGroup>
     <Content Include="App\app.css" />
     <Content Include="App\app.module.js" />
-    <Content Include="App\Service\menu-template.html" />
+    <Content Include="App\Ordering\menu-template.html" />
     <Content Include="App\index.html" />
-    <Content Include="App\Service\menu.component.js" />
-    <Content Include="App\Service\menu.module.js" />
+    <Content Include="App\Ordering\menu.component.js" />
+    <Content Include="App\Ordering\menu.module.js" />
     <Content Include="packages.config" />
     <Content Include="Scripts\version.json" />
     <Content Include="Scripts\errors.json" />
@@ -81,7 +81,7 @@
     <Content Include="Scripts\angular-cookies.min.js.map" />
     <Content Include="Scripts\angular-aria.min.js.map" />
     <Content Include="Scripts\angular-animate.min.js.map" />
-    <Content Include="App\Service\Data\menu.json" />
+    <Content Include="App\Ordering\Data\menu.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
