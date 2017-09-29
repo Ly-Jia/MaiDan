@@ -14,7 +14,7 @@ namespace Test.MaiDan.Ordering.Api.DataContract
             var orderDataContract = new OrderDataContract() { Id = AnOrder.DEFAULT_ID, Lines = new List<LineDataContract>() };
             var order = new AnOrder().Build();
 
-            var convertedOrder = orderDataContract.ToOrder();
+            var convertedOrder = orderDataContract.ToDomainObject();
 
             Check.That(convertedOrder).Equals(order);
             Check.That(convertedOrder.Lines).ContainsExactly(order.Lines);
@@ -25,7 +25,7 @@ namespace Test.MaiDan.Ordering.Api.DataContract
         {
             var orderDataContract = new OrderDataContract() { Id = AnOrder.DEFAULT_ID };
 
-            var convertedOrder = orderDataContract.ToOrder();
+            var convertedOrder = orderDataContract.ToDomainObject();
 
             Check.That(convertedOrder.Lines).IsNotNull();
         }

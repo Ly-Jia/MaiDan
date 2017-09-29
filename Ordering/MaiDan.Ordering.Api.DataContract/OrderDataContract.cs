@@ -5,19 +5,19 @@ using MaiDan.Ordering.Domain;
 
 namespace MaiDan.Ordering.DataContract
 {
-    public class OrderDataContract
+    public class OrderDataContract : IDataContract<Order>
     {
-        public virtual DateTime Id { get; set; }
+        public virtual string Id { get; set; }
         
         public virtual IList<LineDataContract> Lines { get; set; }
 
-        public Order ToOrder()
+        public Order ToDomainObject()
         {
             IList<Line> lines;
 
             if (this.Lines != null)
             {
-                lines = this.Lines.Select(l => l.ToLine()).ToList();
+                lines = this.Lines.Select(l => l.ToDomainObject()).ToList();
             }
             else
             {

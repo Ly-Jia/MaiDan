@@ -34,7 +34,7 @@ namespace MaiDan.Ordering.Domain
         {
             var dishToCompare = obj as Dish;
 
-            return dishToCompare.Id == this.Id && dishToCompare.Name == this.Name;
+            return dishToCompare.Id == this.Id;
         }
     }
 }

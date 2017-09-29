@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.0</TargetFramework>
+    <AssemblyName>Test.MaiDan.Ordering</AssemblyName>
+    <PackageId>Test.MaiDan.Ordering</PackageId>
+    <NetStandardImplicitPackageVersion>1.6.0</NetStandardImplicitPackageVersion>
+    <PackageTargetFallback>$(PackageTargetFallback);dotnet5.6;portable-net45+win8</PackageTargetFallback>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="moq.netcore" Version="4.4.0-beta8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Ordering\MaiDan.Ordering.Api\MaiDan.Ordering.Api.csproj" />
+    <ProjectReference Include="..\..\..\Ordering\MaiDan.Ordering.Domain\MaiDan.Ordering.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

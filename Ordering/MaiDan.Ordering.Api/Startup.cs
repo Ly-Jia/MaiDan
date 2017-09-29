@@ -1,5 +1,4 @@
 ﻿using MaiDan.Infrastructure.Database;
-using MaiDan.Ordering.Dal;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -30,7 +29,6 @@ namespace MaiDan.Ordering.Api
 
             var database = new SqliteDatabase("MaiDan.sqlite");
             services.AddSingleton<IDatabase, SqliteDatabase>(svcs => database);
-            services.AddSingleton(svcs => new Menu(database));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

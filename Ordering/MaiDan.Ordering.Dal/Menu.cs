@@ -3,7 +3,7 @@ using MaiDan.Ordering.Domain;
 
 namespace MaiDan.Ordering.Dal
 {
-    public class Menu : Repository<Dish, string>
+    public class Menu : Repository<Dish>
     {
         public Menu(IDatabase database) : base(database)
         {

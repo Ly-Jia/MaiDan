@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Net;
-using MaiDan.Ordering.Dal;
+using MaiDan.Infrastructure.Database;
 using MaiDan.Ordering.DataContract;
 using MaiDan.Ordering.Domain;
 using Microsoft.AspNetCore.Mvc;
@@ -10,9 +10,9 @@ namespace MaiDan.Ordering.Api.Controllers
     [Route("api/[controller]")]
     public class MenuController : Controller
     {
-        private readonly Menu menu;
+        private readonly IRepository<Dish> menu;
 
-        public MenuController(Menu menu)
+        public MenuController(IRepository<Dish> menu)
         {
             this.menu = menu;
         }
@@ -20,17 +20,17 @@ namespace MaiDan.Ordering.Api.Controllers
         [HttpGet("{id}")]
         public Dish Get(string id)
         {
-            try
+            Dish dish;
+            dish = menu.Get(id);
+            
+            if (dish == null)
             {
-                Response.StatusCode = (int)HttpStatusCode.OK;
-                return menu.Get(id);
-            }
-            catch (InvalidOperationException)
-            {
-                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                Response.StatusCode = (int) HttpStatusCode.NotFound;
                 return null;
             }
 
+            Response.StatusCode = (int)HttpStatusCode.OK;
+            return dish;
         }
 
         [HttpPut]
@@ -42,17 +42,7 @@ namespace MaiDan.Ordering.Api.Controllers
         [HttpPost]
         public void Update([FromBody] DishDataContract contract)
         {
-            try
-            {
-                menu.Update(contract.ToDomainObject());
-            }
-            catch (InvalidOperationException)
-            {
-                Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return;
-            }
-
-            Response.StatusCode = (int)HttpStatusCode.OK;
+            menu.Update(contract.ToDomainObject());
         }
     }
 }

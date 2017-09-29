@@ -50,11 +50,11 @@ obj
 *.ncrunchproject
 *.ncrunchsolution
 _NCrunch_MaiDan/MaiDan.crunchsolution.cache
-.vs/config/applicationhost.config
 /UI/MaiDan.Website/Scripts
 /UI/MaiDan.Website/node_modules/
 /UI/MaiDan.Website/bower_components/
 /doc/
+/.vs/
 *.cmd
 *.dg
 *.lock.json

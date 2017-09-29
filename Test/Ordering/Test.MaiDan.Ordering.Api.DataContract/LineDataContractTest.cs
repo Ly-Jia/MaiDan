@@ -17,7 +17,7 @@ namespace Test.MaiDan.Ordering.Api.DataContract
             var lineDataContract = new LineDataContract() { DishId = dishId, Quantity = quantity };
             var line = new Line(quantity, dishId);
 
-            var convertedLine = lineDataContract.ToLine();
+            var convertedLine = lineDataContract.ToDomainObject();
 
             Check.That(convertedLine).Equals(line);
         }

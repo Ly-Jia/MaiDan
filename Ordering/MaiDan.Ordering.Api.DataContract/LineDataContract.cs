@@ -2,7 +2,7 @@
 
 namespace MaiDan.Ordering.DataContract
 {
-    public class LineDataContract
+    public class LineDataContract : IDataContract<Line>
     {
         public int Id { get; set; }
         
@@ -10,7 +10,7 @@ namespace MaiDan.Ordering.DataContract
         
         public string DishId { get; set; }
 
-        public Line ToLine()
+        public Line ToDomainObject()
         {
             return new Line(this.Quantity, this.DishId);
         }

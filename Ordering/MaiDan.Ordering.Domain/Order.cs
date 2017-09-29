@@ -8,7 +8,7 @@ namespace MaiDan.Ordering.Domain
 	/// </summary>
 	public class Order
 	{
-		public virtual DateTime Id { get; protected set; }
+		public virtual string Id { get; protected set; }
 		public virtual IList<Line> Lines { get; protected set; }
 		
 		/// <summary>
@@ -19,9 +19,9 @@ namespace MaiDan.Ordering.Domain
 			
 		}
 		
-		public Order(DateTime creationDate, IList<Line> lines)
+		public Order(string id, IList<Line> lines)
 		{
-			Id = creationDate;
+			Id = id;
 			Lines = lines;
 		}
 		

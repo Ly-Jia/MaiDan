@@ -1,7 +1,10 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
+using MaiDan.Infrastructure.Database;
 using MaiDan.Ordering.Api.Controllers;
-using MaiDan.Ordering.Dal;
 using MaiDan.Ordering.Domain;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NFluent;
 using NUnit.Framework;
@@ -14,25 +17,35 @@ namespace Test.MaiDan.Ordering.Api
         [Test]
         public void Http200WhenDishIsFound()
         {
-            var menu = new Mock<Menu>();
-            menu.Setup(m => m.Get(It.IsAny<string>())).Returns((Dish)null);
-            var menuController = new MenuController(menu.Object);
+            var menu = new Mock<IRepository<Dish>>();
+            var dish = new ADish().Build();
+            menu.Setup(m => m.Get(It.IsAny<string>())).Returns(dish);
+            var menuController = CreateMenuController(menu.Object);
 
-            menuController.Get("anId");
+            var retrievedDish = menuController.Get("anId");
 
-            Check.That(menuController.Response.StatusCode).Equals(HttpStatusCode.NotFound);
+            Check.That(menuController.Response.StatusCode).Equals((int)HttpStatusCode.OK);
+            Check.That(retrievedDish).Equals(dish);
         }
 
         [Test]
         public void Http404WhenDishIsNotFound()
         {
-            var menu = new Mock<Menu>();
+            var menu = new Mock<IRepository<Dish>>();
             menu.Setup(m => m.Get(It.IsAny<string>())).Returns((Dish) null);
-            var menuController = new MenuController(menu.Object);
+            var menuController = CreateMenuController(menu.Object);
 
             menuController.Get("anId");
 
-            Check.That(menuController.Response.StatusCode).Equals(HttpStatusCode.NotFound);
+            Check.That(menuController.Response.StatusCode).Equals((int)HttpStatusCode.NotFound);
+        }
+        
+        private MenuController CreateMenuController(IRepository<Dish> menu)
+        {
+            var menuController = new MenuController(menu);
+            menuController.ControllerContext = new ControllerContext();
+            menuController.ControllerContext.HttpContext = new DefaultHttpContext();
+            return menuController;
         }
     }
 }

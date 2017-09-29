@@ -3,7 +3,7 @@ using Dapper.Contrib.Extensions;
 
 namespace MaiDan.Infrastructure.Database
 {
-	public abstract class Repository<T, U> where T : class
+	public abstract class Repository<T> : IRepository<T> where T : class
 	{
         private IDatabase database;
 
@@ -12,7 +12,7 @@ namespace MaiDan.Infrastructure.Database
 	        this.database = database;
 	    }
 
-        public T Get(U id)
+        public T Get(string id)
         {
             T item;
             using (var connection = database.CreateConnection())
@@ -35,19 +35,18 @@ namespace MaiDan.Infrastructure.Database
             }
         }
 
-	    public void Update(T item)
+	    public bool Update(T item)
 	    {
             using (var connection = database.CreateConnection())
             {
                 connection.Open();
 
                 var result = connection.Update(item);
-                if (!result)
-                    throw new InvalidOperationException();
+                return result;
             }
         }
 
-	    public bool Contains(U id)
+	    public bool Contains(string id)
 	    {
             return Get(id) != null;
         }

@@ -11,11 +11,11 @@ namespace Test.MaiDan.Ordering.Domain
 	public class OrderTest
 	{
 		[Test]
-		public void should_be_identifiable_by_the_creation_date()
+		public void should_be_identifiable_by_id()
 		{
-			var creationDate = new DateTime(2012,12,21);
-			var order = new Order(creationDate, new List<Line>());
-			Check.That(order.Id).Equals(creationDate);
+			var id = "id";
+			var order = new Order(id, new List<Line>());
+			Check.That(order.Id).Equals(id);
 		}
 		
 		[Test]
@@ -44,8 +44,8 @@ namespace Test.MaiDan.Ordering.Domain
 		[Test] 
 		public void should_be_equal_when_id_is_the_same()
 		{
-			var order1 = new AnOrder(2012,12,21).Build();
-			var order2 = new AnOrder(2012,12,21).Build();
+			var order1 = new AnOrder("1").Build();
+			var order2 = new AnOrder("1").Build();
 			
 			var isEqual = order1.Equals(order2);
 			
@@ -55,8 +55,8 @@ namespace Test.MaiDan.Ordering.Domain
 		[Test]
 		public void should_not_be_equal_when_id_is_not_the_same()
 		{
-			var order1 = new AnOrder(2012,12,12).Build();
-			var order2 = new AnOrder(2011,11,11).Build();
+			var order1 = new AnOrder("id1").Build();
+			var order2 = new AnOrder("id2").Build();
 			
 			var isEqual = order1.Equals(order2);
 			

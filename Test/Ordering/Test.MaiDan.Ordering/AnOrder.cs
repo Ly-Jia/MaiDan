@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MaiDan.Ordering.Domain;
-using MaiDan.Ordering.Api.DataContract;
+using MaiDan.Ordering.DataContract;
 
 namespace Test.MaiDan.Ordering
 {
@@ -10,17 +10,18 @@ namespace Test.MaiDan.Ordering
 	/// </summary>
 	public class AnOrder
 	{
-		public static readonly DateTime DEFAULT_ID = new DateTime(2012,12,21);
-		public DateTime Id;
+		public static readonly string DEFAULT_ID = "id";
+		public string Id;
 		public List<Line> Lines;
 		
 		/// <summary>
 		/// Initialize the future order with a specific Id (creation date)
 		/// </summary>
-		/// <param name="creationDate"></param>
-		public AnOrder(int year, int month, int day) : this(new DateTime(year,month,day))
+		/// <param name="id"></param>
+		public AnOrder(string id)
 		{
-			
+            Lines = new List<Line>();
+		    Id = id;
 		}
 		
 		/// <summary>
@@ -29,17 +30,7 @@ namespace Test.MaiDan.Ordering
 		public AnOrder():this(DEFAULT_ID)
 		{
 		}
-
-        /// <summary>
-        /// Initialize the future order with a specific Id (creation date)
-        /// </summary>
-        /// <param name="creationDate"></param>
-	    public AnOrder(DateTime id)
-	    {
-            Id = id;
-            Lines = new List<Line>();
-	    }
-		
+        
 		/// <summary>
 		/// Add a new line to the created order
 		/// </summary>
