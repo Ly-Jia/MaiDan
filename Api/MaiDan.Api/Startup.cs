@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace MaiDan.Ordering.Api
+namespace MaiDan.Api
 {
     public class Startup
     {

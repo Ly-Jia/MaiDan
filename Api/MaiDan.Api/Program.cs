@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Microsoft.AspNetCore.Hosting;
 
-namespace MaiDan.Ordering.Api
+namespace MaiDan.Api
 {
     public class Program
     {
@@ -10,7 +10,7 @@ namespace MaiDan.Ordering.Api
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseIISIntegration()
+                //.UseIISIntegration()
                 .UseStartup<Startup>()
                 .Build();
 

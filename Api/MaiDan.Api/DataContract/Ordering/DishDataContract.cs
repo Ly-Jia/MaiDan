@@ -1,7 +1,7 @@
 ﻿using System;
 using MaiDan.Ordering.Domain;
 
-namespace MaiDan.Ordering.DataContract
+namespace MaiDan.Api.DataContract.Ordering
 {
     public class DishDataContract : IDataContract<Dish>
     {

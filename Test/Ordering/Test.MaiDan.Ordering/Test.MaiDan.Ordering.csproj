@@ -16,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Ordering\MaiDan.Ordering.Api\MaiDan.Ordering.Api.csproj" />
     <ProjectReference Include="..\..\..\Ordering\MaiDan.Ordering.Domain\MaiDan.Ordering.Domain.csproj" />
   </ItemGroup>
 

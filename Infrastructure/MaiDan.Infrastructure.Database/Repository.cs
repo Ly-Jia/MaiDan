@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Dapper.Contrib.Extensions;
 
 namespace MaiDan.Infrastructure.Database
@@ -24,6 +26,15 @@ namespace MaiDan.Infrastructure.Database
 
             return item;
         }
+
+	    public virtual List<T> GetAll()
+	    {
+            using (var connection = database.CreateConnection())
+            {
+                connection.Open();
+                return connection.GetAll<T>().ToList();
+            }
+	    }
 
 	    public void Add(T item)
 	    {

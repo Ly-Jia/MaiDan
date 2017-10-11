@@ -1,11 +1,10 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
+using MaiDan.Api.DataContract.Ordering;
 using MaiDan.Infrastructure.Database;
-using MaiDan.Ordering.DataContract;
 using MaiDan.Ordering.Domain;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MaiDan.Ordering.Api.Controllers
+namespace MaiDan.Api.Controllers.Ordering
 {
     [Route("api/[controller]")]
     public class OrderBookController : Controller

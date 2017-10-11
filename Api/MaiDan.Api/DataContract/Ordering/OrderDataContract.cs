@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using MaiDan.Ordering.Domain;
 
-namespace MaiDan.Ordering.DataContract
+namespace MaiDan.Api.DataContract.Ordering
 {
     public class OrderDataContract : IDataContract<Order>
     {

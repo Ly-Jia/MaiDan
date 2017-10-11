@@ -20,10 +20,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Api\MaiDan.Api\MaiDan.Api.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\MaiDan.Infrastructure.Database\MaiDan.Infrastructure.Database.csproj" />
-    <ProjectReference Include="..\..\..\Ordering\MaiDan.Ordering.Api\MaiDan.Ordering.Api.csproj" />
     <ProjectReference Include="..\..\..\Ordering\MaiDan.Ordering.Domain\MaiDan.Ordering.Domain.csproj" />
-    <ProjectReference Include="..\Test.MaiDan.Ordering\Test.MaiDan.Ordering.csproj" />
+    <ProjectReference Include="..\..\Ordering\Test.MaiDan.Ordering\Test.MaiDan.Ordering.csproj" />
   </ItemGroup>
 
 </Project>

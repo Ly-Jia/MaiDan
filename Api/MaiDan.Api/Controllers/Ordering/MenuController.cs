@@ -1,11 +1,11 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Net;
+using MaiDan.Api.DataContract.Ordering;
 using MaiDan.Infrastructure.Database;
-using MaiDan.Ordering.DataContract;
 using MaiDan.Ordering.Domain;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MaiDan.Ordering.Api.Controllers
+namespace MaiDan.Api.Controllers.Ordering
 {
     [Route("api/[controller]")]
     public class MenuController : Controller
@@ -31,6 +31,12 @@ namespace MaiDan.Ordering.Api.Controllers
 
             Response.StatusCode = (int)HttpStatusCode.OK;
             return dish;
+        }
+
+        [HttpGet]
+        public List<Dish> Get()
+        {
+            return menu.GetAll();
         }
 
         [HttpPut]

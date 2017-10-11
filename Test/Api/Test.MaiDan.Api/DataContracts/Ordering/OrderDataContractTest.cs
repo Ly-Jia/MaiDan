@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
-using MaiDan.Ordering.DataContract;
+using MaiDan.Api.DataContract.Ordering;
 using NFluent;
 using NUnit.Framework;
+using Test.MaiDan.Ordering;
 
-namespace Test.MaiDan.Ordering.Api.DataContract
+namespace Test.MaiDan.Api.DataContracts.Ordering
 {
     [TestFixture]
     public class OrderDataContractTest

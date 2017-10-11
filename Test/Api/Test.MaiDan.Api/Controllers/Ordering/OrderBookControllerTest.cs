@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
+﻿using System.Net;
+using MaiDan.Api.Controllers.Ordering;
 using MaiDan.Infrastructure.Database;
-using MaiDan.Ordering.Api.Controllers;
 using MaiDan.Ordering.Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NFluent;
 using NUnit.Framework;
+using Test.MaiDan.Ordering;
 
-namespace Test.MaiDan.Ordering.Api
+namespace Test.MaiDan.Api.Controllers.Ordering
 {
     public class OrderBookControllerTest
     {

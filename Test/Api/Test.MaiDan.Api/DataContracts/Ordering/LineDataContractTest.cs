@@ -1,9 +1,9 @@
-﻿using MaiDan.Ordering.DataContract;
+﻿using MaiDan.Api.DataContract.Ordering;
 using MaiDan.Ordering.Domain;
 using NFluent;
 using NUnit.Framework;
 
-namespace Test.MaiDan.Ordering.Api.DataContract
+namespace Test.MaiDan.Api.DataContracts.Ordering
 {
     [TestFixture]
     public class LineDataContractTest

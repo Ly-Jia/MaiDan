@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using MaiDan.Ordering.Domain;
-using MaiDan.Ordering.DataContract;
 
 namespace Test.MaiDan.Ordering
 {
@@ -73,25 +71,6 @@ namespace Test.MaiDan.Ordering
 		{
 			return new Order(Id,Lines);
 		}
-
-        /// <summary>
-        /// Create an OrderDataContract from order
-        /// </summary>
-        /// <returns></returns>
-	    public OrderDataContract ToOrderContract()
-        {
-            var orderDataContract = new OrderDataContract()
-            {
-                Id = Id,
-                Lines = new List<LineDataContract>()
-            };
-
-            foreach (var line in Lines)
-            {
-                orderDataContract.Lines.Add(new LineDataContract() {Quantity = line.Quantity, DishId = line.DishId });
-            }
-
-            return orderDataContract;
-        }
+        
 	}
 }

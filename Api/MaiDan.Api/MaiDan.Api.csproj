@@ -18,8 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Infrastructure\MaiDan.Infrastructure.Database\MaiDan.Infrastructure.Database.csproj" />
-    <ProjectReference Include="..\MaiDan.Ordering.Domain\MaiDan.Ordering.Domain.csproj" />
-    <ProjectReference Include="..\MaiDan.Ordering.Api.DataContract\MaiDan.Ordering.Api.DataContract.csproj" />
+    <ProjectReference Include="..\..\Ordering\MaiDan.Ordering.Domain\MaiDan.Ordering.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
