@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ordering", "Ordering", "{5C0396E5-1FFF-441E-8E6A-25D873FB04C7}"
 EndProject
@@ -35,9 +35,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.MaiDan.Api", "Test\Api
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaiDan.Ordering.Dal", "Ordering\MaiDan.Ordering.Dal\MaiDan.Ordering.Dal.csproj", "{37BE9C08-79F9-49B6-89B3-8316CD708192}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{EE1FC530-ADB9-4892-920A-E3104F8826A2}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{EE1FC530-ADB9-4892-920A-E3104F8826A2}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test.MaiDan.Api", "Test.MaiDan.Api", "{478D764D-3F60-4271-BC30-E3BB4767C374}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{478D764D-3F60-4271-BC30-E3BB4767C374}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
