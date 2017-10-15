@@ -32,9 +32,10 @@ namespace MaiDan.Ordering.Domain
 
         public override bool Equals(object obj)
         {
-            var dishToCompare = obj as Dish;
-
-            return dishToCompare.Id == this.Id;
+            var other = obj as Dish;
+            if (other == null)
+                return false;
+            return other.Id == this.Id;
         }
     }
 }
