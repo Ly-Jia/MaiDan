@@ -46,7 +46,6 @@ obj
 *.suo
 *.user
 /packages/
-!packages/repositories.config
 *.ncrunchproject
 *.ncrunchsolution
 _NCrunch_MaiDan/MaiDan.crunchsolution.cache
