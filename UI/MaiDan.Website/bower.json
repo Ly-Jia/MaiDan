@@ -1,16 +1,13 @@
 {
   "name": "maidan",
-  "description": "A starter project for AngularJS",
   "version": "0.0.0",
-  "homepage": "https://github.com/angular/angular-phonecat",
-  "license": "MIT",
+  "homepage": "https://github.com/Ly-Jia/MaiDan",
   "private": true,
   "dependencies": {
-    "angular": "1.5.x",
-    "angular-mocks": "1.5.x",
-    "bootstrap": "3.3.x"
-  },
-  "resolutions": {
-    "angular": "1.6.6-build.5420+sha.af83c15"
+    "angular": "1.5.7",
+    "angular-mocks": "v1.5.7",
+    "angular-resource": "1.5.7",
+    "angular-route": "1.5.7",
+    "bootstrap": "3.3.5"
   }
 }

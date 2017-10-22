@@ -49,7 +49,7 @@ obj
 *.ncrunchproject
 *.ncrunchsolution
 _NCrunch_MaiDan/MaiDan.crunchsolution.cache
-/UI/MaiDan.Website/Scripts
+/UI/MaiDan.Website/wwwroot/lib/
 /UI/MaiDan.Website/node_modules/
 /UI/MaiDan.Website/bower_components/
 /doc/

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2002
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ordering", "Ordering", "{5C0396E5-1FFF-441E-8E6A-25D873FB04C7}"
 EndProject
@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{A00E1860-A341-
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B26F8032-7310-4CB3-A373-9A2FA80DC0FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaiDan.Website", "UI\MaiDan.Website\MaiDan.Website.csproj", "{7A98830C-0220-481E-985A-459867DACE4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaiDan.Website", "UI\MaiDan.Website\MaiDan.Website.csproj", "{7A98830C-0220-481E-985A-459867DACE4D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaiDan.Ordering.Domain", "Ordering\MaiDan.Ordering.Domain\MaiDan.Ordering.Domain.csproj", "{A467A1D2-8C78-4D16-9710-49DA61777002}"
 EndProject
