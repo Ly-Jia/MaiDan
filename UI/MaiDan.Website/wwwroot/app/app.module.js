@@ -4,7 +4,7 @@
 angular.module('maidanApp',
     [
         'ngRoute',
-        //'core',
+        'core',
         'dish',
         'menu'
     ]);

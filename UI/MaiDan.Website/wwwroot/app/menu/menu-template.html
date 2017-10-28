@@ -17,7 +17,7 @@
             <!--Body content--><ul>
                 <li ng-repeat="dish in $ctrl.menu | filter:$ctrl.query | orderBy:$ctrl.orderProp">
                     <span>{{dish.id}}</span>
-                    <p>{{dish.name}}</p>
+                    <a href="#!/menu/{{dish.id}}">{{dish.name}}</a>
                 </li>
             </ul>
         </div>

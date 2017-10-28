@@ -1,4 +1,6 @@
 ﻿using MaiDan.Infrastructure.Database;
+using MaiDan.Ordering.Dal;
+using MaiDan.Ordering.Domain;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,11 +26,23 @@ namespace MaiDan.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Add service and create Policy with options
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
+
             // Add framework services.
             services.AddMvc();
 
             var database = new SqliteDatabase("MaiDan.sqlite");
             services.AddSingleton<IDatabase, SqliteDatabase>(svcs => database);
+            services.AddSingleton<IRepository<Dish>, Menu>(svcs => new Menu(database));
+            services.AddSingleton<IRepository<Order>, OrderBook>(svcs => new OrderBook(database));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,6 +50,8 @@ namespace MaiDan.Api
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
+            app.UseCors("CorsPolicy");
 
             app.UseMvc();
         }
