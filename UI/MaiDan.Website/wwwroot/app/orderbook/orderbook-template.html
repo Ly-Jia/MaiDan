@@ -1,0 +1,10 @@
+﻿<div class="container-fluid">
+    <h1>Commandes</h1>
+    <div class="col-md-10">
+        <!--Body content--><ul>
+            <li ng-repeat="order in $ctrl.orderbook | filter:$ctrl.query | orderBy:$ctrl.orderProp">
+                <a href="#!/orderbook/{{order.id}}">{{order.id}}</a>
+            </li>
+        </ul>
+    </div>
+</div>

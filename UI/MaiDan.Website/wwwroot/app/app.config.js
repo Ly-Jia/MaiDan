@@ -11,6 +11,12 @@
                 when('/menu/:dishId', {
                     template: '<dish></dish>'
                 }).
-                otherwise('/menu');
+                when('/orderbook', {
+                    template: '<orderbook></orderbook>'
+                }).
+                when('/orderbook/:orderId', {
+                    template: '<order></order>'
+                }).
+                otherwise('/orderbook');
         }
     ]);

@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using MaiDan.Api.DataContract.Ordering;
 using MaiDan.Infrastructure.Database;
 using MaiDan.Ordering.Domain;
@@ -30,6 +31,12 @@ namespace MaiDan.Api.Controllers.Ordering
 
             Response.StatusCode = (int)HttpStatusCode.OK;
             return order;
+        }
+
+        [HttpGet]
+        public List<Order> Get()
+        {
+            return orderBook.GetAll();
         }
 
         [HttpPut]

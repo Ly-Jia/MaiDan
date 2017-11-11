@@ -13,13 +13,24 @@
     <script src="core/core.module.js"></script>
     <script src="core/menu/menu.component.js"></script>
     <script src="core/menu/menu.service.js"></script>
+    <script src="core/orderbook/orderbook.component.js"></script>
+    <script src="core/orderbook/orderbook.service.js"></script>
     <script src="menu/menu.module.js"></script>
     <script src="menu/menu.component.js"></script>
-    <script src="dish/dish.module.js"></script>
-    <script src="dish/dish.component.js"></script>
+    <script src="menu/dish.module.js"></script>
+    <script src="menu/dish.component.js"></script>
+    <script src="orderbook/orderbook.module.js"></script>
+    <script src="orderbook/orderbook.component.js"></script>
+    <script src="orderbook/order.module.js"></script>
+    <script src="orderbook/order.component.js"></script>
 </head>
 
 <body>
+    <ul>
+        <li><a href="#!/orderbook/">Commandes</a></li>
+        <li><a href="#!/menu/">Menu</a></li>
+    </ul>
+
     <div ng-view></div>
 </body>
 </html>

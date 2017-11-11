@@ -1,59 +1,61 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Dapper.Contrib.Extensions;
 
 namespace MaiDan.Infrastructure.Database
 {
-	public abstract class Repository<T> : IRepository<T> where T : class
+	public abstract class Repository<TEntity, TModel> : IRepository<TModel> where TEntity : class where TModel : class
 	{
         private IDatabase database;
 
-	    protected Repository(IDatabase database)
+        protected abstract TEntity EntityFrom(TModel model);
+	    protected abstract TModel ModelFrom(TEntity entity);
+
+        protected Repository(IDatabase database)
 	    {
 	        this.database = database;
 	    }
 
-        public T Get(string id)
+        public TModel Get(string id)
         {
-            T item;
+            TEntity item;
             using (var connection = database.CreateConnection())
             {
                 connection.Open();
 
-                item = connection.Get<T>(id);
+                item = connection.Get<TEntity>(id);
             }
 
-            return item;
+            return ModelFrom(item);
         }
 
-	    public virtual List<T> GetAll()
+	    public virtual List<TModel> GetAll()
 	    {
             using (var connection = database.CreateConnection())
             {
                 connection.Open();
-                return connection.GetAll<T>().ToList();
+                var entities = connection.GetAll<TEntity>().ToList();
+                return entities.Select(ModelFrom).ToList();
             }
 	    }
 
-	    public void Add(T item)
+	    public void Add(TModel item)
 	    {
             using (var connection = database.CreateConnection())
             {
                 connection.Open();
 
-                connection.Insert(item);
+                connection.Insert(EntityFrom(item));
             }
         }
 
-	    public bool Update(T item)
+	    public void Update(TModel item)
 	    {
             using (var connection = database.CreateConnection())
             {
                 connection.Open();
 
-                var result = connection.Update(item);
-                return result;
+                connection.Update(EntityFrom(item));
             }
         }
 

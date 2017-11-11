@@ -1,5 +1,6 @@
 ﻿using MaiDan.Infrastructure.Database;
 using MaiDan.Ordering.Dal;
+using MaiDan.Ordering.Dal.Repositories;
 using MaiDan.Ordering.Domain;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

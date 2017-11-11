@@ -7,7 +7,7 @@ namespace MaiDan.Infrastructure.Database
         T Get(string id);
         List<T> GetAll();
         void Add(T item);
-        bool Update(T item);
+        void Update(T item);
         bool Contains(string id);
     }
 }
