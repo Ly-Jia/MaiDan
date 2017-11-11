@@ -21,7 +21,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "launchUrl": "http://localhost:8888/menu",
+      "launchUrl": "http://localhost:8888/app/index.html",
       "applicationUrl": "http://localhost:8888"
     }
   }
