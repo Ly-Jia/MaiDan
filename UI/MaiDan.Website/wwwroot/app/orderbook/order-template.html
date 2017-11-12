@@ -2,8 +2,7 @@
     <h1>Commande n°{{$ctrl.order.id}}</h1>
     <ul>
         <li ng-repeat="line in $ctrl.order.lines">
-            <p>{{line.quantity}} x {{line.dishId}}
-            </p>
+            <p>{{line.quantity}} x {{line.dish.id}} - {{line.dish.name}} </p>
         </li>
     </ul>
 </div>

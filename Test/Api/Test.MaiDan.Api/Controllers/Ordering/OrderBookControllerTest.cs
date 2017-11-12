@@ -1,5 +1,7 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using MaiDan.Api.Controllers.Ordering;
+using MaiDan.Api.DataContract.Ordering;
 using MaiDan.Infrastructure.Database;
 using MaiDan.Ordering.Domain;
 using Microsoft.AspNetCore.Http;
@@ -14,34 +16,96 @@ namespace Test.MaiDan.Api.Controllers.Ordering
     public class OrderBookControllerTest
     {
         [Test]
-        public void Http200WhenDishIsFound()
+        public void Http200WhenOrderIsFound()
         {
             var orderBook = new Mock<IRepository<Order>>();
             var order = new AnOrder().Build();
             orderBook.Setup(m => m.Get(It.IsAny<string>())).Returns(order);
-            var menuController = CreateOrderBookController(orderBook.Object);
+            var orderBookController = CreateOrderBookController(orderBook.Object, null);
 
-            var retrievedDish = menuController.Get("anId");
+            var retrievedDish = orderBookController.Get("anId");
 
-            Check.That(menuController.Response.StatusCode).Equals((int)HttpStatusCode.OK);
+            Check.That(orderBookController.Response.StatusCode).Equals((int)HttpStatusCode.OK);
             Check.That(retrievedDish).Equals(order);
         }
 
         [Test]
-        public void Http404WhenDishIsNotFound()
+        public void Http404WhenOrderIsNotFound()
         {
             var orderBook = new Mock<IRepository<Order>>();
             orderBook.Setup(m => m.Get(It.IsAny<string>())).Returns((Order)null);
-            var menuController = CreateOrderBookController(orderBook.Object);
+            var orderBookController = CreateOrderBookController(orderBook.Object, null);
 
-            menuController.Get("anId");
+            orderBookController.Get("anId");
 
-            Check.That(menuController.Response.StatusCode).Equals((int)HttpStatusCode.NotFound);
+            Check.That(orderBookController.Response.StatusCode).Equals((int)HttpStatusCode.NotFound);
         }
 
-        private OrderBookController CreateOrderBookController(IRepository<Order> orderBook)
+        [Test]
+        public void Http400WhenDishIsNotFoundDuringOrderCreation()
         {
-            var orderBookController = new OrderBookController(orderBook);
+            var orderBook = new Mock<IRepository<Order>>();
+            var menu = new Mock<IRepository<Dish>>();
+            menu.Setup(m => m.Get(It.IsAny<string>())).Returns((Dish)null);
+            var orderBookController = CreateOrderBookController(orderBook.Object, menu.Object);
+
+            orderBookController.Add(new OrderDataContract
+            {
+                Id = "id",
+                Lines = new List<LineDataContract> {new LineDataContract {DishId = "id"}}
+            });
+
+            Check.That(orderBookController.Response.StatusCode).Equals((int)HttpStatusCode.BadRequest);
+            orderBook.Verify(o => o.Add(It.IsAny<Order>()), Times.Never);
+        }
+
+        [Test]
+        public void Http400WhenDishIsNotFoundDuringOrderUpdate()
+        {
+            var orderBook = new Mock<IRepository<Order>>();
+            var menu = new Mock<IRepository<Dish>>();
+            menu.Setup(m => m.Get(It.IsAny<string>())).Returns((Dish)null);
+            var orderBookController = CreateOrderBookController(orderBook.Object, menu.Object);
+
+            orderBookController.Update(new OrderDataContract
+            {
+                Id = "id",
+                Lines = new List<LineDataContract> { new LineDataContract { DishId = "id" } }
+            });
+
+            Check.That(orderBookController.Response.StatusCode).Equals((int)HttpStatusCode.BadRequest);
+            orderBook.Verify(o => o.Add(It.IsAny<Order>()), Times.Never);
+        }
+
+        [Test]
+        public void CanAddOrderWithoutLines()
+        {
+            var orderBook = new Mock<IRepository<Order>>();
+            var menu = new Mock<IRepository<Dish>>();
+            menu.Setup(m => m.Get(It.IsAny<string>())).Returns(new Dish("id", "name"));
+            var orderBookController = CreateOrderBookController(orderBook.Object, menu.Object);
+
+            orderBookController.Add(new OrderDataContract { Id = "id" });
+
+            Check.That(orderBookController.Response.StatusCode).Equals((int)HttpStatusCode.OK);
+        }
+
+        [Test]
+        public void CanUpdateOrderWithoutLines()
+        {
+            var orderBook = new Mock<IRepository<Order>>();
+            var menu = new Mock<IRepository<Dish>>();
+            menu.Setup(m => m.Get(It.IsAny<string>())).Returns(new Dish("id", "name"));
+            var orderBookController = CreateOrderBookController(orderBook.Object, menu.Object);
+
+            orderBookController.Update(new OrderDataContract { Id = "id" });
+
+            Check.That(orderBookController.Response.StatusCode).Equals((int)HttpStatusCode.OK);
+        }
+
+        private OrderBookController CreateOrderBookController(IRepository<Order> orderBook, IRepository<Dish> menu)
+        {
+            var orderBookController = new OrderBookController(orderBook, menu);
             orderBookController.ControllerContext = new ControllerContext();
             orderBookController.ControllerContext.HttpContext = new DefaultHttpContext();
             return orderBookController;

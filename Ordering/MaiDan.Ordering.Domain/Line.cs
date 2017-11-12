@@ -2,21 +2,22 @@
 {
 	public class Line
 	{
-	    public Line(int quantity, string dishId)
+	    public Line(int quantity, Dish dish)
 	    {
 	        Quantity = quantity;
-	        DishId = dishId;
+	        Dish = dish;
 	    }
 
 	    public int Quantity { get; }
-        public string DishId { get; }
+        public Dish Dish { get; }
 
 	    public override bool Equals(object obj)
 		{
 			Line other = obj as Line;
 			if (other == null)
 				return false;
-			return this.Quantity == other.Quantity && this.DishId == other.DishId;
+            
+			return this.Quantity == other.Quantity && this.Dish.Equals(other.Dish); // dish is not supposed to be null
 		}
 
 	}

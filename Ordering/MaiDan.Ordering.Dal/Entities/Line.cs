@@ -11,15 +11,15 @@ namespace MaiDan.Ordering.Dal.Entities
         public Line()
         { }
 
-        public Line(int orderId, int quantity, string dishId)
+        public Line(int orderId, int quantity, Dish dish)
         {
             OrderId = orderId;
             Quantity = quantity;
-            DishId = dishId;
+            Dish = dish;
         }
 
         public int OrderId { get; set; }
         public int Quantity { get; set; }
-        public string DishId { get; set; }
+        public Dish Dish { get; set; }
     }
 }

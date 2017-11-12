@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Dapper;
-using Dapper.Contrib.Extensions;
 using MaiDan.Infrastructure.Database;
 using MaiDan.Ordering.Dal.Entities;
 using Z.Dapper.Plus;
@@ -20,36 +19,51 @@ namespace MaiDan.Ordering.Dal.Repositories
 
 	    public Domain.Order Get(string id)
 	    {
-	        var sql = "SELECT * FROM \"OrderLine\" WHERE OrderId = @OrderId;";
-
 	        var parsedId = Int32.Parse(id);
+	        var sql = $"SELECT * FROM \"Order\" o JOIN \"OrderLine\" l ON o.Id = l.OrderId JOIN \"Dish\" d ON l.DishId = d.Id WHERE o.Id = {parsedId};";
 
-            using (var connection = database.CreateConnection())
+	        using (var connection = database.CreateConnection())
 	        {
 	            connection.Open();
-	            
-	            var lines = connection.Query<Line>(sql, new {OrderId = parsedId}).ToList();
-                
-                return ModelFrom(new Order(parsedId, lines));
+
+                var orderDictionary = new Dictionary<int, Order>();
+
+	            var order = connection.Query<Order, Line, Dish, Order>(
+	                    sql,
+	                    (o, l, d) =>
+	                    {
+	                        if (!orderDictionary.TryGetValue(o.Id, out var orderEntry))
+	                        {
+	                            orderEntry = o;
+	                            orderEntry.Lines = new List<Line>();
+	                            orderDictionary.Add(orderEntry.Id, orderEntry);
+	                        }
+
+	                        orderEntry.Lines.Add(new Line(o.Id, l.Quantity, d));
+	                        return orderEntry;
+	                    },
+	                    splitOn: "OrderId,Id")
+	                .Distinct()
+	                .Single();
+
+                return ModelFrom(order);
 	        }
         }
 
 	    public List<Domain.Order> GetAll()
 	    {
-	        string sql = "SELECT * FROM \"Order\" o INNER JOIN \"OrderLine\" l ON o.Id = l.OrderId;";
+	        string sql = "SELECT * FROM \"Order\" o JOIN \"OrderLine\" l ON o.Id = l.OrderId JOIN \"Dish\" d ON l.DishId = d.Id;";
 	        List<Order> orders;
 
             using (var connection = database.CreateConnection())
             {
-	            connection.Open();
-
                 connection.Open();
 
                 var orderDictionary = new Dictionary<int, Order>();
 
-                orders = connection.Query<Order, Line, Order>(
+                orders = connection.Query<Order, Line, Dish, Order>(
                         sql,
-                        (o, l) =>
+                        (o, l, d) =>
                         {
                             if (!orderDictionary.TryGetValue(o.Id, out var orderEntry))
                             {
@@ -58,10 +72,10 @@ namespace MaiDan.Ordering.Dal.Repositories
                                 orderDictionary.Add(orderEntry.Id, orderEntry);
                             }
 
-                            orderEntry.Lines.Add(l);
+                            orderEntry.Lines.Add(new Line(o.Id, l.Quantity, d));
                             return orderEntry;
                         },
-                        splitOn: "OrderId")
+                        splitOn: "OrderId,Id")
                     .Distinct()
                     .ToList();
             }
@@ -99,13 +113,13 @@ namespace MaiDan.Ordering.Dal.Repositories
 
         private Order EntityFrom(Domain.Order model)
 	    {
-	        var lines = model.Lines.Select(l => new Line(Int32.Parse(model.Id), l.Quantity, l.DishId)).ToList();
+	        var lines = model.Lines.Select(l => new Line(Int32.Parse(model.Id), l.Quantity, new Dish(l.Dish.Id, l.Dish.Name))).ToList();
 	        return new Order(Int32.Parse(model.Id), lines);
 	    }
 
 	    private Domain.Order ModelFrom(Order entity)
 	    {
-	        var lines = entity.Lines.Select(l => new Domain.Line(l.Quantity, l.DishId)).ToList();
+	        var lines = entity.Lines.Select(l => new Domain.Line(l.Quantity, new Domain.Dish(l.Dish.Id, l.Dish.Name))).ToList();
 	        return new Domain.Order(entity.Id.ToString(), lines);
 	    }
 	}
