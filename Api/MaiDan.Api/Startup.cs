@@ -43,6 +43,7 @@ namespace MaiDan.Api
             services.AddSingleton<IDatabase, SqliteDatabase>(svcs => database);
             services.AddSingleton<IRepository<Dish>, Menu>(svcs => new Menu(database));
             services.AddSingleton<IRepository<Order>, OrderBook>(svcs => new OrderBook(database));
+            services.AddSingleton<IRepository<Table>, Room>(svcs => new Room(database));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -13,11 +13,13 @@ namespace MaiDan.Api.Controllers.Ordering
     {
         private readonly IRepository<Order> orderBook;
         private readonly IRepository<Dish> menu;
+        private readonly IRepository<Table> tables;
 
-        public OrderBookController(IRepository<Order> orderBook, IRepository<Dish> menu)
+        public OrderBookController(IRepository<Order> orderBook, IRepository<Dish> menu, IRepository<Table> tables)
         {
             this.orderBook = orderBook;
             this.menu = menu;
+            this.tables = tables;
         }
 
         [HttpGet("{id}")]
@@ -76,6 +78,11 @@ namespace MaiDan.Api.Controllers.Ordering
 
         private Order ModelFromDataContract(OrderDataContract contract)
         {
+            Table table = tables.Get(contract.TableId);
+
+            if (table == null)
+                throw new ArgumentException($"The table {contract.TableId} was not found");
+
             List<Line> lines = new List<Line>();
             if (contract.Lines != null)
                 foreach (var line in contract.Lines)
@@ -83,11 +90,11 @@ namespace MaiDan.Api.Controllers.Ordering
                     var dish = menu.Get(line.DishId);
                     if (dish == null)
                     {
-                        throw new ArgumentException();
+                        throw new ArgumentException($"The dish {line.DishId} was not found");
                     }
                     lines.Add(new Line(line.Quantity, dish));
                 }
-            Order order = new Order(contract.Id, lines);
+            Order order = new Order(contract.Id, table, contract.NumberOfGuests, lines);
             return order;
         }
     }

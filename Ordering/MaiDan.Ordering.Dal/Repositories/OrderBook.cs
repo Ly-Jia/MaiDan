@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Dapper;
 using MaiDan.Infrastructure.Database;
-using MaiDan.Ordering.Dal.Entities;
+using MaiDan.Ordering.Domain;
 using Z.Dapper.Plus;
+using Dish = MaiDan.Ordering.Dal.Entities.Dish;
+using Line = MaiDan.Ordering.Dal.Entities.Line;
+using Order = MaiDan.Ordering.Dal.Entities.Order;
 
 namespace MaiDan.Ordering.Dal.Repositories
 {
@@ -114,13 +117,13 @@ namespace MaiDan.Ordering.Dal.Repositories
         private Order EntityFrom(Domain.Order model)
 	    {
 	        var lines = model.Lines.Select(l => new Line(Int32.Parse(model.Id), l.Quantity, new Dish(l.Dish.Id, l.Dish.Name))).ToList();
-	        return new Order(Int32.Parse(model.Id), lines);
+	        return new Order(Int32.Parse(model.Id), model.Table.Id, model.NumberOfGuests, lines);
 	    }
 
 	    private Domain.Order ModelFrom(Order entity)
 	    {
 	        var lines = entity.Lines.Select(l => new Domain.Line(l.Quantity, new Domain.Dish(l.Dish.Id, l.Dish.Name))).ToList();
-	        return new Domain.Order(entity.Id.ToString(), lines);
+	        return new Domain.Order(entity.Id.ToString(), new Table(entity.TableId), entity.NumberOfGuests, lines);
 	    }
 	}
 }

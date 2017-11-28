@@ -10,11 +10,14 @@ namespace Test.MaiDan.Ordering.Domain
 	[TestFixture]
 	public class OrderTest
 	{
+	    private Table table = new Table("T1");
+	    private int numberOfGuests = 2;
+
 		[Test]
 		public void should_be_identifiable_by_id()
 		{
 			var id = "id";
-			var order = new Order(id, new List<Line>());
+		    var order = new Order(id, table, numberOfGuests, new List<Line>());
 			Check.That(order.Id).Equals(id);
 		}
 		

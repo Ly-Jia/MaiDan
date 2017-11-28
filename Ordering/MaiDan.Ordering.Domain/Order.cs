@@ -9,11 +9,15 @@ namespace MaiDan.Ordering.Domain
 	{
 		public string Id { get; }
 		public IList<Line> Lines { get; private set; }
+        public Table Table { get; }
+        public int NumberOfGuests { get; }
 
-	    public Order(string id, IList<Line> lines)
+	    public Order(string id, Table table, int numberOfGuests, IList<Line> lines)
 	    {
 	        Id = id;
 	        Lines = lines;
+	        Table = table;
+	        NumberOfGuests = numberOfGuests;
 	    }
 
         public Order Add(Line line)

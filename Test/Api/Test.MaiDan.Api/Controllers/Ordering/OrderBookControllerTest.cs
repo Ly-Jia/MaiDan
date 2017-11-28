@@ -15,13 +15,22 @@ namespace Test.MaiDan.Api.Controllers.Ordering
 {
     public class OrderBookControllerTest
     {
+        private Mock<IRepository<Table>> defaultRoom;
+        private Table defaultTable = new Table("1");
+
+        public OrderBookControllerTest()
+        {
+            defaultRoom = new Mock<IRepository<Table>>();
+            defaultRoom.Setup(r => r.Get(defaultTable.Id)).Returns(defaultTable);
+        }
+
         [Test]
         public void Http200WhenOrderIsFound()
         {
             var orderBook = new Mock<IRepository<Order>>();
             var order = new AnOrder().Build();
             orderBook.Setup(m => m.Get(It.IsAny<string>())).Returns(order);
-            var orderBookController = CreateOrderBookController(orderBook.Object, null);
+            var orderBookController = CreateOrderBookController(orderBook.Object, null, defaultRoom.Object);
 
             var retrievedDish = orderBookController.Get("anId");
 
@@ -34,7 +43,7 @@ namespace Test.MaiDan.Api.Controllers.Ordering
         {
             var orderBook = new Mock<IRepository<Order>>();
             orderBook.Setup(m => m.Get(It.IsAny<string>())).Returns((Order)null);
-            var orderBookController = CreateOrderBookController(orderBook.Object, null);
+            var orderBookController = CreateOrderBookController(orderBook.Object, null, defaultRoom.Object);
 
             orderBookController.Get("anId");
 
@@ -47,7 +56,7 @@ namespace Test.MaiDan.Api.Controllers.Ordering
             var orderBook = new Mock<IRepository<Order>>();
             var menu = new Mock<IRepository<Dish>>();
             menu.Setup(m => m.Get(It.IsAny<string>())).Returns((Dish)null);
-            var orderBookController = CreateOrderBookController(orderBook.Object, menu.Object);
+            var orderBookController = CreateOrderBookController(orderBook.Object, menu.Object, defaultRoom.Object);
 
             orderBookController.Add(new OrderDataContract
             {
@@ -65,7 +74,7 @@ namespace Test.MaiDan.Api.Controllers.Ordering
             var orderBook = new Mock<IRepository<Order>>();
             var menu = new Mock<IRepository<Dish>>();
             menu.Setup(m => m.Get(It.IsAny<string>())).Returns((Dish)null);
-            var orderBookController = CreateOrderBookController(orderBook.Object, menu.Object);
+            var orderBookController = CreateOrderBookController(orderBook.Object, menu.Object, defaultRoom.Object);
 
             orderBookController.Update(new OrderDataContract
             {
@@ -80,12 +89,16 @@ namespace Test.MaiDan.Api.Controllers.Ordering
         [Test]
         public void CanAddOrderWithoutLines()
         {
+            var tableId = "t1";
             var orderBook = new Mock<IRepository<Order>>();
             var menu = new Mock<IRepository<Dish>>();
             menu.Setup(m => m.Get(It.IsAny<string>())).Returns(new Dish("id", "name"));
-            var orderBookController = CreateOrderBookController(orderBook.Object, menu.Object);
+            var room = new Mock<IRepository<Table>>();
+            room.Setup(r => r.Get(tableId)).Returns(new Table(tableId));
 
-            orderBookController.Add(new OrderDataContract { Id = "id" });
+            var orderBookController = CreateOrderBookController(orderBook.Object, menu.Object, room.Object);
+
+            orderBookController.Add(new OrderDataContract { Id = "id", TableId = tableId });
 
             Check.That(orderBookController.Response.StatusCode).Equals((int)HttpStatusCode.OK);
         }
@@ -93,19 +106,22 @@ namespace Test.MaiDan.Api.Controllers.Ordering
         [Test]
         public void CanUpdateOrderWithoutLines()
         {
+            var tableId = "t1";
             var orderBook = new Mock<IRepository<Order>>();
             var menu = new Mock<IRepository<Dish>>();
             menu.Setup(m => m.Get(It.IsAny<string>())).Returns(new Dish("id", "name"));
-            var orderBookController = CreateOrderBookController(orderBook.Object, menu.Object);
+            var room = new Mock<IRepository<Table>>();
+            room.Setup(r => r.Get(tableId)).Returns(new Table(tableId));
+            var orderBookController = CreateOrderBookController(orderBook.Object, menu.Object, room.Object);
 
-            orderBookController.Update(new OrderDataContract { Id = "id" });
+            orderBookController.Update(new OrderDataContract { Id = "id", TableId = tableId });
 
             Check.That(orderBookController.Response.StatusCode).Equals((int)HttpStatusCode.OK);
         }
 
-        private OrderBookController CreateOrderBookController(IRepository<Order> orderBook, IRepository<Dish> menu)
+        private OrderBookController CreateOrderBookController(IRepository<Order> orderBook, IRepository<Dish> menu, IRepository<Table> room)
         {
-            var orderBookController = new OrderBookController(orderBook, menu);
+            var orderBookController = new OrderBookController(orderBook, menu, room);
             orderBookController.ControllerContext = new ControllerContext();
             orderBookController.ControllerContext.HttpContext = new DefaultHttpContext();
             return orderBookController;

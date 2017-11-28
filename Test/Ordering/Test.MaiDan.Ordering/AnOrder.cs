@@ -9,21 +9,23 @@ namespace Test.MaiDan.Ordering
 	public class AnOrder
 	{
 		public static readonly string DEFAULT_ID = "id";
-		public string Id;
-		public List<Line> Lines;
+		private string id;
+	    private Table table;
+	    private int numberOfGuests;
+		private List<Line> lines;
 		
 		/// <summary>
-		/// Initialize the future order with a specific Id (creation date)
+		/// Initialize the future order with a specific id (creation date)
 		/// </summary>
 		/// <param name="id"></param>
 		public AnOrder(string id)
 		{
-            Lines = new List<Line>();
-		    Id = id;
+            this.lines = new List<Line>();
+		    this.id = id;
 		}
 		
 		/// <summary>
-		/// Initialize the order with a default Id (DateTime : 2012/12/21)
+		/// Initialize the order with a default id (DateTime : 2012/12/21)
 		/// </summary>
 		public AnOrder():this(DEFAULT_ID)
 		{
@@ -47,7 +49,7 @@ namespace Test.MaiDan.Ordering
 		/// <returns></returns>
 		public AnOrder With(Line line)
 		{
-			Lines.Add(line);
+			lines.Add(line);
 			return this;
 		}
         
@@ -69,7 +71,7 @@ namespace Test.MaiDan.Ordering
 		/// <returns></returns>
 		public Order Build()
 		{
-			return new Order(Id,Lines);
+			return new Order(id,table,numberOfGuests, lines);
 		}
         
 	}
