@@ -5,15 +5,19 @@ namespace MaiDan.Ordering.Domain
 	/// <summary>
 	/// Description of Order.
 	/// </summary>
-	public abstract class Order
+	public class Order
 	{
 		public string Id { get; }
 		public IList<Line> Lines { get; private set; }
-        
-	    public Order(string id, IList<Line> lines)
+        public Table Table { get; }
+        public int NumberOfGuests { get; }
+
+	    public Order(string id, Table table, int numberOfGuests, IList<Line> lines)
 	    {
 	        Id = id;
 	        Lines = lines;
+	        Table = table;
+	        NumberOfGuests = numberOfGuests;
 	    }
 
         public Order Add(Line line)

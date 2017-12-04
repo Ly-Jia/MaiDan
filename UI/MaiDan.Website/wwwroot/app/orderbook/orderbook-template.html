@@ -3,8 +3,7 @@
     <div class="col-md-10">
         <!--Body content--><ul>
             <li ng-repeat="order in $ctrl.orderbook | filter:$ctrl.query | orderBy:$ctrl.orderProp">
-                <a ng-if="order.table === undefined" href="#!/orderbook/{{order.id}}">{{order.id}} - à emporter</a>
-                <a ng-if="order.table !== undefined" href="#!/orderbook/{{order.id}}">{{order.id}} - table {{order.table.id}}</a>
+                <a href="#!/orderbook/{{order.id}}">{{order.id}}</a>
             </li>
         </ul>
     </div>
