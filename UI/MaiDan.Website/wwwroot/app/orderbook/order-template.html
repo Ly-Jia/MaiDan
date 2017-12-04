@@ -1,5 +1,6 @@
 ﻿<div class="container-fluid">
-    <h1>Commande n°{{$ctrl.order.id}} - Table {{$ctrl.order.table.id}}, {{$ctrl.order.numberOfGuests}} convive(s)</h1>
+    <h1 ng-if="$ctrl.order.table === undefined">Commande n°{{$ctrl.order.id}} - à emporter</h1>
+    <h1 ng-if="$ctrl.order.table !== undefined">Commande n°{{$ctrl.order.id}} - Table {{$ctrl.order.table.id}}, {{$ctrl.order.numberOfGuests}} convive(s)</h1>
     <ul>
         <li ng-repeat="line in $ctrl.order.lines">
             <p>{{line.quantity}} x {{line.dish.id}} - {{line.dish.name}} </p>

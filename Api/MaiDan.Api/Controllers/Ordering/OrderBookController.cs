@@ -78,11 +78,6 @@ namespace MaiDan.Api.Controllers.Ordering
 
         private Order ModelFromDataContract(OrderDataContract contract)
         {
-            Table table = tables.Get(contract.TableId);
-
-            if (table == null)
-                throw new ArgumentException($"The table {contract.TableId} was not found");
-
             List<Line> lines = new List<Line>();
             if (contract.Lines != null)
                 foreach (var line in contract.Lines)
@@ -94,8 +89,16 @@ namespace MaiDan.Api.Controllers.Ordering
                     }
                     lines.Add(new Line(line.Quantity, dish));
                 }
-            Order order = new Order(contract.Id, table, contract.NumberOfGuests, lines);
-            return order;
+
+            if (string.IsNullOrEmpty(contract.TableId))
+                return new TakeAwayOrder(contract.Id, lines);
+
+            Table table = tables.Get(contract.TableId);
+
+            if (table == null)
+                throw new ArgumentException($"The table {contract.TableId} was not found");
+
+            return new OnSiteOrder(contract.Id, table, contract.NumberOfGuests, lines);
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using MaiDan.Ordering.Domain;
 using NFluent;
@@ -7,7 +6,7 @@ using NUnit.Framework;
 
 namespace Test.MaiDan.Ordering.Domain
 {
-	[TestFixture]
+    [TestFixture]
 	public class OrderTest
 	{
 	    private Table table = new Table("T1");
@@ -17,7 +16,7 @@ namespace Test.MaiDan.Ordering.Domain
 		public void should_be_identifiable_by_id()
 		{
 			var id = "id";
-		    var order = new Order(id, table, numberOfGuests, new List<Line>());
+		    var order = new TakeAwayOrder(id, new List<Line>());
 			Check.That(order.Id).Equals(id);
 		}
 		
