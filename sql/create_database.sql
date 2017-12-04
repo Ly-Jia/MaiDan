@@ -10,6 +10,7 @@ CREATE TABLE "Table"
 DROP TABLE IF EXISTS "Order";
 CREATE TABLE "Order" 
 	("Id" INTEGER PRIMARY KEY NOT NULL UNIQUE,
+	 "TakeAway" INTEGER,
 	 "TableId" VARCHAR,
 	 "NumberOfGuests" INTEGER,
 	FOREIGN KEY ("TableId") REFERENCES "Table"("Id"));

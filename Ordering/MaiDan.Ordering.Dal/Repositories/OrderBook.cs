@@ -117,13 +117,23 @@ namespace MaiDan.Ordering.Dal.Repositories
         private Order EntityFrom(Domain.Order model)
 	    {
 	        var lines = model.Lines.Select(l => new Line(Int32.Parse(model.Id), l.Quantity, new Dish(l.Dish.Id, l.Dish.Name))).ToList();
-	        return new Order(Int32.Parse(model.Id), model.Table.Id, model.NumberOfGuests, lines);
+	        if (model is OnSiteOrder)
+	        {
+	            var onSite = (OnSiteOrder) model;
+	            return new Order(Int32.Parse(model.Id), false, onSite.Table.Id, onSite.NumberOfGuests, lines);
+            }
+
+	        return new Order(Int32.Parse(model.Id), true, null, 0, lines);
 	    }
 
 	    private Domain.Order ModelFrom(Order entity)
 	    {
 	        var lines = entity.Lines.Select(l => new Domain.Line(l.Quantity, new Domain.Dish(l.Dish.Id, l.Dish.Name))).ToList();
-	        return new Domain.Order(entity.Id.ToString(), new Table(entity.TableId), entity.NumberOfGuests, lines);
-	    }
+
+            if (entity.TakeAway)
+	            return new TakeAwayOrder(entity.Id.ToString(), lines);
+
+	        return new OnSiteOrder(entity.Id.ToString(), new Table(entity.TableId), entity.NumberOfGuests, lines);
+        }
 	}
 }

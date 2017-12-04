@@ -10,9 +10,8 @@ namespace Test.MaiDan.Ordering
 	{
 		public static readonly string DEFAULT_ID = "id";
 		private string id;
-	    private Table table;
-	    private int numberOfGuests;
 		private List<Line> lines;
+	    private bool takeAway = false;
 		
 		/// <summary>
 		/// Initialize the future order with a specific id (creation date)
@@ -71,7 +70,7 @@ namespace Test.MaiDan.Ordering
 		/// <returns></returns>
 		public Order Build()
 		{
-			return new Order(id,table,numberOfGuests, lines);
+			return new TakeAwayOrder(id, lines);
 		}
         
 	}
