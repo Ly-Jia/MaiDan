@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net;
-using MaiDan.Api.Controllers.Ordering;
+using MaiDan.Api.Controllers;
 using MaiDan.Api.DataContract.Ordering;
 using MaiDan.Infrastructure.Database;
 using MaiDan.Ordering.Domain;

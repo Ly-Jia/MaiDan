@@ -2,26 +2,27 @@
 using System.Net;
 using MaiDan.Api.DataContract.Ordering;
 using MaiDan.Infrastructure.Database;
-using MaiDan.Ordering.Domain;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MaiDan.Api.Controllers.Ordering
+namespace MaiDan.Api.Controllers
 {
     [Route("api/[controller]")]
     public class MenuController : Controller
     {
-        private readonly IRepository<Dish> menu;
+        private readonly IRepository<Ordering.Domain.Dish> menuWithoutPrice;
+        private readonly IRepository<Billing.Domain.Dish> menuWithPrice;
 
-        public MenuController(IRepository<Dish> menu)
+        public MenuController(IRepository<Ordering.Domain.Dish> orderingMenu, IRepository<Billing.Domain.Dish> billingMenu)
         {
-            this.menu = menu;
+            this.menuWithoutPrice = orderingMenu;
+            this.menuWithPrice = billingMenu;
         }
 
         [HttpGet("{id}")]
-        public Dish Get(string id)
+        public Billing.Domain.Dish Get(string id)
         {
-            Dish dish;
-            dish = menu.Get(id);
+            Billing.Domain.Dish dish;
+            dish = menuWithPrice.Get(id);
             
             if (dish == null)
             {
@@ -34,21 +35,21 @@ namespace MaiDan.Api.Controllers.Ordering
         }
 
         [HttpGet]
-        public List<Dish> Get()
+        public List<Ordering.Domain.Dish> Get()
         {
-            return menu.GetAll();
+            return menuWithoutPrice.GetAll();
         }
 
         [HttpPut]
         public void Add([FromBody] DishDataContract contract)
         {
-            menu.Add(contract.ToDomainObject());
+            menuWithoutPrice.Add(contract.ToDomainObject());
         }
 
         [HttpPost]
         public void Update([FromBody] DishDataContract contract)
         {
-            menu.Update(contract.ToDomainObject());
+            menuWithoutPrice.Update(contract.ToDomainObject());
         }
     }
 }

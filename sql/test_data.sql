@@ -3,6 +3,13 @@ INSERT INTO "Dish" (Id, Name) VALUES('B1','Nems');
 INSERT INTO "Dish" (Id, Name) VALUES('B2','Beignets de crevettes');
 INSERT INTO "Dish" (Id, Name) VALUES('90','Riz cantonais');
 
+INSERT INTO "DishPrice" (DishId, ValidityStartDate, ValidityEndDate, Amount) VALUES('1', '2017-11-01T00:00:00', '0001-01-01T00:00:00', 15.0);
+INSERT INTO "DishPrice" (DishId, ValidityStartDate, ValidityEndDate, Amount) VALUES('B1', '2017-11-01T00:00:00', '2017-11-15T23:59:59', 3.0);
+INSERT INTO "DishPrice" (DishId, ValidityStartDate, ValidityEndDate, Amount) VALUES('B1', '2017-11-16T00:00:00', '0001-01-01T00:00:00', 3.5);
+INSERT INTO "DishPrice" (DishId, ValidityStartDate, ValidityEndDate, Amount) VALUES('B2', '2017-11-01T00:00:00', '2017-11-15T23:59:59', 3.2);
+INSERT INTO "DishPrice" (DishId, ValidityStartDate, ValidityEndDate, Amount) VALUES('B2', '2017-11-16T00:00:00', '0001-01-01T00:00:00', 3.8);
+INSERT INTO "DishPrice" (DishId, ValidityStartDate, ValidityEndDate, Amount) VALUES('90', '2017-11-01T00:00:00', '0001-01-01T00:00:00', 3.5);
+
 INSERT INTO "Table" (Id) VALUES ('1');
 INSERT INTO "Table" (Id) VALUES ('12A');
 

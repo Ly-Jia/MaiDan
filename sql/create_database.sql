@@ -3,6 +3,14 @@ CREATE TABLE "Dish"
 	("Id" VARCHAR PRIMARY KEY  NOT NULL  UNIQUE ,
  	 "Name" VARCHAR);
 
+DROP TABLE IF EXISTS "DishPrice";
+CREATE TABLE "DishPrice"
+	("DishId" VARCHAR,
+	 "ValidityStartDate" DATETIME,
+	 "ValidityEndDate" DATETIME,
+	 "Amount" DECIMAL(18,2),
+	FOREIGN KEY ("DishId") REFERENCES "Dish"("Id"));
+
 DROP TABLE IF EXISTS "Table";
 CREATE TABLE "Table" 
 	("Id" VARCHAR PRIMARY KEY  NOT NULL  UNIQUE);

@@ -6,7 +6,7 @@ using MaiDan.Infrastructure.Database;
 using MaiDan.Ordering.Domain;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MaiDan.Api.Controllers.Ordering
+namespace MaiDan.Api.Controllers
 {
     [Route("api/[controller]")]
     public class OrderBookController : Controller

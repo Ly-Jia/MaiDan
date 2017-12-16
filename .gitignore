@@ -26,7 +26,8 @@ $RECYCLE.BIN/
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -57,3 +58,5 @@ _NCrunch_MaiDan/MaiDan.crunchsolution.cache
 *.cmd
 *.dg
 *.lock.json
+.vscode/
+_ReSharper.Caches/
