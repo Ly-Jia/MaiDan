@@ -24,6 +24,7 @@ namespace MaiDan.Billing.Dal.Entities
         public DateTime ValidityStartDate { get; set; }
         public DateTime ValidityEndDate { get; set; }
 
+        //FIXME: Remove this hack that avoid Dapper failing to convert from database decimal to c# decimal (tries to convert to Int64)
         public object AmountInternal { get; set; }
 
         public decimal Amount
