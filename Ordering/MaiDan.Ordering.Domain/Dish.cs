@@ -21,10 +21,9 @@
 
         public override bool Equals(object obj)
         {
-            var other = obj as Dish;
-            if (other == null)
+            if (!(obj is Dish other))
                 return false;
-            return other.Id == this.Id;
+            return other.Id == this.Id && other.Name == this.Name;
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ordering", "Ordering", "{5C0396E5-1FFF-441E-8E6A-25D873FB04C7}"
 EndProject
@@ -46,6 +46,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaiDan.Billing.Domain", "Billing\MaiDan.Billing.Domain\MaiDan.Billing.Domain.csproj", "{E756065C-A946-4EE7-BC62-184C57B113EC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaiDan.Billing.Dal", "Billing\MaiDan.Billing.Dal\MaiDan.Billing.Dal.csproj", "{46556676-580A-4E21-915A-861730E91AB1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.MaiDan.Billing", "Test\Billing\Test.MaiDan.Billing\Test.MaiDan.Billing.csproj", "{4CDCB78B-2292-41C2-973E-906980DBAFEE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -251,6 +253,22 @@ Global
 		{46556676-580A-4E21-915A-861730E91AB1}.Release|x64.Build.0 = Release|Any CPU
 		{46556676-580A-4E21-915A-861730E91AB1}.Release|x86.ActiveCfg = Release|Any CPU
 		{46556676-580A-4E21-915A-861730E91AB1}.Release|x86.Build.0 = Release|Any CPU
+		{4CDCB78B-2292-41C2-973E-906980DBAFEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CDCB78B-2292-41C2-973E-906980DBAFEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CDCB78B-2292-41C2-973E-906980DBAFEE}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4CDCB78B-2292-41C2-973E-906980DBAFEE}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4CDCB78B-2292-41C2-973E-906980DBAFEE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4CDCB78B-2292-41C2-973E-906980DBAFEE}.Debug|x64.Build.0 = Debug|Any CPU
+		{4CDCB78B-2292-41C2-973E-906980DBAFEE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4CDCB78B-2292-41C2-973E-906980DBAFEE}.Debug|x86.Build.0 = Debug|Any CPU
+		{4CDCB78B-2292-41C2-973E-906980DBAFEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CDCB78B-2292-41C2-973E-906980DBAFEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CDCB78B-2292-41C2-973E-906980DBAFEE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{4CDCB78B-2292-41C2-973E-906980DBAFEE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{4CDCB78B-2292-41C2-973E-906980DBAFEE}.Release|x64.ActiveCfg = Release|Any CPU
+		{4CDCB78B-2292-41C2-973E-906980DBAFEE}.Release|x64.Build.0 = Release|Any CPU
+		{4CDCB78B-2292-41C2-973E-906980DBAFEE}.Release|x86.ActiveCfg = Release|Any CPU
+		{4CDCB78B-2292-41C2-973E-906980DBAFEE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -271,6 +289,7 @@ Global
 		{BDBE2622-2BA2-49B1-995C-2AD59007190B} = {8E6D25AE-F809-4CD8-BCB7-15E2F5812024}
 		{E756065C-A946-4EE7-BC62-184C57B113EC} = {6AD18D0D-7AE7-4ADF-BACA-DE824262C6D7}
 		{46556676-580A-4E21-915A-861730E91AB1} = {6AD18D0D-7AE7-4ADF-BACA-DE824262C6D7}
+		{4CDCB78B-2292-41C2-973E-906980DBAFEE} = {8E6D25AE-F809-4CD8-BCB7-15E2F5812024}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6BD649B0-310E-4D39-9639-4086B56695E5}

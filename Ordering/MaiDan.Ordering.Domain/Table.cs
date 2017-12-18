@@ -11,8 +11,7 @@
 
         public override bool Equals(object obj)
         {
-            Table other = obj as Table;
-            if (other == null)
+            if (!(obj is Table other))
                 return false;
             return this.Id == other.Id;
         }

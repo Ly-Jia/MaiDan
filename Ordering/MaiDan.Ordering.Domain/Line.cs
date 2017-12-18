@@ -13,8 +13,7 @@
 
 	    public override bool Equals(object obj)
 		{
-			Line other = obj as Line;
-			if (other == null)
+		    if (!(obj is Line other))
 				return false;
             
 			return this.Quantity == other.Quantity && this.Dish.Equals(other.Dish); // dish is not supposed to be null

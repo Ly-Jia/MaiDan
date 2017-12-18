@@ -5,8 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="NFluent" Version="2.0.0" />
     <PackageReference Include="NUnit" Version="3.8.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Billing\MaiDan.Billing.Domain\MaiDan.Billing.Domain.csproj" />
+    <ProjectReference Include="..\Test.MaiDan.Billing\Test.MaiDan.Billing.csproj" />
   </ItemGroup>
 
 </Project>

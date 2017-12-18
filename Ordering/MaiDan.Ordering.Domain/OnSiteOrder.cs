@@ -12,5 +12,12 @@ namespace MaiDan.Ordering.Domain
             Table = table;
             NumberOfGuests = numberOfGuests;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is OnSiteOrder other))
+                return false;
+            return other.Table.Equals(this.Table) && other.NumberOfGuests == this.NumberOfGuests;
+        }
     }
 }

@@ -20,7 +20,7 @@ namespace Test.MaiDan.Ordering.Domain
 		}
 		
 		[Test]
-		public void should_not_be_equal_when_quantity_and_dish_are_not_the_same()
+		public void should_not_be_equal_when_dish_is_not_the_same()
 		{
 			var line1 = new Line(1, new Dish("T","Tomato"));
 			var line2 = new Line(1, new Dish("P","Potato"));
@@ -29,5 +29,17 @@ namespace Test.MaiDan.Ordering.Domain
 			
 			Check.That(isEqual).IsFalse();
 		}
+
+	    [Test]
+	    public void should_not_be_equal_when_quantity_is_not_the_same()
+	    {
+	        var dish = new Dish("T", "Tomato");
+	        var line1 = new Line(1, dish);
+	        var line2 = new Line(2, dish);
+
+	        var isEqual = line1.Equals(line2);
+
+	        Check.That(isEqual).IsFalse();
+        }
 	}
 }

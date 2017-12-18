@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace MaiDan.Ordering.Domain
 {
@@ -29,10 +30,10 @@ namespace MaiDan.Ordering.Domain
 		
 		public override bool Equals(object obj)
 		{
-			Order other = obj as Order;
-			if (other == null)
-				return false;
-			return this.Id == other.Id;
+		    if (!(obj is Order other))
+		        return false;
+
+            return this.Id == other.Id && this.Lines.SequenceEqual(other.Lines);
 		}
 
 		public void Update(IList<Line> updatedLines)

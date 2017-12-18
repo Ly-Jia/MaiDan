@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace MaiDan.Billing.Domain
 {
@@ -13,5 +14,12 @@ namespace MaiDan.Billing.Domain
         public string Id { get; }
 
         public List<Price> PriceConfiguration { get; }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is Dish other))
+                return false;
+            return other.Id == this.Id && other.PriceConfiguration.SequenceEqual(this.PriceConfiguration);
+        }
     }
 }

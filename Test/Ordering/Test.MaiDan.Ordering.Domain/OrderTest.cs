@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using MaiDan.Ordering.Domain;
 using NFluent;
 using NUnit.Framework;
@@ -9,9 +8,6 @@ namespace Test.MaiDan.Ordering.Domain
     [TestFixture]
 	public class OrderTest
 	{
-	    private Table table = new Table("T1");
-	    private int numberOfGuests = 2;
-
 		[Test]
 		public void should_be_identifiable_by_id()
 		{
@@ -38,16 +34,16 @@ namespace Test.MaiDan.Ordering.Domain
 			var line = new Line(2, new Dish("B", "Burgers"));
 
             order = order.Add(2, new Dish("B", "Burgers"));
-            var createdLine = order.Lines.Single();
 			
 			Check.That(order.Lines).Contains(line);
 		}
 		
 		[Test] 
-		public void should_be_equal_when_id_is_the_same()
+		public void should_be_equal_when_id_and_lines_are_the_same()
 		{
-			var order1 = new AnOrder("1").Build();
-			var order2 = new AnOrder("1").Build();
+            var glassOfWine = new Dish("RW", "Red wine");
+			var order1 = new AnOrder("1").With(1, glassOfWine).Build();
+			var order2 = new AnOrder("1").With(1, glassOfWine).Build();
 			
 			var isEqual = order1.Equals(order2);
 			
@@ -64,7 +60,18 @@ namespace Test.MaiDan.Ordering.Domain
 			
 			Check.That(isEqual).IsFalse();
 		}
-		
+
+	    [Test]
+	    public void should_not_be_equal_when_lines_are_not_the_same()
+	    {
+	        var order1 = new AnOrder("1").With(1, new Dish("RW", "Red wine")).Build();
+	        var order2 = new AnOrder("1").With(2, new Dish("WW", "White wine")).Build();
+
+	        var isEqual = order1.Equals(order2);
+
+	        Check.That(isEqual).IsFalse();
+        }
+
 		[Test]
 		public void can_update_lines()
 		{
