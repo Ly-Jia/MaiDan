@@ -12,7 +12,6 @@ namespace Test.MaiDan.Billing
 
         public ADish() : this(DEFAULT_ID)
         {
-            
         }
 
         public ADish(string id)
@@ -25,9 +24,24 @@ namespace Test.MaiDan.Billing
             return new Dish(id, priceConfiguration);
         }
 
-        public ADish Priced(decimal amount, DateTime validFrom = default(DateTime), DateTime validTo = default(DateTime))
+        public ADish Priced(decimal amount)
+        {
+            return Priced(amount, DateTime.MinValue, DateTime.MinValue);
+        }
+
+        public ADish Priced(decimal amount, DateTime validFrom)
+        {
+            return Priced(amount, validFrom, DateTime.MinValue);
+        }
+        
+        public ADish Priced(decimal amount, DateTime validFrom, DateTime validTo)
         {
             priceConfiguration.Add(new Price(amount, validFrom, validTo));
+            return this;
+        }
+
+        public ADish And()
+        {
             return this;
         }
 

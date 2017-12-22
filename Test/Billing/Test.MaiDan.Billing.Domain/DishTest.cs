@@ -1,5 +1,6 @@
 ﻿using NFluent;
 using NUnit.Framework;
+using System;
 
 namespace Test.MaiDan.Billing.Domain
 {
@@ -9,7 +10,11 @@ namespace Test.MaiDan.Billing.Domain
         [Test]
         public void should_be_priced_with_the_latest_configured_price()
         {
-            
+            var applicationStartDate = new DateTime(2011, 01, 01);
+            var priceChangeDate = new DateTime(2012, 01, 01);
+            var dish = new ADish().Priced(5m, priceChangeDate).And().Priced(1m, applicationStartDate, priceChangeDate.AddDays(-1)).Build();
+
+            Check.That(dish.CurrentPrice).Equals(5m);
         }
 
         [Test]
