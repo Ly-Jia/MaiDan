@@ -42,7 +42,7 @@ namespace MaiDan.Ordering.Dal.Repositories
 	                            orderDictionary.Add(orderEntry.Id, orderEntry);
 	                        }
 
-	                        orderEntry.Lines.Add(new Line(o.Id, l.Quantity, d));
+	                        orderEntry.Lines.Add(new Line(o.Id, l.Index, l.Quantity, d));
 	                        return orderEntry;
 	                    },
 	                    splitOn: "OrderId,Id")
@@ -75,7 +75,7 @@ namespace MaiDan.Ordering.Dal.Repositories
                                 orderDictionary.Add(orderEntry.Id, orderEntry);
                             }
 
-                            orderEntry.Lines.Add(new Line(o.Id, l.Quantity, d));
+                            orderEntry.Lines.Add(new Line(o.Id, l.Index, l.Quantity, d));
                             return orderEntry;
                         },
                         splitOn: "OrderId,Id")
@@ -116,7 +116,7 @@ namespace MaiDan.Ordering.Dal.Repositories
 
         private Order EntityFrom(Domain.Order model)
 	    {
-	        var lines = model.Lines.Select(l => new Line(Int32.Parse(model.Id), l.Quantity, new Dish(l.Dish.Id, l.Dish.Name))).ToList();
+	        var lines = model.Lines.Select(l => new Line(Int32.Parse(model.Id), l.Id, l.Quantity, new Dish(l.Dish.Id, l.Dish.Name))).ToList();
 	        if (model is OnSiteOrder)
 	        {
 	            var onSite = (OnSiteOrder) model;
@@ -128,7 +128,7 @@ namespace MaiDan.Ordering.Dal.Repositories
 
 	    private Domain.Order ModelFrom(Order entity)
 	    {
-	        var lines = entity.Lines.Select(l => new Domain.Line(l.Quantity, new Domain.Dish(l.Dish.Id, l.Dish.Name))).ToList();
+	        var lines = entity.Lines.Select(l => new Domain.Line(l.Index, l.Quantity, new Domain.Dish(l.Dish.Id, l.Dish.Name))).ToList();
 
             if (entity.TakeAway)
 	            return new TakeAwayOrder(entity.Id.ToString(), lines);

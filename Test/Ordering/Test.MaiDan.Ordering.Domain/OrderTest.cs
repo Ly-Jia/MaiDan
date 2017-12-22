@@ -20,7 +20,7 @@ namespace Test.MaiDan.Ordering.Domain
 		public void can_add_line_to_an_order()
 		{
 			var order = new AnOrder().Build();
-			var line = new Line(2, new Dish("B","Burgers"));
+			var line = new Line(1, 2, new Dish("B","Burgers"));
 			
 			order = order.Add(line);
 			
@@ -31,7 +31,7 @@ namespace Test.MaiDan.Ordering.Domain
 		public void can_add_directly_quantity_and_dish_to_an_order()
 		{
 			var order = new AnOrder().Build();
-			var line = new Line(2, new Dish("B", "Burgers"));
+			var line = new Line(0, 2, new Dish("B", "Burgers"));
 
             order = order.Add(2, new Dish("B", "Burgers"));
 			
@@ -75,10 +75,10 @@ namespace Test.MaiDan.Ordering.Domain
 		[Test]
 		public void can_update_lines()
 		{
-			var initialLine = new Line(1, new Dish("T","Taco"));
+			var initialLine = new Line(1, 1, new Dish("T","Taco"));
 			var order = new AnOrder().With(initialLine).Build();
 			
-			var updatedLine = new Line(1, new Dish("B", "Burrito"));
+			var updatedLine = new Line(1, 1, new Dish("B", "Burrito"));
 			order.Update(new List<Line> {updatedLine});
 				
 			Check.That(order.Lines).Contains(updatedLine);

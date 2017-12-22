@@ -2,12 +2,14 @@
 {
 	public class Line
 	{
-	    public Line(int quantity, Dish dish)
+	    public Line(int id, int quantity, Dish dish)
 	    {
+            Id = id;
 	        Quantity = quantity;
 	        Dish = dish;
 	    }
 
+        public int Id { get; }
 	    public int Quantity { get; }
         public Dish Dish { get; }
 

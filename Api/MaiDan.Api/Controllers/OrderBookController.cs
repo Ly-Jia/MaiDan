@@ -87,7 +87,7 @@ namespace MaiDan.Api.Controllers
                     {
                         throw new ArgumentException($"The dish {line.DishId} was not found");
                     }
-                    lines.Add(new Line(line.Quantity, dish));
+                    lines.Add(new Line(line.Id, line.Quantity, dish));
                 }
 
             if (string.IsNullOrEmpty(contract.TableId))

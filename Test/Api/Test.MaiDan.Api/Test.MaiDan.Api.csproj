@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
-    <PackageReference Include="moq.netcore" Version="4.4.0-beta8" />
+    <PackageReference Include="Moq" Version="4.8.0-rc1" />
     <PackageReference Include="NFluent" Version="2.0.0" />
     <PackageReference Include="NUnit" Version="3.8.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.8.0" />

@@ -25,7 +25,7 @@ namespace MaiDan.Ordering.Domain
 		
 		public Order Add(int quantity, Dish dish)
 		{
-			return this.Add(new Line(quantity, dish));
+			return this.Add(new Line(Lines.Count, quantity, dish));
 		}
 		
 		public override bool Equals(object obj)

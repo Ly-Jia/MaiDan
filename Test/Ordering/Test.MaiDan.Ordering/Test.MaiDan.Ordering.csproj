@@ -12,7 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="moq.netcore" Version="4.4.0-beta8" />
+    <PackageReference Include="Moq" Version="4.8.0-rc1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -38,7 +38,7 @@ namespace Test.MaiDan.Ordering
 		/// <returns></returns>
 		public AnOrder With(int quantity, Dish dish)
 		{
-			return With(new Line (quantity, dish));
+			return With(new Line (this.lines.Count, quantity, dish));
 		}
 		
 		/// <summary>

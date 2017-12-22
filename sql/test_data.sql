@@ -17,7 +17,7 @@ INSERT INTO "Order" (Id, TakeAway, TableId, NumberOfGuests) VALUES(1, 0, '1', 1)
 INSERT INTO "Order" (Id, TakeAway, TableId, NumberOfGuests) VALUES(2, 0, '12A', 2);
 INSERT INTO "Order" (Id, TakeAway) VALUES (3, 1);
 
-INSERT INTO "OrderLine" (OrderId, DishId, Quantity) VALUES(1,'B1',2);
-INSERT INTO "OrderLine" (OrderId, DishId, Quantity) VALUES(1,'90',1);
-INSERT INTO "OrderLine" (OrderId, DishId, Quantity) VALUES(2,'B2',1);
-INSERT INTO "OrderLine" (OrderId, DishId, Quantity) VALUES(3,'1',1);
+INSERT INTO "OrderLine" (Id, OrderId, "Index", DishId, Quantity) VALUES('1-1', 1, 1, 'B1',2);
+INSERT INTO "OrderLine" (Id, OrderId, "Index", DishId, Quantity) VALUES('1-2', 1, 2, '90',1);
+INSERT INTO "OrderLine" (Id, OrderId, "Index", DishId, Quantity) VALUES('2-1', 2, 1, 'B2',1);
+INSERT INTO "OrderLine" (Id, OrderId, "Index", DishId, Quantity) VALUES('3-1', 3, 1, '1',1);
