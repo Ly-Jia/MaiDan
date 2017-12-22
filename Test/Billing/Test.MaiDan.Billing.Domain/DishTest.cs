@@ -7,6 +7,12 @@ namespace Test.MaiDan.Billing.Domain
     public class DishTest
     {
         [Test]
+        public void should_be_priced_with_the_latest_configured_price()
+        {
+            
+        }
+
+        [Test]
         public void should_be_equal_when_id_and_price_configuration_are_the_same()
         {
             var dish1 = new ADish("Id").Priced(5m).Build();

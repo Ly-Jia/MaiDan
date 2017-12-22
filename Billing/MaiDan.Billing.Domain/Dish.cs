@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MaiDan.Billing.Domain
@@ -14,6 +15,11 @@ namespace MaiDan.Billing.Domain
         public string Id { get; }
 
         public List<Price> PriceConfiguration { get; }
+
+        public Price CurrentPrice
+        {
+            get { return PriceConfiguration.Single(p => p.ValidityEndDate.Equals(DateTime.MinValue)); }
+        }
 
         public override bool Equals(object obj)
         {
