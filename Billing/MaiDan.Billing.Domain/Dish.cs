@@ -16,10 +16,7 @@ namespace MaiDan.Billing.Domain
 
         public List<Price> PriceConfiguration { get; }
 
-        public Price CurrentPrice
-        {
-            get { return PriceConfiguration.Single(p => p.ValidityEndDate.Equals(DateTime.MinValue)); }
-        }
+        public decimal CurrentPrice => PriceConfiguration.Single(p => p.ValidityEndDate.Equals(DateTime.MinValue)).Amount;
 
         public override bool Equals(object obj)
         {

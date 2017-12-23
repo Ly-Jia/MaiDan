@@ -24,6 +24,7 @@
     <ProjectReference Include="..\..\..\Billing\MaiDan.Billing.Domain\MaiDan.Billing.Domain.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\MaiDan.Infrastructure.Database\MaiDan.Infrastructure.Database.csproj" />
     <ProjectReference Include="..\..\..\Ordering\MaiDan.Ordering.Domain\MaiDan.Ordering.Domain.csproj" />
+    <ProjectReference Include="..\..\Billing\Test.MaiDan.Billing\Test.MaiDan.Billing.csproj" />
     <ProjectReference Include="..\..\Ordering\Test.MaiDan.Ordering\Test.MaiDan.Ordering.csproj" />
   </ItemGroup>
 
