@@ -116,14 +116,14 @@ namespace MaiDan.Ordering.Dal.Repositories
 
         private Order EntityFrom(Domain.Order model)
 	    {
-	        var lines = model.Lines.Select(l => new Line(Int32.Parse(model.Id), l.Id, l.Quantity, new Dish(l.Dish.Id, l.Dish.Name))).ToList();
+	        var lines = model.Lines.Select(l => new Line(model.Id, l.Id, l.Quantity, new Dish(l.Dish.Id, l.Dish.Name))).ToList();
 	        if (model is OnSiteOrder)
 	        {
 	            var onSite = (OnSiteOrder) model;
-	            return new Order(Int32.Parse(model.Id), false, onSite.Table.Id, onSite.NumberOfGuests, lines);
+	            return new Order(model.Id, false, onSite.Table.Id, onSite.NumberOfGuests, lines);
             }
 
-	        return new Order(Int32.Parse(model.Id), true, null, 0, lines);
+	        return new Order(model.Id, true, null, 0, lines);
 	    }
 
 	    private Domain.Order ModelFrom(Order entity)
@@ -131,9 +131,9 @@ namespace MaiDan.Ordering.Dal.Repositories
 	        var lines = entity.Lines.Select(l => new Domain.Line(l.Index, l.Quantity, new Domain.Dish(l.Dish.Id, l.Dish.Name))).ToList();
 
             if (entity.TakeAway)
-	            return new TakeAwayOrder(entity.Id.ToString(), lines);
+	            return new TakeAwayOrder(entity.Id, lines);
 
-	        return new OnSiteOrder(entity.Id.ToString(), new Table(entity.TableId), entity.NumberOfGuests, lines);
+	        return new OnSiteOrder(entity.Id, new Table(entity.TableId), entity.NumberOfGuests, lines);
         }
 	}
 }

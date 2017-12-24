@@ -60,7 +60,7 @@ namespace Test.MaiDan.Api.Controllers.Ordering
 
             orderBookController.Add(new OrderDataContract
             {
-                Id = "id",
+                Id = 1,
                 Lines = new List<LineDataContract> {new LineDataContract {DishId = "id"}}
             });
 
@@ -78,7 +78,7 @@ namespace Test.MaiDan.Api.Controllers.Ordering
 
             orderBookController.Update(new OrderDataContract
             {
-                Id = "id",
+                Id = 1,
                 Lines = new List<LineDataContract> { new LineDataContract { DishId = "id" } }
             });
 
@@ -98,7 +98,7 @@ namespace Test.MaiDan.Api.Controllers.Ordering
 
             var orderBookController = CreateOrderBookController(orderBook.Object, menu.Object, room.Object);
 
-            orderBookController.Add(new OrderDataContract { Id = "id", TableId = tableId });
+            orderBookController.Add(new OrderDataContract { Id = 1, TableId = tableId });
 
             Check.That(orderBookController.Response.StatusCode).Equals((int)HttpStatusCode.OK);
         }
@@ -114,7 +114,7 @@ namespace Test.MaiDan.Api.Controllers.Ordering
             room.Setup(r => r.Get(tableId)).Returns(new Table(tableId));
             var orderBookController = CreateOrderBookController(orderBook.Object, menu.Object, room.Object);
 
-            orderBookController.Update(new OrderDataContract { Id = "id", TableId = tableId });
+            orderBookController.Update(new OrderDataContract { Id = 1, TableId = tableId });
 
             Check.That(orderBookController.Response.StatusCode).Equals((int)HttpStatusCode.OK);
         }

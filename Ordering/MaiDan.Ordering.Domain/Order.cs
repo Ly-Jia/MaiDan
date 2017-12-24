@@ -8,10 +8,10 @@ namespace MaiDan.Ordering.Domain
 	/// </summary>
 	public abstract class Order
 	{
-		public string Id { get; }
+		public int Id { get; }
 		public IList<Line> Lines { get; private set; }
         
-	    public Order(string id, IList<Line> lines)
+	    public Order(int id, IList<Line> lines)
 	    {
 	        Id = id;
 	        Lines = lines;

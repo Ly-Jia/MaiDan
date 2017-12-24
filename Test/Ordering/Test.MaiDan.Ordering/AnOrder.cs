@@ -8,8 +8,8 @@ namespace Test.MaiDan.Ordering
 	/// </summary>
 	public class AnOrder
 	{
-		public static readonly string DEFAULT_ID = "id";
-		private string id;
+		public static readonly int DEFAULT_ID = 1;
+		private int id;
 		private List<Line> lines;
 	    private bool takeAway = false;
 		
@@ -17,7 +17,7 @@ namespace Test.MaiDan.Ordering
 		/// Initialize the future order with a specific id (creation date)
 		/// </summary>
 		/// <param name="id"></param>
-		public AnOrder(string id)
+		public AnOrder(int id)
 		{
             this.lines = new List<Line>();
 		    this.id = id;

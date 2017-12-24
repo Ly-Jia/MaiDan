@@ -12,7 +12,7 @@ namespace Test.MaiDan.Ordering.Domain
         [Test]
         public void should_be_equal_when_orders_are_the_same()
         {
-            var id = "id";
+            var id = 1;
             Table table = new Table("T1");
             int numberOfGuests = 2;
 
@@ -27,7 +27,7 @@ namespace Test.MaiDan.Ordering.Domain
         [Test]
         public void should_not_be_equal_when_table_is_not_the_same()
         {
-            var id = "id";
+            var id = 1;
             int numberOfGuests = 2;
 
             var order1 = new OnSiteOrder(id, new Table("T1"), numberOfGuests, new List<Line>());
@@ -41,7 +41,7 @@ namespace Test.MaiDan.Ordering.Domain
         [Test]
         public void should_not_be_equal_when_number_of_guests_are_not_the_same()
         {
-            var id = "id";
+            var id = 1;
             Table table = new Table("T1");
 
             var order1 = new OnSiteOrder(id, table, 1, new List<Line>());

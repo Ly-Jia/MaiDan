@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace MaiDan.Ordering.Domain
 {
     public class TakeAwayOrder : Order
     {
-        public TakeAwayOrder(string id, IList<Line> lines) : base(id, lines)
+        public TakeAwayOrder(int id, IList<Line> lines) : base(id, lines)
         {
         }
     }

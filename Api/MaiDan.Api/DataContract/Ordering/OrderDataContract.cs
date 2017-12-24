@@ -4,7 +4,7 @@ namespace MaiDan.Api.DataContract.Ordering
 {
     public class OrderDataContract 
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         public string TableId { get; set; }
 

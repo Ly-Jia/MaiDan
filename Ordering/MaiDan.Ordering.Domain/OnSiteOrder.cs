@@ -7,7 +7,7 @@ namespace MaiDan.Ordering.Domain
         public Table Table { get; }
         public int NumberOfGuests { get; }
 
-        public OnSiteOrder(string id, Table table, int numberOfGuests, IList<Line> lines) : base(id, lines)
+        public OnSiteOrder(int id, Table table, int numberOfGuests, IList<Line> lines) : base(id, lines)
         {
             Table = table;
             NumberOfGuests = numberOfGuests;

@@ -11,7 +11,7 @@ namespace Test.MaiDan.Ordering.Domain
 		[Test]
 		public void should_be_identifiable_by_id()
 		{
-			var id = "id";
+			var id = 1;
 		    var order = new TakeAwayOrder(id, new List<Line>());
 			Check.That(order.Id).Equals(id);
 		}
@@ -42,8 +42,8 @@ namespace Test.MaiDan.Ordering.Domain
 		public void should_be_equal_when_id_and_lines_are_the_same()
 		{
             var glassOfWine = new Dish("RW", "Red wine");
-			var order1 = new AnOrder("1").With(1, glassOfWine).Build();
-			var order2 = new AnOrder("1").With(1, glassOfWine).Build();
+			var order1 = new AnOrder(1).With(1, glassOfWine).Build();
+			var order2 = new AnOrder(1).With(1, glassOfWine).Build();
 			
 			var isEqual = order1.Equals(order2);
 			
@@ -53,8 +53,8 @@ namespace Test.MaiDan.Ordering.Domain
 		[Test]
 		public void should_not_be_equal_when_id_is_not_the_same()
 		{
-			var order1 = new AnOrder("id1").Build();
-			var order2 = new AnOrder("id2").Build();
+			var order1 = new AnOrder(1).Build();
+			var order2 = new AnOrder(2).Build();
 			
 			var isEqual = order1.Equals(order2);
 			
@@ -64,8 +64,8 @@ namespace Test.MaiDan.Ordering.Domain
 	    [Test]
 	    public void should_not_be_equal_when_lines_are_not_the_same()
 	    {
-	        var order1 = new AnOrder("1").With(1, new Dish("RW", "Red wine")).Build();
-	        var order2 = new AnOrder("1").With(2, new Dish("WW", "White wine")).Build();
+	        var order1 = new AnOrder(1).With(1, new Dish("RW", "Red wine")).Build();
+	        var order2 = new AnOrder(1).With(2, new Dish("WW", "White wine")).Build();
 
 	        var isEqual = order1.Equals(order2);
 
