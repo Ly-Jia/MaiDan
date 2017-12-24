@@ -20,7 +20,7 @@ namespace MaiDan.Ordering.Dal.Entities
             Dish = dish;
         }
 
-        // 
+        [ExplicitKey]
         public string Id { get; set; }
         public int OrderId { get; set; }
         public int Index { get; set; }
