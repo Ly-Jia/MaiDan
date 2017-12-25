@@ -23,7 +23,11 @@ namespace MaiDan.Ordering.Dal.Repositories
 	    public Domain.Order Get(string id)
 	    {
 	        var parsedId = Int32.Parse(id);
-	        var sql = $"SELECT * FROM \"Order\" o JOIN \"OrderLine\" l ON o.Id = l.OrderId JOIN \"Dish\" d ON l.DishId = d.Id WHERE o.Id = {parsedId};";
+	        var sql = $"SELECT * " +
+	                  $"FROM \"Order\" o " +
+	                  $"JOIN \"OrderLine\" l ON o.Id = l.OrderId " +
+	                  $"JOIN \"Dish\" d ON l.DishId = d.Id " +
+	                  $"WHERE o.Id = {parsedId};";
 
 	        using (var connection = database.CreateConnection())
 	        {
@@ -45,7 +49,7 @@ namespace MaiDan.Ordering.Dal.Repositories
 	                        orderEntry.Lines.Add(new Line(o.Id, l.Index, l.Quantity, d));
 	                        return orderEntry;
 	                    },
-	                    splitOn: "OrderId,Id")
+	                    splitOn: "Id,Id")
 	                .Distinct()
 	                .Single();
 
@@ -55,7 +59,11 @@ namespace MaiDan.Ordering.Dal.Repositories
 
 	    public List<Domain.Order> GetAll()
 	    {
-	        string sql = "SELECT * FROM \"Order\" o JOIN \"OrderLine\" l ON o.Id = l.OrderId JOIN \"Dish\" d ON l.DishId = d.Id;";
+	        string sql = "SELECT *  " +
+	                     "FROM \"Order\" o " +
+	                     "JOIN \"OrderLine\" l ON o.Id = l.OrderId " +
+	                     "JOIN \"Dish\" d ON l.DishId = d.Id;";
+
 	        List<Order> orders;
 
             using (var connection = database.CreateConnection())
@@ -78,7 +86,7 @@ namespace MaiDan.Ordering.Dal.Repositories
                             orderEntry.Lines.Add(new Line(o.Id, l.Index, l.Quantity, d));
                             return orderEntry;
                         },
-                        splitOn: "OrderId,Id")
+                        splitOn: "Id,Id")
                     .Distinct()
                     .ToList();
             }
