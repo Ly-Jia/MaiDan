@@ -13,7 +13,7 @@ CREATE TABLE "DishPrice"
 	("DishId" VARCHAR,
 	 "ValidityStartDate" DATETIME,
 	 "ValidityEndDate" DATETIME,
-	 "Amount" DECIMAL(18,2),
+	 "Amount" REAL,
 	FOREIGN KEY ("DishId") REFERENCES "Dish"("Id"));
 
 

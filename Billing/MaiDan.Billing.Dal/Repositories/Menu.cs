@@ -18,7 +18,9 @@ namespace MaiDan.Billing.Dal.Repositories
 
         public Domain.Dish Get(string id)
         {
-            string sql = $"SELECT price.DishId as Id, price.DishId, price.ValidityStartDate, price.ValidityEndDate, price.Amount AS AmountInternal FROM \"DishPrice\" price WHERE price.DishId = '{id}' ;";
+            string sql = "SELECT price.DishId as Id, price.DishId, price.ValidityStartDate, price.ValidityEndDate, price.Amount " +
+                         "FROM \"DishPrice\" price " +
+                         $"WHERE price.DishId = '{id}' ;";
 
             using (var connection = database.CreateConnection())
             {
