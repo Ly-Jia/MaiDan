@@ -1,4 +1,5 @@
-﻿using MaiDan.Infrastructure.Database;
+﻿using MaiDan.Api.Services;
+using MaiDan.Infrastructure.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -38,11 +39,14 @@ namespace MaiDan.Api
             services.AddMvc();
 
             var database = new SqliteDatabase("MaiDan.sqlite");
+            var billingMenu = new Billing.Dal.Repositories.Menu(database);
+            var cashRegister = new CashRegister(billingMenu);
             services.AddSingleton<IDatabase, SqliteDatabase>(svcs => database);
             services.AddSingleton<IRepository<Ordering.Domain.Dish>, Ordering.Dal.Repositories.Menu>(svcs => new Ordering.Dal.Repositories.Menu(database));
-            services.AddSingleton<IRepository<Billing.Domain.Dish>, Billing.Dal.Repositories.Menu>(svcs => new Billing.Dal.Repositories.Menu(database));
+            services.AddSingleton<IRepository<Billing.Domain.Dish>, Billing.Dal.Repositories.Menu>(svcs => billingMenu);
             services.AddSingleton<IRepository<Ordering.Domain.Order>, Ordering.Dal.Repositories.OrderBook>(svcs => new Ordering.Dal.Repositories.OrderBook(database));
             services.AddSingleton<IRepository<Ordering.Domain.Table>, Ordering.Dal.Repositories.Room>(svcs => new Ordering.Dal.Repositories.Room(database));
+            services.AddSingleton(svcs => cashRegister);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
