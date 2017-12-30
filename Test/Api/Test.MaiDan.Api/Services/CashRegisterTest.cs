@@ -18,7 +18,7 @@ namespace Test.MaiDan.Api.Services
             var cashRegister = new CashRegister(new Mock<IRepository<Dish>>().Object);
             var order = new AnOrder().Build();
 
-            var bill = cashRegister.Print(order);
+            var bill = cashRegister.Calculate(order);
 
             Check.That(bill.Id).Equals(order.Id);
         }
@@ -38,7 +38,7 @@ namespace Test.MaiDan.Api.Services
             var cashRegister = new CashRegister(menu.Object);
 
 
-            var bill = cashRegister.Print(order);
+            var bill = cashRegister.Calculate(order);
 
 
             Check.That(bill.Lines.ElementAt(0).Amount).Equals(5m);
