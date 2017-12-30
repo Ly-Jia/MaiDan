@@ -17,7 +17,7 @@ namespace Test.MaiDan.Billing.Domain
                     new Line(2, 2m)
                 };
 
-            var bill = new Bill("B", lines);
+            var bill = new Bill(1, lines);
 
             Check.That(bill.Total).Equals(3m);
         }
