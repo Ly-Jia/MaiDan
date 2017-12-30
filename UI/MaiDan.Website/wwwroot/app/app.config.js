@@ -17,6 +17,9 @@
                 when('/orderbook/:orderId', {
                     template: '<order></order>'
                 }).
+                when('/billpreviews/:orderId', {
+                    template:  '<billpreview></billpreview>'
+                }).
                 otherwise('/orderbook');
         }
     ]);
