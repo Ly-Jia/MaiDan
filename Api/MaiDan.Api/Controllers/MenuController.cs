@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
-using MaiDan.Api.DataContract.Ordering;
 using MaiDan.Infrastructure.Database;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,37 +19,39 @@ namespace MaiDan.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public Billing.Domain.Dish Get(string id)
+        public DataContracts.Responses.DetailedDish Get(string id)
         {
-            Billing.Domain.Dish dish;
-            dish = menuWithPrice.Get(id);
+            Ordering.Domain.Dish orderingDish;
+            Billing.Domain.Dish billingDish;
+            orderingDish = menuWithoutPrice.Get(id);
+            billingDish = menuWithPrice.Get(id);
             
-            if (dish == null)
+            if (orderingDish == null || billingDish == null)
             {
                 Response.StatusCode = (int) HttpStatusCode.NotFound;
                 return null;
             }
 
             Response.StatusCode = (int)HttpStatusCode.OK;
-            return dish;
+            return new DataContracts.Responses.DetailedDish(orderingDish, billingDish);
         }
 
         [HttpGet]
-        public List<Ordering.Domain.Dish> Get()
+        public List<DataContracts.Responses.Dish> Get()
         {
-            return menuWithoutPrice.GetAll();
+            return menuWithoutPrice.GetAll().Select(dish => new DataContracts.Responses.Dish(dish, menuWithPrice.Get(dish.Id))).ToList();
         }
 
         [HttpPut]
-        public void Add([FromBody] DishDataContract contract)
+        public void Add([FromBody] DataContracts.Requests.Dish contract)
         {
-            menuWithoutPrice.Add(contract.ToDomainObject());
+            menuWithoutPrice.Add(contract.ToOrderingDish());
         }
 
         [HttpPost]
-        public void Update([FromBody] DishDataContract contract)
+        public void Update([FromBody] DataContracts.Requests.Dish contract)
         {
-            menuWithoutPrice.Update(contract.ToDomainObject());
+            menuWithoutPrice.Update(contract.ToOrderingDish());
         }
     }
 }

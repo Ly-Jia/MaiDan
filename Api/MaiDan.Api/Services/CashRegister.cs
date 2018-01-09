@@ -16,7 +16,7 @@ namespace MaiDan.Api.Services
 
         public Bill Calculate(Order order)
         {
-            var lines = order.Lines.Select(l => new Billing.Domain.Line(l.Id, l.Quantity * menu.Get(l.Dish.Id).CurrentPrice)).ToList();
+            var lines = order.Lines.Select(l => new Billing.Domain.Line(l.Id, l.Quantity * menu.Get(l.Dish.Id).CurrentPrice.Value)).ToList();
             var bill =  new Bill(order.Id, lines);
             return bill;
         }

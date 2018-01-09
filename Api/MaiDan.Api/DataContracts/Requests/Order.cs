@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace MaiDan.Api.DataContract.Ordering
+namespace MaiDan.Api.DataContracts.Requests
 {
-    public class OrderDataContract 
+    public class Order 
     {
         public int Id { get; set; }
 
@@ -10,7 +10,7 @@ namespace MaiDan.Api.DataContract.Ordering
 
         public int NumberOfGuests { get; set; }
         
-        public IList<LineDataContract> Lines { get; set; }
+        public List<Line> Lines { get; set; }
         
     }
 }

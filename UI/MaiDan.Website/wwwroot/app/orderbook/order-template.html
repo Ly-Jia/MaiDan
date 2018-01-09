@@ -1,11 +1,11 @@
 ﻿<div class="container-fluid">
-    <h1 ng-if="$ctrl.order.table === undefined">Commande n°{{$ctrl.order.id}} - à emporter</h1>
-    <h1 ng-if="$ctrl.order.table !== undefined">Commande n°{{$ctrl.order.id}} - Table {{$ctrl.order.table.id}}, {{$ctrl.order.numberOfGuests}} convive(s)</h1>
+    <h1 ng-if="$ctrl.order.tableId === undefined">Commande n°{{$ctrl.order.id}} - à emporter</h1>
+    <h1 ng-if="$ctrl.order.tableId !== undefined">Commande n°{{$ctrl.order.id}} - Table {{$ctrl.order.tableId}}, {{$ctrl.order.numberOfGuests}} convive(s)</h1>
     <ul>
         <li ng-repeat="line in $ctrl.order.lines">
-            <p>{{line.quantity}} x {{line.dish.id}} - {{line.dish.name}} </p>
+            <p>{{line.quantity}} x {{line.dishName}} - {{line.amount}}€ </p>
         </li>
     </ul>
-    
-    <a href="#!/billpreviews/{{$ctrl.order.id}}">Calculer la facture {{$ctrl.order.id}} (avant impression définitive)</a>
+
+    <p>Total : {{$ctrl.order.total}}€</p>
 </div>

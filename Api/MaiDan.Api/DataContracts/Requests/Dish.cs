@@ -1,21 +1,20 @@
 ﻿using System;
-using MaiDan.Ordering.Domain;
 
-namespace MaiDan.Api.DataContract.Ordering
+namespace MaiDan.Api.DataContracts.Requests
 {
-    public class DishDataContract : IDataContract<Dish>
+    public class Dish 
     {
         public string Id { get; set; }
         
         public string Name { get; set; }
 
-        public Dish ToDomainObject()
+        public Ordering.Domain.Dish ToOrderingDish()
         {
             if (this.Id == null)
             {
                 throw new ArgumentNullException();
             }
-            return new Dish(this.Id, this.Name);
+            return new Ordering.Domain.Dish(this.Id, this.Name);
         }
     }
 }

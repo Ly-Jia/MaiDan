@@ -1,6 +1,6 @@
-﻿namespace MaiDan.Api.DataContract.Ordering
+﻿namespace MaiDan.Api.DataContracts.Requests
 {
-    public class LineDataContract 
+    public class Line 
     {
         public int Id { get; set; }
 

@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
-using MaiDan.Api.DataContract.Ordering;
+using MaiDan.Api.Services;
+using MaiDan.Billing.Domain;
 using MaiDan.Infrastructure.Database;
 using MaiDan.Ordering.Domain;
 using Microsoft.AspNetCore.Mvc;
+using Dish = MaiDan.Ordering.Domain.Dish;
+using Line = MaiDan.Ordering.Domain.Line;
 
 namespace MaiDan.Api.Controllers
 {
@@ -13,20 +17,21 @@ namespace MaiDan.Api.Controllers
     {
         private readonly IRepository<Order> orderBook;
         private readonly IRepository<Dish> menu;
-        private readonly IRepository<Table> tables;
+        private readonly IRepository<Table> room;
+        private readonly CashRegister cashRegister;
 
-        public OrderBookController(IRepository<Order> orderBook, IRepository<Dish> menu, IRepository<Table> tables)
+        public OrderBookController(IRepository<Order> orderBook, IRepository<Dish> menu, IRepository<Table> room, CashRegister cashRegister)
         {
             this.orderBook = orderBook;
             this.menu = menu;
-            this.tables = tables;
+            this.room = room;
+            this.cashRegister = cashRegister;
         }
 
         [HttpGet("{id}")]
-        public Order Get(string id)
+        public DataContracts.Responses.DetailedOrder Get(string id)
         {
-            Order order;
-            order = orderBook.Get(id);
+            var order = orderBook.Get(id);
 
             if (order == null)
             {
@@ -34,18 +39,30 @@ namespace MaiDan.Api.Controllers
                 return null;
             }
 
+            Bill billpreview = null;
+            try
+            {
+                billpreview = cashRegister.Calculate(order);
+            }
+            catch (InvalidOperationException e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return null;
+            }
+
             Response.StatusCode = (int)HttpStatusCode.OK;
-            return order;
+            return new DataContracts.Responses.DetailedOrder(order, billpreview);
         }
 
         [HttpGet]
-        public List<Order> Get()
+        public List<DataContracts.Responses.Order> Get()
         {
-            return orderBook.GetAll();
+            return orderBook.GetAll().Select(o => new DataContracts.Responses.Order(o, cashRegister.Calculate(o)))
+                .ToList();
         }
 
         [HttpPut]
-        public void Add([FromBody] OrderDataContract contract)
+        public void Add([FromBody] DataContracts.Requests.Order contract)
         {
             Order order;
             try
@@ -61,7 +78,7 @@ namespace MaiDan.Api.Controllers
         }
 
         [HttpPost]
-        public void Update([FromBody] OrderDataContract contract)
+        public void Update([FromBody] DataContracts.Requests.Order contract)
         {
             Order order;
             try
@@ -76,7 +93,7 @@ namespace MaiDan.Api.Controllers
             orderBook.Update(order);
         }
 
-        private Order ModelFromDataContract(OrderDataContract contract)
+        private Order ModelFromDataContract(DataContracts.Requests.Order contract)
         {
             List<Line> lines = new List<Line>();
             if (contract.Lines != null)
@@ -93,7 +110,7 @@ namespace MaiDan.Api.Controllers
             if (string.IsNullOrEmpty(contract.TableId))
                 return new TakeAwayOrder(contract.Id, lines);
 
-            Table table = tables.Get(contract.TableId);
+            Table table = room.Get(contract.TableId);
 
             if (table == null)
                 throw new ArgumentException($"The table {contract.TableId} was not found");

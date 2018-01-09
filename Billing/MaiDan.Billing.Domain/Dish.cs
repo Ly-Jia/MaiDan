@@ -9,14 +9,14 @@ namespace MaiDan.Billing.Domain
         public Dish(string id, List<Price> priceConfiguration)
         {
             Id = id;
-            PriceConfiguration = priceConfiguration;
+            PriceConfiguration = priceConfiguration ?? new List<Price>();
         }
 
         public string Id { get; }
 
         public List<Price> PriceConfiguration { get; }
 
-        public decimal CurrentPrice => PriceConfiguration.Single(p => p.ValidityEndDate.Equals(DateTime.MinValue)).Amount;
+        public decimal? CurrentPrice => PriceConfiguration.Count == 0 ? (decimal?) null : PriceConfiguration.Single(p => p.ValidityEndDate.Equals(DateTime.MinValue)).Amount;
 
         public override bool Equals(object obj)
         {
