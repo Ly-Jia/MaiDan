@@ -23,10 +23,10 @@ namespace MaiDan.Ordering.Dal.Repositories
 	    public Domain.Order Get(string id)
 	    {
 	        var parsedId = Int32.Parse(id);
-	        var sql = $"SELECT * " +
-	                  $"FROM \"Order\" o " +
-	                  $"JOIN \"OrderLine\" l ON o.Id = l.OrderId " +
-	                  $"JOIN \"Dish\" d ON l.DishId = d.Id " +
+	        var sql =  "SELECT * " +
+	                   "FROM \"Order\" o " +
+	                   "JOIN \"OrderLine\" l ON o.Id = l.OrderId " +
+	                   "JOIN \"Dish\" d ON l.DishId = d.Id " +
 	                  $"WHERE o.Id = {parsedId};";
 
 	        using (var connection = database.CreateConnection())
