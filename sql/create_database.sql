@@ -35,3 +35,17 @@ CREATE TABLE "OrderLine"
 	 "Quantity" INTEGER NOT NULL,
 	FOREIGN KEY("OrderId") REFERENCES "Order"("Id"),
 	FOREIGN KEY("DishId") REFERENCES "Dish"("Id"));
+	
+CREATE TABLE "Bill" 
+	("Id" INTEGER PRIMARY KEY NOT NULL UNIQUE,
+	 "Total" REAL NOT NULL,
+	FOREIGN KEY ("Id") REFERENCES "Order"("Id"));
+
+CREATE TABLE "BillLine" 
+	("Id" VARCHAR NOT NULL,
+	 "BillId" INTEGER NOT NULL, 
+	 "Index" INTEGER NOT NULL,
+	 "Amount" REAL NOT NULL, 
+	 "Quantity" INTEGER NOT NULL,
+	FOREIGN KEY("BillId") REFERENCES "Bill"("Id"));
+

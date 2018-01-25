@@ -1,0 +1,11 @@
+﻿<div class="container-fluid">
+    <h1>Commandes</h1>
+    <div class="col-md-10">
+        <!--Body content--><ul>
+            <li ng-repeat="bill in $ctrl.billbook | filter:$ctrl.query | billBy:$ctrl.billProp">
+                <a ng-if="bill.tableId === undefined" href="#!/billbook/{{bill.id}}">{{bill.id}} - à emporter</a>
+                <a ng-if="bill.tableId !== undefined" href="#!/billbook/{{bill.id}}">{{bill.id}} - table {{bill.tableId}}</a>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -8,5 +8,7 @@ angular.module('maidanApp',
         'dish',
         'menu',
         'orderbook',
-        'order'
+        'order',
+        'billbook',
+        'bill'
     ]);

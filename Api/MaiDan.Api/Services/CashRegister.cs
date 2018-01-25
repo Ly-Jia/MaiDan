@@ -8,10 +8,12 @@ namespace MaiDan.Api.Services
     public class CashRegister
     {
         private readonly IRepository<Billing.Domain.Dish> menu;
+        private readonly IRepository<Bill> billBook;
 
-        public CashRegister(IRepository<Billing.Domain.Dish> menu)
+        public CashRegister(IRepository<Billing.Domain.Dish> menu, IRepository<Bill> billBook)
         {
             this.menu = menu;
+            this.billBook = billBook;
         }
 
         public Bill Calculate(Order order)
@@ -19,6 +21,12 @@ namespace MaiDan.Api.Services
             var lines = order.Lines.Select(l => new Billing.Domain.Line(l.Id, l.Quantity * menu.Get(l.Dish.Id).CurrentPrice.Value)).ToList();
             var bill =  new Bill(order.Id, lines);
             return bill;
+        }
+
+        public void Print(Order order)
+        {
+            var bill = Calculate(order);
+            billBook.Add(bill);
         }
     }
 }

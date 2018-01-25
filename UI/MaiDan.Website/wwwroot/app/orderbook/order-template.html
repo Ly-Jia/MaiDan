@@ -8,4 +8,7 @@
     </ul>
 
     <p>Total : {{$ctrl.order.total}}€</p>
+    <div ng-controller="OrderPrintController">
+        <button ng-click="print()">Imprimer l'addition</button>
+    </div>
 </div>

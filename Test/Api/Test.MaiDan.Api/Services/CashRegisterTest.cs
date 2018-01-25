@@ -15,7 +15,7 @@ namespace Test.MaiDan.Api.Services
         [Test]
         public void should_print_a_bill_from_an_order()
         {
-            var cashRegister = new CashRegister(new Mock<IRepository<Dish>>().Object);
+            var cashRegister = new CashRegister(new Mock<IRepository<Dish>>().Object, new Mock<IRepository<Bill>>().Object);
             var order = new AnOrder().Build();
 
             var bill = cashRegister.Calculate(order);
@@ -35,7 +35,7 @@ namespace Test.MaiDan.Api.Services
             menu.Setup(m => m.Get("1")).Returns(new Billing.ADish("1").Priced(5m).Build());
             menu.Setup(m => m.Get("2")).Returns(new Billing.ADish("2").Priced(10m).Build());
 
-            var cashRegister = new CashRegister(menu.Object);
+            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<Bill>>().Object);
 
 
             var bill = cashRegister.Calculate(order);

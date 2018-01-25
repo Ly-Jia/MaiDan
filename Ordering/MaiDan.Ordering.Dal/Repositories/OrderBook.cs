@@ -61,8 +61,10 @@ namespace MaiDan.Ordering.Dal.Repositories
 	    {
 	        string sql = "SELECT *  " +
 	                     "FROM \"Order\" o " +
+	                     "LEFT OUTER JOIN \"Bill\" b ON o.Id = b.Id " +
 	                     "JOIN \"OrderLine\" l ON o.Id = l.OrderId " +
-	                     "JOIN \"Dish\" d ON l.DishId = d.Id;";
+	                     "JOIN \"Dish\" d ON l.DishId = d.Id " +
+                         "WHERE b.Id IS NULL";
 
 	        List<Order> orders;
 

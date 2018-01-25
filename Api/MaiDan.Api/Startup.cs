@@ -39,13 +39,19 @@ namespace MaiDan.Api
             services.AddMvc();
 
             var database = new SqliteDatabase("MaiDan.sqlite");
-            var billingMenu = new Billing.Dal.Repositories.Menu(database);
-            var cashRegister = new CashRegister(billingMenu);
             services.AddSingleton<IDatabase, SqliteDatabase>(svcs => database);
+
+            // Ordering
             services.AddSingleton<IRepository<Ordering.Domain.Dish>, Ordering.Dal.Repositories.Menu>(svcs => new Ordering.Dal.Repositories.Menu(database));
-            services.AddSingleton<IRepository<Billing.Domain.Dish>, Billing.Dal.Repositories.Menu>(svcs => billingMenu);
             services.AddSingleton<IRepository<Ordering.Domain.Order>, Ordering.Dal.Repositories.OrderBook>(svcs => new Ordering.Dal.Repositories.OrderBook(database));
             services.AddSingleton<IRepository<Ordering.Domain.Table>, Ordering.Dal.Repositories.Room>(svcs => new Ordering.Dal.Repositories.Room(database));
+            
+            // Billing
+            var billingMenu = new Billing.Dal.Repositories.Menu(database);
+            var billBook = new Billing.Dal.Repositories.BillBook(database);
+            var cashRegister = new CashRegister(billingMenu, billBook);
+            services.AddSingleton<IRepository<Billing.Domain.Dish>, Billing.Dal.Repositories.Menu>(svcs => billingMenu);
+            services.AddSingleton<IRepository<Billing.Domain.Bill>, Billing.Dal.Repositories.BillBook>(svcs => new Billing.Dal.Repositories.BillBook(database));
             services.AddSingleton(svcs => cashRegister);
         }
 

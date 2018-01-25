@@ -17,6 +17,12 @@
                 when('/orderbook/:orderId', {
                     template: '<order></order>'
                 }).
+                when('/billbook', {
+                    template:  '<billbook></billbook>'
+                }).
+                when('/billbook/:billid', {
+                    template:  '<bill></bill>'
+                }).
                 otherwise('/orderbook');
         }
     ]);
