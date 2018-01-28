@@ -18,13 +18,10 @@ namespace MaiDan.Billing.Dal.Entities
         {
             Id = bill.Id;
             Total = bill.Total;
-            Lines = bill.Lines.Select(l => new Line(bill.Id, l.Id, l.Amount)).ToList();
         }
 
         public int Id { get; set; }
         
         public decimal Total { get; set; }
-
-        public List<Line> Lines { get; set; }
     }
 }

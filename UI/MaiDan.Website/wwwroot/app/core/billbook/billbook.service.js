@@ -1,20 +1,21 @@
 ﻿angular.
     module('core.billbook').
     factory('Billbook', ['$http',
-        function ($http) {
-            var baseUrl = 'http://localhost:5000/api/billbook';
-            var BillBook = {};
+        function($http) {
+            return {
+                getBills: function() {
+                    return $http.get('http://localhost:5000/api/billbook');
+                },
 
-            BillBook.getBills = function() {
-                return $http.get(baseUrl);
-            };
-
-            BillBook.getBill = function(id) {
-                return $http.get(baseUrl + '/' + id);
-            }
-            
-            BillBook.printBill = function(id) {
-                return $http.post(baseUrl + '/' + id);
+                getBill: function(billId) {
+                    return $http.get('http://localhost:5000/api/billbook' + '/' + billId);
+                },
+                printBill: function (orderId) {
+                    var dataObj = {
+                        id: orderId
+                    };	
+                    return $http.post('http://localhost:5000/api/billbook', dataObj);
+                }
             }
         }
     ]);

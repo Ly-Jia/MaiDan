@@ -2,5 +2,6 @@
 
 angular.module('order', [
     'ngRoute',
-    'core.menu'
+    'core.menu',
+    'core.billbook'
 ]);

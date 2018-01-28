@@ -46,6 +46,5 @@ CREATE TABLE "BillLine"
 	 "BillId" INTEGER NOT NULL, 
 	 "Index" INTEGER NOT NULL,
 	 "Amount" REAL NOT NULL, 
-	 "Quantity" INTEGER NOT NULL,
 	FOREIGN KEY("BillId") REFERENCES "Bill"("Id"));
 

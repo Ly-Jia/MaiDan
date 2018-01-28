@@ -9,6 +9,6 @@
 
     <p>Total : {{$ctrl.order.total}}€</p>
     <div ng-controller="OrderPrintController">
-        <button ng-click="print()">Imprimer l'addition</button>
+        <button ng-click="print($ctrl.order.id)">Imprimer l'addition</button>
     </div>
 </div>
