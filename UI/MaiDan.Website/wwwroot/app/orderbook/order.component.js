@@ -11,9 +11,11 @@ orderModule.component('order', {
 });
 
 orderModule.controller('OrderPrintController', ['$scope', 'Billbook', function ($scope, Billbook) {
-        $scope.print = function (id) {
-            Billbook.printBill(id);
-            //document.location.href = '/billbook/' + id;
-        };
-    }]
+    $scope.print = function (id) {
+        var self = this;
+        self.bill = Billbook.printBill(id);
+        var url = '#!/billbook/' + id.toString();
+        document.location.href = url;
+    };
+  }]
 );

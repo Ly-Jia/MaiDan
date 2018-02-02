@@ -20,7 +20,7 @@
                 when('/billbook', {
                     template:  '<billbook></billbook>'
                 }).
-                when('/billbook/:billid', {
+                when('/billbook/:billId', {
                     template:  '<bill></bill>'
                 }).
                 otherwise('/orderbook');

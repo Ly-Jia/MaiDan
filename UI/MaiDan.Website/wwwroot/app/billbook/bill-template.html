@@ -1,9 +1,9 @@
 ﻿<div class="container-fluid">
-    <h1>Addition n°{{$ctrl.bill.id}}</h1>
+    <h1>Addition n°{{bill.id}}</h1>
     <ul>
-        <li ng-repeat="line in $ctrl.bill.lines">
-            <p>{{line.amount}}</p>
+        <li ng-repeat="line in bill.lines">
+            <p>{{line.amount}}€</p>
         </li>
     </ul>
-    <p>Total : {{$ctrl.bill.total}}</p>
+    <p>Total : {{bill.total}}€</p>
 </div>

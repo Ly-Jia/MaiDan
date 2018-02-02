@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Dapper;
 using Dapper.Contrib.Extensions;
 using MaiDan.Infrastructure.Database;
@@ -19,7 +20,19 @@ namespace MaiDan.Billing.Dal.Repositories
 
         public Domain.Bill Get(string id)
         {
-            throw new NotImplementedException();
+            var parsedId = Int32.Parse(id);
+            var sql = "SELECT * " +
+                      "FROM \"BillLine\" bl " +
+                      $"WHERE bl.BillId = {parsedId};";
+
+            using (var connection = database.CreateConnection())
+            {
+                connection.Open();
+                
+                var billLines = connection.Query<Line>(sql);
+
+                return new Domain.Bill(parsedId, billLines.Select(l => new Domain.Line(l.Index, l.Amount)).ToList()); 
+            }
         }
 
         public List<Domain.Bill> GetAll()
