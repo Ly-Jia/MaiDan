@@ -5,7 +5,7 @@ namespace MaiDan.Api.DataContracts.Responses
 {
     public class Order
     {
-        public Order(Ordering.Domain.Order order, Billing.Domain.Bill billpreview)
+        public Order(Ordering.Domain.Order order, Billing.Domain.Bill bill)
         {
             Id = order.Id;
             if (order is OnSiteOrder onSiteOrder)
@@ -14,7 +14,7 @@ namespace MaiDan.Api.DataContracts.Responses
                 NumberOfGuests = onSiteOrder.NumberOfGuests;
             }
 
-            Total = billpreview.Total;
+            Total = bill.Total;
         }
 
         public int Id { get; set; }
