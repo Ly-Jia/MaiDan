@@ -53,7 +53,7 @@ namespace MaiDan.Billing.Dal.Repositories
                     {
                         Id = $"{item.Id}-{i}",
                         BillId = item.Id,
-                        Index = i,
+                        Index = i+1,
                         Amount = item.Lines[i].Amount
                     });
                 }

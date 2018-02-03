@@ -1,4 +1,5 @@
-﻿using MaiDan.Api.Services;
+﻿using System.Net;
+using MaiDan.Api.Services;
 using MaiDan.Billing.Domain;
 using MaiDan.Infrastructure.Database;
 using MaiDan.Ordering.Domain;
@@ -21,9 +22,19 @@ namespace MaiDan.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public Bill Get(string id)
+        public DataContracts.Responses.DetailedOrder Get(string id)
         {
-            return billBook.Get(id);
+            var bill = billBook.Get(id);
+
+            if (bill == null)
+            {
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                return null;
+            }
+
+            var order = orderBook.Get(id);
+            Response.StatusCode = (int)HttpStatusCode.OK;
+            return new DataContracts.Responses.DetailedOrder(order, bill);
         }
 
         [HttpPost]

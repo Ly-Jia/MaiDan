@@ -1,8 +1,10 @@
 ﻿<div class="container-fluid">
-    <h1>Addition n°{{bill.id}}</h1>
+    <h1 ng-if="bill.tableId === undefined">Addition n°{{bill.id}} - à emporter</h1>
+    <h1 ng-if="bill.tableId !== undefined && bill.numberOfGuests == 1">Addition n°{{bill.id}} - Table {{bill.tableId}}, 1 couvert</h1>
+    <h1 ng-if="bill.tableId !== undefined && bill.numberOfGuests > 1">Addition n°{{bill.id}} - Table {{bill.tableId}}, {{bill.numberOfGuests}} couverts</h1>
     <ul>
         <li ng-repeat="line in bill.lines">
-            <p>{{line.amount}}€</p>
+            <p>{{line.quantity}} x {{line.dishName}} - {{line.amount}}€</p>
         </li>
     </ul>
     <p>Total : {{bill.total}}€</p>
