@@ -5,7 +5,6 @@ using Dapper;
 using Dapper.Contrib.Extensions;
 using MaiDan.Infrastructure.Database;
 using MaiDan.Billing.Dal.Entities;
-using Z.Dapper.Plus;
 
 namespace MaiDan.Billing.Dal.Repositories
 {
@@ -22,22 +21,71 @@ namespace MaiDan.Billing.Dal.Repositories
         {
             var parsedId = Int32.Parse(id);
             var sql = "SELECT * " +
-                      "FROM \"BillLine\" bl " +
-                      $"WHERE bl.BillId = {parsedId};";
+                      "FROM \"Bill\" b " +
+                      "JOIN \"BillLine\" l ON b.Id = l.BillId " +
+                      $"WHERE b.Id = {parsedId};";
 
             using (var connection = database.CreateConnection())
             {
                 connection.Open();
-                
-                var billLines = connection.Query<Line>(sql);
 
-                return new Domain.Bill(parsedId, billLines.Select(l => new Domain.Line(l.Index, l.Amount)).ToList()); 
+                var billDictionary = new Dictionary<int, Bill>();
+
+                var bill = connection.Query<Bill, Line, Bill>(
+                        sql,
+                        (b, l) =>
+                        {
+                            if (!billDictionary.TryGetValue(b.Id, out var billEntry))
+                            {
+                                billEntry = b;
+                                billEntry.Lines = new List<Line>();
+                                billDictionary.Add(billEntry.Id, billEntry);
+                            }
+
+                            billEntry.Lines.Add(new Line(b.Id, l.Index, l.Amount));
+                            return billEntry;
+                        },
+                        splitOn: "Id,Id")
+                    .Distinct()
+                    .Single();
+
+                return ModelFrom(bill);
             }
         }
 
         public List<Domain.Bill> GetAll()
         {
-            throw new NotImplementedException();
+            string sql = "SELECT *  " +
+                         "FROM \"Bill\" b " +
+                         "JOIN \"BillLine\" l ON b.Id = l.BillId ";
+
+            List<Bill> bills;
+
+            using (var connection = database.CreateConnection())
+            {
+                connection.Open();
+
+                var orderDictionary = new Dictionary<int, Bill>();
+
+                bills = connection.Query<Bill, Line, Bill>(
+                        sql,
+                        (b, l) =>
+                        {
+                            if (!orderDictionary.TryGetValue(b.Id, out var billEntry))
+                            {
+                                billEntry = new Bill {Id = b.Id, Lines = new List<Line>()};
+                                orderDictionary.Add(billEntry.Id, billEntry);
+                            }
+
+                            billEntry.Lines.Add(new Line(b.Id, l.Index, l.Amount));
+                            return billEntry;
+                        },
+                        splitOn: "Id,Id")
+                    .Distinct()
+                    .ToList();
+            }
+
+            return bills.Select(ModelFrom).ToList();
         }
 
         public void Add(Domain.Bill item)
@@ -69,6 +117,13 @@ namespace MaiDan.Billing.Dal.Repositories
         public bool Contains(string id)
         {
             throw new NotImplementedException();
+        }
+
+        private Domain.Bill ModelFrom(Bill entity)
+        {
+            var lines = entity.Lines.Select(l => new Domain.Line(l.Index, l.Amount)).ToList();
+
+            return new Domain.Bill(entity.Id, lines);
         }
     }
 }

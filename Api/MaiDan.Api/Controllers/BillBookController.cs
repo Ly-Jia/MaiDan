@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using MaiDan.Api.Services;
 using MaiDan.Billing.Domain;
 using MaiDan.Infrastructure.Database;
@@ -35,6 +37,13 @@ namespace MaiDan.Api.Controllers
             var order = orderBook.Get(id);
             Response.StatusCode = (int)HttpStatusCode.OK;
             return new DataContracts.Responses.DetailedOrder(order, bill);
+        }
+
+        [HttpGet]
+        public List<DataContracts.Responses.Order> Get()
+        {
+            return billBook.GetAll().Select(b => new DataContracts.Responses.Order(orderBook.Get(b.Id.ToString()), b))
+                .ToList();
         }
 
         [HttpPost]

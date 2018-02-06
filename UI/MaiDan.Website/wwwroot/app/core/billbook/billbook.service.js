@@ -3,8 +3,10 @@
     factory('Billbook', ['$http',
         function($http) {
             return {
-                getBills: function() {
-                    return $http.get('http://localhost:5000/api/billbook');
+                getBills: function(callback) {
+                    return $http.get('http://localhost:5000/api/billbook').success(function(data) {
+                        callback(data);
+                    });
                 },
 
                 getBill: function(billId, callback) {

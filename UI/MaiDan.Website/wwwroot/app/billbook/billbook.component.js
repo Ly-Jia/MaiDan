@@ -4,10 +4,9 @@ angular.
     module('billbook').
     component('billbook', {
         templateUrl: 'billbook/billbook-template.html',
-        controller: ['Billbook',
-            function BillbookController(Billbook) {
-                this.billbook = Billbook.getBills();
-                this.billbook = 'id';
-            }
-        ]
+        controller: function BillbookController($scope, Billbook) {
+            Billbook.getBills(function (data) {
+                $scope.billbook = data;
+            });
+        }
     });
