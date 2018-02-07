@@ -1,3 +1,6 @@
+INSERT INTO "Tax" (Id, TaxId, "Index", Percentage, ValidityStartDate, ValidityEndDate) VALUES ('RED-1', 'RED', 1, 10, '2017-01-01T00:00:00', '0001-01-01T00:00:00');
+INSERT INTO "Tax" (Id, TaxId, "Index", Percentage, ValidityStartDate, ValidityEndDate) VALUES ('REG-1', 'REG', 1, 20, '2017-01-01T00:00:00', '0001-01-01T00:00:00');
+
 INSERT INTO "Dish" (Id, Name) VALUES('1','Fondue vietnamienne');
 INSERT INTO "Dish" (Id, Name) VALUES('B1','Nems');
 INSERT INTO "Dish" (Id, Name) VALUES('B2','Beignets de crevettes');
