@@ -18,9 +18,10 @@ namespace MaiDan.Billing.Dal.Repositories
 
         public Domain.Dish Get(string id)
         {
-            string sql = "SELECT price.DishId as Id, price.DishId, price.ValidityStartDate, price.ValidityEndDate, price.Amount " +
-                         "FROM \"DishPrice\" price " +
-                         $"WHERE price.DishId = '{id}' ;";
+            string sql = "SELECT dish.Id, dish.Type, price.DishId, price.ValidityStartDate, price.ValidityEndDate, price.Amount " +
+                         "FROM \"Dish\" dish " +
+                         "JOIN \"DishPrice\" price ON dish.Id = price.DishId " +
+                         $"WHERE dish.Id = '{id}' ;";
 
             using (var connection = database.CreateConnection())
             {
@@ -52,7 +53,9 @@ namespace MaiDan.Billing.Dal.Repositories
 
         public List<Domain.Dish> GetAll()
         {
-            const string sql = "SELECT price.DishId as Id, price.* FROM \"DishPrice\" price ;";
+            const string sql = "SELECT dish.Id, dish.Type, price.DishId, price.ValidityStartDate, price.ValidityEndDate, price.Amount " +
+                               "FROM \"Dish\" dish " +
+                               "JOIN \"DishPrice\" price ON dish.Id = price.DishId ";
 
             using (var connection = database.CreateConnection())
             {
@@ -112,7 +115,7 @@ namespace MaiDan.Billing.Dal.Repositories
         private Domain.Dish ModelFrom(Dish entity)
         {
             var prices = entity.Prices.Select(p => new Domain.Price(p.Amount, p.ValidityStartDate, p.ValidityEndDate)).ToList();
-            return new Domain.Dish(entity.Id, prices);
+            return new Domain.Dish(entity.Id, prices, null);
         }
     }
 }

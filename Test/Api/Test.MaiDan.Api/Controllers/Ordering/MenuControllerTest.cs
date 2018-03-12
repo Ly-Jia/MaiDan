@@ -22,9 +22,10 @@ namespace Test.MaiDan.Api.Controllers.Ordering
             var billingMenu = new Mock<IRepository<global::MaiDan.Billing.Domain.Dish>>();
             var id = "anId";
             var name = "name";
-            var orderingDish = new global::MaiDan.Ordering.Domain.Dish(id, name);
+            var type = "starter";
+            var orderingDish = new global::MaiDan.Ordering.Domain.Dish(id, name, type);
             orderingMenu.Setup(m => m.Get(id)).Returns(orderingDish);
-            var billingDish = new global::MaiDan.Billing.Domain.Dish(id, null);
+            var billingDish = new global::MaiDan.Billing.Domain.Dish(id, null, null);
             billingMenu.Setup(m => m.Get(id)).Returns(billingDish);
             var menuController = CreateMenuController(orderingMenu.Object, billingMenu.Object);
 

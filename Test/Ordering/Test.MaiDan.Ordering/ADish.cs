@@ -6,6 +6,7 @@ namespace Test.MaiDan.Ordering
     {
         private static readonly string DEFAULT_ID = "1";
         private static readonly string DEFAULT_NAME = "Dish 1";
+        private static readonly string DEFAULT_TYPE = "Starter";
         private string id;
         private string name;
 
@@ -21,7 +22,7 @@ namespace Test.MaiDan.Ordering
 
         public Dish Build()
         {
-            return new Dish(id, name ?? DEFAULT_NAME);
+            return new Dish(id, name ?? DEFAULT_NAME, DEFAULT_TYPE);
         }
 
         public ADish Named(string name)

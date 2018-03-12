@@ -121,7 +121,7 @@ namespace MaiDan.Billing.Dal.Repositories
 
         private Domain.Bill ModelFrom(Bill entity)
         {
-            var lines = entity.Lines.Select(l => new Domain.Line(l.Index, l.Amount)).ToList();
+            var lines = entity.Lines.Select(l => new Domain.Line(l.Index, l.Amount, null, 0m)).ToList();
 
             return new Domain.Bill(entity.Id, lines);
         }

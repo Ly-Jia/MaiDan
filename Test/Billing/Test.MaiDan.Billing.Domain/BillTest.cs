@@ -13,8 +13,8 @@ namespace Test.MaiDan.Billing.Domain
         {
             var lines = new List<Line>()
                 {
-                    new Line(1, 1m),
-                    new Line(2, 2m)
+                    new Line(1, 1m, null, 0m),
+                    new Line(2, 2m, null, 0m)
                 };
 
             var bill = new Bill(1, lines);

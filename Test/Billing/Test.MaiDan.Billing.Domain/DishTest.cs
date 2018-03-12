@@ -18,10 +18,10 @@ namespace Test.MaiDan.Billing.Domain
         }
 
         [Test]
-        public void should_be_equal_when_id_and_price_configuration_are_the_same()
+        public void should_be_equal_when_id_and_price_configuration_and_type_are_the_same()
         {
-            var dish1 = new ADish("Id").Priced(5m).Build();
-            var dish2 = new ADish("Id").Priced(5m).Build();
+            var dish1 = new ADish("Id").Priced(5m).OfType("starter").Build();
+            var dish2 = new ADish("Id").Priced(5m).OfType("starter").Build();
 
             var isEqual = dish1.Equals(dish2);
 
@@ -44,6 +44,17 @@ namespace Test.MaiDan.Billing.Domain
         {
             var dish1 = new ADish("Id").Priced(5m).Build();
             var dish2 = new ADish("Id").Priced(6m).Build();
+
+            var isEqual = dish1.Equals(dish2);
+
+            Check.That(isEqual).IsFalse();
+        }
+
+        [Test]
+        public void should_be_equal_when_type_is_not_the_same()
+        {
+            var dish1 = new ADish("Id").OfType("Fruit").Build();
+            var dish2 = new ADish("Id").OfType("Vegetable").Build();
 
             var isEqual = dish1.Equals(dish2);
 

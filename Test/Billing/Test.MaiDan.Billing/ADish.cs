@@ -9,6 +9,7 @@ namespace Test.MaiDan.Billing
         private static readonly string DEFAULT_ID = "1";
         private string id;
         private List<Price> priceConfiguration = new List<Price>();
+        private string type = "Starter";
 
         public ADish() : this(DEFAULT_ID)
         {
@@ -21,7 +22,7 @@ namespace Test.MaiDan.Billing
 
         public Dish Build()
         {
-            return new Dish(id, priceConfiguration);
+            return new Dish(id, priceConfiguration, type);
         }
 
         public ADish Priced(decimal amount)
@@ -37,6 +38,12 @@ namespace Test.MaiDan.Billing
         public ADish Priced(decimal amount, DateTime validFrom, DateTime validTo)
         {
             priceConfiguration.Add(new Price(amount, validFrom, validTo));
+            return this;
+        }
+
+        public ADish OfType(string type)
+        {
+            this.type = type;
             return this;
         }
 

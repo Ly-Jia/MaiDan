@@ -1,4 +1,5 @@
-﻿using Dapper.Contrib.Extensions;
+﻿using System.Collections.Generic;
+using Dapper.Contrib.Extensions;
 
 namespace MaiDan.Ordering.Dal.Entities
 {
@@ -9,16 +10,19 @@ namespace MaiDan.Ordering.Dal.Entities
         {
         }
 
-        public Dish(string id, string name)
+        public Dish(string id, string name, string type)
         {
             Id = id;
             Name = name;
+            Type = type;
         }
         
         [ExplicitKey]
         public string Id { get; set; }
         
         public string Name { get; set; }
-        
+
+        public string Type { get; set; }
+
     }
 }

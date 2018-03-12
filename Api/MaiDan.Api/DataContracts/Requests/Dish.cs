@@ -8,13 +8,15 @@ namespace MaiDan.Api.DataContracts.Requests
         
         public string Name { get; set; }
 
+        public string Type { get; set; }
+
         public Ordering.Domain.Dish ToOrderingDish()
         {
             if (this.Id == null)
             {
                 throw new ArgumentNullException();
             }
-            return new Ordering.Domain.Dish(this.Id, this.Name);
+            return new Ordering.Domain.Dish(this.Id, this.Name, this.Type);
         }
     }
 }

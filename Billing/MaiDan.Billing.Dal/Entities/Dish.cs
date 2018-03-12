@@ -23,5 +23,7 @@ namespace MaiDan.Billing.Dal.Entities
         public string Id { get; set; }
 
         public List<Price> Prices { get; set; }
+
+        public string Type { get; set; }
     }
 }

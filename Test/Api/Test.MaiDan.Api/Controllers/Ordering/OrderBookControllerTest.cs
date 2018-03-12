@@ -127,7 +127,7 @@ namespace Test.MaiDan.Api.Controllers.Ordering
             var tableId = "t1";
             var orderBook = new Mock<IRepository<global::MaiDan.Ordering.Domain.Order>>();
             var menu = new Mock<IRepository<Dish>>();
-            menu.Setup(m => m.Get(It.IsAny<string>())).Returns(new Dish("id", "name"));
+            menu.Setup(m => m.Get(It.IsAny<string>())).Returns(new Dish("id", "name", "type"));
             var room = new Mock<IRepository<Table>>();
             room.Setup(r => r.Get(tableId)).Returns(new Table(tableId));
 
@@ -144,7 +144,7 @@ namespace Test.MaiDan.Api.Controllers.Ordering
             var tableId = "t1";
             var orderBook = new Mock<IRepository<global::MaiDan.Ordering.Domain.Order>>();
             var menu = new Mock<IRepository<Dish>>();
-            menu.Setup(m => m.Get(It.IsAny<string>())).Returns(new Dish("id", "name"));
+            menu.Setup(m => m.Get(It.IsAny<string>())).Returns(new Dish("id", "name", "type"));
             var room = new Mock<IRepository<Table>>();
             room.Setup(r => r.Get(tableId)).Returns(new Table(tableId));
             var orderBookController = CreateOrderBookController(orderBook.Object, menu.Object, room.Object, defaultCashRegister);

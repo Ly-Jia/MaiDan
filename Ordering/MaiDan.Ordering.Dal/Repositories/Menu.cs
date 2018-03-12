@@ -11,12 +11,12 @@ namespace MaiDan.Ordering.Dal.Repositories
 
         protected override Dish EntityFrom(Domain.Dish model)
         {
-            return new Dish(model.Id, model.Name);
+            return new Dish(model.Id, model.Name, model.Type);
         }
 
         protected override Domain.Dish ModelFrom(Dish entity)
         {
-            return new Domain.Dish(entity.Id, entity.Name);
+            return new Domain.Dish(entity.Id, entity.Name, entity.Type);
         }
         
     }
