@@ -1,0 +1,6 @@
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let bill of bills">
+    <a *ngIf="bill.tableId === undefined" routerLink="{{bill.id}}">{{bill.id}} - à emporter</a>
+    <a *ngIf="bill.tableId !== undefined" routerLink="{{bill.id}}">{{bill.id}} - table {{bill.tableId}}</a>
+  </li>
+</ul>

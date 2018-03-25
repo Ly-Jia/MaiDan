@@ -1,0 +1,11 @@
+<div *ngIf="bill">
+  <h2 *ngIf="bill.tableId === undefined">À emporter</h2>
+  <h2 *ngIf="bill.tableId !== undefined">Table {{bill.tableId}}, {{bill.numberOfGuests}} couvert{{bill.numberOfGuests > 1 ? 's' : ''}}</h2>
+  <p>Addition n°{{bill.id}}</p>
+  <ul>
+    <li *ngFor="let line of bill.lines">
+      {{line.quantity}} x {{line.dishName}} - {{line.amount}}€
+    </li>
+  </ul>
+  <p>Total : {{bill.total}}€</p>
+</div>

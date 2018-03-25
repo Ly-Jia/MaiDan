@@ -1,0 +1,20 @@
+<div *ngIf="dish">
+    <h2>{{dish.id}} - {{dish.name}}</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th class="col-md-1">Du</th>
+                <th class="col-md-1">Au</th>
+                <th class="col-md-1">Prix</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let price of dish.priceConfiguration">
+                <td>{{price.validityStartDate|date:"dd/MM/yyyy"}}</td>
+                <td *ngIf="price.validityEndDate !== '0001-01-01T00:00:00'">{{price.validityEndDate|date:"dd/MM/yyyy"}}</td>
+                <td *ngIf="price.validityEndDate === '0001-01-01T00:00:00'">-</td>
+                <td>{{price.amount}}€</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

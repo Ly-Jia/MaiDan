@@ -1,0 +1,7 @@
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let dish of dishes">
+    <a routerLink="{{dish.id}}">
+      {{dish.id}} - {{dish.name}} - {{dish.price}}€
+    </a>
+  </li>
+</ul>

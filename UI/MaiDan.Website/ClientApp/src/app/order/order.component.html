@@ -1,0 +1,12 @@
+<div *ngIf="order">
+  <h2 *ngIf="order.tableId === undefined">À emporter</h2>
+  <h2 *ngIf="order.tableId !== undefined">Table {{order.tableId}}, {{order.numberOfGuests}} couvert{{order.numberOfGuests > 1 ? 's' : ''}}</h2>
+  <p>Commande n°{{order.id}}</p>
+  <ul>
+    <li *ngFor="let line of order.lines">
+      {{line.quantity}} x {{line.dishName}} - {{line.amount}}€
+    </li>
+  </ul>
+  <p>Total : {{order.total}}€</p>
+  <button class="btn btn-primary" (click)="print(order.id)">Imprimer l'addition</button>
+</div>
