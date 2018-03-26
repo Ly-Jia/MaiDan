@@ -5,6 +5,7 @@ using Dapper;
 using Dapper.Contrib.Extensions;
 using MaiDan.Infrastructure.Database;
 using MaiDan.Billing.Dal.Entities;
+using Z.Dapper.Plus;
 
 namespace MaiDan.Billing.Dal.Repositories
 {
@@ -93,19 +94,11 @@ namespace MaiDan.Billing.Dal.Repositories
             using (var connection = database.CreateConnection())
             {
                 connection.Open();
-                
-                connection.Insert(new Bill { Id = item.Id, Total = item.Total });
-                for (int i = 0; i < item.Lines.Count; i++)
-                {
-                    connection.Insert(new Line
-                    {
-                        Id = $"{item.Id}-{i}",
-                        BillId = item.Id,
-                        Index = i+1,
-                        Amount = item.Lines[i].Amount
-                    });
-                }
 
+                var entity = EntityFrom(item);
+                connection.BulkInsert(entity)
+                    .ThenForEach(x => x.Lines.ForEach(y => y.BillId = x.Id))
+                    .ThenBulkInsert(x => x.Lines);
             }
         }
 
@@ -117,6 +110,13 @@ namespace MaiDan.Billing.Dal.Repositories
         public bool Contains(string id)
         {
             throw new NotImplementedException();
+        }
+
+        private Bill EntityFrom(Domain.Bill model)
+        {
+            var lines = model.Lines.Select(l => new Line(model.Id, l.Id, l.Amount)).ToList();
+
+            return new Bill(model.Id, model.Total, lines);
         }
 
         private Domain.Bill ModelFrom(Bill entity)

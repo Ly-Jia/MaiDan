@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Dapper.Contrib.Extensions;
 
 namespace MaiDan.Billing.Dal.Entities
@@ -14,12 +13,14 @@ namespace MaiDan.Billing.Dal.Entities
         {
         }
 
-        public Bill(Domain.Bill bill)
+        public Bill(int id, decimal total, List<Line> lines)
         {
-            Id = bill.Id;
-            Total = bill.Total;
+            Id = id;
+            Total = total;
+            Lines = lines;
         }
-
+        
+        [ExplicitKey]
         public int Id { get; set; }
         
         public decimal Total { get; set; }

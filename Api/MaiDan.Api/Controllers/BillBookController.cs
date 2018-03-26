@@ -24,7 +24,7 @@ namespace MaiDan.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public DataContracts.Responses.DetailedOrder Get(string id)
+        public DataContracts.Responses.DetailedBill Get(string id)
         {
             var bill = billBook.Get(id);
 
@@ -36,7 +36,7 @@ namespace MaiDan.Api.Controllers
 
             var order = orderBook.Get(id);
             Response.StatusCode = (int)HttpStatusCode.OK;
-            return new DataContracts.Responses.DetailedOrder(order, bill);
+            return new DataContracts.Responses.DetailedBill(order, bill);
         }
 
         [HttpGet]
