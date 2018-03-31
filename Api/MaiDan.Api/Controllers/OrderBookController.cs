@@ -44,7 +44,7 @@ namespace MaiDan.Api.Controllers
             {
                 billpreview = cashRegister.Calculate(order);
             }
-            catch (InvalidOperationException e)
+            catch (InvalidOperationException)
             {
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 return null;

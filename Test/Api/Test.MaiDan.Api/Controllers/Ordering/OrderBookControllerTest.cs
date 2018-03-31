@@ -72,8 +72,6 @@ namespace Test.MaiDan.Api.Controllers.Ordering
             var menu = new Mock<IRepository<global::MaiDan.Billing.Domain.Dish>>();
             var dishId = "mistery";
             var dish = new Billing.ADish(dishId).Build();
-            var two = 2;
-            var tacos = "tacos";
             var order = new AnOrder().With(2, new ADish(dishId).Build()).Build();
             orderBook.Setup((IRepository<global::MaiDan.Ordering.Domain.Order> m) => m.Get(It.IsAny<object>())).Returns(order);
             menu.Setup(m => m.Get(dishId)).Returns(dish);
