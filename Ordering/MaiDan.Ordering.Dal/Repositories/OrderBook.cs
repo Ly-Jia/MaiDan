@@ -26,7 +26,7 @@ namespace MaiDan.Ordering.Dal.Repositories
                        "FROM \"Order\" o " +
                        "JOIN \"OrderLine\" l ON o.Id = l.OrderId " +
                        "JOIN \"Dish\" d ON l.DishId = d.Id " +
-                      $"WHERE o.Id = @Id;";
+                       "WHERE o.Id = @Id;";
 
             using (var connection = database.CreateConnection())
             {

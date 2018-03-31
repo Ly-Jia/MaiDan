@@ -21,7 +21,7 @@ namespace MaiDan.Billing.Dal.Repositories
             string sql = "SELECT dish.Id, dish.Type, price.DishId, price.ValidityStartDate, price.ValidityEndDate, price.Amount " +
                          "FROM \"Dish\" dish " +
                          "JOIN \"DishPrice\" price ON dish.Id = price.DishId " +
-                         $"WHERE dish.Id = @Id;";
+                         "WHERE dish.Id = @Id;";
 
             using (var connection = database.CreateConnection())
             {
