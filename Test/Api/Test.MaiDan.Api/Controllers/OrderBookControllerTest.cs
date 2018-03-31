@@ -12,7 +12,7 @@ using NFluent;
 using NUnit.Framework;
 using Test.MaiDan.Ordering;
 
-namespace Test.MaiDan.Api.Controllers.Ordering
+namespace Test.MaiDan.Api.Controllers
 {
     public class OrderBookControllerTest
     {

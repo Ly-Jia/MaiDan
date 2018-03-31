@@ -8,7 +8,7 @@ using Moq;
 using NFluent;
 using NUnit.Framework;
 
-namespace Test.MaiDan.Api.Controllers.Ordering
+namespace Test.MaiDan.Api.Controllers
 {
     [TestFixture]
     public class MenuControllerTest
