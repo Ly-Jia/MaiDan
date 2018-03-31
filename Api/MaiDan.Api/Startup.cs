@@ -1,4 +1,5 @@
 ﻿using MaiDan.Api.Services;
+using MaiDan.Infrastructure.Configuration;
 using MaiDan.Infrastructure.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -38,7 +39,8 @@ namespace MaiDan.Api
             // Add framework services.
             services.AddMvc();
 
-            var database = new SqliteDatabase("MaiDan.sqlite");
+            var databaseName = ConfigurationReader.Get<string>("SqliteDatabase");
+            var database = new SqliteDatabase(databaseName);
             services.AddSingleton<IDatabase, SqliteDatabase>(svcs => database);
 
             // Ordering

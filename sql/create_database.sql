@@ -8,20 +8,20 @@ DROP TABLE IF EXISTS "Bill";
 DROP TABLE IF EXISTS "Table";
 
 CREATE TABLE "Tax"
-	("Id" VARCHAR PRIMARY KEY  NOT NULL  UNIQUE ,
-	 "TaxId" VARCHAR NOT NULL,
+	("Id" TEXT PRIMARY KEY  NOT NULL  UNIQUE ,
+	 "TaxId" TEXT NOT NULL,
 	 "Index" INTEGER NOT NULL,
 	 "Percentage" REAL,
 	 "ValidityStartDate" DATETIME,
 	 "ValidityEndDate" DATETIME);
 
 CREATE TABLE "Dish" 
-	("Id" VARCHAR PRIMARY KEY  NOT NULL  UNIQUE ,
- 	 "Name" VARCHAR, 
-	 "Type" VARCHAR);
+	("Id" TEXT PRIMARY KEY  NOT NULL  UNIQUE ,
+ 	 "Name" TEXT, 
+	 "Type" TEXT);
 
 CREATE TABLE "DishPrice"
-	("DishId" VARCHAR,
+	("DishId" TEXT,
 	 "ValidityStartDate" DATETIME,
 	 "ValidityEndDate" DATETIME,
 	 "Amount" REAL,
@@ -29,20 +29,20 @@ CREATE TABLE "DishPrice"
 
 
 CREATE TABLE "Table" 
-	("Id" VARCHAR PRIMARY KEY  NOT NULL  UNIQUE);
+	("Id" TEXT PRIMARY KEY  NOT NULL  UNIQUE);
 	
 CREATE TABLE "Order" 
 	("Id" INTEGER PRIMARY KEY NOT NULL UNIQUE,
 	 "TakeAway" INTEGER,
-	 "TableId" VARCHAR,
+	 "TableId" TEXT,
 	 "NumberOfGuests" INTEGER,
 	FOREIGN KEY ("TableId") REFERENCES "Table"("Id"));
 
 CREATE TABLE "OrderLine" 
-	("Id" VARCHAR NOT NULL,
+	("Id" TEXT NOT NULL,
 	 "OrderId" INTEGER NOT NULL, 
 	 "Index" INTEGER NOT NULL,
-	 "DishId" VARCHAR NOT NULL, 
+	 "DishId" TEXT NOT NULL, 
 	 "Quantity" INTEGER NOT NULL,
 	FOREIGN KEY("OrderId") REFERENCES "Order"("Id"),
 	FOREIGN KEY("DishId") REFERENCES "Dish"("Id"));
@@ -53,7 +53,7 @@ CREATE TABLE "Bill"
 	FOREIGN KEY ("Id") REFERENCES "Order"("Id"));
 
 CREATE TABLE "BillLine" 
-	("Id" VARCHAR NOT NULL,
+	("Id" TEXT NOT NULL,
 	 "BillId" INTEGER NOT NULL, 
 	 "Index" INTEGER NOT NULL,
 	 "Amount" REAL NOT NULL, 

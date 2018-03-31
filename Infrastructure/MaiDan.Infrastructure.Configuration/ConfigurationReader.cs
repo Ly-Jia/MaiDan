@@ -13,7 +13,7 @@ namespace MaiDan.Infrastructure.Configuration
             {
                 var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json");
                 var configuration = builder.Build();
-                Configuration = configuration.GetSection("AppSettings");
+                Configuration = configuration.GetSection("App");
             }
 
             return (T)Convert.ChangeType(Configuration[key], typeof(T));
