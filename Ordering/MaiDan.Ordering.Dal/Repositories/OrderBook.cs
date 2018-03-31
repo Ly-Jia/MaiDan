@@ -50,10 +50,9 @@ namespace MaiDan.Ordering.Dal.Repositories
                             return orderEntry;
                         },
                         splitOn: "Id,Id")
-                    .Distinct()
-                    .Single();
+                    .FirstOrDefault();
 
-                return ModelFrom(order);
+                return order == null ? null : ModelFrom(order);
             }
         }
 

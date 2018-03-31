@@ -47,10 +47,9 @@ namespace MaiDan.Billing.Dal.Repositories
                             return billEntry;
                         },
                         splitOn: "Id,Id")
-                    .Distinct()
-                    .Single();
+                    .FirstOrDefault();
 
-                return ModelFrom(bill);
+                return bill == null ? null : ModelFrom(bill);
             }
         }
 

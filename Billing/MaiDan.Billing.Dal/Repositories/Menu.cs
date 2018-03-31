@@ -44,10 +44,9 @@ namespace MaiDan.Billing.Dal.Repositories
                             return dishEntry;
                         },
                         splitOn: "DishId")
-                    .Distinct()
-                    .Single();
+                    .FirstOrDefault();
 
-                return ModelFrom(dish);
+                return dish == null ? null : ModelFrom(dish);
             }
         }
 
