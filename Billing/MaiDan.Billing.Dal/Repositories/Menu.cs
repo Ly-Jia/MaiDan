@@ -28,7 +28,7 @@ namespace MaiDan.Billing.Dal.Repositories
                 connection.Open();
 
                 var dishDictionary = new Dictionary<string, Dish>();
-                
+
                 var dish = connection.Query<Dish, Price, Dish>(
                         sql,
                         (d, p) =>

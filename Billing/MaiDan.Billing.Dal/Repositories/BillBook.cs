@@ -74,7 +74,7 @@ namespace MaiDan.Billing.Dal.Repositories
                         {
                             if (!orderDictionary.TryGetValue(b.Id, out var billEntry))
                             {
-                                billEntry = new Bill {Id = b.Id, Lines = new List<Line>()};
+                                billEntry = new Bill { Id = b.Id, Lines = new List<Line>() };
                                 orderDictionary.Add(billEntry.Id, billEntry);
                             }
 
