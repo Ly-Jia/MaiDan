@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using MaiDan.Api.Services;
@@ -49,7 +50,14 @@ namespace MaiDan.Api.Controllers
         [HttpPost]
         public void Print([FromBody] DataContracts.Requests.Order contract)
         {
-            var order = orderBook.Get(contract.Id.ToString());
+            var id = contract.Id.ToString();
+            var bill = billBook.Get(id);
+            if (bill != null)
+            {
+                throw new InvalidOperationException($"The bill {id} has already been printed");
+            }
+
+            var order = orderBook.Get(id);
             cashRegister.Print(order);
         }
     }
