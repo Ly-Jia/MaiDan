@@ -23,9 +23,9 @@ namespace MaiDan.Ordering.Dal.Repositories
         public Domain.Order Get(object id)
         {
             var sql = "SELECT * " +
-                       "FROM \"Order\" o " +
-                       "JOIN \"OrderLine\" l ON o.Id = l.OrderId " +
-                       "JOIN \"Dish\" d ON l.DishId = d.Id " +
+                       "FROM [Order] o " +
+                       "JOIN [OrderLine] l ON o.Id = l.OrderId " +
+                       "JOIN [Dish] d ON l.DishId = d.Id " +
                        "WHERE o.Id = @Id;";
 
             using (var connection = database.CreateConnection())
@@ -59,10 +59,10 @@ namespace MaiDan.Ordering.Dal.Repositories
         public List<Domain.Order> GetAll()
         {
             string sql = "SELECT * " +
-                         "FROM \"Order\" o " +
-                         "LEFT OUTER JOIN \"Bill\" b ON o.Id = b.Id " +
-                         "JOIN \"OrderLine\" l ON o.Id = l.OrderId " +
-                         "JOIN \"Dish\" d ON l.DishId = d.Id " +
+                         "FROM [Order] o " +
+                         "LEFT OUTER JOIN [Bill] b ON o.Id = b.Id " +
+                         "JOIN [OrderLine] l ON o.Id = l.OrderId " +
+                         "JOIN [Dish] d ON l.DishId = d.Id " +
                          "WHERE b.Id IS NULL";
 
             List<Order> orders;

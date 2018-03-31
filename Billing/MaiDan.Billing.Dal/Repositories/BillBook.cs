@@ -21,8 +21,8 @@ namespace MaiDan.Billing.Dal.Repositories
         public Domain.Bill Get(object id)
         {
             var sql = "SELECT * " +
-                      "FROM \"Bill\" b " +
-                      "JOIN \"BillLine\" l ON b.Id = l.BillId " +
+                      "FROM [Bill] b " +
+                      "JOIN [BillLine] l ON b.Id = l.BillId " +
                       "WHERE b.Id = @Id;";
 
             using (var connection = database.CreateConnection())
@@ -56,8 +56,8 @@ namespace MaiDan.Billing.Dal.Repositories
         public List<Domain.Bill> GetAll()
         {
             string sql = "SELECT * " +
-                         "FROM \"Bill\" b " +
-                         "JOIN \"BillLine\" l ON b.Id = l.BillId ";
+                         "FROM [Bill] b " +
+                         "JOIN [BillLine] l ON b.Id = l.BillId ";
 
             List<Bill> bills;
 

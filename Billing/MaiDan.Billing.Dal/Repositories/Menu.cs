@@ -19,8 +19,8 @@ namespace MaiDan.Billing.Dal.Repositories
         public Domain.Dish Get(object id)
         {
             string sql = "SELECT dish.Id, dish.Type, price.DishId, price.ValidityStartDate, price.ValidityEndDate, price.Amount " +
-                         "FROM \"Dish\" dish " +
-                         "JOIN \"DishPrice\" price ON dish.Id = price.DishId " +
+                         "FROM [Dish] dish " +
+                         "JOIN [DishPrice] price ON dish.Id = price.DishId " +
                          "WHERE dish.Id = @Id;";
 
             using (var connection = database.CreateConnection())
@@ -54,8 +54,8 @@ namespace MaiDan.Billing.Dal.Repositories
         public List<Domain.Dish> GetAll()
         {
             const string sql = "SELECT dish.Id, dish.Type, price.DishId, price.ValidityStartDate, price.ValidityEndDate, price.Amount " +
-                               "FROM \"Dish\" dish " +
-                               "JOIN \"DishPrice\" price ON dish.Id = price.DishId ";
+                               "FROM [Dish] dish " +
+                               "JOIN [DishPrice] price ON dish.Id = price.DishId ";
 
             using (var connection = database.CreateConnection())
             {
