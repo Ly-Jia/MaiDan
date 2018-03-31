@@ -108,7 +108,7 @@ namespace MaiDan.Billing.Dal.Repositories
 
         public bool Contains(object id)
         {
-            throw new NotImplementedException();
+            return Get(id) != null;
         }
 
         private Bill EntityFrom(Domain.Bill model)
