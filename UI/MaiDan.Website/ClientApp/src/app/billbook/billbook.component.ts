@@ -16,7 +16,7 @@ export class BillbookComponent implements OnInit {
     this.billbookService.getBills()
       .subscribe({
         next: value => this.bills = value,
-        error: err => console.log(`Cannot load bills. ${err}`),
+        error: err => { console.log(`Cannot load bills.`); console.log(err); },
         complete: () => console.log(`Bills loaded`)
       });
   }

@@ -20,7 +20,7 @@ export class DishComponent implements OnInit {
     this.menuService.getDish(id)
       .subscribe({
         next: value => this.dish = value,
-        error: err => console.log(`Cannot load dish ${id}. ${err}`),
+        error: err => { console.log(`Cannot load dish ${id}`); console.log(err); },
         complete: () => console.log(`Dish ${id} loaded`)
       });
   }
