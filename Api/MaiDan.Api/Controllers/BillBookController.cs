@@ -50,8 +50,7 @@ namespace MaiDan.Api.Controllers
         [HttpPost]
         public void Print([FromBody] DataContracts.Requests.Order contract)
         {
-            var bill = billBook.Get(contract.Id);
-            if (bill != null)
+            if (billBook.Contains(contract.Id))
             {
                 throw new InvalidOperationException($"The bill {contract.Id} has already been printed");
             }
