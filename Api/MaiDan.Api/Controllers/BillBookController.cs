@@ -25,7 +25,7 @@ namespace MaiDan.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public DataContracts.Responses.DetailedBill Get(string id)
+        public DataContracts.Responses.DetailedBill Get(int id)
         {
             var bill = billBook.Get(id);
 
@@ -50,14 +50,13 @@ namespace MaiDan.Api.Controllers
         [HttpPost]
         public void Print([FromBody] DataContracts.Requests.Order contract)
         {
-            var id = contract.Id.ToString();
-            var bill = billBook.Get(id);
+            var bill = billBook.Get(contract.Id);
             if (bill != null)
             {
-                throw new InvalidOperationException($"The bill {id} has already been printed");
+                throw new InvalidOperationException($"The bill {contract.Id} has already been printed");
             }
 
-            var order = orderBook.Get(id);
+            var order = orderBook.Get(contract.Id);
             cashRegister.Print(order);
         }
     }

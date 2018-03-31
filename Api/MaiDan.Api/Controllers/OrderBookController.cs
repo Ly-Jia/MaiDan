@@ -29,7 +29,7 @@ namespace MaiDan.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public DataContracts.Responses.DetailedOrder Get(string id)
+        public DataContracts.Responses.DetailedOrder Get(int id)
         {
             var order = orderBook.Get(id);
 

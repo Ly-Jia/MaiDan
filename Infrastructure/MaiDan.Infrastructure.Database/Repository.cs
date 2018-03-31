@@ -16,7 +16,7 @@ namespace MaiDan.Infrastructure.Database
 	        this.database = database;
 	    }
 
-        public TModel Get(string id)
+        public TModel Get(object id)
         {
             TEntity item;
             using (var connection = database.CreateConnection())
@@ -59,7 +59,7 @@ namespace MaiDan.Infrastructure.Database
             }
         }
 
-	    public bool Contains(string id)
+	    public bool Contains(object id)
 	    {
             return Get(id) != null;
         }

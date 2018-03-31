@@ -13,7 +13,7 @@ namespace MaiDan.Billing.Dal.Repositories
             this.database = database;
         }
 
-        public Domain.Tax Get(string id)
+        public Domain.Tax Get(object id)
         {
             throw new NotImplementedException();
         }
@@ -33,7 +33,7 @@ namespace MaiDan.Billing.Dal.Repositories
             throw new NotImplementedException();
         }
 
-        public bool Contains(string id)
+        public bool Contains(object id)
         {
             throw new NotImplementedException();
         }

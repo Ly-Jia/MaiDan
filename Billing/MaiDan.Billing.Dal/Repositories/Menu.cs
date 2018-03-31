@@ -16,12 +16,12 @@ namespace MaiDan.Billing.Dal.Repositories
             this.database = database;
         }
 
-        public Domain.Dish Get(string id)
+        public Domain.Dish Get(object id)
         {
             string sql = "SELECT dish.Id, dish.Type, price.DishId, price.ValidityStartDate, price.ValidityEndDate, price.Amount " +
                          "FROM \"Dish\" dish " +
                          "JOIN \"DishPrice\" price ON dish.Id = price.DishId " +
-                         $"WHERE dish.Id = '{id}' ;";
+                         $"WHERE dish.Id = @Id;";
 
             using (var connection = database.CreateConnection())
             {
@@ -43,6 +43,7 @@ namespace MaiDan.Billing.Dal.Repositories
                             dishEntry.Prices.Add(p);
                             return dishEntry;
                         },
+                        param: new { Id = id },
                         splitOn: "DishId")
                     .FirstOrDefault();
 
@@ -100,7 +101,7 @@ namespace MaiDan.Billing.Dal.Repositories
             throw new System.NotImplementedException();
         }
 
-        public bool Contains(string id)
+        public bool Contains(object id)
         {
             return Get(id) != null;
         }

@@ -20,14 +20,13 @@ namespace MaiDan.Ordering.Dal.Repositories
             this.database = database;
         }
 
-        public Domain.Order Get(string id)
+        public Domain.Order Get(object id)
         {
-            var parsedId = Int32.Parse(id);
             var sql = "SELECT * " +
                        "FROM \"Order\" o " +
                        "JOIN \"OrderLine\" l ON o.Id = l.OrderId " +
                        "JOIN \"Dish\" d ON l.DishId = d.Id " +
-                      $"WHERE o.Id = {parsedId};";
+                      $"WHERE o.Id = @Id;";
 
             using (var connection = database.CreateConnection())
             {
@@ -49,6 +48,7 @@ namespace MaiDan.Ordering.Dal.Repositories
                             orderEntry.Lines.Add(new Line(o.Id, l.Index, l.Quantity, d));
                             return orderEntry;
                         },
+                        param: new { Id = id },
                         splitOn: "Id,Id")
                     .FirstOrDefault();
 
@@ -58,7 +58,7 @@ namespace MaiDan.Ordering.Dal.Repositories
 
         public List<Domain.Order> GetAll()
         {
-            string sql = "SELECT *  " +
+            string sql = "SELECT * " +
                          "FROM \"Order\" o " +
                          "LEFT OUTER JOIN \"Bill\" b ON o.Id = b.Id " +
                          "JOIN \"OrderLine\" l ON o.Id = l.OrderId " +
@@ -118,7 +118,7 @@ namespace MaiDan.Ordering.Dal.Repositories
             }
         }
 
-        public bool Contains(string id)
+        public bool Contains(object id)
         {
             return Get(id) != null;
         }

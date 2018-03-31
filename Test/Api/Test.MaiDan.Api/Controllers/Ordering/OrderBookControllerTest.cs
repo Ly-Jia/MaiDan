@@ -38,12 +38,12 @@ namespace Test.MaiDan.Api.Controllers.Ordering
             var two = 2;
             var tacos = "tacos";
             var orderWithTwoTacos = new AnOrder(orderId).With(two, new ADish(tcs).Named(tacos).Build()).Build();
-            orderBook.Setup(o => o.Get(orderId.ToString())).Returns(orderWithTwoTacos);
+            orderBook.Setup(o => o.Get(orderId)).Returns(orderWithTwoTacos);
             menu.Setup(m => m.Get(tcs)).Returns(dish);
             var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<global::MaiDan.Billing.Domain.Bill>>().Object);
             var orderBookController = CreateOrderBookController(orderBook.Object, null, defaultRoom.Object, cashRegister);
 
-            var retrievedDish = orderBookController.Get(orderId.ToString());
+            var retrievedDish = orderBookController.Get(orderId);
 
             Check.That(orderBookController.Response.StatusCode).Equals((int)HttpStatusCode.OK);
             Check.That(retrievedDish.Id).Equals(orderWithTwoTacos.Id);
@@ -59,7 +59,7 @@ namespace Test.MaiDan.Api.Controllers.Ordering
             orderBook.Setup(m => m.Get(It.IsAny<string>())).Returns((Order)null);
             var orderBookController = CreateOrderBookController(orderBook.Object, null, defaultRoom.Object, defaultCashRegister);          
             
-            orderBookController.Get("anId");
+            orderBookController.Get(1);
 
             Check.That(orderBookController.Response.StatusCode).Equals((int)HttpStatusCode.NotFound);
         }
@@ -75,12 +75,12 @@ namespace Test.MaiDan.Api.Controllers.Ordering
             var two = 2;
             var tacos = "tacos";
             var order = new AnOrder().With(2, new ADish(dishId).Build()).Build();
-            orderBook.Setup((IRepository<global::MaiDan.Ordering.Domain.Order> m) => m.Get(It.IsAny<string>())).Returns(order);
+            orderBook.Setup((IRepository<global::MaiDan.Ordering.Domain.Order> m) => m.Get(It.IsAny<object>())).Returns(order);
             menu.Setup(m => m.Get(dishId)).Returns(dish);
             var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<global::MaiDan.Billing.Domain.Bill>>().Object);
             var orderBookController = CreateOrderBookController(orderBook.Object, null, defaultRoom.Object, cashRegister);
 
-            orderBookController.Get("anId");
+            orderBookController.Get(1);
 
             Check.That(orderBookController.Response.StatusCode).Equals((int)HttpStatusCode.InternalServerError);
         }

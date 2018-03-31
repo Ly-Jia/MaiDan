@@ -17,7 +17,7 @@ export class BillbookService {
       return this.http.get<Order[]>(this.url);
   }
 
-  getBill(id: string): Observable<Order> {
+  getBill(id: number): Observable<Order> {
       return this.http.get<Order>(this.url + id);
   }
 

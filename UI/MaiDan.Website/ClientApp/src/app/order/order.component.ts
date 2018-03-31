@@ -19,7 +19,7 @@ export class OrderComponent implements OnInit {
     private billbookService: BillbookService) { }
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
+    const id = Number(this.route.snapshot.paramMap.get('id'));
     this.orderbookService.getOrder(id)
       .subscribe({
         next: value => this.order = value,

@@ -16,7 +16,7 @@ export class BillComponent implements OnInit {
     private billbookService: BillbookService) { }
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
+    const id = Number(this.route.snapshot.paramMap.get('id'));
     this.billbookService.getBill(id)
       .subscribe({
         next: value => this.bill = value,

@@ -17,7 +17,7 @@ export class OrderbookService {
       return this.http.get<Order[]>(this.url);
   }
 
-  getOrder(id: string): Observable<Order> {
+  getOrder(id: number): Observable<Order> {
       return this.http.get<Order>(this.url + id);
   }
 

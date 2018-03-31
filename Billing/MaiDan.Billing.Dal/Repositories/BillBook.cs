@@ -18,13 +18,12 @@ namespace MaiDan.Billing.Dal.Repositories
             this.database = database;
         }
 
-        public Domain.Bill Get(string id)
+        public Domain.Bill Get(object id)
         {
-            var parsedId = Int32.Parse(id);
             var sql = "SELECT * " +
                       "FROM \"Bill\" b " +
                       "JOIN \"BillLine\" l ON b.Id = l.BillId " +
-                      $"WHERE b.Id = {parsedId};";
+                      "WHERE b.Id = @Id;";
 
             using (var connection = database.CreateConnection())
             {
@@ -46,6 +45,7 @@ namespace MaiDan.Billing.Dal.Repositories
                             billEntry.Lines.Add(new Line(b.Id, l.Index, l.Amount));
                             return billEntry;
                         },
+                        param: new { Id = id },
                         splitOn: "Id,Id")
                     .FirstOrDefault();
 
@@ -55,7 +55,7 @@ namespace MaiDan.Billing.Dal.Repositories
 
         public List<Domain.Bill> GetAll()
         {
-            string sql = "SELECT *  " +
+            string sql = "SELECT * " +
                          "FROM \"Bill\" b " +
                          "JOIN \"BillLine\" l ON b.Id = l.BillId ";
 
@@ -106,7 +106,7 @@ namespace MaiDan.Billing.Dal.Repositories
             throw new NotImplementedException();
         }
 
-        public bool Contains(string id)
+        public bool Contains(object id)
         {
             throw new NotImplementedException();
         }
