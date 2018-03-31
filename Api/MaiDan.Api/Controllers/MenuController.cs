@@ -37,9 +37,9 @@ namespace MaiDan.Api.Controllers
         }
 
         [HttpGet]
-        public List<DataContracts.Responses.Dish> Get()
+        public IEnumerable<DataContracts.Responses.Dish> Get()
         {
-            return menuWithoutPrice.GetAll().Select(dish => new DataContracts.Responses.Dish(dish, menuWithPrice.Get(dish.Id))).ToList();
+            return menuWithoutPrice.GetAll().Select(dish => new DataContracts.Responses.Dish(dish, menuWithPrice.Get(dish.Id)));
         }
 
         [HttpPut]

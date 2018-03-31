@@ -41,10 +41,9 @@ namespace MaiDan.Api.Controllers
         }
 
         [HttpGet]
-        public List<DataContracts.Responses.Order> Get()
+        public IEnumerable<DataContracts.Responses.Order> Get()
         {
-            return billBook.GetAll().Select(b => new DataContracts.Responses.Order(orderBook.Get(b.Id.ToString()), b))
-                .ToList();
+            return billBook.GetAll().Select(b => new DataContracts.Responses.Order(orderBook.Get(b.Id.ToString()), b));
         }
 
         [HttpPost]
