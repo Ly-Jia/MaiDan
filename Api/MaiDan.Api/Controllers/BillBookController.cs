@@ -51,7 +51,8 @@ namespace MaiDan.Api.Controllers
         {
             if (billBook.Contains(contract.Id))
             {
-                throw new InvalidOperationException($"The bill {contract.Id} has already been printed");
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return;
             }
 
             var order = orderBook.Get(contract.Id);
