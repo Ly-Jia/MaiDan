@@ -17,12 +17,14 @@ namespace Test.MaiDan.Api.Controllers
     public class OrderBookControllerTest
     {
         private Mock<IRepository<Table>> defaultRoom;
-        private CashRegister defaultCashRegister = new CashRegister(new Mock<IRepository<global::MaiDan.Billing.Domain.Dish>>().Object, new Mock<IRepository<global::MaiDan.Billing.Domain.Bill>>().Object);
-        private Table defaultTable = new Table("1");
+        private CashRegister defaultCashRegister;
+        private Table defaultTable;
 
         [OneTimeSetUp]
         public void Init()
         {
+            defaultCashRegister = new CashRegister(new Mock<IRepository<global::MaiDan.Billing.Domain.Dish>>().Object, new Mock<IRepository<global::MaiDan.Billing.Domain.Bill>>().Object);
+            defaultTable = new Table("1");
             defaultRoom = new Mock<IRepository<Table>>();
             defaultRoom.Setup(r => r.Get(defaultTable.Id)).Returns(defaultTable);
         }
