@@ -20,7 +20,8 @@ namespace Test.MaiDan.Api.Controllers
         private CashRegister defaultCashRegister = new CashRegister(new Mock<IRepository<global::MaiDan.Billing.Domain.Dish>>().Object, new Mock<IRepository<global::MaiDan.Billing.Domain.Bill>>().Object);
         private Table defaultTable = new Table("1");
 
-        public OrderBookControllerTest()
+        [OneTimeSetUp]
+        public void Init()
         {
             defaultRoom = new Mock<IRepository<Table>>();
             defaultRoom.Setup(r => r.Get(defaultTable.Id)).Returns(defaultTable);
