@@ -43,7 +43,7 @@ namespace MaiDan.Api.Controllers
         [HttpGet]
         public IEnumerable<DataContracts.Responses.Order> Get()
         {
-            return billBook.GetAll().Select(b => new DataContracts.Responses.Order(orderBook.Get(b.Id.ToString()), b));
+            return billBook.GetAll().Select(b => new DataContracts.Responses.Order(orderBook.Get(b.Id), b));
         }
 
         [HttpPost]
