@@ -54,7 +54,7 @@ namespace MaiDan.Api
             var cashRegister = new CashRegister(billingMenu, billBook);
             services.AddSingleton<IRepository<Billing.Domain.Dish>, Billing.Dal.Repositories.Menu>(svcs => billingMenu);
             services.AddSingleton<IRepository<Billing.Domain.Bill>, Billing.Dal.Repositories.BillBook>(svcs => new Billing.Dal.Repositories.BillBook(database));
-            services.AddSingleton(svcs => cashRegister);
+            services.AddSingleton<ICashRegister>(svcs => cashRegister);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

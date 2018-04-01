@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace MaiDan.Api.Services
 {
-    public class CashRegister
+    public class CashRegister : ICashRegister
     {
         private readonly IRepository<Billing.Domain.Dish> menu;
         private readonly IRepository<Bill> billBook;

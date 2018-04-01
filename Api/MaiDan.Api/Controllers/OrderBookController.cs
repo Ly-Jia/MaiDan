@@ -18,9 +18,9 @@ namespace MaiDan.Api.Controllers
         private readonly IRepository<Order> orderBook;
         private readonly IRepository<Dish> menu;
         private readonly IRepository<Table> room;
-        private readonly CashRegister cashRegister;
+        private readonly ICashRegister cashRegister;
 
-        public OrderBookController(IRepository<Order> orderBook, IRepository<Dish> menu, IRepository<Table> room, CashRegister cashRegister)
+        public OrderBookController(IRepository<Order> orderBook, IRepository<Dish> menu, IRepository<Table> room, ICashRegister cashRegister)
         {
             this.orderBook = orderBook;
             this.menu = menu;

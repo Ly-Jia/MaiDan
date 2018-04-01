@@ -13,11 +13,11 @@ namespace MaiDan.Api.Controllers
     [Route("api/[controller]")]
     public class BillBookController :  Controller
     {
-        private readonly CashRegister cashRegister;
+        private readonly ICashRegister cashRegister;
         private readonly IRepository<Bill> billBook;
         private readonly IRepository<Order> orderBook;
 
-        public BillBookController(CashRegister cashRegister, IRepository<Order> orderBook, IRepository<Bill> billBook)
+        public BillBookController(ICashRegister cashRegister, IRepository<Order> orderBook, IRepository<Bill> billBook)
         {
             this.cashRegister = cashRegister;
             this.orderBook = orderBook;
