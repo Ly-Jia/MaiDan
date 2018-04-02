@@ -1,4 +1,5 @@
-﻿using MaiDan.Api.Services;
+﻿using System.Collections.Generic;
+using MaiDan.Api.Services;
 using MaiDan.Billing.Domain;
 using MaiDan.Infrastructure.Database;
 using Moq;
@@ -43,6 +44,25 @@ namespace Test.MaiDan.Api.Services
             
             Check.That(bill.Lines.ElementAt(0).Amount).Equals(5m);
             Check.That(bill.Lines.ElementAt(1).Amount).Equals(20m);
+        }
+
+        [Test]
+        public void should_calculate_bill_total()
+        {
+            var order = new AnOrder()
+                .With(1, new ADish("1").Build())
+                .With(2, new ADish("2").Build())
+                .Build();
+
+            var menu = new Mock<IRepository<Dish>>();
+            menu.Setup(m => m.Get("1")).Returns(new Billing.ADish("1").Priced(5m).Build());
+            menu.Setup(m => m.Get("2")).Returns(new Billing.ADish("2").Priced(10m).Build());
+
+            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<Bill>>().Object);
+
+            var bill = cashRegister.Calculate(order);
+            
+            Check.That(bill.Total).Equals(3m);
         }
 
         [Test]

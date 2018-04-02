@@ -24,7 +24,8 @@ namespace MaiDan.Api.Services
         public Bill Calculate(Order order)
         {
             var lines = order.Lines.Select(l => CalculateLine(l, menu)).ToList();
-            var bill =  new Bill(order.Id, lines);
+            var total = lines.Sum(l => l.Amount);
+            var bill =  new Bill(order.Id, lines, total);
             return bill;
         }
 

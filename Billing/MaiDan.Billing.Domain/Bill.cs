@@ -5,15 +5,16 @@ namespace MaiDan.Billing.Domain
 {
     public class Bill
     {
-        public Bill(int id, IList<Line> lines)
+        public Bill(int id, IList<Line> lines, decimal total)
         {
             Id = id;
             Lines = lines;
+            Total = total;
         }
         
         public int Id { get; }
         public IList<Line> Lines { get; }
-        public decimal Total => Lines.Sum(l => l.Amount);
+        public decimal Total { get; }
 
         public Dictionary<decimal, decimal> Taxes
         {

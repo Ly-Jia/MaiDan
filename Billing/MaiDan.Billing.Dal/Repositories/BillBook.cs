@@ -122,7 +122,7 @@ namespace MaiDan.Billing.Dal.Repositories
         {
             var lines = entity.Lines.Select(l => new Domain.Line(l.Index, l.Amount, null, 0m)).ToList();
 
-            return new Domain.Bill(entity.Id, lines);
+            return new Domain.Bill(entity.Id, lines, entity.Total);
         }
     }
 }
