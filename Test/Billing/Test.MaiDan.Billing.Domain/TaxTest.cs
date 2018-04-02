@@ -16,7 +16,7 @@ namespace Test.MaiDan.Billing.Domain
             var tax = new Tax("RED", new List<TaxRate>
             {
                 new TaxRate(5.5m, applicationStartDate, priceChangeDate.AddDays(-1)),
-                new TaxRate(10m, priceChangeDate, DateTime.MinValue)
+                new TaxRate(10m, priceChangeDate, DateTime.MaxValue)
             });
 
             Check.That(tax.CurrentRate).Equals(10m);

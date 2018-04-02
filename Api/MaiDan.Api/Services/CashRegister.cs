@@ -11,8 +11,8 @@ namespace MaiDan.Api.Services
     {
         private readonly IRepository<Billing.Domain.Dish> menu;
         private readonly IRepository<Bill> billBook;
-        private readonly Tax reducedTax = new Tax("RED", new List<TaxRate>{new TaxRate(10m, new DateTime(2016,01,01), DateTime.MinValue)});
-        private readonly Tax regularTax = new Tax("REG", new List<TaxRate>{new TaxRate(20m, new DateTime(2016,01,01), DateTime.MinValue)});
+        private readonly Tax reducedTax = new Tax("RED", new List<TaxRate>{new TaxRate(10m, new DateTime(2016,01,01), DateTime.MaxValue)});
+        private readonly Tax regularTax = new Tax("REG", new List<TaxRate>{new TaxRate(20m, new DateTime(2016,01,01), DateTime.MaxValue)});
         private readonly IList<string> regularTaxedProducts = new List<string>{ "Alcool", "Apéritif", "Vin"};
 
         public CashRegister(IRepository<Billing.Domain.Dish> menu, IRepository<Bill> billBook)

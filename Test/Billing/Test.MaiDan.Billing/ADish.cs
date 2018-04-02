@@ -27,12 +27,12 @@ namespace Test.MaiDan.Billing
 
         public ADish Priced(decimal amount)
         {
-            return Priced(amount, DateTime.MinValue, DateTime.MinValue);
+            return Priced(amount, DateTime.MinValue, DateTime.MaxValue);
         }
 
         public ADish Priced(decimal amount, DateTime validFrom)
         {
-            return Priced(amount, validFrom, DateTime.MinValue);
+            return Priced(amount, validFrom, DateTime.MaxValue);
         }
         
         public ADish Priced(decimal amount, DateTime validFrom, DateTime validTo)

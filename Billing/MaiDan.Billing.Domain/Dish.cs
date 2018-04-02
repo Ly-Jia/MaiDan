@@ -19,7 +19,7 @@ namespace MaiDan.Billing.Domain
 
         public string Type { get; }
 
-        public decimal? CurrentPrice => PriceConfiguration.Count == 0 ? (decimal?) null : PriceConfiguration.Single(p => p.ValidityEndDate.Equals(DateTime.MinValue)).Amount;
+        public decimal? CurrentPrice => PriceConfiguration.FirstOrDefault(p => p.ValidityStartDate <= DateTime.Today && p.ValidityEndDate >= DateTime.Today)?.Amount;
 
         public override bool Equals(object obj)
         {

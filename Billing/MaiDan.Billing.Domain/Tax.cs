@@ -16,7 +16,7 @@ namespace MaiDan.Billing.Domain
 
         public IList<TaxRate> TaxConfiguration { get; }
         
-        public decimal? CurrentRate => TaxConfiguration.Count == 0 ? (decimal?)null : TaxConfiguration.Single(p => p.ValidityEndDate.Equals(DateTime.MinValue)).Rate;
+        public decimal? CurrentRate => TaxConfiguration.FirstOrDefault(p => p.ValidityStartDate <= DateTime.Today && p.ValidityEndDate >= DateTime.Today)?.Rate;
 
     }
 }
