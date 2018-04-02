@@ -51,7 +51,7 @@ namespace Test.MaiDan.Api.Controllers
 
             Check.That(billBookController.Response.StatusCode).Equals((int)HttpStatusCode.BadRequest);
             billBook.Verify(bb => bb.Contains(id), Times.Once());
-            orderBook.Verify(ob => ob.Get(id), Times.Never());
+            orderBook.Verify(ob => ob.Get(It.IsAny<object>()), Times.Never());
             cashRegister.Verify(cr => cr.Print(It.IsAny<global::MaiDan.Ordering.Domain.Order>()), Times.Never());
         }
 
