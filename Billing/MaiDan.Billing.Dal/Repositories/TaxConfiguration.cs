@@ -6,7 +6,7 @@ namespace MaiDan.Billing.Dal.Repositories
 {
     public class TaxConfiguration : IRepository<Domain.Tax>
     {
-        private IDatabase database;
+        private readonly IDatabase database;
 
         public TaxConfiguration(IDatabase database)
         {

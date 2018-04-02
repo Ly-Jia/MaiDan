@@ -9,7 +9,7 @@ namespace MaiDan.Billing.Dal.Repositories
 {
     public class Menu : IRepository<Domain.Dish>
     {
-        private IDatabase database;
+        private readonly IDatabase database;
 
         public Menu(IDatabase database)
         {

@@ -13,7 +13,7 @@ namespace MaiDan.Ordering.Dal.Repositories
 {
     public class OrderBook : IRepository<Domain.Order>
     {
-        private IDatabase database;
+        private readonly IDatabase database;
 
         public OrderBook(IDatabase database)
         {

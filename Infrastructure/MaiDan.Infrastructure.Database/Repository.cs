@@ -6,7 +6,7 @@ namespace MaiDan.Infrastructure.Database
 {
 	public abstract class Repository<TEntity, TModel> : IRepository<TModel> where TEntity : class where TModel : class
 	{
-        private IDatabase database;
+        private readonly IDatabase database;
 
         protected abstract TEntity EntityFrom(TModel model);
 	    protected abstract TModel ModelFrom(TEntity entity);

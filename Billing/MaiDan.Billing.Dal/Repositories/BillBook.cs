@@ -11,7 +11,7 @@ namespace MaiDan.Billing.Dal.Repositories
 {
     public class BillBook : IRepository<Domain.Bill>
     {
-        private IDatabase database;
+        private readonly IDatabase database;
 
         public BillBook(IDatabase database)
         {
