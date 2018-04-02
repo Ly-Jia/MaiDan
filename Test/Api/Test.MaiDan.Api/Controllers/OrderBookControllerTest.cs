@@ -16,17 +16,17 @@ namespace Test.MaiDan.Api.Controllers
 {
     public class OrderBookControllerTest
     {
-        private Mock<IRepository<Table>> defaultRoom;
-        private CashRegister defaultCashRegister;
         private Table defaultTable;
+        private Mock<IRepository<Table>> defaultRoom;
+        private Mock<ICashRegister> defaultCashRegister;
 
         [OneTimeSetUp]
         public void Init()
         {
-            defaultCashRegister = new CashRegister(new Mock<IRepository<global::MaiDan.Billing.Domain.Dish>>().Object, new Mock<IRepository<global::MaiDan.Billing.Domain.Bill>>().Object);
             defaultTable = new Table("1");
             defaultRoom = new Mock<IRepository<Table>>();
             defaultRoom.Setup(r => r.Get(defaultTable.Id)).Returns(defaultTable);
+            defaultCashRegister = new Mock<ICashRegister>();
         }
 
         [Test]
@@ -60,7 +60,7 @@ namespace Test.MaiDan.Api.Controllers
         {
             var orderBook = new Mock<IRepository<Order>>();
             orderBook.Setup(m => m.Get(It.IsAny<string>())).Returns((Order)null);
-            var orderBookController = CreateOrderBookController(orderBook.Object, null, defaultRoom.Object, defaultCashRegister);          
+            var orderBookController = CreateOrderBookController(orderBook.Object, null, defaultRoom.Object, defaultCashRegister.Object);          
             
             orderBookController.Get(1);
 
@@ -92,7 +92,7 @@ namespace Test.MaiDan.Api.Controllers
             var orderBook = new Mock<IRepository<global::MaiDan.Ordering.Domain.Order>>();
             var menu = new Mock<IRepository<Dish>>();
             menu.Setup(m => m.Get(It.IsAny<string>())).Returns((Dish)null);
-            var orderBookController = CreateOrderBookController(orderBook.Object, menu.Object, defaultRoom.Object, defaultCashRegister);
+            var orderBookController = CreateOrderBookController(orderBook.Object, menu.Object, defaultRoom.Object, defaultCashRegister.Object);
 
             orderBookController.Add(new global::MaiDan.Api.DataContracts.Requests.Order
             {
@@ -110,7 +110,7 @@ namespace Test.MaiDan.Api.Controllers
             var orderBook = new Mock<IRepository<global::MaiDan.Ordering.Domain.Order>>();
             var menu = new Mock<IRepository<Dish>>();
             menu.Setup(m => m.Get(It.IsAny<string>())).Returns((Dish)null);
-            var orderBookController = CreateOrderBookController(orderBook.Object, menu.Object, defaultRoom.Object, defaultCashRegister);
+            var orderBookController = CreateOrderBookController(orderBook.Object, menu.Object, defaultRoom.Object, defaultCashRegister.Object);
 
             orderBookController.Update(new global::MaiDan.Api.DataContracts.Requests.Order
             {
@@ -132,7 +132,7 @@ namespace Test.MaiDan.Api.Controllers
             var room = new Mock<IRepository<Table>>();
             room.Setup(r => r.Get(tableId)).Returns(new Table(tableId));
 
-            var orderBookController = CreateOrderBookController(orderBook.Object, menu.Object, room.Object, defaultCashRegister);
+            var orderBookController = CreateOrderBookController(orderBook.Object, menu.Object, room.Object, defaultCashRegister.Object);
 
             orderBookController.Add(new global::MaiDan.Api.DataContracts.Requests.Order { Id = 1, TableId = tableId });
 
@@ -148,14 +148,14 @@ namespace Test.MaiDan.Api.Controllers
             menu.Setup(m => m.Get(It.IsAny<string>())).Returns(new Dish("id", "name", "type"));
             var room = new Mock<IRepository<Table>>();
             room.Setup(r => r.Get(tableId)).Returns(new Table(tableId));
-            var orderBookController = CreateOrderBookController(orderBook.Object, menu.Object, room.Object, defaultCashRegister);
+            var orderBookController = CreateOrderBookController(orderBook.Object, menu.Object, room.Object, defaultCashRegister.Object);
 
             orderBookController.Update(new global::MaiDan.Api.DataContracts.Requests.Order { Id = 1, TableId = tableId });
 
             Check.That(orderBookController.Response.StatusCode).Equals((int)HttpStatusCode.OK);
         }
 
-        private OrderBookController CreateOrderBookController(IRepository<global::MaiDan.Ordering.Domain.Order> orderBook, IRepository<Dish> menu, IRepository<Table> room, CashRegister cashRegister)
+        private OrderBookController CreateOrderBookController(IRepository<global::MaiDan.Ordering.Domain.Order> orderBook, IRepository<Dish> menu, IRepository<Table> room, ICashRegister cashRegister)
         {
             var orderBookController = new OrderBookController(orderBook, menu, room, cashRegister);
             orderBookController.ControllerContext = new ControllerContext();
