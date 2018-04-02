@@ -16,6 +16,7 @@ namespace MaiDan.Api.Controllers
     public class OrderBookController : Controller
     {
         private readonly IRepository<Order> orderBook;
+        private readonly IRepository<Bill> billBook;
         private readonly IRepository<Dish> menu;
         private readonly IRepository<Table> room;
         private readonly ICashRegister cashRegister;
@@ -79,6 +80,12 @@ namespace MaiDan.Api.Controllers
         [HttpPost]
         public void Update([FromBody] DataContracts.Requests.Order contract)
         {
+            if (billBook.Contains(contract.Id))
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return;
+            }
+
             Order order;
             try
             {
