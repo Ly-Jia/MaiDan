@@ -126,9 +126,8 @@ namespace MaiDan.Ordering.Dal.Repositories
         private Order EntityFrom(Domain.Order model)
         {
             var lines = model.Lines.Select(l => new Line(model.Id, l.Id, l.Quantity, new Dish(l.Dish.Id, l.Dish.Name, l.Dish.Type))).ToList();
-            if (model is OnSiteOrder)
+            if (model is OnSiteOrder onSite)
             {
-                var onSite = (OnSiteOrder)model;
                 return new Order(model.Id, false, onSite.Table.Id, onSite.NumberOfGuests, lines);
             }
 
@@ -140,7 +139,9 @@ namespace MaiDan.Ordering.Dal.Repositories
             var lines = entity.Lines.Select(l => new Domain.Line(l.Index, l.Quantity, new Domain.Dish(l.Dish.Id, l.Dish.Name, l.Dish.Type))).ToList();
 
             if (entity.TakeAway)
+            {
                 return new TakeAwayOrder(entity.Id, lines);
+            }
 
             return new OnSiteOrder(entity.Id, new Table(entity.TableId), entity.NumberOfGuests, lines);
         }
