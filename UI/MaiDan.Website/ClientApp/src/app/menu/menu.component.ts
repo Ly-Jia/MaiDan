@@ -16,7 +16,7 @@ export class MenuComponent implements OnInit {
     this.menuService.getDishes()
       .subscribe({
         next: value => this.dishes = value,
-        error: err => { console.log(`Cannot load dishes.`); console.log(err); },
+        error: err => { console.log(`Cannot load dishes`); console.log(err); },
         complete: () => console.log(`Dishes loaded`)
       });
   }

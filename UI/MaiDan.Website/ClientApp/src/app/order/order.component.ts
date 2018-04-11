@@ -23,7 +23,7 @@ export class OrderComponent implements OnInit {
     this.orderbookService.getOrder(id)
       .subscribe({
         next: value => this.order = value,
-        error: err => { console.log(`Cannot load order ${id}.`); console.log(err); },
+        error: err => { console.log(`Cannot load order ${id}`); console.log(err); },
         complete: () => console.log(`Order ${id} loaded`)
       });
   }
@@ -32,7 +32,7 @@ export class OrderComponent implements OnInit {
     this.billbookService.printBill(id)
       .subscribe({
         next: () => { },
-        error: err => { console.log(`Cannot create bill ${id}.`); console.log(err); },
+        error: err => { console.log(`Cannot create bill ${id}`); console.log(err); },
         complete: () => {
           console.log(`Bill ${id} created`);
           this.router.navigate(['billbook', id]);

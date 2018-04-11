@@ -16,7 +16,7 @@ export class OrderbookComponent implements OnInit {
     this.orderbookService.getOrders()
       .subscribe({
         next: value => this.orders = value,
-        error: err => { console.log(`Cannot load orders.`); console.log(err); },
+        error: err => { console.log(`Cannot load orders`); console.log(err); },
         complete: () => console.log(`Orders loaded`)
       });
   }
