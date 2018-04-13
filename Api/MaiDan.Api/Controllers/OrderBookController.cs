@@ -115,7 +115,7 @@ namespace MaiDan.Api.Controllers
 
             if (contract.Lines == null)
             {
-                throw new ArgumentException("The dish lines cannot be null");
+                throw new ArgumentException("The contract lines cannot be null");
             }
 
             List<Line> lines = new List<Line>();
