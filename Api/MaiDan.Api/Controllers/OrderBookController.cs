@@ -79,7 +79,7 @@ namespace MaiDan.Api.Controllers
             return order.Id;
         }
 
-        [HttpPost]
+        [HttpPut]
         public void Update([FromBody] DataContracts.Requests.Order contract)
         {
             if (billBook.Contains(contract.Id))
