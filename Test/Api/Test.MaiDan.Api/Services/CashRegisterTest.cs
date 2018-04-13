@@ -4,6 +4,7 @@ using MaiDan.Infrastructure.Database;
 using Moq;
 using NFluent;
 using NUnit.Framework;
+using System;
 using System.Linq;
 using Test.MaiDan.Billing;
 using Test.MaiDan.Ordering;
@@ -87,6 +88,17 @@ namespace Test.MaiDan.Api.Services
             Check.That(bill.Lines.ElementAt(0).TaxAmount).Equals(expectedTaxAmount);
         }
 
+        [Test]
+        public void should_not_print_a_lineless_order()
+        {
+            var order = new AnOrder()
+                .Build();
 
+            var menu = new Mock<IRepository<Dish>>();
+
+            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<Bill>>().Object);
+
+            Check.ThatCode(() => cashRegister.Print(order)).Throws<InvalidOperationException>();
+        }
     }
 }
