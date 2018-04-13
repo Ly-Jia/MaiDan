@@ -62,8 +62,8 @@ namespace MaiDan.Api.Controllers
             return orderBook.GetAll().Select(o => new DataContracts.Responses.Order(o, cashRegister.Calculate(o)));
         }
 
-        [HttpPut]
-        public void Add([FromBody] DataContracts.Requests.Order contract)
+        [HttpPost]
+        public int Add([FromBody] DataContracts.Requests.Order contract)
         {
             Order order;
             try
@@ -73,9 +73,10 @@ namespace MaiDan.Api.Controllers
             catch (ArgumentException)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return;
+                return -1;
             }
             orderBook.Add(order);
+            return order.Id;
         }
 
         [HttpPost]
