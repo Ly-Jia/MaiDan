@@ -30,6 +30,11 @@ namespace MaiDan.Api.Services
 
         public void Print(Order order)
         {
+            if (order.Lines.Count == 0)
+            {
+                throw new InvalidOperationException("Cannot print an order with no lines");
+            }
+
             var bill = Calculate(order);
             billBook.Add(bill);
         }

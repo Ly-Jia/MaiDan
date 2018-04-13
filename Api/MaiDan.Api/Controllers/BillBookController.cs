@@ -56,7 +56,16 @@ namespace MaiDan.Api.Controllers
             }
 
             var order = orderBook.Get(contract.Id);
-            cashRegister.Print(order);
+
+            try
+            {
+                cashRegister.Print(order);
+            }
+            catch (InvalidOperationException)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return;
+            }
         }
     }
 }
