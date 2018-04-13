@@ -94,9 +94,7 @@ namespace Test.MaiDan.Api.Services
             var order = new AnOrder()
                 .Build();
 
-            var menu = new Mock<IRepository<Dish>>();
-
-            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<Bill>>().Object);
+            var cashRegister = new CashRegister(new Mock<IRepository<Dish>>().Object, new Mock<IRepository<Bill>>().Object);
 
             Check.ThatCode(() => cashRegister.Print(order)).Throws<InvalidOperationException>();
         }
