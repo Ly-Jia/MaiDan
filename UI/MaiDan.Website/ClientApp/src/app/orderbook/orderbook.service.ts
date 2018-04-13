@@ -21,4 +21,12 @@ export class OrderbookService {
       return this.http.get<Order>(this.url + id);
   }
 
+  addOrder(order: Order): Observable<number> {
+    return this.http.post<number>(this.url, order);
+  }
+
+  updateOrder(order: Order): Observable<Order> {
+    return this.http.put<Order>(this.url, order);
+  }
+
 }
