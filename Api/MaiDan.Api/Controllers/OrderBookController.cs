@@ -103,25 +103,65 @@ namespace MaiDan.Api.Controllers
 
         private Order ModelFromDataContract(DataContracts.Requests.Order contract)
         {
+            if (contract == null)
+            {
+                throw new ArgumentNullException(nameof(contract), "The contract cannot be null");
+            }
+
+            if (contract.Id <= 0)
+            {
+                throw new ArgumentException("The contract id cannot be 0 or negative");
+            }
+
+            if (contract.Lines == null)
+            {
+                throw new ArgumentException("The dish lines cannot be null");
+            }
+
             List<Line> lines = new List<Line>();
-            if (contract.Lines != null)
-                foreach (var line in contract.Lines)
+
+            foreach (var line in contract.Lines)
+            {
+                if (line.Id <= 0)
                 {
-                    var dish = menu.Get(line.DishId);
-                    if (dish == null)
-                    {
-                        throw new ArgumentException($"The dish {line.DishId} was not found");
-                    }
-                    lines.Add(new Line(line.Id, line.Quantity, dish));
+                    throw new ArgumentException("The line id cannot be 0 or negative");
                 }
 
+                if (line.Quantity <= 0)
+                {
+                    throw new ArgumentException("The line quantity cannot be 0 or negative");
+                }
+
+                if (line.DishId == null)
+                {
+                    throw new ArgumentException("The line dish id cannot be null");
+                }
+
+                var dish = menu.Get(line.DishId);
+                if (dish == null)
+                {
+                    throw new ArgumentException($"The dish {line.DishId} was not found");
+                }
+
+                lines.Add(new Line(line.Id, line.Quantity, dish));
+            }
+
             if (string.IsNullOrEmpty(contract.TableId))
+            {
                 return new TakeAwayOrder(contract.Id, lines);
+            }
 
             Table table = room.Get(contract.TableId);
 
             if (table == null)
+            {
                 throw new ArgumentException($"The table {contract.TableId} was not found");
+            }
+
+            if (contract.NumberOfGuests <= 0)
+            {
+                throw new ArgumentException("The number of guests cannot be 0 or negative");
+            }
 
             return new OnSiteOrder(contract.Id, table, contract.NumberOfGuests, lines);
         }
