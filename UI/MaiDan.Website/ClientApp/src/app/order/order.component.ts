@@ -28,6 +28,24 @@ export class OrderComponent implements OnInit {
       });
   }
 
+  add(order: Order): void {
+    this.orderbookService.addOrder(order)
+      .subscribe({
+        next: () => { },
+        error: err => { console.log(`Cannot create order`); console.log(err); },
+        complete: () => console.log(`Order created`)
+      });
+  }
+
+  update(order: Order): void {
+    this.orderbookService.updateOrder(order)
+      .subscribe({
+        next: () => { },
+        error: err => { console.log(`Cannot update order ${order.id}`); console.log(err); },
+        complete: () => console.log(`Order ${order.id} updated`)
+      });
+  }
+
   print(id: number): void {
     this.billbookService.printBill(id)
       .subscribe({
