@@ -20,7 +20,7 @@ export class BillComponent implements OnInit {
     this.billbookService.getBill(id)
       .subscribe({
         next: value => this.bill = value,
-        error: err => { console.log(`Cannot load bill ${id}.`); console.log(err); },
+        error: err => { console.log(`Cannot load bill ${id}`); console.log(err); },
         complete: () => console.log(`Bill ${id} loaded`)
       });
   }

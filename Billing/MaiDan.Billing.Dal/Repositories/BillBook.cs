@@ -10,7 +10,7 @@ namespace MaiDan.Billing.Dal.Repositories
 {
     public class BillBook : IRepository<Domain.Bill>
     {
-        private IDatabase database;
+        private readonly IDatabase database;
         private IRepository<Domain.TaxRate> taxRateList;
 
         public BillBook(IDatabase database, IRepository<Domain.TaxRate> taxRateList)

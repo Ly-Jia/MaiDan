@@ -13,15 +13,15 @@ namespace MaiDan.Api.Controllers
     [Route("api/[controller]")]
     public class BillBookController :  Controller
     {
-        private readonly CashRegister cashRegister;
         private readonly IRepository<Bill> billBook;
         private readonly IRepository<Order> orderBook;
+        private readonly ICashRegister cashRegister;
 
-        public BillBookController(CashRegister cashRegister, IRepository<Order> orderBook, IRepository<Bill> billBook)
+        public BillBookController(IRepository<Bill> billBook, IRepository<Order> orderBook, ICashRegister cashRegister)
         {
-            this.cashRegister = cashRegister;
-            this.orderBook = orderBook;
             this.billBook = billBook;
+            this.orderBook = orderBook;
+            this.cashRegister = cashRegister;
         }
 
         [HttpGet("{id}")]
@@ -43,7 +43,7 @@ namespace MaiDan.Api.Controllers
         [HttpGet]
         public IEnumerable<DataContracts.Responses.Order> Get()
         {
-            return billBook.GetAll().Select(b => new DataContracts.Responses.Order(orderBook.Get(b.Id.ToString()), b));
+            return billBook.GetAll().Select(b => new DataContracts.Responses.Order(orderBook.Get(b.Id), b));
         }
 
         [HttpPost]
@@ -51,11 +51,21 @@ namespace MaiDan.Api.Controllers
         {
             if (billBook.Contains(contract.Id))
             {
-                throw new InvalidOperationException($"The bill {contract.Id} has already been printed");
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return;
             }
 
             var order = orderBook.Get(contract.Id);
-            cashRegister.Print(order);
+
+            try
+            {
+                cashRegister.Print(order);
+            }
+            catch (InvalidOperationException)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return;
+            }
         }
     }
 }

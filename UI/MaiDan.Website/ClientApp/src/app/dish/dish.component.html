@@ -11,8 +11,8 @@
         <tbody>
             <tr *ngFor="let price of dish.priceConfiguration">
                 <td>{{price.validityStartDate|date:"dd/MM/yyyy"}}</td>
-                <td *ngIf="price.validityEndDate !== '0001-01-01T00:00:00'">{{price.validityEndDate|date:"dd/MM/yyyy"}}</td>
-                <td *ngIf="price.validityEndDate === '0001-01-01T00:00:00'">-</td>
+                <td *ngIf="price.validityEndDate !== '9999-12-31T23:59:59'">{{price.validityEndDate|date:"dd/MM/yyyy"}}</td>
+                <td *ngIf="price.validityEndDate === '9999-12-31T23:59:59'">-</td>
                 <td>{{price.amount}}€</td>
             </tr>
         </tbody>

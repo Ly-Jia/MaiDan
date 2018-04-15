@@ -23,8 +23,26 @@ export class OrderComponent implements OnInit {
     this.orderbookService.getOrder(id)
       .subscribe({
         next: value => this.order = value,
-        error: err => { console.log(`Cannot load order ${id}.`); console.log(err); },
+        error: err => { console.log(`Cannot load order ${id}`); console.log(err); },
         complete: () => console.log(`Order ${id} loaded`)
+      });
+  }
+
+  add(order: Order): void {
+    this.orderbookService.addOrder(order)
+      .subscribe({
+        next: () => { },
+        error: err => { console.log(`Cannot create order`); console.log(err); },
+        complete: () => console.log(`Order created`)
+      });
+  }
+
+  update(order: Order): void {
+    this.orderbookService.updateOrder(order)
+      .subscribe({
+        next: () => { },
+        error: err => { console.log(`Cannot update order ${order.id}`); console.log(err); },
+        complete: () => console.log(`Order ${order.id} updated`)
       });
   }
 
@@ -32,7 +50,7 @@ export class OrderComponent implements OnInit {
     this.billbookService.printBill(id)
       .subscribe({
         next: () => { },
-        error: err => { console.log(`Cannot create bill ${id}.`); console.log(err); },
+        error: err => { console.log(`Cannot create bill ${id}`); console.log(err); },
         complete: () => {
           console.log(`Bill ${id} created`);
           this.router.navigate(['billbook', id]);
