@@ -12,12 +12,14 @@ namespace MaiDan.Billing.Dal.Entities
         {
         }
 
-        public Line(int billId, int index, decimal amount)
+        public Line(int billId, int index, decimal amount, TaxRate taxRate, decimal taxAmount)
         {
             Id = $"{billId}-{index}";
             BillId = billId;
             Index = index;
             Amount = amount;
+            TaxRate = taxRate;
+            TaxAmount = taxAmount;
         }
 
         [ExplicitKey]
@@ -28,5 +30,9 @@ namespace MaiDan.Billing.Dal.Entities
         public int Index { get; set; }
         
         public decimal Amount { get; set; }
+
+        public TaxRate TaxRate { get; set; }
+
+        public decimal TaxAmount { get; set; }
     }
 }

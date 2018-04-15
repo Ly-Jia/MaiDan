@@ -6,7 +6,7 @@ namespace MaiDan.Billing.Domain
 {
     public class Tax
     {
-        public Tax(string id, IList<TaxRate> taxConfiguration)
+        public Tax(string id, List<TaxRate> taxConfiguration)
         {
             Id = id;
             TaxConfiguration = taxConfiguration;
@@ -14,9 +14,9 @@ namespace MaiDan.Billing.Domain
 
         public string Id { get; }
 
-        public IList<TaxRate> TaxConfiguration { get; }
+        public List<TaxRate> TaxConfiguration { get; }
         
-        public decimal? CurrentRate => TaxConfiguration.Count == 0 ? (decimal?)null : TaxConfiguration.Single(p => p.ValidityEndDate.Equals(DateTime.MinValue)).Rate;
+        public TaxRate CurrentRate => TaxConfiguration.Count == 0 ? null : TaxConfiguration.Single(p => p.ValidityEndDate.Equals(DateTime.MinValue));
 
     }
 }

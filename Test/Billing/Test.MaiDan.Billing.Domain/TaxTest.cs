@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System
+    ;
 using System.Collections.Generic;
 using MaiDan.Billing.Domain;
 using NFluent;
@@ -13,12 +14,10 @@ namespace Test.MaiDan.Billing.Domain
         {
             var applicationStartDate = new DateTime(2011, 01, 01);
             var priceChangeDate = new DateTime(2012, 01, 01);
-            var tax = new Tax("RED", new List<TaxRate>
-            {
-                new TaxRate(5.5m, applicationStartDate, priceChangeDate.AddDays(-1)),
-                new TaxRate(10m, priceChangeDate, DateTime.MinValue)
-            });
-
+            var tax = new Tax("RED", new List<TaxRate>());
+            tax.TaxConfiguration.Add(new TaxRate("RED-1", tax, 5.5m, applicationStartDate, priceChangeDate.AddDays(-1)));
+            tax.TaxConfiguration.Add(new TaxRate("RED-2", tax, 10m, priceChangeDate, DateTime.MinValue));
+            
             Check.That(tax.CurrentRate).Equals(10m);
         }
     }

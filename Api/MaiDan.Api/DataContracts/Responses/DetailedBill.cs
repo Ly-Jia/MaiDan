@@ -10,6 +10,6 @@ namespace MaiDan.Api.DataContracts.Responses
             this.Taxes = bill.Taxes;
         }
 
-        public Dictionary<decimal, decimal> Taxes { get; set; }
+        public IList<BillTax> Taxes { get; set; }
     }
 }

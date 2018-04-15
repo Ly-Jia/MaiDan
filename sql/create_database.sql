@@ -1,17 +1,17 @@
-DROP TABLE IF EXISTS "Tax";
-DROP TABLE IF EXISTS "DishPrice";
 DROP TABLE IF EXISTS "OrderLine";
+DROP TABLE IF EXISTS "DishPrice";
 DROP TABLE IF EXISTS "BillLine";
+DROP TABLE IF EXISTS "BillTax";
 DROP TABLE IF EXISTS "Dish";
 DROP TABLE IF EXISTS "Order";
 DROP TABLE IF EXISTS "Bill";
 DROP TABLE IF EXISTS "Table";
+DROP TABLE IF EXISTS "TaxRate";
 
-CREATE TABLE "Tax"
+CREATE TABLE "TaxRate"
 	("Id" TEXT PRIMARY KEY  NOT NULL  UNIQUE ,
 	 "TaxId" TEXT NOT NULL,
-	 "Index" INTEGER NOT NULL,
-	 "Percentage" REAL,
+	 "Rate" REAL,
 	 "ValidityStartDate" DATETIME,
 	 "ValidityEndDate" DATETIME);
 
@@ -26,7 +26,6 @@ CREATE TABLE "DishPrice"
 	 "ValidityEndDate" DATETIME,
 	 "Amount" REAL,
 	FOREIGN KEY ("DishId") REFERENCES "Dish"("Id"));
-
 
 CREATE TABLE "Table" 
 	("Id" TEXT PRIMARY KEY  NOT NULL  UNIQUE);
@@ -57,5 +56,15 @@ CREATE TABLE "BillLine"
 	 "BillId" INTEGER NOT NULL, 
 	 "Index" INTEGER NOT NULL,
 	 "Amount" REAL NOT NULL, 
+	 "TaxRateId" TEXT NOT NULL,
+	 "TaxAmount" REAL NOT NULL,
 	FOREIGN KEY("BillId") REFERENCES "Bill"("Id"));
 
+CREATE TABLE "BillTax"
+	("Id" TEXT NOT NULL,
+	 "BillId" INTEGER NOT NULL,
+	 "Index" INTEGER NOT NULL,
+	 "TaxRateId" TEXT NOT NULL,
+	 "Amount" REAL NOT NULL,
+	  FOREIGN KEY("BillId") REFERENCES "Bill"("Id"),
+	  FOREIGN KEY("TaxRateId") REFERENCES "TaxRate"("Id"));

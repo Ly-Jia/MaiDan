@@ -10,7 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NFluent;
 using NUnit.Framework;
+using Test.MaiDan.Billing;
 using Test.MaiDan.Ordering;
+using ADish = Test.MaiDan.Ordering.ADish;
 
 namespace Test.MaiDan.Api.Controllers
 {
@@ -23,7 +25,7 @@ namespace Test.MaiDan.Api.Controllers
         [OneTimeSetUp]
         public void Init()
         {
-            defaultCashRegister = new CashRegister(new Mock<IRepository<global::MaiDan.Billing.Domain.Dish>>().Object, new Mock<IRepository<global::MaiDan.Billing.Domain.Bill>>().Object);
+            defaultCashRegister = new CashRegister(new Mock<IRepository<global::MaiDan.Billing.Domain.Dish>>().Object, new Mock<IRepository<global::MaiDan.Billing.Domain.Bill>>().Object, new ATaxConfiguration().Build());
             defaultTable = new Table("1");
             defaultRoom = new Mock<IRepository<Table>>();
             defaultRoom.Setup(r => r.Get(defaultTable.Id)).Returns(defaultTable);
@@ -43,7 +45,7 @@ namespace Test.MaiDan.Api.Controllers
             var orderWithTwoTacos = new AnOrder(orderId).With(two, new ADish(tcs).Named(tacos).Build()).Build();
             orderBook.Setup(o => o.Get(orderId)).Returns(orderWithTwoTacos);
             menu.Setup(m => m.Get(tcs)).Returns(dish);
-            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<global::MaiDan.Billing.Domain.Bill>>().Object);
+            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<global::MaiDan.Billing.Domain.Bill>>().Object, new ATaxConfiguration().Build());
             var orderBookController = CreateOrderBookController(orderBook.Object, null, defaultRoom.Object, cashRegister);
 
             var retrievedDish = orderBookController.Get(orderId);
@@ -78,7 +80,7 @@ namespace Test.MaiDan.Api.Controllers
             var order = new AnOrder().With(2, new ADish(dishId).Build()).Build();
             orderBook.Setup((IRepository<global::MaiDan.Ordering.Domain.Order> m) => m.Get(It.IsAny<object>())).Returns(order);
             menu.Setup(m => m.Get(dishId)).Returns(dish);
-            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<global::MaiDan.Billing.Domain.Bill>>().Object);
+            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<global::MaiDan.Billing.Domain.Bill>>().Object, new ATaxConfiguration().Build());
             var orderBookController = CreateOrderBookController(orderBook.Object, null, defaultRoom.Object, cashRegister);
 
             orderBookController.Get(1);

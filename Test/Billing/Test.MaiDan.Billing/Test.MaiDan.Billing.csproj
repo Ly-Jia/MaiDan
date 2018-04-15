@@ -12,6 +12,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Moq" Version="4.8.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Billing\MaiDan.Billing.Dal\MaiDan.Billing.Dal.csproj" />
     <ProjectReference Include="..\..\..\Billing\MaiDan.Billing.Domain\MaiDan.Billing.Domain.csproj" />
   </ItemGroup>
 

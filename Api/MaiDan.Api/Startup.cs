@@ -49,11 +49,13 @@ namespace MaiDan.Api
             services.AddSingleton<IRepository<Ordering.Domain.Table>, Ordering.Dal.Repositories.Room>(svcs => new Ordering.Dal.Repositories.Room(database));
             
             // Billing
+            var taxConfiguration = new Billing.Dal.Repositories.TaxConfiguration(database);
+            var taxRateList = new Billing.Dal.Repositories.TaxRateList(database, taxConfiguration);
             var billingMenu = new Billing.Dal.Repositories.Menu(database);
-            var billBook = new Billing.Dal.Repositories.BillBook(database);
-            var cashRegister = new CashRegister(billingMenu, billBook);
+            var billBook = new Billing.Dal.Repositories.BillBook(database, taxRateList);
+            var cashRegister = new CashRegister(billingMenu, billBook, taxConfiguration);
             services.AddSingleton<IRepository<Billing.Domain.Dish>, Billing.Dal.Repositories.Menu>(svcs => billingMenu);
-            services.AddSingleton<IRepository<Billing.Domain.Bill>, Billing.Dal.Repositories.BillBook>(svcs => new Billing.Dal.Repositories.BillBook(database));
+            services.AddSingleton<IRepository<Billing.Domain.Bill>, Billing.Dal.Repositories.BillBook>(svcs => billBook);
             services.AddSingleton(svcs => cashRegister);
         }
 

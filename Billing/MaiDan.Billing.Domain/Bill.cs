@@ -5,25 +5,17 @@ namespace MaiDan.Billing.Domain
 {
     public class Bill
     {
-        public Bill(int id, IList<Line> lines, decimal total)
+        public Bill(int id, IList<Line> lines, decimal total, IList<BillTax> taxes)
         {
             Id = id;
             Lines = lines;
             Total = total;
+            Taxes = taxes;
         }
         
         public int Id { get; }
         public IList<Line> Lines { get; }
         public decimal Total { get; }
-
-        public Dictionary<decimal, decimal> Taxes
-        {
-            get
-            {
-                return Lines.GroupBy(l => l.Tax.CurrentRate)
-                    .Select(g => new KeyValuePair<decimal, decimal>(g.First().Tax.CurrentRate.Value, g.Sum(x => x.TaxAmount)))
-                    .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-            }
-        }
+        public IList<BillTax> Taxes { get; }
     }
 }

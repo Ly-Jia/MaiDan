@@ -7,13 +7,19 @@ namespace Test.MaiDan.Billing
     public class ATax
     {
         public static string DEFAULT_TAX_ID = "DEF";
-        private string id = DEFAULT_TAX_ID;
-        public static IList<TaxRate> DEFAULT_TAX_CONF = new List<TaxRate>{new TaxRate(10m, new DateTime(2012,12,12), DateTime.MinValue)};
-        private IList<TaxRate> taxConfig = DEFAULT_TAX_CONF;
-            
+
+        public static List<TaxRate> DEFAULT_TAX_CONF = new List<TaxRate>();
+        public static Tax DEFAULT_TAX = new Tax(DEFAULT_TAX_ID, DEFAULT_TAX_CONF);
+        public static TaxRate DEFAULT_TAX_RATE = new TaxRate("DEF-1", DEFAULT_TAX, 10m, new DateTime(2012, 12, 12), DateTime.MinValue);
+
+        public ATax()
+        {
+            DEFAULT_TAX.TaxConfiguration.Add(DEFAULT_TAX_RATE);
+        }
+
         public Tax Build()
         {
-            return new Tax(id, taxConfig);
+            return DEFAULT_TAX;
         }
     }
 }
