@@ -46,6 +46,10 @@ export class OrderComponent implements OnInit {
       });
   }
 
+  trackByIndex(index: number, item: Order): number {
+    return index;
+  }
+
   print(id: number): void {
     this.billbookService.printBill(id)
       .subscribe({
