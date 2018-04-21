@@ -19,8 +19,8 @@ namespace Test.MaiDan.Billing
             var regularTax = new Tax("REG", new List<TaxRate>());
             var regularTaxRate = new TaxRate("REG-1", regularTax, 20m, DateTime.MinValue, DateTime.MaxValue);
             regularTax.TaxConfiguration.Add(regularTaxRate);
-            taxConfiguration.Setup(t => t.Get("RED-1")).Returns(reducedTax);
-            taxConfiguration.Setup(t => t.Get("REG-1")).Returns(regularTax);
+            taxConfiguration.Setup(t => t.Get("RED")).Returns(reducedTax);
+            taxConfiguration.Setup(t => t.Get("REG")).Returns(regularTax);
         }
 
         public IRepository<Tax> Build()

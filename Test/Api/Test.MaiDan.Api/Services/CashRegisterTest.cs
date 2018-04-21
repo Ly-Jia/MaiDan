@@ -63,7 +63,7 @@ namespace Test.MaiDan.Api.Services
 
             var bill = cashRegister.Calculate(order);
             
-            Check.That(bill.Total).Equals(3m);
+            Check.That(bill.Total).Equals(25m);
         }
 
         [Test]
@@ -84,8 +84,7 @@ namespace Test.MaiDan.Api.Services
             var bill = cashRegister.Calculate(order);
 
             Check.That(bill.Lines.ElementAt(0).TaxRate.Rate).Equals(taxRateAt10Percent);
-            var expectedTaxAmount = (fiveEuros * 100) / (100 + taxRateAt10Percent);
-            Check.That(bill.Lines.ElementAt(0).TaxAmount).Equals(expectedTaxAmount);
+            Check.That(bill.Lines.ElementAt(0).TaxAmount).Equals(0.45m);
         }
 
         [Test]
@@ -106,8 +105,7 @@ namespace Test.MaiDan.Api.Services
 
             //S'assurer que la taxe est bien celle normale (par l'id?), pas au montant suelement
             Check.That(bill.Lines.ElementAt(0).TaxRate.Rate).Equals(taxRateAt20Percent);
-            var expectedTaxAmount = (fiveEuros * 100) / (100 + taxRateAt20Percent);
-            Check.That(bill.Lines.ElementAt(0).TaxAmount).Equals(expectedTaxAmount);
+            Check.That(bill.Lines.ElementAt(0).TaxAmount).Equals(0.83m);
         }
 
         [Test]
@@ -119,6 +117,77 @@ namespace Test.MaiDan.Api.Services
             var cashRegister = new CashRegister(new Mock<IRepository<Dish>>().Object, new Mock<IRepository<Bill>>().Object, new Mock<IRepository<Tax>>().Object);
 
             Check.ThatCode(() => cashRegister.Print(order)).Throws<InvalidOperationException>();
+        }
+
+        [Test]
+        public void should_group_amounts_by_tax_in_the_bill()
+        {
+            var beer = "Beer";
+            var wine = "Wine";
+            var starter = "Starter";
+            var dessert = "Dessert";
+
+            var order = new AnOrder()
+                .With(1, new ADish(beer).Build())
+                .With(1, new ADish(wine).Build())
+                .With(1, new ADish(starter).Build())
+                .With(1, new ADish(dessert).Build())
+                .Build();
+            
+            var menu = new Mock<IRepository<Dish>>();
+            menu.Setup(m => m.Get(beer)).Returns(new Billing.ADish(beer).Priced(6m).OfType("Alcool").Build()); // Tax (20%) of 1 €
+            menu.Setup(m => m.Get(wine)).Returns(new Billing.ADish(wine).Priced(12m).OfType("Alcool").Build()); // Tax (20%) of 2 €
+            menu.Setup(m => m.Get(starter)).Returns(new Billing.ADish(starter).Priced(11m).OfType("Starter").Build()); // Tax (10%) of 1 €
+            menu.Setup(m => m.Get(dessert)).Returns(new Billing.ADish(dessert).Priced(11m).OfType("Dessert").Build()); // Tax (10%) of 1 €
+
+            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<Bill>>().Object, new ATaxConfiguration().Build());
+
+            var bill = cashRegister.Calculate(order);
+
+            var tenPercentTaxAmount = bill.Taxes.Single(t => t.TaxRate.Rate == 10m);
+            Check.That(tenPercentTaxAmount.Amount).Equals(2m);
+            var twentyPercentTaxAmount = bill.Taxes.Single(t => t.TaxRate.Rate == 20m);
+            Check.That(twentyPercentTaxAmount.Amount).Equals(3m);
+        }
+
+        [Test]
+        public void should_calculate_and_round_tax_for_each_line_of_the_bill()
+        {
+            var cocktail = "Cocktail";
+
+            var order = new AnOrder()
+                .With(1, new ADish(cocktail).Build())
+                .Build();
+
+            var menu = new Mock<IRepository<Dish>>();
+            menu.Setup(m => m.Get(cocktail)).Returns(new Billing.ADish(cocktail).Priced(5m).OfType("Alcool").Build()); // Tax (20%) of 0,83 €
+
+            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<Bill>>().Object, new ATaxConfiguration().Build());
+
+            var bill = cashRegister.Calculate(order);
+
+            Check.That(bill.Lines.First().TaxAmount).Equals(0.83m);
+        }
+
+        [Test]
+        public void should_calculate_bill_tax_from_the_sum_of_lines_amount()
+        {
+            var cocktail = new ADish("Cocktail").Build();
+
+            var order = new AnOrder()
+                .With(1, cocktail)
+                .With(1, cocktail)
+                .With(1, cocktail)
+                .Build();
+
+            var menu = new Mock<IRepository<Dish>>();
+            menu.Setup(m => m.Get(cocktail.Id)).Returns(new Billing.ADish(cocktail.Id).Priced(5m).OfType("Alcool").Build()); // Tax (20%) of 0,83 €
+
+            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<Bill>>().Object, new ATaxConfiguration().Build());
+
+            var bill = cashRegister.Calculate(order);
+
+            Check.That(bill.Taxes.First().Amount).Equals(2.5m); // instead of 2,49 €
         }
     }
 }

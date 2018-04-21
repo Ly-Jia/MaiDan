@@ -29,11 +29,12 @@ namespace MaiDan.Api.Services
         {
             var lines = order.Lines.Select(CalculateLine).ToList();
             var total = lines.Sum(l => l.Amount);
-            var taxes = lines.GroupBy(l => l.TaxRate).Select(g => new { TaxRate = g.Key, Amount = g.Sum(x => x.TaxAmount)});
+            var taxes = lines.GroupBy(l => l.TaxRate).Select(g => new { TaxRate = g.Key, Amount = g.Sum(x => x.Amount)});
             var billTaxes = new List<BillTax>();
             foreach (var tax in taxes)
             {
-                billTaxes.Add(new BillTax(billTaxes.Count+1, tax.TaxRate, tax.Amount));
+                var taxAmount = CalculateTaxAmount(tax.TaxRate, tax.Amount);
+                billTaxes.Add(new BillTax(billTaxes.Count+1, tax.TaxRate, taxAmount));
             }
             var bill =  new Bill(order.Id, lines, total, billTaxes);
             return bill;
@@ -55,9 +56,14 @@ namespace MaiDan.Api.Services
             var dish = menu.Get(line.Dish.Id);
             var amount = line.Quantity * dish.CurrentPrice.Value;
             var tax = regularTaxedProducts.Contains(dish.Type) ? regularTax : reducedTax;
-            var taxAmount = (amount * 100) / (100 + tax.CurrentRate.Rate);
+            var taxAmount = CalculateTaxAmount(tax.CurrentRate, amount);
             var billingLine = new Billing.Domain.Line(line.Id, amount, tax.CurrentRate, taxAmount);
             return billingLine;
+        }
+
+        private decimal CalculateTaxAmount(TaxRate taxRate, decimal amount)
+        {
+            return Math.Round((amount * taxRate.Rate) / (100 + taxRate.Rate), 2);
         }
     }
 }
