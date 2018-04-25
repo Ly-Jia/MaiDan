@@ -42,13 +42,13 @@ namespace MaiDan.Api.Controllers
             return menuWithoutPrice.GetAll().Select(dish => new DataContracts.Responses.Dish(dish, menuWithPrice.Get(dish.Id)));
         }
 
-        [HttpPut]
+        [HttpPost]
         public void Add([FromBody] DataContracts.Requests.Dish contract)
         {
             menuWithoutPrice.Add(contract.ToOrderingDish());
         }
 
-        [HttpPost]
+        [HttpPut]
         public void Update([FromBody] DataContracts.Requests.Dish contract)
         {
             menuWithoutPrice.Update(contract.ToOrderingDish());
