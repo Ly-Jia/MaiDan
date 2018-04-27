@@ -40,7 +40,7 @@ namespace Test.MaiDan.Billing.Domain
         }
 
         [Test]
-        public void should_be_equal_when_price_configuration_is_not_the_same()
+        public void should_not_be_equal_when_price_configuration_is_not_the_same()
         {
             var dish1 = new ADish("Id").Priced(5m).Build();
             var dish2 = new ADish("Id").Priced(6m).Build();
@@ -51,7 +51,7 @@ namespace Test.MaiDan.Billing.Domain
         }
 
         [Test]
-        public void should_be_equal_when_type_is_not_the_same()
+        public void should_not_be_equal_when_type_is_not_the_same()
         {
             var dish1 = new ADish("Id").OfType("Fruit").Build();
             var dish2 = new ADish("Id").OfType("Vegetable").Build();
