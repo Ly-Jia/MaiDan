@@ -1,5 +1,7 @@
 ﻿using MaiDan.Api.Services;
+using MaiDan.Billing.Dal;
 using MaiDan.Infrastructure.Database;
+using MaiDan.Ordering.Dal;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -38,20 +40,21 @@ namespace MaiDan.Api
             // Add framework services.
             services.AddMvc();
 
+            services.AddDbContext<OrderingContext>();
+            services.AddDbContext<BillingContext>();
+
             // Ordering
-            services.AddSingleton<IRepository<Ordering.Domain.Dish>, Ordering.Dal.Repositories.Menu>(svcs => new Ordering.Dal.Repositories.Menu());
-            services.AddSingleton<IRepository<Ordering.Domain.Order>, Ordering.Dal.Repositories.OrderBook>(svcs => new Ordering.Dal.Repositories.OrderBook());
-            services.AddSingleton<IRepository<Ordering.Domain.Table>, Ordering.Dal.Repositories.Room>(svcs => new Ordering.Dal.Repositories.Room());
+            services.AddSingleton<IRepository<Ordering.Domain.Dish>, Ordering.Dal.Repositories.Menu>();
+            services.AddSingleton<IRepository<Ordering.Domain.Order>, Ordering.Dal.Repositories.OrderBook>();
+            services.AddSingleton<IRepository<Ordering.Domain.Table>, Ordering.Dal.Repositories.Room>();
 
             // Billing
-            var taxConfiguration = new Billing.Dal.Repositories.TaxConfiguration();
-            var taxRateList = new Billing.Dal.Repositories.TaxRateList(taxConfiguration);
-            var billingMenu = new Billing.Dal.Repositories.Menu();
-            var billBook = new Billing.Dal.Repositories.BillBook(taxRateList);
-            var cashRegister = new CashRegister(billingMenu, billBook, taxConfiguration);
-            services.AddSingleton<IRepository<Billing.Domain.Dish>, Billing.Dal.Repositories.Menu>(svcs => billingMenu);
-            services.AddSingleton<IRepository<Billing.Domain.Bill>, Billing.Dal.Repositories.BillBook>(svcs => billBook);
-            services.AddSingleton<ICashRegister>(svcs => cashRegister);
+            services.AddSingleton<IRepository<Billing.Domain.Tax>, Billing.Dal.Repositories.TaxConfiguration>();
+            services.AddSingleton<IRepository<Billing.Domain.TaxRate>, Billing.Dal.Repositories.TaxRateList>();
+            services.AddSingleton<IRepository<Billing.Domain.Dish>, Billing.Dal.Repositories.Menu>();
+            services.AddSingleton<IRepository<Billing.Domain.Bill>, Billing.Dal.Repositories.BillBook>();
+
+            services.AddSingleton<ICashRegister, CashRegister>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

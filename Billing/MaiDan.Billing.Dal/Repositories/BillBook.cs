@@ -9,49 +9,42 @@ namespace MaiDan.Billing.Dal.Repositories
 {
     public class BillBook : IRepository<Domain.Bill>
     {
-        private IRepository<Domain.TaxRate> taxRateList;
+        private readonly BillingContext context;
+        private readonly IRepository<Domain.TaxRate> taxRateList;
 
-        public BillBook(IRepository<Domain.TaxRate> taxRateList)
+        public BillBook(BillingContext context, IRepository<Domain.TaxRate> taxRateList)
         {
+            this.context = context;
             this.taxRateList = taxRateList;
         }
 
         public Domain.Bill Get(object id)
         {
             var idInt = (int)id;
-            using (var context = new BillingContext())
-            {
-                var entity = context.Bills
-                    .AsNoTracking()
-                    .Include(e => e.Lines)
-                    .Include(e => e.Taxes)
-                    .FirstOrDefault(e => e.Id == idInt);
+            var entity = context.Bills
+                .AsNoTracking()
+                .Include(e => e.Lines)
+                .Include(e => e.Taxes)
+                .FirstOrDefault(e => e.Id == idInt);
 
-                return entity == null ? null : ModelFrom(entity);
-            }
+            return entity == null ? null : ModelFrom(entity);
         }
 
         public List<Domain.Bill> GetAll()
         {
-            using (var context = new BillingContext())
-            {
-                var entities = context.Bills
-                    .AsNoTracking()
-                    .Include(e => e.Lines)
-                    .Include(e => e.Taxes);
+            var entities = context.Bills
+                .AsNoTracking()
+                .Include(e => e.Lines)
+                .Include(e => e.Taxes);
 
-                return entities.Select(ModelFrom).ToList();
-            }
+            return entities.Select(ModelFrom).ToList();
         }
 
         public void Add(Domain.Bill item)
         {
             var entity = EntityFrom(item);
-            using (var context = new BillingContext())
-            {
-                context.Bills.Add(entity);
-                context.SaveChanges();
-            }
+            context.Bills.Add(entity);
+            context.SaveChanges();
         }
 
         public void Update(Domain.Bill item)
@@ -62,18 +55,15 @@ namespace MaiDan.Billing.Dal.Repositories
         public bool Contains(object id)
         {
             var idInt = (int)id;
-            using (var context = new BillingContext())
-            {
-                return context.Bills
-                    .AsNoTracking()
-                    .Any(e => e.Id == idInt);
-            }
+            return context.Bills
+                .AsNoTracking()
+                .Any(e => e.Id == idInt);
         }
 
         private Bill EntityFrom(Domain.Bill model)
         {
             var lines = model.Lines.Select(l => new Line(model.Id, l.Id, l.Amount, new TaxRate(l.TaxRate), l.TaxAmount)).ToList();
-            var taxes = model.Taxes.Select(t => new BillTax(model.Id, t.Id, new TaxRate(t.TaxRate),  t.Amount)).ToList();
+            var taxes = model.Taxes.Select(t => new BillTax(model.Id, t.Id, new TaxRate(t.TaxRate), t.Amount)).ToList();
 
             return new Bill(model.Id, model.Total, lines, taxes);
         }

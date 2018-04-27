@@ -2,6 +2,7 @@
 using MaiDan.Ordering.Dal;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MaiDan.Api
 {
@@ -12,10 +13,10 @@ namespace MaiDan.Api
         /// </summary>
         public static void SeedData(this IApplicationBuilder app)
         {
-            var orderingContext = new OrderingContext();
+            var orderingContext = app.ApplicationServices.GetService<OrderingContext>();
             orderingContext.Database.Migrate();
 
-            var billingContext = new BillingContext();
+            var billingContext = app.ApplicationServices.GetService<BillingContext>();
             billingContext.Database.Migrate();
         }
     }
