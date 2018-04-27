@@ -48,7 +48,7 @@ namespace MaiDan.Ordering.Dal.Repositories
             var entity = EntityFrom(item);
             context.Orders.Add(entity);
             context.SaveChanges();
-            return item.Id;
+            return entity.Id;
         }
 
         public void Update(Domain.Order item)
