@@ -138,7 +138,7 @@ namespace Test.MaiDan.Api.Controllers
 
             var orderBookController = CreateOrderBookController(orderBook.Object, null, menu.Object, room.Object, defaultCashRegister.Object);
 
-            orderBookController.Add(new global::MaiDan.Api.DataContracts.Requests.Order { Id = 1, TableId = tableId, Lines = new List<global::MaiDan.Api.DataContracts.Requests.Line>(), NumberOfGuests = 2 });
+            orderBookController.Add(new global::MaiDan.Api.DataContracts.Requests.Order { Id = 0, TableId = tableId, Lines = new List<global::MaiDan.Api.DataContracts.Requests.Line>(), NumberOfGuests = 2 });
 
             Check.That(orderBookController.Response.StatusCode).Equals((int)HttpStatusCode.OK);
         }
