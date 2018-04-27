@@ -4,9 +4,12 @@ using MaiDan.Infrastructure.Database;
 using MaiDan.Ordering.Dal;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System.IO;
+using System.Reflection;
 
 namespace MaiDan.Api
 {
@@ -40,8 +43,11 @@ namespace MaiDan.Api
             // Add framework services.
             services.AddMvc();
 
-            services.AddDbContext<OrderingContext>();
-            services.AddDbContext<BillingContext>();
+            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var dbPath = Path.Combine(path, "MaiDan.sqlite");
+            var connectionString = $"Data Source={dbPath}";
+            services.AddDbContext<OrderingContext>(options => options.UseSqlite(connectionString));
+            services.AddDbContext<BillingContext>(options => options.UseSqlite(connectionString));
 
             // Ordering
             services.AddSingleton<IRepository<Ordering.Domain.Dish>, Ordering.Dal.Repositories.Menu>();
