@@ -68,6 +68,11 @@ namespace MaiDan.Api.Controllers
             Order order;
             try
             {
+                if (contract.Id != 0)
+                {
+                    throw new ArgumentException("The contract id of an order to be created must be 0");
+                }
+
                 order = ModelFromDataContract(contract);
             }
             catch (ArgumentException)
@@ -75,22 +80,26 @@ namespace MaiDan.Api.Controllers
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return -1;
             }
-            orderBook.Add(order);
-            return order.Id;
+            return (int)orderBook.Add(order);
         }
 
         [HttpPut]
         public void Update([FromBody] DataContracts.Requests.Order contract)
         {
-            if (billBook.Contains(contract.Id))
-            {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return;
-            }
-
             Order order;
             try
             {
+                if (contract.Id <= 0)
+                {
+                    throw new ArgumentException("The contract id of an order to be updated cannot be 0 or negative");
+                }
+
+                if (billBook.Contains(contract.Id))
+                {
+                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    return;
+                }
+
                 order = ModelFromDataContract(contract);
             }
             catch (ArgumentException)
@@ -106,11 +115,6 @@ namespace MaiDan.Api.Controllers
             if (contract == null)
             {
                 throw new ArgumentNullException(nameof(contract), "The contract cannot be null");
-            }
-
-            if (contract.Id <= 0)
-            {
-                throw new ArgumentException("The contract id cannot be 0 or negative");
             }
 
             if (contract.Lines == null)

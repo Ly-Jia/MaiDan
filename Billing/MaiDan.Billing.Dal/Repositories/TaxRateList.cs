@@ -33,7 +33,7 @@ namespace MaiDan.Billing.Dal.Repositories
             throw new NotImplementedException();
         }
 
-        public void Add(Domain.TaxRate item)
+        public object Add(Domain.TaxRate item)
         {
             throw new NotImplementedException();
         }

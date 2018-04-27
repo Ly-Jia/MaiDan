@@ -6,7 +6,7 @@ namespace MaiDan.Infrastructure.Database
     {
         T Get(object id);
         List<T> GetAll();
-        void Add(T item);
+        object Add(T item);
         void Update(T item);
         bool Contains(object id);
     }

@@ -40,11 +40,12 @@ namespace MaiDan.Billing.Dal.Repositories
             return entities.Select(ModelFrom).ToList();
         }
 
-        public void Add(Domain.Bill item)
+        public object Add(Domain.Bill item)
         {
             var entity = EntityFrom(item);
             context.Bills.Add(entity);
             context.SaveChanges();
+            return entity.Id;
         }
 
         public void Update(Domain.Bill item)

@@ -34,11 +34,12 @@ namespace MaiDan.Ordering.Dal.Repositories
             return entities.Select(ModelFrom).ToList();
         }
 
-        public void Add(Domain.Table item)
+        public object Add(Domain.Table item)
         {
             var entity = EntityFrom(item);
             context.Tables.Add(entity);
             context.SaveChanges();
+            return entity.Id;
         }
 
         public void Update(Domain.Table item)

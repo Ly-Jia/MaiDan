@@ -11,6 +11,5 @@ namespace MaiDan.Api.DataContracts.Requests
         public int NumberOfGuests { get; set; }
         
         public List<Line> Lines { get; set; }
-        
     }
 }
