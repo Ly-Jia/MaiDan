@@ -16,7 +16,7 @@ namespace MaiDan.Api.DataContracts.Requests
             {
                 throw new ArgumentNullException();
             }
-            return new Ordering.Domain.Dish(this.Id, this.Name, this.Type);
+            return new Ordering.Domain.Dish(this.Id, this.Name);
         }
     }
 }

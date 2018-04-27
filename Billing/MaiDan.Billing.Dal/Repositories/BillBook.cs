@@ -1,104 +1,56 @@
-﻿using System;
+﻿using MaiDan.Billing.Dal.Entities;
+using MaiDan.Infrastructure.Database;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Dapper;
-using Dapper.Contrib.Extensions;
-using MaiDan.Billing.Dal.Entities;
-using MaiDan.Infrastructure.Database;
 
 namespace MaiDan.Billing.Dal.Repositories
 {
     public class BillBook : IRepository<Domain.Bill>
     {
-        private readonly IDatabase database;
         private IRepository<Domain.TaxRate> taxRateList;
 
-        public BillBook(IDatabase database, IRepository<Domain.TaxRate> taxRateList)
+        public BillBook(IRepository<Domain.TaxRate> taxRateList)
         {
-            this.database = database;
             this.taxRateList = taxRateList;
         }
 
         public Domain.Bill Get(object id)
         {
-            var sql = "SELECT * " +
-                      "FROM [Bill] b " +
-                      "JOIN [BillLine] l ON b.Id = l.BillId " +
-                      "JOIN [BillTax] t ON b.Id = t.BillId " +
-                      "WHERE b.Id = @Id;";
-
-            using (var connection = database.CreateConnection())
+            var idInt = (int)id;
+            using (var context = new BillingContext())
             {
-                connection.Open();
+                var entity = context.Bills
+                    .AsNoTracking()
+                    .Include(e => e.Lines)
+                    .Include(e => e.Taxes)
+                    .FirstOrDefault(e => e.Id == idInt);
 
-                var billDictionary = new Dictionary<int, Bill>();
-
-                var bill = connection.Query<Bill, Line, Bill>(
-                        sql,
-                        (b, l) =>
-                        {
-                            if (!billDictionary.TryGetValue(b.Id, out var billEntry))
-                            {
-                                billEntry = b;
-                                billEntry.Lines = new List<Line>();
-                                billDictionary.Add(billEntry.Id, billEntry);
-                            }
-
-                            billEntry.Lines.Add(new Line(b.Id, l.Index, l.Amount, l.TaxRate, l.TaxAmount));
-                            return billEntry;
-                        },
-                        param: new { Id = id },
-                        splitOn: "Id,Id")
-                    .FirstOrDefault();
-
-                return bill == null ? null : ModelFrom(bill);
+                return entity == null ? null : ModelFrom(entity);
             }
         }
 
         public List<Domain.Bill> GetAll()
         {
-            string sql = "SELECT * " +
-                         "FROM [Bill] b " +
-                         "JOIN [BillLine] l ON b.Id = l.BillId " +
-                         "JOIN [BillTax] t ON b.Id = t.BillId ";
-
-            List<Bill> bills;
-
-            using (var connection = database.CreateConnection())
+            using (var context = new BillingContext())
             {
-                connection.Open();
+                var entities = context.Bills
+                    .AsNoTracking()
+                    .Include(e => e.Lines)
+                    .Include(e => e.Taxes);
 
-                var orderDictionary = new Dictionary<int, Bill>();
-
-                bills = connection.Query<Bill, Line, Bill>(
-                        sql,
-                        (b, l) =>
-                        {
-                            if (!orderDictionary.TryGetValue(b.Id, out var billEntry))
-                            {
-                                billEntry = new Bill { Id = b.Id, Lines = new List<Line>() };
-                                orderDictionary.Add(billEntry.Id, billEntry);
-                            }
-
-                            billEntry.Lines.Add(new Line(b.Id, l.Index, l.Amount, l.TaxRate, l.TaxAmount));
-                            return billEntry;
-                        },
-                        splitOn: "Id,Id")
-                    .Distinct()
-                    .ToList();
+                return entities.Select(ModelFrom).ToList();
             }
-
-            return bills.Select(ModelFrom).ToList();
         }
 
         public void Add(Domain.Bill item)
         {
-            using (var connection = database.CreateConnection())
+            var entity = EntityFrom(item);
+            using (var context = new BillingContext())
             {
-                connection.Open();
-
-                var entity = EntityFrom(item);
-                connection.Insert(entity);
+                context.Bills.Add(entity);
+                context.SaveChanges();
             }
         }
 
@@ -109,7 +61,13 @@ namespace MaiDan.Billing.Dal.Repositories
 
         public bool Contains(object id)
         {
-            return Get(id) != null;
+            var idInt = (int)id;
+            using (var context = new BillingContext())
+            {
+                return context.Bills
+                    .AsNoTracking()
+                    .Any(e => e.Id == idInt);
+            }
         }
 
         private Bill EntityFrom(Domain.Bill model)

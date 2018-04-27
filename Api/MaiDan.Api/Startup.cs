@@ -1,5 +1,4 @@
 ﻿using MaiDan.Api.Services;
-using MaiDan.Infrastructure.Configuration;
 using MaiDan.Infrastructure.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -39,20 +38,16 @@ namespace MaiDan.Api
             // Add framework services.
             services.AddMvc();
 
-            var databaseName = ConfigurationReader.Get<string>("SqliteDatabase");
-            var database = new SqliteDatabase(databaseName);
-            services.AddSingleton<IDatabase, SqliteDatabase>(svcs => database);
-
             // Ordering
-            services.AddSingleton<IRepository<Ordering.Domain.Dish>, Ordering.Dal.Repositories.Menu>(svcs => new Ordering.Dal.Repositories.Menu(database));
-            services.AddSingleton<IRepository<Ordering.Domain.Order>, Ordering.Dal.Repositories.OrderBook>(svcs => new Ordering.Dal.Repositories.OrderBook(database));
-            services.AddSingleton<IRepository<Ordering.Domain.Table>, Ordering.Dal.Repositories.Room>(svcs => new Ordering.Dal.Repositories.Room(database));
-            
+            services.AddSingleton<IRepository<Ordering.Domain.Dish>, Ordering.Dal.Repositories.Menu>(svcs => new Ordering.Dal.Repositories.Menu());
+            services.AddSingleton<IRepository<Ordering.Domain.Order>, Ordering.Dal.Repositories.OrderBook>(svcs => new Ordering.Dal.Repositories.OrderBook());
+            services.AddSingleton<IRepository<Ordering.Domain.Table>, Ordering.Dal.Repositories.Room>(svcs => new Ordering.Dal.Repositories.Room());
+
             // Billing
-            var taxConfiguration = new Billing.Dal.Repositories.TaxConfiguration(database);
-            var taxRateList = new Billing.Dal.Repositories.TaxRateList(database, taxConfiguration);
-            var billingMenu = new Billing.Dal.Repositories.Menu(database);
-            var billBook = new Billing.Dal.Repositories.BillBook(database, taxRateList);
+            var taxConfiguration = new Billing.Dal.Repositories.TaxConfiguration();
+            var taxRateList = new Billing.Dal.Repositories.TaxRateList(taxConfiguration);
+            var billingMenu = new Billing.Dal.Repositories.Menu();
+            var billBook = new Billing.Dal.Repositories.BillBook(taxRateList);
             var cashRegister = new CashRegister(billingMenu, billBook, taxConfiguration);
             services.AddSingleton<IRepository<Billing.Domain.Dish>, Billing.Dal.Repositories.Menu>(svcs => billingMenu);
             services.AddSingleton<IRepository<Billing.Domain.Bill>, Billing.Dal.Repositories.BillBook>(svcs => billBook);
@@ -68,7 +63,7 @@ namespace MaiDan.Api
             app.UseCors("CorsPolicy");
 
             app.UseMvc();
+            app.SeedData();
         }
-        
     }
 }

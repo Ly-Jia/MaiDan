@@ -13,10 +13,9 @@ namespace Test.MaiDan.Api.DataContracts.Requests
         {
             var id = "Id";
             var name = "Name";
-            var type = "Type";
 
-            var dishDataContract = new Dish() { Id = id, Name = name, Type = type};
-            var dish = new global::MaiDan.Ordering.Domain.Dish(id, name, type);
+            var dishDataContract = new Dish() { Id = id, Name = name };
+            var dish = new global::MaiDan.Ordering.Domain.Dish(id, name);
 
             var convertedDish = dishDataContract.ToOrderingDish();
 

@@ -1,10 +1,9 @@
-﻿using System;
+﻿using MaiDan.Infrastructure.Database;
+using MaiDan.Ordering.Domain;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Dapper;
-using MaiDan.Infrastructure.Database;
-using MaiDan.Ordering.Domain;
-using Z.Dapper.Plus;
 using Dish = MaiDan.Ordering.Dal.Entities.Dish;
 using Line = MaiDan.Ordering.Dal.Entities.Line;
 using Order = MaiDan.Ordering.Dal.Entities.Order;
@@ -13,137 +12,103 @@ namespace MaiDan.Ordering.Dal.Repositories
 {
     public class OrderBook : IRepository<Domain.Order>
     {
-        private readonly IDatabase database;
-
-        public OrderBook(IDatabase database)
-        {
-            this.database = database;
-        }
-
         public Domain.Order Get(object id)
         {
-            var sql = "SELECT * " +
-                       "FROM [Order] o " +
-                       "JOIN [OrderLine] l ON o.Id = l.OrderId " +
-                       "JOIN [Dish] d ON l.DishId = d.Id " +
-                       "WHERE o.Id = @Id;";
-
-            using (var connection = database.CreateConnection())
+            var idInt = (int)id;
+            using (var context = new OrderingContext())
             {
-                connection.Open();
+                var entity = context.Orders
+                    .AsNoTracking()
+                    .Include(e => e.Table)
+                    .Include(e => e.Lines)
+                    .ThenInclude(e => e.Dish)
+                    .FirstOrDefault(e => e.Id == idInt);
 
-                var orderDictionary = new Dictionary<int, Order>();
-
-                var order = connection.Query<Order, Line, Dish, Order>(
-                        sql,
-                        (o, l, d) =>
-                        {
-                            if (!orderDictionary.TryGetValue(o.Id, out var orderEntry))
-                            {
-                                orderEntry = o;
-                                orderEntry.Lines = new List<Line>();
-                                orderDictionary.Add(orderEntry.Id, orderEntry);
-                            }
-
-                            orderEntry.Lines.Add(new Line(o.Id, l.Index, l.Quantity, d));
-                            return orderEntry;
-                        },
-                        param: new { Id = id },
-                        splitOn: "Id,Id")
-                    .FirstOrDefault();
-
-                return order == null ? null : ModelFrom(order);
+                return entity == null ? null : ModelFrom(entity);
             }
         }
 
         public List<Domain.Order> GetAll()
         {
-            string sql = "SELECT * " +
-                         "FROM [Order] o " +
-                         "LEFT OUTER JOIN [Bill] b ON o.Id = b.Id " +
-                         "JOIN [OrderLine] l ON o.Id = l.OrderId " +
-                         "JOIN [Dish] d ON l.DishId = d.Id " +
-                         "WHERE b.Id IS NULL";
-
-            List<Order> orders;
-
-            using (var connection = database.CreateConnection())
+            using (var context = new OrderingContext())
             {
-                connection.Open();
+                var entities = context.Orders
+                    .AsNoTracking()
+                    .Include(e => e.Table)
+                    .Include(e => e.Lines)
+                    .ThenInclude(e => e.Dish);
 
-                var orderDictionary = new Dictionary<int, Order>();
-
-                orders = connection.Query<Order, Line, Dish, Order>(
-                        sql,
-                        (o, l, d) =>
-                        {
-                            if (!orderDictionary.TryGetValue(o.Id, out var orderEntry))
-                            {
-                                orderEntry = o;
-                                orderEntry.Lines = new List<Line>();
-                                orderDictionary.Add(orderEntry.Id, orderEntry);
-                            }
-
-                            orderEntry.Lines.Add(new Line(o.Id, l.Index, l.Quantity, d));
-                            return orderEntry;
-                        },
-                        splitOn: "Id,Id")
-                    .Distinct()
-                    .ToList();
+                return entities.Select(ModelFrom).ToList();
             }
-
-            return orders.Select(ModelFrom).ToList();
         }
 
         public void Add(Domain.Order item)
         {
-            using (var connection = database.CreateConnection())
+            using (var context = new OrderingContext())
             {
-                connection.Open();
-
-                var entity = EntityFrom(item);
-                connection.BulkInsert(entity)
-                    .ThenForEach(x => x.Lines.ForEach(y => y.OrderId = x.Id))
-                    .ThenBulkInsert(x => x.Lines);
+                var entity = EntityFrom(context, item);
+                context.Orders.Add(entity);
+                context.SaveChanges();
             }
         }
 
         public void Update(Domain.Order item)
         {
-            using (var connection = database.CreateConnection())
+            using (var context = new OrderingContext())
             {
-                connection.Open();
+                var entity = EntityFrom(context, item);
+                var existingEntity = context.Orders
+                    .Include(e => e.Lines)
+                    .FirstOrDefault(e => e.Id == entity.Id) ??
+                    throw new ArgumentException($"The order {entity.Id} was not found");
 
-                connection.BulkUpdate(EntityFrom(item), x => x.Lines);
+                context.Entry(existingEntity).CurrentValues.SetValues(entity);
+                existingEntity.Table = entity.Table;
+                existingEntity.Lines.Clear();
+                existingEntity.Lines.AddRange(entity.Lines);
+
+                context.SaveChanges();
             }
         }
 
         public bool Contains(object id)
         {
-            return Get(id) != null;
+            var idInt = (int)id;
+            using (var context = new OrderingContext())
+            {
+                return context.Orders
+                    .AsNoTracking()
+                    .Any(e => e.Id == idInt);
+            }
         }
 
-        private Order EntityFrom(Domain.Order model)
+        private Order EntityFrom(OrderingContext context, Domain.Order model)
         {
-            var lines = model.Lines.Select(l => new Line(model.Id, l.Id, l.Quantity, new Dish(l.Dish.Id, l.Dish.Name, l.Dish.Type))).ToList();
-            if (model is OnSiteOrder onSite)
+            var lines = model.Lines.Select(l => new Line(model.Id, l.Id, l.Quantity, new Dish(l.Dish.Id, l.Dish.Name))).ToList();
+
+            if (!(model is OnSiteOrder onSite))
             {
-                return new Order(model.Id, false, onSite.Table.Id, onSite.NumberOfGuests, lines);
+                return new Order(model.Id, true, null, 0, lines);
             }
 
-            return new Order(model.Id, true, null, 0, lines);
+            var table = context.Tables
+                .AsNoTracking()
+                .FirstOrDefault(e => e.Id == onSite.Table.Id) ??
+                throw new ArgumentException($"The table {onSite.Table.Id} was not found");
+
+            return new Order(model.Id, false, table, onSite.NumberOfGuests, lines);
         }
 
         private Domain.Order ModelFrom(Order entity)
         {
-            var lines = entity.Lines.Select(l => new Domain.Line(l.Index, l.Quantity, new Domain.Dish(l.Dish.Id, l.Dish.Name, l.Dish.Type))).ToList();
+            var lines = entity.Lines.Select(l => new Domain.Line(l.Index, l.Quantity, new Domain.Dish(l.Dish.Id, l.Dish.Name))).ToList();
 
             if (entity.TakeAway)
             {
                 return new TakeAwayOrder(entity.Id, lines);
             }
 
-            return new OnSiteOrder(entity.Id, new Table(entity.TableId), entity.NumberOfGuests, lines);
+            return new OnSiteOrder(entity.Id, new Domain.Table(entity.Table.Id), entity.NumberOfGuests, lines);
         }
     }
 }

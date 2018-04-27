@@ -1,29 +1,31 @@
-﻿using System;
+﻿using MaiDan.Infrastructure.Database;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
-using Dapper.Contrib.Extensions;
-using MaiDan.Billing.Dal.Entities;
-using MaiDan.Infrastructure.Database;
+using System.Linq;
 
 namespace MaiDan.Billing.Dal.Repositories
 {
     public class TaxRateList : IRepository<Domain.TaxRate>
     {
-        private IDatabase database;
         private IRepository<Domain.Tax> taxConfiguration;
-        public TaxRateList(IDatabase database, IRepository<Domain.Tax> taxConfiguration)
+        public TaxRateList(IRepository<Domain.Tax> taxConfiguration)
         {
-            this.database = database;
             this.taxConfiguration = taxConfiguration;
         }
 
         public Domain.TaxRate Get(object id)
         {
-            TaxRate taxRate;
-            using (var connection = database.CreateConnection())
+            var idString = (string)id;
+            using (var context = new BillingContext())
             {
-                taxRate = connection.Get<TaxRate>(id);
+                var entity = context.TaxRates
+                    .AsNoTracking()
+                    .FirstOrDefault(e => e.Id == idString);
+
+                return entity == null ? null :
+                    new Domain.TaxRate(entity.Id, taxConfiguration.Get(entity.TaxId), entity.Rate, entity.ValidityStartDate, entity.ValidityEndDate);
             }
-            return new Domain.TaxRate(taxRate.Id, taxConfiguration.Get(taxRate.TaxId), taxRate.Rate, taxRate.ValidityStartDate, taxRate.ValidityEndDate);
         }
 
         public List<Domain.TaxRate> GetAll()

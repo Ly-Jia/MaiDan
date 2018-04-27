@@ -1,29 +1,22 @@
 ﻿using System;
-using Dapper.Contrib.Extensions;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MaiDan.Billing.Dal.Entities
 {
     [Table("DishPrice")]
     public class Price
     {
-        /// <summary>
-        /// Constructor used by Dapper
-        /// </summary>
-        public Price()
-        {
-        }
-
-        public Price(string dishId, DateTime validFrom, DateTime validTo, decimal amount)
+        public Price(string dishId, DateTime validityStartDate, DateTime validityEndDate, decimal amount)
         {
             DishId = dishId;
-            ValidityStartDate = validFrom;
-            ValidityEndDate = validTo;
+            ValidityStartDate = validityStartDate;
+            ValidityEndDate = validityEndDate;
             Amount = amount;
         }
+
         public string DishId { get; set; }
         public DateTime ValidityStartDate { get; set; }
         public DateTime ValidityEndDate { get; set; }
         public decimal Amount { get; set; }
-
     }
 }

@@ -1,29 +1,28 @@
 ﻿using System.Collections.Generic;
-using Dapper.Contrib.Extensions;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MaiDan.Billing.Dal.Entities
 {
-    [Table("Dish")]
+    [Table("BillDish")]
     public class Dish
     {
-        /// <summary>
-        /// Constructor used by Dapper
-        /// </summary>
         public Dish()
         {
-        } 
-        
-        public Dish(string id, List<Price> prices)
+        }
+
+        public Dish(string id, List<Price> prices, string type)
         {
             Id = id;
             Prices = prices;
+            Type = type;
         }
 
-        [ExplicitKey]
         public string Id { get; set; }
 
         public List<Price> Prices { get; set; }
 
+        [Required]
         public string Type { get; set; }
     }
 }

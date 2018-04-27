@@ -1,14 +1,11 @@
 ﻿using System.Collections.Generic;
-using Dapper.Contrib.Extensions;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MaiDan.Billing.Dal.Entities
 {
     [Table("Bill")]
     public class Bill
     {
-        /// <summary>
-        /// Constructor used by Dapper
-        /// </summary>
         public Bill()
         {
         }
@@ -20,8 +17,8 @@ namespace MaiDan.Billing.Dal.Entities
             Lines = lines;
             Taxes = taxes;
         }
-        
-        [ExplicitKey]
+
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
         
         public decimal Total { get; set; }

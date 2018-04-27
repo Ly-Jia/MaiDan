@@ -1,11 +1,15 @@
-﻿using Dapper.Contrib.Extensions;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MaiDan.Ordering.Dal.Entities
 {
     [Table("Table")]
     public class Table
     {
-        [ExplicitKey]
+        public Table(string id)
+        {
+            Id = id;
+        }
+
         public string Id { get; set; }
     }
 }

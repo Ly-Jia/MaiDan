@@ -1,121 +1,89 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Dapper;
-using MaiDan.Billing.Dal.Entities;
+﻿using MaiDan.Billing.Dal.Entities;
 using MaiDan.Infrastructure.Database;
-using Z.Dapper.Plus;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MaiDan.Billing.Dal.Repositories
 {
     public class Menu : IRepository<Domain.Dish>
     {
-        private readonly IDatabase database;
-
-        public Menu(IDatabase database)
-        {
-            this.database = database;
-        }
-
         public Domain.Dish Get(object id)
         {
-            string sql = "SELECT dish.Id, dish.Type, price.DishId, price.ValidityStartDate, price.ValidityEndDate, price.Amount " +
-                         "FROM [Dish] dish " +
-                         "JOIN [DishPrice] price ON dish.Id = price.DishId " +
-                         "WHERE dish.Id = @Id;";
-
-            using (var connection = database.CreateConnection())
+            var idString = (string)id;
+            using (var context = new BillingContext())
             {
-                connection.Open();
+                var entity = context.Dishes
+                    .AsNoTracking()
+                    .Include(e => e.Prices)
+                    .FirstOrDefault(e => e.Id == idString);
 
-                var dishDictionary = new Dictionary<string, Dish>();
-
-                var dish = connection.Query<Dish, Price, Dish>(
-                        sql,
-                        (d, p) =>
-                        {
-                            if (!dishDictionary.TryGetValue(d.Id, out Dish dishEntry))
-                            {
-                                dishEntry = d;
-                                dishEntry.Prices = new List<Price>();
-                                dishDictionary.Add(dishEntry.Id, dishEntry);
-                            }
-
-                            dishEntry.Prices.Add(p);
-                            return dishEntry;
-                        },
-                        param: new { Id = id },
-                        splitOn: "DishId")
-                    .FirstOrDefault();
-
-                return dish == null ? null : ModelFrom(dish);
+                return entity == null ? null : ModelFrom(entity);
             }
         }
 
         public List<Domain.Dish> GetAll()
         {
-            const string sql = "SELECT dish.Id, dish.Type, price.DishId, price.ValidityStartDate, price.ValidityEndDate, price.Amount " +
-                               "FROM [Dish] dish " +
-                               "JOIN [DishPrice] price ON dish.Id = price.DishId ";
-
-            using (var connection = database.CreateConnection())
+            using (var context = new BillingContext())
             {
-                connection.Open();
+                var entities = context.Dishes
+                    .AsNoTracking()
+                    .Include(e => e.Prices);
 
-                var dishDictionary = new Dictionary<string, Dish>();
-
-                var dishes = connection.Query<Dish, Price, Dish>(
-                        sql,
-                        (d, p) =>
-                        {
-                            if (!dishDictionary.TryGetValue(d.Id, out var dishEntry))
-                            {
-                                dishEntry = d;
-                                dishEntry.Prices = new List<Price>();
-                                dishDictionary.Add(dishEntry.Id, dishEntry);
-                            }
-
-                            dishEntry.Prices.Add(p);
-                            return dishEntry;
-                        },
-                        splitOn: "DishId")
-                    .Distinct()
-                    .ToList();
-
-                return dishes.Select(ModelFrom).ToList();
+                return entities.Select(ModelFrom).ToList();
             }
         }
 
         public void Add(Domain.Dish item)
         {
-            var priceConfiguration = EntityFrom(item);
-            using (var connection = database.CreateConnection())
+            var entity = EntityFrom(item);
+            using (var context = new BillingContext())
             {
-                connection.Open();
-
-                connection.BulkInsert(priceConfiguration);
+                context.Dishes.Add(entity);
+                context.SaveChanges();
             }
         }
 
         public void Update(Domain.Dish item)
         {
-            throw new System.NotImplementedException();
+            var entity = EntityFrom(item);
+            using (var context = new BillingContext())
+            {
+                var existingEntity = context.Dishes
+                    .Include(e => e.Prices)
+                    .FirstOrDefault(e => e.Id == entity.Id) ??
+                    throw new ArgumentException($"The dish {entity.Id} was not found");
+
+                context.Entry(existingEntity).CurrentValues.SetValues(entity);
+                existingEntity.Prices.Clear();
+                existingEntity.Prices.AddRange(entity.Prices);
+
+                context.SaveChanges();
+            }
         }
 
         public bool Contains(object id)
         {
-            return Get(id) != null;
+            var idString = (string)id;
+            using (var context = new BillingContext())
+            {
+                return context.Dishes
+                    .AsNoTracking()
+                    .Any(e => e.Id == idString);
+            }
         }
 
-        private List<Price> EntityFrom(Domain.Dish model)
+        private Dish EntityFrom(Domain.Dish model)
         {
-            return model.PriceConfiguration
-                .Select(p => new Price(model.Id, p.ValidityStartDate, p.ValidityEndDate, p.Amount)).ToList();
+            var prices = model.PriceConfiguration.Select(p => new Price(model.Id, p.ValidityStartDate, p.ValidityEndDate, p.Amount)).ToList();
+            return new Dish(model.Id, prices, model.Type);
         }
 
         private Domain.Dish ModelFrom(Dish entity)
         {
             var prices = entity.Prices.Select(p => new Domain.Price(p.Amount, p.ValidityStartDate, p.ValidityEndDate)).ToList();
-            return new Domain.Dish(entity.Id, prices, null);
+            return new Domain.Dish(entity.Id, prices, entity.Type);
         }
     }
 }

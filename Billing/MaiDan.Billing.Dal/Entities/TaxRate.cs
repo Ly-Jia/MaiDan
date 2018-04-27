@@ -1,24 +1,18 @@
 ﻿using System;
-using Dapper.Contrib.Extensions;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MaiDan.Billing.Dal.Entities
 {
     [Table("TaxRate")]
     public class TaxRate
     {
-        /// <summary>
-        /// Constructor used by Dapper only
-        /// </summary>
-        public TaxRate()
-        {        
-        }
-
-        public TaxRate(string id, string taxId, DateTime validFrom, DateTime validTo, decimal rate)
+        public TaxRate(string id, string taxId, DateTime validityStartDate, DateTime validityEndDate, decimal rate)
         {
             Id = id;
             TaxId = taxId;
-            ValidityStartDate = validFrom;
-            ValidityEndDate = validTo;
+            ValidityStartDate = validityStartDate;
+            ValidityEndDate = validityEndDate;
             Rate = rate;
         }
 
@@ -31,8 +25,8 @@ namespace MaiDan.Billing.Dal.Entities
             Rate = taxRate.Rate;
         }
 
-        [ExplicitKey]
         public string Id { get; set; }
+        [Required]
         public string TaxId { get; set; }
         public DateTime ValidityStartDate { get; set; }
         public DateTime ValidityEndDate { get; set; }
