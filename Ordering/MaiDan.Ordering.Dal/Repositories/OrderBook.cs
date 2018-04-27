@@ -85,7 +85,6 @@ namespace MaiDan.Ordering.Dal.Repositories
             }
 
             var table = context.Tables
-                .AsNoTracking()
                 .FirstOrDefault(e => e.Id == onSite.Table.Id) ??
                 throw new ArgumentException($"The table {onSite.Table.Id} was not found");
 
