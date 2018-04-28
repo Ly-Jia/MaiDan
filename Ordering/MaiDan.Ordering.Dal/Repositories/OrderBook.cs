@@ -23,10 +23,10 @@ namespace MaiDan.Ordering.Dal.Repositories
         {
             var idInt = (int)id;
             var entity = context.Orders
-                .AsNoTracking()
                 .Include(e => e.Table)
                 .Include(e => e.Lines)
                 .ThenInclude(e => e.Dish)
+                .AsNoTracking()
                 .FirstOrDefault(e => e.Id == idInt);
 
             return entity == null ? null : ModelFrom(entity);
@@ -35,10 +35,10 @@ namespace MaiDan.Ordering.Dal.Repositories
         public List<Domain.Order> GetAll()
         {
             var entities = context.Orders
-                .AsNoTracking()
                 .Include(e => e.Table)
                 .Include(e => e.Lines)
-                .ThenInclude(e => e.Dish);
+                .ThenInclude(e => e.Dish)
+                .AsNoTracking();
 
             return entities.Select(ModelFrom).ToList();
         }

@@ -22,9 +22,9 @@ namespace MaiDan.Billing.Dal.Repositories
         {
             var idInt = (int)id;
             var entity = context.Bills
-                .AsNoTracking()
                 .Include(e => e.Lines)
                 .Include(e => e.Taxes)
+                .AsNoTracking()
                 .FirstOrDefault(e => e.Id == idInt);
 
             return entity == null ? null : ModelFrom(entity);
@@ -33,9 +33,9 @@ namespace MaiDan.Billing.Dal.Repositories
         public List<Domain.Bill> GetAll()
         {
             var entities = context.Bills
-                .AsNoTracking()
                 .Include(e => e.Lines)
-                .Include(e => e.Taxes);
+                .Include(e => e.Taxes)
+                .AsNoTracking();
 
             return entities.Select(ModelFrom).ToList();
         }

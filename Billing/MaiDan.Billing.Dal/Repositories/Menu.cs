@@ -20,8 +20,8 @@ namespace MaiDan.Billing.Dal.Repositories
         {
             var idString = (string)id;
             var entity = context.Dishes
-                .AsNoTracking()
                 .Include(e => e.Prices)
+                .AsNoTracking()
                 .FirstOrDefault(e => e.Id == idString);
 
             return entity == null ? null : ModelFrom(entity);
@@ -30,8 +30,8 @@ namespace MaiDan.Billing.Dal.Repositories
         public List<Domain.Dish> GetAll()
         {
             var entities = context.Dishes
-                .AsNoTracking()
-                .Include(e => e.Prices);
+                .Include(e => e.Prices)
+                .AsNoTracking();
 
             return entities.Select(ModelFrom).ToList();
         }
