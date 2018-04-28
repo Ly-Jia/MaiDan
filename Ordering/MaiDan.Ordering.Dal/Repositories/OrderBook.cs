@@ -70,9 +70,7 @@ namespace MaiDan.Ordering.Dal.Repositories
         public bool Contains(object id)
         {
             var idInt = (int)id;
-            return context.Orders
-                .AsNoTracking()
-                .Any(e => e.Id == idInt);
+            return context.Orders.Any(e => e.Id == idInt);
         }
 
         private Order EntityFrom(Domain.Order model)

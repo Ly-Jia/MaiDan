@@ -56,9 +56,7 @@ namespace MaiDan.Billing.Dal.Repositories
         public bool Contains(object id)
         {
             var idInt = (int)id;
-            return context.Bills
-                .AsNoTracking()
-                .Any(e => e.Id == idInt);
+            return context.Bills.Any(e => e.Id == idInt);
         }
 
         private Bill EntityFrom(Domain.Bill model)

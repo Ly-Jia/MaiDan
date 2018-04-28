@@ -56,9 +56,7 @@ namespace MaiDan.Ordering.Dal.Repositories
         public bool Contains(object id)
         {
             var idString = (string)id;
-            return context.Dishes
-                .AsNoTracking()
-                .Any(e => e.Id == idString);
+            return context.Dishes.Any(e => e.Id == idString);
         }
 
         private Dish EntityFrom(Domain.Dish model)
