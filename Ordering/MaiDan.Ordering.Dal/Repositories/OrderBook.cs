@@ -84,8 +84,7 @@ namespace MaiDan.Ordering.Dal.Repositories
                 return new Order(model.Id, true, null, 0, lines);
             }
 
-            var table = context.Tables
-                .FirstOrDefault(e => e.Id == onSite.Table.Id) ??
+            var table = context.Tables.Find(onSite.Table.Id) ??
                 throw new ArgumentException($"The table {onSite.Table.Id} was not found");
 
             return new Order(model.Id, false, table, onSite.NumberOfGuests, lines);
