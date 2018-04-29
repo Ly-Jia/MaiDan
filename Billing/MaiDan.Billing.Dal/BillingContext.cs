@@ -1,4 +1,5 @@
 ﻿using MaiDan.Billing.Dal.Entities;
+using MaiDan.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 
 namespace MaiDan.Billing.Dal
@@ -12,8 +13,9 @@ namespace MaiDan.Billing.Dal
         public DbSet<BillTax> BillTaxes { get; set; }
         public DbSet<TaxRate> TaxRates { get; set; }
 
-        public BillingContext(DbContextOptions<BillingContext> options) : base(options)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            optionsBuilder.UseSqlite(DbConfiguration.ConnectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

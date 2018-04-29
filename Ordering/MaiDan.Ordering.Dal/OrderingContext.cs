@@ -1,4 +1,5 @@
-﻿using MaiDan.Ordering.Dal.Entities;
+﻿using MaiDan.Infrastructure.Database;
+using MaiDan.Ordering.Dal.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace MaiDan.Ordering.Dal
@@ -9,9 +10,10 @@ namespace MaiDan.Ordering.Dal
         public DbSet<Line> Lines { get; set; }
         public DbSet<Dish> Dishes { get; set; }
         public DbSet<Table> Tables { get; set; }
-
-        public OrderingContext(DbContextOptions<OrderingContext> options) : base(options)
+        
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            optionsBuilder.UseSqlite(DbConfiguration.ConnectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
