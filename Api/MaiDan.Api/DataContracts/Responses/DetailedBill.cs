@@ -7,9 +7,13 @@ namespace MaiDan.Api.DataContracts.Responses
     {
         public DetailedBill(Ordering.Domain.Order order, Bill bill) : base(order, bill)
         {
-            this.Taxes = bill.Taxes;
+            Taxes = new List<Tax>();
+            foreach (var tax in bill.Taxes)
+            {
+                Taxes.Add(new Tax(tax.TaxRate.Rate, tax.Amount));
+            }
         }
 
-        public IList<BillTax> Taxes { get; set; }
+        public IList<Tax> Taxes { get; set; }
     }
 }

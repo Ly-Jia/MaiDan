@@ -8,4 +8,10 @@
     </li>
   </ul>
   <p>Total : {{bill.total}}€</p>
+  <p>TVA</p>
+  <ul>
+    <li *ngFor="let tax of bill.taxes">
+      {{tax.rate}}% - {{tax.amount}}€
+    </li>
+  </ul>
 </div>

@@ -27,7 +27,8 @@ namespace MaiDan.Api.Services
         {
             var lines = order.Lines.Select(CalculateLine).ToList();
             var total = lines.Sum(l => l.Amount);
-            var taxes = lines.GroupBy(l => l.TaxRate).Select(g => new { TaxRate = g.Key, Amount = g.Sum(x => x.Amount) });
+            // @TODO: Make taxconfiguration returns the same object instance for a given taxRate
+            var taxes = lines.GroupBy(l => l.TaxRate.Id).Select(g => new { TaxRate = g.First().TaxRate, Amount = g.Sum(x => x.Amount) });
             var billTaxes = new List<BillTax>();
             foreach (var tax in taxes)
             {

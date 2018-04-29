@@ -23,7 +23,9 @@ namespace MaiDan.Billing.Dal.Repositories
             var idInt = (int)id;
             var entity = context.Bills
                 .Include(e => e.Lines)
+                .ThenInclude(e => e.TaxRate)
                 .Include(e => e.Taxes)
+                .ThenInclude(e => e.TaxRate)
                 .AsNoTracking()
                 .FirstOrDefault(e => e.Id == idInt);
 
@@ -34,7 +36,9 @@ namespace MaiDan.Billing.Dal.Repositories
         {
             var entities = context.Bills
                 .Include(e => e.Lines)
+                .ThenInclude(e => e.TaxRate)
                 .Include(e => e.Taxes)
+                .ThenInclude(e => e.TaxRate)
                 .AsNoTracking();
 
             return entities.Select(ModelFrom).ToList();
@@ -61,8 +65,8 @@ namespace MaiDan.Billing.Dal.Repositories
 
         private Bill EntityFrom(Domain.Bill model)
         {
-            var lines = model.Lines.Select(l => new Line(model.Id, l.Id, l.Amount, new TaxRate(l.TaxRate), l.TaxAmount)).ToList();
-            var taxes = model.Taxes.Select(t => new BillTax(model.Id, t.Id, new TaxRate(t.TaxRate), t.Amount)).ToList();
+            var lines = model.Lines.Select(l => new Line(model.Id, l.Id, l.Amount, context.TaxRates.Find(l.TaxRate.Id), l.TaxAmount)).ToList();
+            var taxes = model.Taxes.Select(t => new BillTax(model.Id, t.Id, context.TaxRates.Find(t.TaxRate.Id), t.Amount)).ToList();
 
             return new Bill(model.Id, model.Total, lines, taxes);
         }
