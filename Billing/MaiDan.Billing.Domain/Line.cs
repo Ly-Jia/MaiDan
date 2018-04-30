@@ -2,17 +2,15 @@
 {
     public class Line
     {
-        public Line(int id, decimal amount, TaxRate taxRate, decimal taxAmount)
+        public Line(int id, decimal amount, TaxRate taxRate)
         {
             Id = id;
             Amount = amount;
             TaxRate = taxRate;
-            TaxAmount = taxAmount;
         }
 
         public int Id { get; }
         public decimal Amount { get; }
         public TaxRate TaxRate { get; }
-        public decimal TaxAmount { get; }
     }
 }

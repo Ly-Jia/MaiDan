@@ -12,6 +12,5 @@
         public int Id { get; }
         public TaxRate TaxRate { get; }
         public decimal Amount { get; }
-        
     }
 }

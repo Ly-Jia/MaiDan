@@ -65,7 +65,7 @@ namespace MaiDan.Billing.Dal.Repositories
 
         private Bill EntityFrom(Domain.Bill model)
         {
-            var lines = model.Lines.Select(l => new Line(model.Id, l.Id, l.Amount, context.TaxRates.Find(l.TaxRate.Id), l.TaxAmount)).ToList();
+            var lines = model.Lines.Select(l => new Line(model.Id, l.Id, l.Amount, context.TaxRates.Find(l.TaxRate.Id))).ToList();
             var taxes = model.Taxes.Select(t => new BillTax(model.Id, t.Id, context.TaxRates.Find(t.TaxRate.Id), t.Amount)).ToList();
 
             return new Bill(model.Id, model.Total, lines, taxes);
@@ -73,7 +73,7 @@ namespace MaiDan.Billing.Dal.Repositories
 
         private Domain.Bill ModelFrom(Bill entity)
         {
-            var lines = entity.Lines.Select(l => new Domain.Line(l.Index, l.Amount, taxRateList.Get(l.TaxRate.Id), l.TaxRate.Rate)).ToList();
+            var lines = entity.Lines.Select(l => new Domain.Line(l.Index, l.Amount, taxRateList.Get(l.TaxRate.Id))).ToList();
             var taxes = entity.Taxes.Select(t => new Domain.BillTax(t.Index, taxRateList.Get(t.TaxRate.Id), t.Amount)).ToList();
 
             return new Domain.Bill(entity.Id, lines, entity.Total, taxes);

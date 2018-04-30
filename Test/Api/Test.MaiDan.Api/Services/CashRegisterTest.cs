@@ -84,7 +84,6 @@ namespace Test.MaiDan.Api.Services
             var bill = cashRegister.Calculate(order);
 
             Check.That(bill.Lines.ElementAt(0).TaxRate.Rate).Equals(taxRateAt10Percent);
-            Check.That(bill.Lines.ElementAt(0).TaxAmount).Equals(0.45m);
         }
 
         [Test]
@@ -105,7 +104,6 @@ namespace Test.MaiDan.Api.Services
 
             //S'assurer que la taxe est bien celle normale (par l'id?), pas au montant suelement
             Check.That(bill.Lines.ElementAt(0).TaxRate.Rate).Equals(taxRateAt20Percent);
-            Check.That(bill.Lines.ElementAt(0).TaxAmount).Equals(0.83m);
         }
 
         [Test]
@@ -149,26 +147,7 @@ namespace Test.MaiDan.Api.Services
             var twentyPercentTaxAmount = bill.Taxes.Single(t => t.TaxRate.Rate == 20m);
             Check.That(twentyPercentTaxAmount.Amount).Equals(3m);
         }
-
-        [Test]
-        public void should_calculate_and_round_tax_for_each_line_of_the_bill()
-        {
-            var cocktail = "Cocktail";
-
-            var order = new AnOrder()
-                .With(1, new ADish(cocktail).Build())
-                .Build();
-
-            var menu = new Mock<IRepository<Dish>>();
-            menu.Setup(m => m.Get(cocktail)).Returns(new Billing.ADish(cocktail).Priced(5m).OfType("Alcool").Build()); // Tax (20%) of 0,83 €
-
-            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<Bill>>().Object, new ATaxConfiguration().Build());
-
-            var bill = cashRegister.Calculate(order);
-
-            Check.That(bill.Lines.First().TaxAmount).Equals(0.83m);
-        }
-
+        
         [Test]
         public void should_calculate_bill_tax_from_the_sum_of_lines_amount()
         {

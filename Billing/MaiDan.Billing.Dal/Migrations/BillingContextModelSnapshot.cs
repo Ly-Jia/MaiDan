@@ -68,8 +68,6 @@ namespace MaiDan.Billing.Dal.Migrations
 
                     b.Property<decimal>("Amount");
 
-                    b.Property<decimal>("TaxAmount");
-
                     b.Property<string>("TaxRateId")
                         .IsRequired();
 

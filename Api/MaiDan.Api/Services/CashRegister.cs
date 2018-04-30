@@ -56,8 +56,7 @@ namespace MaiDan.Api.Services
             var amount = line.Quantity * dish.CurrentPrice.Value;
             var taxId = regularTaxedProducts.Contains(dish.Type) ? REGULAR_TAX_ID : REDUCED_TAX_ID;
             var tax = taxConfiguration.Get(taxId);
-            var taxAmount = CalculateTaxAmount(tax.CurrentRate, amount);
-            var billingLine = new Billing.Domain.Line(line.Id, amount, tax.CurrentRate, taxAmount);
+            var billingLine = new Billing.Domain.Line(line.Id, amount, tax.CurrentRate);
             return billingLine;
         }
 

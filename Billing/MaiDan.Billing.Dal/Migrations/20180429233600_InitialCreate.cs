@@ -74,8 +74,7 @@ namespace MaiDan.Billing.Dal.Migrations
                     BillId = table.Column<int>(nullable: false),
                     Index = table.Column<int>(nullable: false),
                     Amount = table.Column<decimal>(nullable: false),
-                    TaxRateId = table.Column<string>(nullable: false),
-                    TaxAmount = table.Column<decimal>(nullable: false)
+                    TaxRateId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {

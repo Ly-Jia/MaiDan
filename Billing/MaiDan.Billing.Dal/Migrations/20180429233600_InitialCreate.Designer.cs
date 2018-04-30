@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MaiDan.Billing.Dal.Migrations
 {
     [DbContext(typeof(BillingContext))]
-    [Migration("20180427061614_InitialCreate")]
+    [Migration("20180429233600_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -68,8 +68,6 @@ namespace MaiDan.Billing.Dal.Migrations
                     b.Property<int>("Index");
 
                     b.Property<decimal>("Amount");
-
-                    b.Property<decimal>("TaxAmount");
 
                     b.Property<string>("TaxRateId")
                         .IsRequired();
