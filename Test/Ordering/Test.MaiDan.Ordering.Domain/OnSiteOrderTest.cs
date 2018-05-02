@@ -16,8 +16,8 @@ namespace Test.MaiDan.Ordering.Domain
             Table table = new Table("T1");
             int numberOfGuests = 2;
 
-            var order1 = new OnSiteOrder(id, table, numberOfGuests, new List<Line>());
-            var order2 = new OnSiteOrder(id, table, numberOfGuests, new List<Line>());
+            var order1 = new OnSiteOrder(id, table, numberOfGuests, new List<Line>(), false);
+            var order2 = new OnSiteOrder(id, table, numberOfGuests, new List<Line>(), false);
 
             var isEqual = order1.Equals(order2);
 
@@ -30,8 +30,8 @@ namespace Test.MaiDan.Ordering.Domain
             var id = 1;
             int numberOfGuests = 2;
 
-            var order1 = new OnSiteOrder(id, new Table("T1"), numberOfGuests, new List<Line>());
-            var order2 = new OnSiteOrder(id, new Table("T2"), numberOfGuests, new List<Line>());
+            var order1 = new OnSiteOrder(id, new Table("T1"), numberOfGuests, new List<Line>(), false);
+            var order2 = new OnSiteOrder(id, new Table("T2"), numberOfGuests, new List<Line>(), false);
 
             var isEqual = order1.Equals(order2);
 
@@ -44,8 +44,8 @@ namespace Test.MaiDan.Ordering.Domain
             var id = 1;
             Table table = new Table("T1");
 
-            var order1 = new OnSiteOrder(id, table, 1, new List<Line>());
-            var order2 = new OnSiteOrder(id, table, 2, new List<Line>());
+            var order1 = new OnSiteOrder(id, table, 1, new List<Line>(), false);
+            var order2 = new OnSiteOrder(id, table, 2, new List<Line>(), false);
 
             var isEqual = order1.Equals(order2);
 

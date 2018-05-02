@@ -38,13 +38,19 @@ namespace MaiDan.Ordering.Dal.Repositories
                 .Include(e => e.Table)
                 .Include(e => e.Lines)
                 .ThenInclude(e => e.Dish)
-                .AsNoTracking();
+                .AsNoTracking()
+                .Where(e => !e.Closed);
 
             return entities.Select(ModelFrom).ToList();
         }
 
         public object Add(Domain.Order item)
         {
+            if (item.Closed)
+            {
+                throw new InvalidOperationException("A new order cannot be marked as closed");
+            }
+
             var entity = EntityFrom(item);
             context.Orders.Add(entity);
             context.SaveChanges();
@@ -58,6 +64,11 @@ namespace MaiDan.Ordering.Dal.Repositories
                 .Include(e => e.Lines)
                 .FirstOrDefault(e => e.Id == entity.Id) ??
                 throw new ArgumentException($"The order {entity.Id} was not found");
+
+            if (existingEntity.Closed)
+            {
+                throw new InvalidOperationException($"The order {entity.Id} has already been closed");
+            }
 
             context.Entry(existingEntity).CurrentValues.SetValues(entity);
             existingEntity.Table = entity.Table;
@@ -80,13 +91,13 @@ namespace MaiDan.Ordering.Dal.Repositories
 
             if (!(model is OnSiteOrder onSite))
             {
-                return new Order(model.Id, true, null, 0, lines);
+                return new Order(model.Id, true, null, 0, lines, model.Closed);
             }
 
             var table = context.Tables.Find(onSite.Table.Id) ??
                 throw new ArgumentException($"The table {onSite.Table.Id} was not found");
 
-            return new Order(model.Id, false, table, onSite.NumberOfGuests, lines);
+            return new Order(model.Id, false, table, onSite.NumberOfGuests, lines, model.Closed);
         }
 
         private Domain.Order ModelFrom(Order entity)
@@ -95,10 +106,10 @@ namespace MaiDan.Ordering.Dal.Repositories
 
             if (entity.TakeAway)
             {
-                return new TakeAwayOrder(entity.Id, lines);
+                return new TakeAwayOrder(entity.Id, lines, entity.Closed);
             }
 
-            return new OnSiteOrder(entity.Id, new Domain.Table(entity.Table.Id), entity.NumberOfGuests, lines);
+            return new OnSiteOrder(entity.Id, new Domain.Table(entity.Table.Id), entity.NumberOfGuests, lines, entity.Closed);
         }
     }
 }

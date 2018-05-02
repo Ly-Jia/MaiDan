@@ -10,15 +10,17 @@ namespace MaiDan.Api.Services
     public class CashRegister : ICashRegister
     {
         private readonly IRepository<Billing.Domain.Dish> menu;
+        private readonly IRepository<Order> orderBook;
         private readonly IRepository<Bill> billBook;
         private readonly IRepository<Tax> taxConfiguration;
         private const string REDUCED_TAX_ID = "RED";
         private const string REGULAR_TAX_ID = "REG";
         private readonly IEnumerable<string> regularTaxedProducts = new[] { "Alcool", "Apéritif", "Vin" };
 
-        public CashRegister(IRepository<Billing.Domain.Dish> menu, IRepository<Bill> billBook, IRepository<Tax> taxConfiguration)
+        public CashRegister(IRepository<Billing.Domain.Dish> menu, IRepository<Order> orderBook, IRepository<Bill> billBook, IRepository<Tax> taxConfiguration)
         {
             this.menu = menu;
+            this.orderBook = orderBook;
             this.billBook = billBook;
             this.taxConfiguration = taxConfiguration;
         }
@@ -46,6 +48,8 @@ namespace MaiDan.Api.Services
                 throw new InvalidOperationException("Cannot print an order with no lines");
             }
 
+            order.Close();
+            orderBook.Update(order);
             var bill = Calculate(order);
             billBook.Add(bill);
         }
