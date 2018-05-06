@@ -16,15 +16,13 @@ namespace MaiDan.Api.Controllers
     public class OrderBookController : Controller
     {
         private readonly IRepository<Order> orderBook;
-        private readonly IRepository<Bill> billBook;
         private readonly IRepository<Dish> menu;
         private readonly IRepository<Table> room;
         private readonly ICashRegister cashRegister;
 
-        public OrderBookController(IRepository<Order> orderBook, IRepository<Bill> billBook, IRepository<Dish> menu, IRepository<Table> room, ICashRegister cashRegister)
+        public OrderBookController(IRepository<Order> orderBook, IRepository<Dish> menu, IRepository<Table> room, ICashRegister cashRegister)
         {
             this.orderBook = orderBook;
-            this.billBook = billBook;
             this.menu = menu;
             this.room = room;
             this.cashRegister = cashRegister;
@@ -94,7 +92,7 @@ namespace MaiDan.Api.Controllers
                     throw new ArgumentException("The contract id of an order to be updated cannot be 0 or negative");
                 }
 
-                if (billBook.Contains(contract.Id))
+                if (orderBook.Get(contract.Id).Closed)
                 {
                     Response.StatusCode = (int)HttpStatusCode.BadRequest;
                     return;
@@ -152,7 +150,7 @@ namespace MaiDan.Api.Controllers
 
             if (string.IsNullOrEmpty(contract.TableId))
             {
-                return new TakeAwayOrder(contract.Id, lines);
+                return new TakeAwayOrder(contract.Id, lines, false);
             }
 
             Table table = room.Get(contract.TableId);
@@ -167,7 +165,7 @@ namespace MaiDan.Api.Controllers
                 throw new ArgumentException("The number of guests cannot be 0 or negative");
             }
 
-            return new OnSiteOrder(contract.Id, table, contract.NumberOfGuests, lines);
+            return new OnSiteOrder(contract.Id, table, contract.NumberOfGuests, lines, false);
         }
     }
 }

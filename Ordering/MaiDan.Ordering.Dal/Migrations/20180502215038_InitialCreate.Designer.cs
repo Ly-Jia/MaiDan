@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MaiDan.Ordering.Dal.Migrations
 {
     [DbContext(typeof(OrderingContext))]
-    [Migration("20180427061604_InitialCreate")]
+    [Migration("20180502215038_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,6 +54,8 @@ namespace MaiDan.Ordering.Dal.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Closed");
 
                     b.Property<int>("NumberOfGuests");
 

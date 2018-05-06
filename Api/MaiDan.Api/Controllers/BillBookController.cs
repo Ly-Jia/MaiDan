@@ -49,13 +49,13 @@ namespace MaiDan.Api.Controllers
         [HttpPost]
         public void Print([FromBody] DataContracts.Requests.Order contract)
         {
-            if (billBook.Contains(contract.Id))
+            var order = orderBook.Get(contract.Id);
+
+            if (order.Closed)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return;
             }
-
-            var order = orderBook.Get(contract.Id);
 
             try
             {

@@ -54,6 +54,8 @@ namespace MaiDan.Ordering.Dal.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("Closed");
+
                     b.Property<int>("NumberOfGuests");
 
                     b.Property<string>("TableId");

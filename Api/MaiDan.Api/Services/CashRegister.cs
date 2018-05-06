@@ -11,6 +11,7 @@ namespace MaiDan.Api.Services
     public class CashRegister : ICashRegister
     {
         private readonly IRepository<Billing.Domain.Dish> menu;
+        private readonly IRepository<Order> orderBook;
         private readonly IRepository<Bill> billBook;
         private readonly IRepository<Tax> taxConfiguration;
         private const string REDUCED_TAX_ID = "RED";
@@ -19,9 +20,10 @@ namespace MaiDan.Api.Services
         //@TODO store discount in database, and make a dedicated repository
         private readonly Discount takeAwayDiscount = new Discount("TA10", 0.10m, new Tax(REDUCED_TAX_ID, null));
 
-        public CashRegister(IRepository<Billing.Domain.Dish> menu, IRepository<Bill> billBook, IRepository<Tax> taxConfiguration)
+        public CashRegister(IRepository<Billing.Domain.Dish> menu, IRepository<Order> orderBook, IRepository<Bill> billBook, IRepository<Tax> taxConfiguration)
         {
             this.menu = menu;
+            this.orderBook = orderBook;
             this.billBook = billBook;
             this.taxConfiguration = taxConfiguration;
         }
@@ -44,6 +46,8 @@ namespace MaiDan.Api.Services
                 throw new InvalidOperationException("Cannot print an order with no lines");
             }
 
+            order.Close();
+            orderBook.Update(order);
             var bill = Calculate(order);
             billBook.Add(bill);
         }
@@ -95,7 +99,7 @@ namespace MaiDan.Api.Services
 
         private decimal CalculateTaxAmount(TaxRate taxRate, decimal amount)
         {
-            return Math.Round((amount * taxRate.Rate) / (100 + taxRate.Rate), 2);
+            return Math.Round((amount * taxRate.Rate) / (1 + taxRate.Rate), 2);
         }
     }
 }

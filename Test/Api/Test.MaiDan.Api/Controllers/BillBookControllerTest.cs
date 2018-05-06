@@ -1,7 +1,6 @@
 ﻿using MaiDan.Api.Controllers;
 using MaiDan.Api.DataContracts.Requests;
 using MaiDan.Api.Services;
-using MaiDan.Billing.Domain;
 using MaiDan.Infrastructure.Database;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,8 +19,8 @@ namespace Test.MaiDan.Api.Controllers
         {
             var id = 8;
             var billBook = new Mock<IRepository<global::MaiDan.Billing.Domain.Bill>>();
-            billBook.Setup(bb => bb.Contains(id)).Returns(false);
             var orderBook = new Mock<IRepository<global::MaiDan.Ordering.Domain.Order>>();
+            orderBook.Setup(o => o.Get(id)).Returns(new global::MaiDan.Ordering.Domain.TakeAwayOrder(id, null, false));
             var cashRegister = new Mock<ICashRegister>();
 
             var billBookController = CreateBillBookController(billBook.Object, orderBook.Object, cashRegister.Object);
@@ -30,8 +29,7 @@ namespace Test.MaiDan.Api.Controllers
             billBookController.Print(contract);
 
             Check.That(billBookController.Response.StatusCode).Equals((int)HttpStatusCode.OK);
-            billBook.Verify(bb => bb.Contains(id), Times.Once());
-            orderBook.Verify(ob => ob.Get(id), Times.Once());
+            orderBook.Verify(o => o.Get(id), Times.Once());
             cashRegister.Verify(cr => cr.Print(It.IsAny<global::MaiDan.Ordering.Domain.Order>()), Times.Once());
         }
 
@@ -40,8 +38,8 @@ namespace Test.MaiDan.Api.Controllers
         {
             var id = 2;
             var billBook = new Mock<IRepository<global::MaiDan.Billing.Domain.Bill>>();
-            billBook.Setup(bb => bb.Contains(id)).Returns(true);
             var orderBook = new Mock<IRepository<global::MaiDan.Ordering.Domain.Order>>();
+            orderBook.Setup(o => o.Get(id)).Returns(new global::MaiDan.Ordering.Domain.TakeAwayOrder(id, null, true));
             var cashRegister = new Mock<ICashRegister>();
 
             var billBookController = CreateBillBookController(billBook.Object, orderBook.Object, cashRegister.Object);
@@ -50,8 +48,7 @@ namespace Test.MaiDan.Api.Controllers
             billBookController.Print(contract);
 
             Check.That(billBookController.Response.StatusCode).Equals((int)HttpStatusCode.BadRequest);
-            billBook.Verify(bb => bb.Contains(id), Times.Once());
-            orderBook.Verify(ob => ob.Get(It.IsAny<object>()), Times.Never());
+            orderBook.Verify(o => o.Get(id), Times.Once());
             cashRegister.Verify(cr => cr.Print(It.IsAny<global::MaiDan.Ordering.Domain.Order>()), Times.Never());
         }
 
