@@ -14,10 +14,10 @@ namespace Test.MaiDan.Billing
         {
             taxConfiguration = new Mock<IRepository<Tax>>();
             var reducedTax = new Tax("RED", new List<TaxRate>());
-            var reducedTaxRate = new TaxRate("RED-1", reducedTax, 10m, DateTime.MinValue, DateTime.MaxValue); 
+            var reducedTaxRate = new TaxRate("RED-1", reducedTax, 0.10m, DateTime.MinValue, DateTime.MaxValue); 
             reducedTax.TaxConfiguration.Add(reducedTaxRate);
             var regularTax = new Tax("REG", new List<TaxRate>());
-            var regularTaxRate = new TaxRate("REG-1", regularTax, 20m, DateTime.MinValue, DateTime.MaxValue);
+            var regularTaxRate = new TaxRate("REG-1", regularTax, 0.20m, DateTime.MinValue, DateTime.MaxValue);
             regularTax.TaxConfiguration.Add(regularTaxRate);
             taxConfiguration.Setup(t => t.Get("RED")).Returns(reducedTax);
             taxConfiguration.Setup(t => t.Get("REG")).Returns(regularTax);

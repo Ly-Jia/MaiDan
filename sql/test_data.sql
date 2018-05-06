@@ -1,7 +1,7 @@
 BEGIN TRANSACTION;
 
-INSERT INTO "TaxRate" (Id, TaxId, Rate, ValidityStartDate, ValidityEndDate) VALUES ('RED-1', 'RED', 10, '2017-01-01T00:00:00', '9999-12-31T23:59:59');
-INSERT INTO "TaxRate" (Id, TaxId, Rate, ValidityStartDate, ValidityEndDate) VALUES ('REG-1', 'REG', 20, '2017-01-01T00:00:00', '9999-12-31T23:59:59');
+INSERT INTO "TaxRate" (Id, TaxId, Rate, ValidityStartDate, ValidityEndDate) VALUES ('RED-1', 'RED', 0.10, '2017-01-01T00:00:00', '9999-12-31T23:59:59');
+INSERT INTO "TaxRate" (Id, TaxId, Rate, ValidityStartDate, ValidityEndDate) VALUES ('REG-1', 'REG', 0.20, '2017-01-01T00:00:00', '9999-12-31T23:59:59');
 
 INSERT INTO "OrderDish" (Id, Name) VALUES ('1', 'Fondue vietnamienne');
 INSERT INTO "OrderDish" (Id, Name) VALUES ('B1', 'Nems');

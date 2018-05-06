@@ -66,7 +66,7 @@ namespace MaiDan.Api.Services
 
         private decimal CalculateTaxAmount(TaxRate taxRate, decimal amount)
         {
-            return Math.Round((amount * taxRate.Rate) / (100 + taxRate.Rate), 2);
+            return Math.Round((amount * taxRate.Rate) / (1 + taxRate.Rate), 2);
         }
     }
 }

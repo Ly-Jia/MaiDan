@@ -72,7 +72,7 @@ namespace Test.MaiDan.Api.Services
                 .With(1, new ADish("1").Build())
                 .Build();
 
-            var taxRateAt10Percent = 10m;
+            var taxRateAt10Percent = 0.10m;
             var menu = new Mock<IRepository<Dish>>();
             var fiveEuros = 5m;
             menu.Setup(m => m.Get("1")).Returns(new Billing.ADish("1").Priced(fiveEuros).OfType("Starter").Build());
@@ -92,7 +92,7 @@ namespace Test.MaiDan.Api.Services
                 .With(1, new ADish("1").Build())
                 .Build();
 
-            var taxRateAt20Percent = 20m;
+            var taxRateAt20Percent = 0.20m;
             var menu = new Mock<IRepository<Dish>>();
             var fiveEuros = 5m;
             menu.Setup(m => m.Get("1")).Returns(new Billing.ADish("1").Priced(fiveEuros).OfType("Alcool").Build());
@@ -101,7 +101,7 @@ namespace Test.MaiDan.Api.Services
 
             var bill = cashRegister.Calculate(order);
 
-            //S'assurer que la taxe est bien celle normale (par l'id?), pas au montant suelement
+            //S'assurer que la taxe est bien celle normale (par l'id?), pas au montant seulement
             Check.That(bill.Lines.ElementAt(0).TaxRate.Rate).Equals(taxRateAt20Percent);
         }
 
@@ -141,9 +141,9 @@ namespace Test.MaiDan.Api.Services
 
             var bill = cashRegister.Calculate(order);
 
-            var tenPercentTaxAmount = bill.Taxes.Single(t => t.TaxRate.Rate == 10m);
+            var tenPercentTaxAmount = bill.Taxes.Single(t => t.TaxRate.Rate == 0.10m);
             Check.That(tenPercentTaxAmount.Amount).Equals(2m);
-            var twentyPercentTaxAmount = bill.Taxes.Single(t => t.TaxRate.Rate == 20m);
+            var twentyPercentTaxAmount = bill.Taxes.Single(t => t.TaxRate.Rate == 0.20m);
             Check.That(twentyPercentTaxAmount.Amount).Equals(3m);
         }
         
