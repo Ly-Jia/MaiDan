@@ -39,7 +39,8 @@ namespace MaiDan.Ordering.Dal.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     TakeAway = table.Column<bool>(nullable: false),
                     TableId = table.Column<string>(nullable: true),
-                    NumberOfGuests = table.Column<int>(nullable: false)
+                    NumberOfGuests = table.Column<int>(nullable: false),
+                    Closed = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

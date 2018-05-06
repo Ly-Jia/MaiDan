@@ -85,9 +85,9 @@ namespace Test.MaiDan.Ordering
 		public Order Build()
 		{
             if (takeAway)
-			    return new TakeAwayOrder(id, lines);
+			    return new TakeAwayOrder(id, lines, false);
 
-            return new OnSiteOrder(id, defaultTable, numberOfGuest, lines);
+            return new OnSiteOrder(id, defaultTable, numberOfGuest, lines, false);
 		}
         
 	}

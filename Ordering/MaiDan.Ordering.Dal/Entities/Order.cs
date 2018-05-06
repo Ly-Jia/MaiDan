@@ -10,13 +10,14 @@ namespace MaiDan.Ordering.Dal.Entities
         {
         }
 
-        public Order(int id, bool takeAway, Table table, int numberOfGuests, List<Line> lines)
+        public Order(int id, bool takeAway, Table table, int numberOfGuests, List<Line> lines, bool closed)
         {
             Id = id;
             TakeAway = takeAway;
             Table = table;
             NumberOfGuests = numberOfGuests;
             Lines = lines;
+            Closed = closed;
         }
 
         public int Id { get; set; }
@@ -24,5 +25,6 @@ namespace MaiDan.Ordering.Dal.Entities
         public Table Table { get; set; }
         public int NumberOfGuests { get; set; }
         public List<Line> Lines { get; set; }
+        public bool Closed { get; set; }
     }
 }
