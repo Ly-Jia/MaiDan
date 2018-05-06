@@ -76,7 +76,7 @@ namespace MaiDan.Billing.Dal.Repositories
             var lines = entity.Lines.Select(l => new Domain.Line(l.Index, l.Amount, taxRateList.Get(l.TaxRate.Id))).ToList();
             var taxes = entity.Taxes.Select(t => new Domain.BillTax(t.Index, taxRateList.Get(t.TaxRate.Id), t.Amount)).ToList();
 
-            return new Domain.Bill(entity.Id, lines, entity.Total, taxes);
+            return new Domain.Bill(entity.Id, lines, null, entity.Total, taxes);
         }
     }
 }

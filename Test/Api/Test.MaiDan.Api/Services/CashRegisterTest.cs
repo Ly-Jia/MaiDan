@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using MaiDan.Api.Services;
+﻿using MaiDan.Api.Services;
 using MaiDan.Billing.Domain;
 using MaiDan.Infrastructure.Database;
 using Moq;
@@ -67,7 +66,7 @@ namespace Test.MaiDan.Api.Services
         }
 
         [Test]
-        public void should_determine_tax_as_reduced()
+        public void should_determine_tax_as_reduced_when_dish_is_not_of_type_alcohol()
         {
             var order = new AnOrder()
                 .With(1, new ADish("1").Build())
@@ -87,7 +86,7 @@ namespace Test.MaiDan.Api.Services
         }
 
         [Test]
-        public void should_determine_tax_as_regular()
+        public void should_determine_tax_as_regular_when_dish_is_of_type_alcohol()
         {
             var order = new AnOrder()
                 .With(1, new ADish("1").Build())
@@ -167,6 +166,88 @@ namespace Test.MaiDan.Api.Services
             var bill = cashRegister.Calculate(order);
 
             Check.That(bill.Taxes.First().Amount).Equals(2.5m); // instead of 2,49 €
+        }
+
+        [Test]
+        public void should_not_apply_discount_for_on_site_bills()
+        {
+            var dish = new ADish().Build();
+            var order = new AnOrder()
+                .OnSite()
+                .With(1, dish)
+                .Build();
+
+            var menu = new Mock<IRepository<Dish>>();
+            menu.Setup(m => m.Get(dish.Id)).Returns(new Billing.ADish(dish.Id).Priced(10m).Build());
+
+            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<Bill>>().Object, new ATaxConfiguration().Build());
+
+            var bill = cashRegister.Calculate(order);
+
+            Check.That(bill.Total).Equals(10m);
+            Check.That(bill.Taxes.First().Amount).Equals(0.91m);
+        }
+
+        [Test]
+        public void should_apply_a_ten_percent_discount_on_the_reduced_tax_items_of_a_take_away_bill()
+        {
+            var dish = new ADish().Build();
+            var order = new AnOrder()
+                .TakeAway()
+                .With(1, dish)
+                .Build();
+
+            var menu = new Mock<IRepository<Dish>>();
+            menu.Setup(m => m.Get(dish.Id)).Returns(new Billing.ADish(dish.Id).Priced(10m).WithReducedTax().Build());
+
+            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<Bill>>().Object, new ATaxConfiguration().Build());
+
+            var bill = cashRegister.Calculate(order);
+
+            var discount = bill.Discounts.First();
+            Check.That(discount.Key.Rate).Equals(0.10m);
+            Check.That(discount.Value).Equals(1m);
+            Check.That(bill.Total).Equals(9m);
+            Check.That(bill.Taxes.First().Amount).Equals(0.82m);
+        }
+
+        [Test]
+        public void should_not_alter_lines_amount_when_a_take_away_discount_is_applied()
+        {
+            var dish = new ADish().Build();
+            var order = new AnOrder()
+                .TakeAway()
+                .With(1, dish)
+                .Build();
+
+            var menu = new Mock<IRepository<Dish>>();
+            menu.Setup(m => m.Get(dish.Id)).Returns(new Billing.ADish(dish.Id).Priced(10m).WithReducedTax().Build());
+
+            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<Bill>>().Object, new ATaxConfiguration().Build());
+
+            var bill = cashRegister.Calculate(order);
+
+            Check.That(bill.Lines.First().Amount).Equals(10m);
+        }
+
+        [Test]
+        public void should_not_apply_the_ten_percent_discount_on_regular_tax_products_in_take_away_bills()
+        {
+            var dish = new ADish().Build();
+            var order = new AnOrder()
+                .TakeAway()
+                .With(1, dish)
+                .Build();
+
+            var menu = new Mock<IRepository<Dish>>();
+            menu.Setup(m => m.Get(dish.Id)).Returns(new Billing.ADish(dish.Id).Priced(10m).WithRegularTax().Build());
+
+            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<Bill>>().Object, new ATaxConfiguration().Build());
+
+            var bill = cashRegister.Calculate(order);
+
+            Check.That(bill.Discounts).IsEmpty();
+            Check.That(bill.Total).Equals(10m);
         }
     }
 }

@@ -47,6 +47,18 @@ namespace Test.MaiDan.Billing
             return this;
         }
 
+        public ADish WithReducedTax()
+        {
+            this.type = "Dish";
+            return this;
+        }
+
+        public ADish WithRegularTax()
+        {
+            this.type = "Alcool";
+            return this;
+        }
+
         public ADish And()
         {
             return this;
