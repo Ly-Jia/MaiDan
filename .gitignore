@@ -46,12 +46,12 @@ bin
 obj
 *.suo
 *.user
-/packages/
+packages/
 *.ncrunchproject
 *.ncrunchsolution
 _NCrunch_MaiDan/MaiDan.crunchsolution.cache
-/doc/
-/.vs/
+doc/
+.vs/
 *.cmd
 *.dg
 *.lock.json
