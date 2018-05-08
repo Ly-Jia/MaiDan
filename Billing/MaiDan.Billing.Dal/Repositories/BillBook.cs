@@ -32,7 +32,7 @@ namespace MaiDan.Billing.Dal.Repositories
             return entity == null ? null : ModelFrom(entity);
         }
 
-        public List<Domain.Bill> GetAll()
+        public IEnumerable<Domain.Bill> GetAll()
         {
             var entities = context.Bills
                 .Include(e => e.Lines)
@@ -41,7 +41,7 @@ namespace MaiDan.Billing.Dal.Repositories
                 .ThenInclude(e => e.TaxRate)
                 .AsNoTracking();
 
-            return entities.Select(ModelFrom).ToList();
+            return entities.Select(ModelFrom).ToArray();
         }
 
         public object Add(Domain.Bill item)

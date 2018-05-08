@@ -26,12 +26,12 @@ namespace MaiDan.Ordering.Dal.Repositories
             return entity == null ? null : ModelFrom(entity);
         }
 
-        public List<Domain.Table> GetAll()
+        public IEnumerable<Domain.Table> GetAll()
         {
             var entities = context.Tables
                 .AsNoTracking();
 
-            return entities.Select(ModelFrom).ToList();
+            return entities.Select(ModelFrom).ToArray();
         }
 
         public object Add(Domain.Table item)

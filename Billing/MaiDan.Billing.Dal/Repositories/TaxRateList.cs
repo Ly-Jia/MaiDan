@@ -28,7 +28,7 @@ namespace MaiDan.Billing.Dal.Repositories
                 new Domain.TaxRate(entity.Id, taxConfiguration.Get(entity.TaxId), entity.Rate, entity.ValidityStartDate, entity.ValidityEndDate);
         }
 
-        public List<Domain.TaxRate> GetAll()
+        public IEnumerable<Domain.TaxRate> GetAll()
         {
             throw new NotImplementedException();
         }

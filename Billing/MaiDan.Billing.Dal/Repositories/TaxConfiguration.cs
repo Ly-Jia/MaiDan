@@ -27,7 +27,7 @@ namespace MaiDan.Billing.Dal.Repositories
             return tax;
         }
 
-        public List<Domain.Tax> GetAll()
+        public IEnumerable<Domain.Tax> GetAll()
         {
             throw new NotImplementedException();
         }

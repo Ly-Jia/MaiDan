@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Dish = MaiDan.Ordering.Dal.Entities.Dish;
 using Line = MaiDan.Ordering.Dal.Entities.Line;
 using Order = MaiDan.Ordering.Dal.Entities.Order;
 
@@ -32,7 +31,7 @@ namespace MaiDan.Ordering.Dal.Repositories
             return entity == null ? null : ModelFrom(entity);
         }
 
-        public List<Domain.Order> GetAll()
+        public IEnumerable<Domain.Order> GetAll()
         {
             var entities = context.Orders
                 .Include(e => e.Table)
@@ -41,7 +40,7 @@ namespace MaiDan.Ordering.Dal.Repositories
                 .AsNoTracking()
                 .Where(e => !e.Closed);
 
-            return entities.Select(ModelFrom).ToList();
+            return entities.Select(ModelFrom).ToArray();
         }
 
         public object Add(Domain.Order item)

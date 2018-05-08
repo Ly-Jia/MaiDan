@@ -27,13 +27,13 @@ namespace MaiDan.Billing.Dal.Repositories
             return entity == null ? null : ModelFrom(entity);
         }
 
-        public List<Domain.Dish> GetAll()
+        public IEnumerable<Domain.Dish> GetAll()
         {
             var entities = context.Dishes
                 .Include(e => e.Prices)
                 .AsNoTracking();
 
-            return entities.Select(ModelFrom).ToList();
+            return entities.Select(ModelFrom).ToArray();
         }
 
         public object Add(Domain.Dish item)
