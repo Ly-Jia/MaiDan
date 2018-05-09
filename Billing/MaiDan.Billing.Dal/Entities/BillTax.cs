@@ -10,20 +10,16 @@ namespace MaiDan.Billing.Dal.Entities
         {
         }
 
-        public BillTax(int billId, int index, TaxRate taxRate, decimal amount)
+        public BillTax(int billId, string taxRateId, decimal amount)
         {
             BillId = billId;
-            Index = index;
-            TaxRate = taxRate;
+            TaxRateId = taxRateId;
             Amount = amount;
         }
 
         public int BillId { get; set; }
-
-        public int Index { get; set; }
-
-        [Required]
-        public TaxRate TaxRate { get; set; }
+        
+        public string TaxRateId { get; set; }
 
         public decimal Amount { get; set; }
     }

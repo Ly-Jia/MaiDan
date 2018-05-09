@@ -139,14 +139,15 @@ namespace Test.MaiDan.Api.Services
             menu.Setup(m => m.Get(starter)).Returns(new Billing.ADish(starter).Priced(11m).OfType("Starter").Build()); // Tax (10%) of 1 €
             menu.Setup(m => m.Get(dessert)).Returns(new Billing.ADish(dessert).Priced(11m).OfType("Dessert").Build()); // Tax (10%) of 1 €
 
-            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<Order>>().Object, new Mock<IRepository<Bill>>().Object, new ATaxConfiguration().Build());
+            var taxConfiguration = new ATaxConfiguration().Build();
+            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<Order>>().Object, new Mock<IRepository<Bill>>().Object, taxConfiguration);
 
             var bill = cashRegister.Calculate(order);
 
-            var tenPercentTaxAmount = bill.Taxes.Single(t => t.TaxRate.Rate == 0.10m);
-            Check.That(tenPercentTaxAmount.Amount).Equals(2m);
-            var twentyPercentTaxAmount = bill.Taxes.Single(t => t.TaxRate.Rate == 0.20m);
-            Check.That(twentyPercentTaxAmount.Amount).Equals(3m);
+            var tenPercentTaxAmount = bill.Taxes[taxConfiguration.Get("RED").TaxConfiguration[0]];
+            Check.That(tenPercentTaxAmount).Equals(2m);
+            var twentyPercentTaxAmount = bill.Taxes[taxConfiguration.Get("REG").TaxConfiguration[0]];
+            Check.That(twentyPercentTaxAmount).Equals(3m);
         }
         
         [Test]
@@ -163,11 +164,13 @@ namespace Test.MaiDan.Api.Services
             var menu = new Mock<IRepository<Dish>>();
             menu.Setup(m => m.Get(cocktail.Id)).Returns(new Billing.ADish(cocktail.Id).Priced(5m).OfType("Alcool").Build()); // Tax (20%) of 0,83 €
 
-            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<Order>>().Object, new Mock<IRepository<Bill>>().Object, new ATaxConfiguration().Build());
+            var taxConfiguration = new ATaxConfiguration().Build();
+            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<Order>>().Object, new Mock<IRepository<Bill>>().Object, taxConfiguration);
 
             var bill = cashRegister.Calculate(order);
 
-            Check.That(bill.Taxes.First().Amount).Equals(2.5m); // instead of 2,49 €
+            var tax_amount = bill.Taxes[taxConfiguration.Get("REG").TaxConfiguration[0]];
+            Check.That(tax_amount).Equals(2.5m); // instead of 2,49 €
         }
 
         [Test]
@@ -182,12 +185,14 @@ namespace Test.MaiDan.Api.Services
             var menu = new Mock<IRepository<Dish>>();
             menu.Setup(m => m.Get(dish.Id)).Returns(new Billing.ADish(dish.Id).Priced(10m).Build());
 
-            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<Order>>().Object, new Mock<IRepository<Bill>>().Object, new ATaxConfiguration().Build());
+            var taxConfiguration = new ATaxConfiguration().Build();
+            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<Order>>().Object, new Mock<IRepository<Bill>>().Object, taxConfiguration);
 
             var bill = cashRegister.Calculate(order);
 
             Check.That(bill.Total).Equals(10m);
-            Check.That(bill.Taxes.First().Amount).Equals(0.91m);
+            var tenPercentTaxAmount = bill.Taxes[taxConfiguration.Get("RED").TaxConfiguration[0]];
+            Check.That(tenPercentTaxAmount).Equals(0.91m);
         }
 
         [Test]
@@ -202,7 +207,8 @@ namespace Test.MaiDan.Api.Services
             var menu = new Mock<IRepository<Dish>>();
             menu.Setup(m => m.Get(dish.Id)).Returns(new Billing.ADish(dish.Id).Priced(10m).WithReducedTax().Build());
 
-            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<Order>>().Object, new Mock<IRepository<Bill>>().Object, new ATaxConfiguration().Build());
+            var taxConfiguration = new ATaxConfiguration().Build();
+            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<Order>>().Object, new Mock<IRepository<Bill>>().Object, taxConfiguration);
 
             var bill = cashRegister.Calculate(order);
 
@@ -210,7 +216,8 @@ namespace Test.MaiDan.Api.Services
             Check.That(discount.Key.Rate).Equals(0.10m);
             Check.That(discount.Value).Equals(1m);
             Check.That(bill.Total).Equals(9m);
-            Check.That(bill.Taxes.First().Amount).Equals(0.82m);
+            var tenPercentTaxAmount = bill.Taxes[taxConfiguration.Get("RED").TaxConfiguration[0]];
+            Check.That(tenPercentTaxAmount).Equals(0.82m);
         }
 
         [Test]

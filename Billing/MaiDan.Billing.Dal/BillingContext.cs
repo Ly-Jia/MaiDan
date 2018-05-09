@@ -23,7 +23,7 @@ namespace MaiDan.Billing.Dal
             modelBuilder.Entity<Line>()
                 .HasKey(l => new { l.BillId, l.Index });
             modelBuilder.Entity<BillTax>()
-                .HasKey(t => new { t.BillId, t.Index });
+                .HasKey(t => new { t.BillId, t.TaxRateId });
             modelBuilder.Entity<Price>()
                 .HasKey(p => new { p.DishId, p.ValidityStartDate });
         }

@@ -10,7 +10,7 @@ namespace MaiDan.Api.DataContracts.Responses
             Taxes = new List<Tax>();
             foreach (var tax in bill.Taxes)
             {
-                Taxes.Add(new Tax(tax.TaxRate.Rate, tax.Amount));
+                Taxes.Add(new Tax(tax.Key.Rate * 100, tax.Value));
             }
         }
 

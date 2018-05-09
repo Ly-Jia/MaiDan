@@ -4,7 +4,7 @@ namespace MaiDan.Billing.Domain
 {
     public class Bill
     {
-        public Bill(int id, IList<Line> lines, Dictionary<Discount, decimal> discounts, decimal total, IList<BillTax> taxes)
+        public Bill(int id, IList<Line> lines, Dictionary<Discount, decimal> discounts, decimal total, Dictionary<TaxRate, decimal> taxes)
         {
             Id = id;
             Lines = lines;
@@ -17,6 +17,6 @@ namespace MaiDan.Billing.Domain
         public IList<Line> Lines { get; }
         public Dictionary<Discount, decimal> Discounts { get; }
         public decimal Total { get; }
-        public IList<BillTax> Taxes { get; }
+        public Dictionary<TaxRate, decimal> Taxes { get; }
     }
 }
