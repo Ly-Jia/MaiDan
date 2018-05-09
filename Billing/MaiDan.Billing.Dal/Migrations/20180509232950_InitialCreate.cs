@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MaiDan.Billing.Dal.Migrations
@@ -48,6 +47,25 @@ namespace MaiDan.Billing.Dal.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BillTax",
+                columns: table => new
+                {
+                    BillId = table.Column<int>(nullable: false),
+                    TaxRateId = table.Column<string>(nullable: false),
+                    Amount = table.Column<decimal>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BillTax", x => new { x.BillId, x.TaxRateId });
+                    table.ForeignKey(
+                        name: "FK_BillTax_Bill_BillId",
+                        column: x => x.BillId,
+                        principalTable: "Bill",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DishPrice",
                 columns: table => new
                 {
@@ -93,40 +111,9 @@ namespace MaiDan.Billing.Dal.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "BillTax",
-                columns: table => new
-                {
-                    BillId = table.Column<int>(nullable: false),
-                    Index = table.Column<int>(nullable: false),
-                    TaxRateId = table.Column<string>(nullable: false),
-                    Amount = table.Column<decimal>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BillTax", x => new { x.BillId, x.Index });
-                    table.ForeignKey(
-                        name: "FK_BillTax_Bill_BillId",
-                        column: x => x.BillId,
-                        principalTable: "Bill",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_BillTax_TaxRate_TaxRateId",
-                        column: x => x.TaxRateId,
-                        principalTable: "TaxRate",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_BillLine_TaxRateId",
                 table: "BillLine",
-                column: "TaxRateId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BillTax_TaxRateId",
-                table: "BillTax",
                 column: "TaxRateId");
         }
 
@@ -142,10 +129,10 @@ namespace MaiDan.Billing.Dal.Migrations
                 name: "DishPrice");
 
             migrationBuilder.DropTable(
-                name: "Bill");
+                name: "TaxRate");
 
             migrationBuilder.DropTable(
-                name: "TaxRate");
+                name: "Bill");
 
             migrationBuilder.DropTable(
                 name: "BillDish");

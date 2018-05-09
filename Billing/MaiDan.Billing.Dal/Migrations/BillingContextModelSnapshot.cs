@@ -3,9 +3,7 @@ using System;
 using MaiDan.Billing.Dal;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MaiDan.Billing.Dal.Migrations
 {
@@ -33,16 +31,11 @@ namespace MaiDan.Billing.Dal.Migrations
                 {
                     b.Property<int>("BillId");
 
-                    b.Property<int>("Index");
+                    b.Property<string>("TaxRateId");
 
                     b.Property<decimal>("Amount");
 
-                    b.Property<string>("TaxRateId")
-                        .IsRequired();
-
-                    b.HasKey("BillId", "Index");
-
-                    b.HasIndex("TaxRateId");
+                    b.HasKey("BillId", "TaxRateId");
 
                     b.ToTable("BillTax");
                 });
@@ -117,11 +110,6 @@ namespace MaiDan.Billing.Dal.Migrations
                     b.HasOne("MaiDan.Billing.Dal.Entities.Bill")
                         .WithMany("Taxes")
                         .HasForeignKey("BillId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("MaiDan.Billing.Dal.Entities.TaxRate", "TaxRate")
-                        .WithMany()
-                        .HasForeignKey("TaxRateId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

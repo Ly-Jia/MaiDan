@@ -77,11 +77,12 @@ namespace MaiDan.Api.Services
             }
         }
 
-        private List<BillTax> CalculateBillTaxes(Order order, List<Line> lines, Dictionary<Discount, decimal> discounts)
+        private Dictionary<TaxRate, decimal> CalculateBillTaxes(Order order, List<Line> lines, Dictionary<Discount, decimal> discounts)
         {
             var billAmountsByTax = lines.GroupBy(l => l.TaxRate.Id)
-                .Select(g => new { TaxRate = g.First().TaxRate, Amount = g.Sum(x => x.Amount) });
-            var billTaxes = new List<BillTax>();
+                .Select(g => new {g.First().TaxRate, Amount = g.Sum(x => x.Amount) });
+
+            var billTaxes = new Dictionary<TaxRate, decimal>();
             foreach (var billAmountByTax in billAmountsByTax)
             {
                 decimal taxAmount;
@@ -92,7 +93,7 @@ namespace MaiDan.Api.Services
                 else
                     taxAmount = CalculateTaxAmount(billAmountByTax.TaxRate, billAmountByTax.Amount);
 
-                billTaxes.Add(new BillTax(billTaxes.Count + 1, billAmountByTax.TaxRate, taxAmount));
+                billTaxes.Add(billAmountByTax.TaxRate, taxAmount);
             }
             return billTaxes;
         }
