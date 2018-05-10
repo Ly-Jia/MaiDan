@@ -36,4 +36,6 @@ INSERT INTO "OrderLine" (OrderId, "Index", DishId, Quantity) VALUES (2, 1, 'B2',
 INSERT INTO "OrderLine" (OrderId, "Index", DishId, Quantity) VALUES (2, 2, 'W1', 1);
 INSERT INTO "OrderLine" (OrderId, "Index", DishId, Quantity) VALUES (3, 1, '1', 1);
 
+INSERT INTO "Discount" (Id, ApplicableTaxId, Rate) VALUES ('À emporter', 'RED', 0.10);
+
 COMMIT;

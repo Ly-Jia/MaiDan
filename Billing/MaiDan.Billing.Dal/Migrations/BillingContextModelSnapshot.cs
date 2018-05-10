@@ -14,7 +14,7 @@ namespace MaiDan.Billing.Dal.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.0-preview2-30571");
+                .HasAnnotation("ProductVersion", "2.1.0-rc1-32029");
 
             modelBuilder.Entity("MaiDan.Billing.Dal.Entities.Bill", b =>
                 {
@@ -25,6 +25,19 @@ namespace MaiDan.Billing.Dal.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Bill");
+                });
+
+            modelBuilder.Entity("MaiDan.Billing.Dal.Entities.BillDiscount", b =>
+                {
+                    b.Property<int>("BillId");
+
+                    b.Property<string>("DiscountId");
+
+                    b.Property<decimal>("Amount");
+
+                    b.HasKey("BillId", "DiscountId");
+
+                    b.ToTable("BillDiscount");
                 });
 
             modelBuilder.Entity("MaiDan.Billing.Dal.Entities.BillTax", b =>
@@ -38,6 +51,19 @@ namespace MaiDan.Billing.Dal.Migrations
                     b.HasKey("BillId", "TaxRateId");
 
                     b.ToTable("BillTax");
+                });
+
+            modelBuilder.Entity("MaiDan.Billing.Dal.Entities.Discount", b =>
+                {
+                    b.Property<string>("Id");
+
+                    b.Property<string>("ApplicableTaxId");
+
+                    b.Property<decimal>("Rate");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Discount");
                 });
 
             modelBuilder.Entity("MaiDan.Billing.Dal.Entities.Dish", b =>
@@ -103,6 +129,14 @@ namespace MaiDan.Billing.Dal.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TaxRate");
+                });
+
+            modelBuilder.Entity("MaiDan.Billing.Dal.Entities.BillDiscount", b =>
+                {
+                    b.HasOne("MaiDan.Billing.Dal.Entities.Bill")
+                        .WithMany("Discounts")
+                        .HasForeignKey("BillId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("MaiDan.Billing.Dal.Entities.BillTax", b =>

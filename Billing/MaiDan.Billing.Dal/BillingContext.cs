@@ -11,7 +11,9 @@ namespace MaiDan.Billing.Dal
         public DbSet<Dish> Dishes { get; set; }
         public DbSet<Price> Prices { get; set; }
         public DbSet<BillTax> BillTaxes { get; set; }
+        public DbSet<BillDiscount> BillDiscounts { get; set; }
         public DbSet<TaxRate> TaxRates { get; set; }
+        public DbSet<Discount> Discounts { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -24,6 +26,8 @@ namespace MaiDan.Billing.Dal
                 .HasKey(l => new { l.BillId, l.Index });
             modelBuilder.Entity<BillTax>()
                 .HasKey(t => new { t.BillId, t.TaxRateId });
+            modelBuilder.Entity<BillDiscount>()
+                .HasKey(d => new { d.BillId, d.DiscountId });
             modelBuilder.Entity<Price>()
                 .HasKey(p => new { p.DishId, p.ValidityStartDate });
         }

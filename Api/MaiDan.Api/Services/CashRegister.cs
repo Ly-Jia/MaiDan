@@ -14,18 +14,20 @@ namespace MaiDan.Api.Services
         private readonly IRepository<Order> orderBook;
         private readonly IRepository<Bill> billBook;
         private readonly IRepository<Tax> taxConfiguration;
+        private readonly IRepository<Discount> discountList;
         private const string REDUCED_TAX_ID = "RED";
         private const string REGULAR_TAX_ID = "REG";
         private readonly IEnumerable<string> regularTaxedProducts = new[] { "Alcool", "Apéritif", "Vin" };
-        //@TODO store discount in database, and make a dedicated repository
-        private readonly Discount takeAwayDiscount = new Discount("TA10", 0.10m, new Tax(REDUCED_TAX_ID, null));
+        //@TODO set the id in config file
+        private const string TAKE_AWAY_DISCOUNT_ID = "À emporter";
 
-        public CashRegister(IRepository<Billing.Domain.Dish> menu, IRepository<Order> orderBook, IRepository<Bill> billBook, IRepository<Tax> taxConfiguration)
+        public CashRegister(IRepository<Billing.Domain.Dish> menu, IRepository<Order> orderBook, IRepository<Bill> billBook, IRepository<Tax> taxConfiguration, IRepository<Discount> discountList)
         {
             this.menu = menu;
             this.orderBook = orderBook;
             this.billBook = billBook;
             this.taxConfiguration = taxConfiguration;
+            this.discountList = discountList;
         }
 
         public Bill Calculate(Order order)
@@ -65,6 +67,7 @@ namespace MaiDan.Api.Services
 
         private void AddTakeAwayDiscount(Dictionary<Discount, decimal> discounts, Order order, List<Line> lines)
         {
+            var takeAwayDiscount = discountList.Get(TAKE_AWAY_DISCOUNT_ID);
             var discountableAmount = lines.Where(l => l.TaxRate.Tax.Id == takeAwayDiscount.ApplicableTax.Id)
                 .GroupBy(l => l.TaxRate.Tax.Id)
                 .Select(g => new { TaxId = g, Amount = g.Sum(x => x.Amount) })
@@ -79,6 +82,8 @@ namespace MaiDan.Api.Services
 
         private Dictionary<TaxRate, decimal> CalculateBillTaxes(Order order, List<Line> lines, Dictionary<Discount, decimal> discounts)
         {
+            var takeAwayDiscount = discountList.Get(TAKE_AWAY_DISCOUNT_ID);
+
             var billAmountsByTax = lines.GroupBy(l => l.TaxRate.Id)
                 .Select(g => new {g.First().TaxRate, Amount = g.Sum(x => x.Amount) });
 

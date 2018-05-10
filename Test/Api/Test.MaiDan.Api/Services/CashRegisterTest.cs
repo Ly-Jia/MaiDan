@@ -1,12 +1,9 @@
-﻿using MaiDan.Api.Services;
-using MaiDan.Billing.Domain;
-using MaiDan.Infrastructure.Database;
+﻿using MaiDan.Infrastructure.Database;
 using Moq;
 using NFluent;
 using NUnit.Framework;
 using System;
 using System.Linq;
-using MaiDan.Ordering.Domain;
 using Test.MaiDan.Billing;
 using Test.MaiDan.Ordering;
 using ADish = Test.MaiDan.Ordering.ADish;
@@ -20,7 +17,7 @@ namespace Test.MaiDan.Api.Services
         [Test]
         public void should_print_a_bill_from_an_order()
         {
-            var cashRegister = new CashRegister(new Mock<IRepository<Dish>>().Object, new Mock<IRepository<Order>>().Object, new Mock<IRepository<Bill>>().Object, new ATaxConfiguration().Build());
+            var cashRegister = new ACashRegister().Build();
             var order = new AnOrder().Build();
 
             var bill = cashRegister.Calculate(order);
@@ -40,7 +37,7 @@ namespace Test.MaiDan.Api.Services
             menu.Setup(m => m.Get("1")).Returns(new Billing.ADish("1").Priced(5m).Build());
             menu.Setup(m => m.Get("2")).Returns(new Billing.ADish("2").Priced(10m).Build());
 
-            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<Order>>().Object, new Mock<IRepository<Bill>>().Object, new ATaxConfiguration().Build());
+            var cashRegister = new ACashRegister(menu.Object).Build();
             
             var bill = cashRegister.Calculate(order);
             
@@ -60,7 +57,7 @@ namespace Test.MaiDan.Api.Services
             menu.Setup(m => m.Get("1")).Returns(new Billing.ADish("1").Priced(5m).Build());
             menu.Setup(m => m.Get("2")).Returns(new Billing.ADish("2").Priced(10m).Build());
 
-            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<Order>>().Object, new Mock<IRepository<Bill>>().Object, new ATaxConfiguration().Build());
+            var cashRegister = new ACashRegister(menu.Object).Build();
 
             var bill = cashRegister.Calculate(order);
             
@@ -79,7 +76,7 @@ namespace Test.MaiDan.Api.Services
             var fiveEuros = 5m;
             menu.Setup(m => m.Get("1")).Returns(new Billing.ADish("1").Priced(fiveEuros).OfType("Starter").Build());
             
-            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<Order>>().Object, new Mock<IRepository<Bill>>().Object, new ATaxConfiguration().Build());
+            var cashRegister = new ACashRegister(menu.Object).Build();
 
             //S'assurer que la taxe est bien celle réduite, pas au montant suelement
             var bill = cashRegister.Calculate(order);
@@ -99,7 +96,7 @@ namespace Test.MaiDan.Api.Services
             var fiveEuros = 5m;
             menu.Setup(m => m.Get("1")).Returns(new Billing.ADish("1").Priced(fiveEuros).OfType("Alcool").Build());
 
-            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<Order>>().Object, new Mock<IRepository<Bill>>().Object, new ATaxConfiguration().Build());
+            var cashRegister = new ACashRegister(menu.Object).Build();
 
             var bill = cashRegister.Calculate(order);
 
@@ -113,7 +110,7 @@ namespace Test.MaiDan.Api.Services
             var order = new AnOrder()
                 .Build();
 
-            var cashRegister = new CashRegister(new Mock<IRepository<Dish>>().Object, new Mock<IRepository<Order>>().Object, new Mock<IRepository<Bill>>().Object, new Mock<IRepository<Tax>>().Object);
+            var cashRegister = new ACashRegister().Build();
 
             Check.ThatCode(() => cashRegister.Print(order)).Throws<InvalidOperationException>();
         }
@@ -140,7 +137,7 @@ namespace Test.MaiDan.Api.Services
             menu.Setup(m => m.Get(dessert)).Returns(new Billing.ADish(dessert).Priced(11m).OfType("Dessert").Build()); // Tax (10%) of 1 €
 
             var taxConfiguration = new ATaxConfiguration().Build();
-            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<Order>>().Object, new Mock<IRepository<Bill>>().Object, taxConfiguration);
+            var cashRegister = new ACashRegister(menu.Object, taxConfiguration).Build();
 
             var bill = cashRegister.Calculate(order);
 
@@ -165,7 +162,7 @@ namespace Test.MaiDan.Api.Services
             menu.Setup(m => m.Get(cocktail.Id)).Returns(new Billing.ADish(cocktail.Id).Priced(5m).OfType("Alcool").Build()); // Tax (20%) of 0,83 €
 
             var taxConfiguration = new ATaxConfiguration().Build();
-            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<Order>>().Object, new Mock<IRepository<Bill>>().Object, taxConfiguration);
+            var cashRegister = new ACashRegister(menu.Object, taxConfiguration).Build();
 
             var bill = cashRegister.Calculate(order);
 
@@ -186,7 +183,7 @@ namespace Test.MaiDan.Api.Services
             menu.Setup(m => m.Get(dish.Id)).Returns(new Billing.ADish(dish.Id).Priced(10m).Build());
 
             var taxConfiguration = new ATaxConfiguration().Build();
-            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<Order>>().Object, new Mock<IRepository<Bill>>().Object, taxConfiguration);
+            var cashRegister = new ACashRegister(menu.Object, taxConfiguration).Build();
 
             var bill = cashRegister.Calculate(order);
 
@@ -208,7 +205,7 @@ namespace Test.MaiDan.Api.Services
             menu.Setup(m => m.Get(dish.Id)).Returns(new Billing.ADish(dish.Id).Priced(10m).WithReducedTax().Build());
 
             var taxConfiguration = new ATaxConfiguration().Build();
-            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<Order>>().Object, new Mock<IRepository<Bill>>().Object, taxConfiguration);
+            var cashRegister = new ACashRegister(menu.Object, taxConfiguration).Build();
 
             var bill = cashRegister.Calculate(order);
 
@@ -232,7 +229,7 @@ namespace Test.MaiDan.Api.Services
             var menu = new Mock<IRepository<Dish>>();
             menu.Setup(m => m.Get(dish.Id)).Returns(new Billing.ADish(dish.Id).Priced(10m).WithReducedTax().Build());
 
-            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<Order>>().Object, new Mock<IRepository<Bill>>().Object, new ATaxConfiguration().Build());
+            var cashRegister = new ACashRegister(menu.Object).Build();
 
             var bill = cashRegister.Calculate(order);
 
@@ -251,7 +248,7 @@ namespace Test.MaiDan.Api.Services
             var menu = new Mock<IRepository<Dish>>();
             menu.Setup(m => m.Get(dish.Id)).Returns(new Billing.ADish(dish.Id).Priced(10m).WithRegularTax().Build());
 
-            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<Order>>().Object, new Mock<IRepository<Bill>>().Object, new ATaxConfiguration().Build());
+            var cashRegister = new ACashRegister(menu.Object).Build();
 
             var bill = cashRegister.Calculate(order);
 

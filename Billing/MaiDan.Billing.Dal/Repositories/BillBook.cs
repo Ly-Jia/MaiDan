@@ -11,11 +11,13 @@ namespace MaiDan.Billing.Dal.Repositories
     {
         private readonly BillingContext context;
         private readonly IRepository<Domain.TaxRate> taxRateList;
+        private readonly IRepository<Domain.Discount> discountList;
 
-        public BillBook(BillingContext context, IRepository<Domain.TaxRate> taxRateList)
+        public BillBook(BillingContext context, IRepository<Domain.TaxRate> taxRateList, IRepository<Domain.Discount> discountList)
         {
             this.context = context;
             this.taxRateList = taxRateList;
+            this.discountList = discountList;
         }
 
         public Domain.Bill Get(object id)
@@ -25,6 +27,7 @@ namespace MaiDan.Billing.Dal.Repositories
                 .Include(e => e.Lines)
                 .ThenInclude(e => e.TaxRate)
                 .Include(e => e.Taxes)
+                .Include(e => e.Discounts)
                 .AsNoTracking()
                 .FirstOrDefault(e => e.Id == idInt);
 
@@ -37,6 +40,7 @@ namespace MaiDan.Billing.Dal.Repositories
                 .Include(e => e.Lines)
                 .ThenInclude(e => e.TaxRate)
                 .Include(e => e.Taxes)
+                .Include(e => e.Discounts)
                 .AsNoTracking();
 
             return entities.Select(ModelFrom).ToArray();
@@ -64,17 +68,19 @@ namespace MaiDan.Billing.Dal.Repositories
         private Bill EntityFrom(Domain.Bill model)
         {
             var lines = model.Lines.Select(l => new Line(model.Id, l.Id, l.Amount, context.TaxRates.Find(l.TaxRate.Id))).ToList();
+            var discounts = model.Discounts.Select(d => new BillDiscount(model.Id, d.Key.Id, d.Value)).ToList();
             var taxes = model.Taxes.Select(t => new BillTax(model.Id, t.Key.Id, t.Value)).ToList();
 
-            return new Bill(model.Id, model.Total, lines, taxes);
+            return new Bill(model.Id, model.Total, lines, discounts, taxes);
         }
 
         private Domain.Bill ModelFrom(Bill entity)
         {
             var lines = entity.Lines.Select(l => new Domain.Line(l.Index, l.Amount, taxRateList.Get(l.TaxRate.Id))).ToList();
+            var discounts = entity.Discounts.ToDictionary(d => discountList.Get(d.DiscountId), d => d.Amount);
             var taxes = entity.Taxes.ToDictionary(t => taxRateList.Get(t.TaxRateId), t => t.Amount);
 
-            return new Domain.Bill(entity.Id, lines, null, entity.Total, taxes);
+            return new Domain.Bill(entity.Id, lines, discounts, entity.Total, taxes);
         }
     }
 }

@@ -45,7 +45,7 @@ namespace Test.MaiDan.Api.Controllers
             var orderWithTwoTacos = new AnOrder(orderId).With(two, new ADish(tcs).Named(tacos).Build()).Build();
             orderBook.Setup(o => o.Get(orderId)).Returns(orderWithTwoTacos);
             menu.Setup(m => m.Get(tcs)).Returns(dish);
-            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<global::MaiDan.Ordering.Domain.Order>>().Object, new Mock<IRepository<global::MaiDan.Billing.Domain.Bill>>().Object, new ATaxConfiguration().Build());
+            var cashRegister = new ACashRegister(menu.Object).Build();
             var orderBookController = CreateOrderBookController(orderBook.Object, null, defaultRoom.Object, cashRegister);
 
             var retrievedDish = orderBookController.Get(orderId);
@@ -80,7 +80,7 @@ namespace Test.MaiDan.Api.Controllers
             var order = new AnOrder().With(2, new ADish(dishId).Build()).Build();
             orderBook.Setup(o => o.Get(It.IsAny<object>())).Returns(order);
             menu.Setup(m => m.Get(dishId)).Returns(dish);
-            var cashRegister = new CashRegister(menu.Object, new Mock<IRepository<global::MaiDan.Ordering.Domain.Order>>().Object, new Mock<IRepository<global::MaiDan.Billing.Domain.Bill>>().Object, new ATaxConfiguration().Build());
+            var cashRegister = new ACashRegister(menu.Object).Build();
             var orderBookController = CreateOrderBookController(orderBook.Object, null, defaultRoom.Object, cashRegister);
 
             orderBookController.Get(1);

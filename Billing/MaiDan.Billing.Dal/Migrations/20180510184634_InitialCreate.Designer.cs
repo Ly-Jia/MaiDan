@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MaiDan.Billing.Dal.Migrations
 {
     [DbContext(typeof(BillingContext))]
-    [Migration("20180509232950_InitialCreate")]
+    [Migration("20180510184634_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,6 +29,19 @@ namespace MaiDan.Billing.Dal.Migrations
                     b.ToTable("Bill");
                 });
 
+            modelBuilder.Entity("MaiDan.Billing.Dal.Entities.BillDiscount", b =>
+                {
+                    b.Property<int>("BillId");
+
+                    b.Property<string>("DiscountId");
+
+                    b.Property<decimal>("Amount");
+
+                    b.HasKey("BillId", "DiscountId");
+
+                    b.ToTable("BillDiscount");
+                });
+
             modelBuilder.Entity("MaiDan.Billing.Dal.Entities.BillTax", b =>
                 {
                     b.Property<int>("BillId");
@@ -40,6 +53,19 @@ namespace MaiDan.Billing.Dal.Migrations
                     b.HasKey("BillId", "TaxRateId");
 
                     b.ToTable("BillTax");
+                });
+
+            modelBuilder.Entity("MaiDan.Billing.Dal.Entities.Discount", b =>
+                {
+                    b.Property<string>("Id");
+
+                    b.Property<string>("ApplicableTaxId");
+
+                    b.Property<decimal>("Rate");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Discount");
                 });
 
             modelBuilder.Entity("MaiDan.Billing.Dal.Entities.Dish", b =>
@@ -105,6 +131,14 @@ namespace MaiDan.Billing.Dal.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TaxRate");
+                });
+
+            modelBuilder.Entity("MaiDan.Billing.Dal.Entities.BillDiscount", b =>
+                {
+                    b.HasOne("MaiDan.Billing.Dal.Entities.Bill")
+                        .WithMany("Discounts")
+                        .HasForeignKey("BillId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("MaiDan.Billing.Dal.Entities.BillTax", b =>

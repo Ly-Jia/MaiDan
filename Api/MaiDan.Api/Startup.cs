@@ -51,6 +51,7 @@ namespace MaiDan.Api
             // Billing
             services.AddSingleton<IRepository<Billing.Domain.Tax>, Billing.Dal.Repositories.TaxConfiguration>();
             services.AddSingleton<IRepository<Billing.Domain.TaxRate>, Billing.Dal.Repositories.TaxRateList>();
+            services.AddSingleton<IRepository<Billing.Domain.Discount>, Billing.Dal.Repositories.DiscountList>();
             services.AddSingleton<IRepository<Billing.Domain.Dish>, Billing.Dal.Repositories.Menu>();
             services.AddSingleton<IRepository<Billing.Domain.Bill>, Billing.Dal.Repositories.BillBook>();
 

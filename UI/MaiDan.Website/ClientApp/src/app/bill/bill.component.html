@@ -7,11 +7,17 @@
       {{line.quantity}} x {{line.dishName}} - {{line.amount}}€
     </li>
   </ul>
+  <p>Remises</p>
+  <ul>
+    <li *ngFor="let discount of bill.discounts">
+      {{discount.name}} {{discount.rate  * 100}}% - {{discount.amount}}€
+    </li>
+  </ul>
   <p>Total : {{bill.total}}€</p>
   <p>TVA</p>
   <ul>
     <li *ngFor="let tax of bill.taxes">
-      {{tax.rate}}% - {{tax.amount}}€
+      {{tax.rate  * 100}}% - {{tax.amount}}€
     </li>
   </ul>
 </div>

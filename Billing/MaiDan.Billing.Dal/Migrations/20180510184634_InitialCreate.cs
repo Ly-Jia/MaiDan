@@ -32,6 +32,19 @@ namespace MaiDan.Billing.Dal.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Discount",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Rate = table.Column<decimal>(nullable: false),
+                    ApplicableTaxId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Discount", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TaxRate",
                 columns: table => new
                 {
@@ -44,6 +57,25 @@ namespace MaiDan.Billing.Dal.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TaxRate", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BillDiscount",
+                columns: table => new
+                {
+                    BillId = table.Column<int>(nullable: false),
+                    DiscountId = table.Column<string>(nullable: false),
+                    Amount = table.Column<decimal>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BillDiscount", x => new { x.BillId, x.DiscountId });
+                    table.ForeignKey(
+                        name: "FK_BillDiscount_Bill_BillId",
+                        column: x => x.BillId,
+                        principalTable: "Bill",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -120,10 +152,16 @@ namespace MaiDan.Billing.Dal.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "BillDiscount");
+
+            migrationBuilder.DropTable(
                 name: "BillLine");
 
             migrationBuilder.DropTable(
                 name: "BillTax");
+
+            migrationBuilder.DropTable(
+                name: "Discount");
 
             migrationBuilder.DropTable(
                 name: "DishPrice");
