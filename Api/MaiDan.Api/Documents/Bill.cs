@@ -28,6 +28,19 @@ namespace MaiDan.Api.Documents
 
             bounds.Y += PrintingFormat.FONT.GetHeight(e.Graphics) * 2;
             
+            PrintOrderType(e, bounds);
+
+            PrintLines(e, bounds);
+
+            PrintDiscounts(e, bounds);
+            
+            PrintTotal(e, bounds);
+
+            PrintTaxes(e, bounds);
+        }
+
+        private void PrintOrderType(PrintPageEventArgs e, RectangleF bounds)
+        {
             if (!bill.NumberOfGuests.HasValue)
             {
                 e.Graphics.DrawString("À emporter", PrintingFormat.FONT, Brushes.Black, bounds, PrintingFormat.RIGHT_ALIGNMENT);
@@ -36,46 +49,68 @@ namespace MaiDan.Api.Documents
             else
             {
                 bounds.Y += PrintingFormat.FONT.GetHeight(e.Graphics);
-                e.Graphics.DrawString("Table : " + bill.TableId, PrintingFormat.FONT, Brushes.Black, bounds, PrintingFormat.LEFT_ALIGNMENT);
-                e.Graphics.DrawString("Couverts : " + bill.NumberOfGuests, PrintingFormat.FONT, Brushes.Black, bounds, PrintingFormat.RIGHT_ALIGNMENT);
+                e.Graphics.DrawString("Table : " + bill.TableId, PrintingFormat.FONT, Brushes.Black, bounds,
+                    PrintingFormat.LEFT_ALIGNMENT);
+                e.Graphics.DrawString("Couverts : " + bill.NumberOfGuests, PrintingFormat.FONT, Brushes.Black, bounds,
+                    PrintingFormat.RIGHT_ALIGNMENT);
                 bounds.Y = 10 + PrintingFormat.FONT.GetHeight(e.Graphics) * 11;
             }
+        }
 
+        private void PrintLines(PrintPageEventArgs e, RectangleF bounds)
+        {
             foreach (var line in bill.Lines)
             {
                 if (line.DishName.Length > 23)
                 {
-                    e.Graphics.DrawString(line.Quantity + " " + line.DishName.Substring(0, 23), PrintingFormat.FONT, Brushes.Black, bounds, PrintingFormat.LEFT_ALIGNMENT);
+                    e.Graphics.DrawString(line.Quantity + " " + line.DishName.Substring(0, 23), PrintingFormat.FONT,
+                        Brushes.Black, bounds, PrintingFormat.LEFT_ALIGNMENT);
                 }
                 else
                 {
-                    e.Graphics.DrawString(line.Quantity + " " + line.DishName, PrintingFormat.FONT, Brushes.Black, bounds, PrintingFormat.LEFT_ALIGNMENT);
+                    e.Graphics.DrawString(line.Quantity + " " + line.DishName, PrintingFormat.FONT, Brushes.Black, bounds,
+                        PrintingFormat.LEFT_ALIGNMENT);
                 }
-                e.Graphics.DrawString(line.Amount.ToString("N2") + " €", PrintingFormat.FONT, Brushes.Black, bounds, PrintingFormat.RIGHT_ALIGNMENT);
-                bounds.Y += PrintingFormat.FONT.GetHeight(e.Graphics);               
-            }
-
-            foreach (var discount in bill.Discounts)
-            {
-                e.Graphics.DrawString($"{discount.Name} -{discount.Rate * 100}%", PrintingFormat.FONT, Brushes.Black, bounds, PrintingFormat.LEFT_ALIGNMENT);
-                e.Graphics.DrawString("-" + discount.Amount.ToString("N2") + " €", PrintingFormat.FONT, Brushes.Black, bounds, PrintingFormat.RIGHT_ALIGNMENT);
-                bounds.Y += PrintingFormat.FONT.GetHeight(e.Graphics);
-            }
-            
-            e.Graphics.DrawLine(Pens.Black, bounds.X, bounds.Y + PrintingFormat.FONT.GetHeight(e.Graphics) / 2, bounds.Width, bounds.Y + PrintingFormat.FONT.GetHeight(e.Graphics) / 2);
-            bounds.Y += PrintingFormat.FONT.GetHeight(e.Graphics) * 2;
-
-            e.Graphics.DrawString("Total", PrintingFormat.BOLD_FONT, Brushes.Black, bounds, PrintingFormat.LEFT_ALIGNMENT);
-            e.Graphics.DrawString(bill.Total.ToString("N2") + " €", PrintingFormat.BOLD_FONT, Brushes.Black, bounds, PrintingFormat.RIGHT_ALIGNMENT);
-            bounds.Y += PrintingFormat.FONT.GetHeight(e.Graphics) * 2;
-            
-            foreach (var tax in bill.Taxes)
-            {
-                e.Graphics.DrawString($"TVA {tax.Rate * 100}%", PrintingFormat.FONT, Brushes.Black, bounds, PrintingFormat.LEFT_ALIGNMENT);
-                e.Graphics.DrawString(tax.Amount.ToString("N2") + " €", PrintingFormat.FONT, Brushes.Black, bounds, PrintingFormat.RIGHT_ALIGNMENT);
+                e.Graphics.DrawString(line.Amount.ToString("N2") + " €", PrintingFormat.FONT, Brushes.Black, bounds,
+                    PrintingFormat.RIGHT_ALIGNMENT);
                 bounds.Y += PrintingFormat.FONT.GetHeight(e.Graphics);
             }
         }
 
+        private void PrintDiscounts(PrintPageEventArgs e, RectangleF bounds)
+        {
+            foreach (var discount in bill.Discounts)
+            {
+                e.Graphics.DrawString($"{discount.Name} -{discount.Rate * 100}%", PrintingFormat.FONT, Brushes.Black, bounds,
+                    PrintingFormat.LEFT_ALIGNMENT);
+                e.Graphics.DrawString("-" + discount.Amount.ToString("N2") + " €", PrintingFormat.FONT, Brushes.Black, bounds,
+                    PrintingFormat.RIGHT_ALIGNMENT);
+                bounds.Y += PrintingFormat.FONT.GetHeight(e.Graphics);
+            }
+        }
+
+        private void PrintTotal(PrintPageEventArgs e, RectangleF bounds)
+        {
+            e.Graphics.DrawLine(Pens.Black, bounds.X, bounds.Y + PrintingFormat.FONT.GetHeight(e.Graphics) / 2, bounds.Width,
+                bounds.Y + PrintingFormat.FONT.GetHeight(e.Graphics) / 2);
+            bounds.Y += PrintingFormat.FONT.GetHeight(e.Graphics) * 2;
+
+            e.Graphics.DrawString("Total", PrintingFormat.BOLD_FONT, Brushes.Black, bounds, PrintingFormat.LEFT_ALIGNMENT);
+            e.Graphics.DrawString(bill.Total.ToString("N2") + " €", PrintingFormat.BOLD_FONT, Brushes.Black, bounds,
+                PrintingFormat.RIGHT_ALIGNMENT);
+            bounds.Y += PrintingFormat.FONT.GetHeight(e.Graphics) * 2;
+        }
+
+        private void PrintTaxes(PrintPageEventArgs e, RectangleF bounds)
+        {
+            foreach (var tax in bill.Taxes)
+            {
+                e.Graphics.DrawString($"TVA {tax.Rate * 100}%", PrintingFormat.FONT, Brushes.Black, bounds,
+                    PrintingFormat.LEFT_ALIGNMENT);
+                e.Graphics.DrawString(tax.Amount.ToString("N2") + " €", PrintingFormat.FONT, Brushes.Black, bounds,
+                    PrintingFormat.RIGHT_ALIGNMENT);
+                bounds.Y += PrintingFormat.FONT.GetHeight(e.Graphics);
+            }
+        }
     }
 }
