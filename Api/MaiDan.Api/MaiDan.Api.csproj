@@ -13,7 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Billing\MaiDan.Billing.Dal\MaiDan.Billing.Dal.csproj" />
     <ProjectReference Include="..\..\Billing\MaiDan.Billing.Domain\MaiDan.Billing.Domain.csproj" />
-    <ProjectReference Include="..\..\Infrastructure\MaiDan.Infrastructure.Configuration\MaiDan.Infrastructure.Configuration.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\MaiDan.Infrastructure.Configuration\MaiDan.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Infrastructure\MaiDan.Infrastructure.Database\MaiDan.Infrastructure.Database.csproj" />
     <ProjectReference Include="..\..\Ordering\MaiDan.Ordering.Dal\MaiDan.Ordering.Dal.csproj" />
     <ProjectReference Include="..\..\Ordering\MaiDan.Ordering.Domain\MaiDan.Ordering.Domain.csproj" />

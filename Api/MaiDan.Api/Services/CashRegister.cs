@@ -4,12 +4,14 @@ using MaiDan.Ordering.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MaiDan.Infrastructure;
 using Line = MaiDan.Billing.Domain.Line;
 
 namespace MaiDan.Api.Services
 {
     public class CashRegister : ICashRegister
     {
+        private readonly Printer printer;
         private readonly IRepository<Billing.Domain.Dish> menu;
         private readonly IRepository<Order> orderBook;
         private readonly IRepository<Bill> billBook;
@@ -21,8 +23,9 @@ namespace MaiDan.Api.Services
         //@TODO set the id in config file
         private const string TAKE_AWAY_DISCOUNT_ID = "À emporter";
 
-        public CashRegister(IRepository<Billing.Domain.Dish> menu, IRepository<Order> orderBook, IRepository<Bill> billBook, IRepository<Tax> taxConfiguration, IRepository<Discount> discountList)
+        public CashRegister(Printer printer, IRepository<Billing.Domain.Dish> menu, IRepository<Order> orderBook, IRepository<Bill> billBook, IRepository<Tax> taxConfiguration, IRepository<Discount> discountList)
         {
+            this.printer = printer;
             this.menu = menu;
             this.orderBook = orderBook;
             this.billBook = billBook;
@@ -52,6 +55,7 @@ namespace MaiDan.Api.Services
             orderBook.Update(order);
             var bill = Calculate(order);
             billBook.Add(bill);
+            printer.Print(new Documents.Bill(order, bill));
         }
 
         private Line CalculateLine(Ordering.Domain.Line line)

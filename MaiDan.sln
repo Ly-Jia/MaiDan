@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaiDan.Ordering.Domain", "O
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.MaiDan.Ordering", "Test\Ordering\Test.MaiDan.Ordering\Test.MaiDan.Ordering.csproj", "{0BFB691C-E1C7-4BDA-A3B7-318F1BA5D756}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaiDan.Infrastructure.Configuration", "Infrastructure\MaiDan.Infrastructure.Configuration\MaiDan.Infrastructure.Configuration.csproj", "{D7E41909-56E6-4C39-B113-F19B9AB04AFA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaiDan.Infrastructure", "Infrastructure\MaiDan.Infrastructure.Configuration\MaiDan.Infrastructure.csproj", "{D7E41909-56E6-4C39-B113-F19B9AB04AFA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaiDan.Infrastructure.Database", "Infrastructure\MaiDan.Infrastructure.Database\MaiDan.Infrastructure.Database.csproj", "{0CB483E6-6B16-4B87-980D-04089D16316C}"
 EndProject

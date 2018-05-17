@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.Configuration;
 
-namespace MaiDan.Infrastructure.Configuration
+namespace MaiDan.Infrastructure
 {
     public class ConfigurationReader
     {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using MaiDan.Api.Services;
 using MaiDan.Billing.Domain;
+using MaiDan.Infrastructure;
 using MaiDan.Infrastructure.Database;
 using MaiDan.Ordering.Domain;
 using Moq;
@@ -13,6 +14,7 @@ namespace Test.MaiDan.Api
 {
     public class ACashRegister
     {
+        private Printer printer = new Mock<Printer>().Object;
         private IRepository<Dish> menu;
         private IRepository<Order> orderbook;
         private IRepository<Bill> billbook;
@@ -51,7 +53,7 @@ namespace Test.MaiDan.Api
             if (discountList == null)
                 discountList = new ADiscountList().Build();
 
-            return new CashRegister(menu, orderbook, billbook, taxConfiguration, discountList);
+            return new CashRegister(printer, menu, orderbook, billbook, taxConfiguration, discountList);
         }
     }
 }

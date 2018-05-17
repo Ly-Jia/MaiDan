@@ -1,5 +1,6 @@
 ﻿using MaiDan.Api.Services;
 using MaiDan.Billing.Dal;
+using MaiDan.Infrastructure;
 using MaiDan.Infrastructure.Database;
 using MaiDan.Ordering.Dal;
 using Microsoft.AspNetCore.Builder;
@@ -54,6 +55,10 @@ namespace MaiDan.Api
             services.AddSingleton<IRepository<Billing.Domain.Discount>, Billing.Dal.Repositories.DiscountList>();
             services.AddSingleton<IRepository<Billing.Domain.Dish>, Billing.Dal.Repositories.Menu>();
             services.AddSingleton<IRepository<Billing.Domain.Bill>, Billing.Dal.Repositories.BillBook>();
+
+            var printerName = ConfigurationReader.Get<string>("PrinterName");
+            var printer = new Printer(printerName);
+            services.AddSingleton(svcs => printer);
 
             services.AddSingleton<ICashRegister, CashRegister>();
         }
