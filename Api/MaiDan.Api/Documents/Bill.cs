@@ -27,37 +27,51 @@ namespace MaiDan.Api.Documents
 
 
             bounds.Y += PrintingFormat.FONT.GetHeight(e.Graphics) * 2;
+
+            PrintLegalMentions(e, ref bounds);
+
+            PrintOrderType(e, ref bounds);
+
+            PrintLines(e, ref bounds);
+
+            PrintDiscounts(e, ref bounds);
             
-            PrintOrderType(e, bounds);
+            PrintTotal(e, ref bounds);
 
-            PrintLines(e, bounds);
-
-            PrintDiscounts(e, bounds);
-            
-            PrintTotal(e, bounds);
-
-            PrintTaxes(e, bounds);
+            PrintTaxes(e, ref bounds);
         }
 
-        private void PrintOrderType(PrintPageEventArgs e, RectangleF bounds)
+        private void PrintLegalMentions(PrintPageEventArgs e, ref RectangleF bounds)
         {
+            foreach (var line in BillConfiguration.LEGAL_MENTIONS)
+            {
+                e.Graphics.DrawString(line, PrintingFormat.FONT, Brushes.Black, bounds, PrintingFormat.CENTER_ALIGNMENT);
+                bounds.Y += PrintingFormat.FONT.GetHeight(e.Graphics);
+            }
+            bounds.Y += PrintingFormat.FONT.GetHeight(e.Graphics) * 2;
+        }
+
+        private void PrintOrderType(PrintPageEventArgs e, ref RectangleF bounds)
+        {
+            e.Graphics.DrawString($"Ticket n°{bill.Id}", PrintingFormat.FONT, Brushes.Black, bounds,PrintingFormat.LEFT_ALIGNMENT);
+
             if (!bill.NumberOfGuests.HasValue)
             {
                 e.Graphics.DrawString("À emporter", PrintingFormat.FONT, Brushes.Black, bounds, PrintingFormat.RIGHT_ALIGNMENT);
-                bounds.Y = 10 + PrintingFormat.FONT.GetHeight(e.Graphics) * 10;
+                bounds.Y += 10 + PrintingFormat.FONT.GetHeight(e.Graphics);
             }
             else
             {
                 bounds.Y += PrintingFormat.FONT.GetHeight(e.Graphics);
                 e.Graphics.DrawString("Table : " + bill.TableId, PrintingFormat.FONT, Brushes.Black, bounds,
                     PrintingFormat.LEFT_ALIGNMENT);
-                e.Graphics.DrawString("Couverts : " + bill.NumberOfGuests, PrintingFormat.FONT, Brushes.Black, bounds,
+                e.Graphics.DrawString("Couverts : " + bill.NumberOfGuests.Value, PrintingFormat.FONT, Brushes.Black, bounds,
                     PrintingFormat.RIGHT_ALIGNMENT);
-                bounds.Y = 10 + PrintingFormat.FONT.GetHeight(e.Graphics) * 11;
+                bounds.Y += 10 + PrintingFormat.FONT.GetHeight(e.Graphics) * 11;
             }
         }
 
-        private void PrintLines(PrintPageEventArgs e, RectangleF bounds)
+        private void PrintLines(PrintPageEventArgs e, ref RectangleF bounds)
         {
             foreach (var line in bill.Lines)
             {
@@ -77,7 +91,7 @@ namespace MaiDan.Api.Documents
             }
         }
 
-        private void PrintDiscounts(PrintPageEventArgs e, RectangleF bounds)
+        private void PrintDiscounts(PrintPageEventArgs e, ref RectangleF bounds)
         {
             foreach (var discount in bill.Discounts)
             {
@@ -89,7 +103,7 @@ namespace MaiDan.Api.Documents
             }
         }
 
-        private void PrintTotal(PrintPageEventArgs e, RectangleF bounds)
+        private void PrintTotal(PrintPageEventArgs e, ref RectangleF bounds)
         {
             e.Graphics.DrawLine(Pens.Black, bounds.X, bounds.Y + PrintingFormat.FONT.GetHeight(e.Graphics) / 2, bounds.Width,
                 bounds.Y + PrintingFormat.FONT.GetHeight(e.Graphics) / 2);
@@ -101,7 +115,7 @@ namespace MaiDan.Api.Documents
             bounds.Y += PrintingFormat.FONT.GetHeight(e.Graphics) * 2;
         }
 
-        private void PrintTaxes(PrintPageEventArgs e, RectangleF bounds)
+        private void PrintTaxes(PrintPageEventArgs e, ref RectangleF bounds)
         {
             foreach (var tax in bill.Taxes)
             {
