@@ -1,5 +1,6 @@
 ﻿using MaiDan.Ordering.Domain;
 using Newtonsoft.Json;
+using System;
 
 namespace MaiDan.Api.DataContracts.Responses
 {
@@ -14,6 +15,7 @@ namespace MaiDan.Api.DataContracts.Responses
                 NumberOfGuests = onSiteOrder.NumberOfGuests;
             }
 
+            OrderingDate = order.OrderingDate;
             Total = bill.Total;
         }
 
@@ -24,6 +26,8 @@ namespace MaiDan.Api.DataContracts.Responses
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public int? NumberOfGuests { get; set; }
+
+        public DateTime OrderingDate { get; set; }
 
         public decimal Total { get; set; }
     }

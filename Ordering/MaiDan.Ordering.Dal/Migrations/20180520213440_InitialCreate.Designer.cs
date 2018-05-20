@@ -3,21 +3,20 @@ using System;
 using MaiDan.Ordering.Dal;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MaiDan.Ordering.Dal.Migrations
 {
     [DbContext(typeof(OrderingContext))]
-    [Migration("20180502215038_InitialCreate")]
+    [Migration("20180520213440_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.0-preview2-30571");
+                .HasAnnotation("ProductVersion", "2.1.0-rc1-32029");
 
             modelBuilder.Entity("MaiDan.Ordering.Dal.Entities.Dish", b =>
                 {
@@ -58,6 +57,8 @@ namespace MaiDan.Ordering.Dal.Migrations
                     b.Property<bool>("Closed");
 
                     b.Property<int>("NumberOfGuests");
+
+                    b.Property<DateTime>("OrderingDate");
 
                     b.Property<string>("TableId");
 

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using MaiDan.Ordering.Domain;
+﻿using MaiDan.Ordering.Domain;
 using NFluent;
 using NUnit.Framework;
 
@@ -16,8 +15,8 @@ namespace Test.MaiDan.Ordering.Domain
             Table table = new Table("T1");
             int numberOfGuests = 2;
 
-            var order1 = new OnSiteOrder(id, table, numberOfGuests, new List<Line>(), false);
-            var order2 = new OnSiteOrder(id, table, numberOfGuests, new List<Line>(), false);
+            var order1 = new AnOrder(id).OnSite(table, numberOfGuests).Build();
+            var order2 = new AnOrder(id).OnSite(table, numberOfGuests).Build();
 
             var isEqual = order1.Equals(order2);
 
@@ -30,8 +29,8 @@ namespace Test.MaiDan.Ordering.Domain
             var id = 1;
             int numberOfGuests = 2;
 
-            var order1 = new OnSiteOrder(id, new Table("T1"), numberOfGuests, new List<Line>(), false);
-            var order2 = new OnSiteOrder(id, new Table("T2"), numberOfGuests, new List<Line>(), false);
+            var order1 = new AnOrder(id).OnSite("T1", numberOfGuests).Build();
+            var order2 = new AnOrder(id).OnSite("T2", numberOfGuests).Build();
 
             var isEqual = order1.Equals(order2);
 
@@ -44,8 +43,8 @@ namespace Test.MaiDan.Ordering.Domain
             var id = 1;
             Table table = new Table("T1");
 
-            var order1 = new OnSiteOrder(id, table, 1, new List<Line>(), false);
-            var order2 = new OnSiteOrder(id, table, 2, new List<Line>(), false);
+            var order1 = new AnOrder(id).OnSite(table, 1).Build();
+            var order2 = new AnOrder(id).OnSite(table, 2).Build();
 
             var isEqual = order1.Equals(order2);
 

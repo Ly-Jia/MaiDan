@@ -12,7 +12,7 @@ namespace Test.MaiDan.Ordering.Domain
         public void should_be_identifiable_by_id()
         {
             var id = 1;
-            var order = new TakeAwayOrder(id, new List<Line>(), false);
+            var order = new AnOrder(id).Build();
             Check.That(order.Id).Equals(id);
         }
 

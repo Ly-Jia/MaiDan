@@ -1,6 +1,6 @@
 <ul class="list-group">
   <li class="list-group-item" *ngFor="let order of orders">
-    <a *ngIf="order.tableId === undefined" routerLink="{{order.id}}">{{order.id}} - à emporter</a>
-    <a *ngIf="order.tableId !== undefined" routerLink="{{order.id}}">{{order.id}} - table {{order.tableId}}</a>
+    <a *ngIf="order.tableId === undefined" routerLink="{{order.id}}">{{order.id}} - {{order.orderingDate|date:"dd/MM/yyyy hh:mm"}} - à emporter</a>
+    <a *ngIf="order.tableId !== undefined" routerLink="{{order.id}}">{{order.id}} - {{order.orderingDate|date:"dd/MM/yyyy hh:mm"}} - table {{order.tableId}}</a>
   </li>
 </ul>

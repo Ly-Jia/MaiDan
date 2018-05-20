@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MaiDan.Ordering.Dal.Migrations
@@ -39,6 +38,7 @@ namespace MaiDan.Ordering.Dal.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     TakeAway = table.Column<bool>(nullable: false),
                     TableId = table.Column<string>(nullable: true),
+                    OrderingDate = table.Column<DateTime>(nullable: false),
                     NumberOfGuests = table.Column<int>(nullable: false),
                     Closed = table.Column<bool>(nullable: false)
                 },

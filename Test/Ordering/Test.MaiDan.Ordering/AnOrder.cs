@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MaiDan.Ordering.Domain;
 
 namespace Test.MaiDan.Ordering
@@ -12,8 +13,10 @@ namespace Test.MaiDan.Ordering
 		private int id;
 		private List<Line> lines;
 	    private bool takeAway = false;
-	    private int numberOfGuest = 0;
+	    private int numberOfGuests = 0;
+	    private Table table;
         private Table defaultTable = new Table("1");
+	    private DateTime orderingDate = new DateTime(2018, 08, 08);
 		
 		/// <summary>
 		/// Initialize the future order with a specific id (creation date)
@@ -32,13 +35,23 @@ namespace Test.MaiDan.Ordering
 		{
 		}
 
-	    public AnOrder OnSite()
+	    public AnOrder OnSite(string tableId, int guests)
 	    {
 	        takeAway = false;
+            table = new Table(tableId);
+	        numberOfGuests = guests;
 	        return this;
 	    }
 
-	    public AnOrder TakeAway()
+	    public AnOrder OnSite(Table t, int guests)
+	    {
+	        takeAway = false;
+	        table = t;
+	        numberOfGuests = guests;
+	        return this;
+	    }
+
+        public AnOrder TakeAway()
 	    {
 	        takeAway = true;
 	        return this;
@@ -85,9 +98,9 @@ namespace Test.MaiDan.Ordering
 		public Order Build()
 		{
             if (takeAway)
-			    return new TakeAwayOrder(id, lines, false);
+			    return new TakeAwayOrder(id, orderingDate, lines, false);
 
-            return new OnSiteOrder(id, defaultTable, numberOfGuest, lines, false);
+            return new OnSiteOrder(id, table ?? defaultTable, numberOfGuests, orderingDate, lines, false);
 		}
         
 	}

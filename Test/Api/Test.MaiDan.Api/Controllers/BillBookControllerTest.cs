@@ -8,6 +8,7 @@ using Moq;
 using NFluent;
 using NUnit.Framework;
 using System.Net;
+using Test.MaiDan.Ordering;
 
 namespace Test.MaiDan.Api.Controllers
 {
@@ -20,7 +21,7 @@ namespace Test.MaiDan.Api.Controllers
             var id = 8;
             var billBook = new Mock<IRepository<global::MaiDan.Billing.Domain.Bill>>();
             var orderBook = new Mock<IRepository<global::MaiDan.Ordering.Domain.Order>>();
-            orderBook.Setup(o => o.Get(id)).Returns(new global::MaiDan.Ordering.Domain.TakeAwayOrder(id, null, false));
+            orderBook.Setup(o => o.Get(id)).Returns(new AnOrder(id).Build());
             var cashRegister = new Mock<ICashRegister>();
 
             var billBookController = CreateBillBookController(billBook.Object, orderBook.Object, cashRegister.Object);
@@ -39,7 +40,7 @@ namespace Test.MaiDan.Api.Controllers
             var id = 2;
             var billBook = new Mock<IRepository<global::MaiDan.Billing.Domain.Bill>>();
             var orderBook = new Mock<IRepository<global::MaiDan.Ordering.Domain.Order>>();
-            orderBook.Setup(o => o.Get(id)).Returns(new global::MaiDan.Ordering.Domain.TakeAwayOrder(id, null, true));
+            orderBook.Setup(o => o.Get(id)).Returns(new AnOrder(id).Build());
             var cashRegister = new Mock<ICashRegister>();
 
             var billBookController = CreateBillBookController(billBook.Object, orderBook.Object, cashRegister.Object);

@@ -150,7 +150,7 @@ namespace MaiDan.Api.Controllers
 
             if (string.IsNullOrEmpty(contract.TableId))
             {
-                return new TakeAwayOrder(contract.Id, lines, false);
+                return new TakeAwayOrder(contract.Id, contract.OrderingDate, lines, false);
             }
 
             Table table = room.Get(contract.TableId);
@@ -165,7 +165,7 @@ namespace MaiDan.Api.Controllers
                 throw new ArgumentException("The number of guests cannot be 0 or negative");
             }
 
-            return new OnSiteOrder(contract.Id, table, contract.NumberOfGuests, lines, false);
+            return new OnSiteOrder(contract.Id, table, contract.NumberOfGuests, contract.OrderingDate, lines, false);
         }
     }
 }

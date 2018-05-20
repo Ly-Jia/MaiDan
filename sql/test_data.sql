@@ -26,9 +26,9 @@ INSERT INTO "DishPrice" (DishId, ValidityStartDate, ValidityEndDate, Amount) VAL
 INSERT INTO "Table" (Id) VALUES ('1');
 INSERT INTO "Table" (Id) VALUES ('12A');
 
-INSERT INTO "Order" (Id, TakeAway, TableId, NumberOfGuests, Closed) VALUES (1, 0, '1', 1, 0);
-INSERT INTO "Order" (Id, TakeAway, TableId, NumberOfGuests, Closed) VALUES (2, 0, '12A', 2, 0);
-INSERT INTO "Order" (Id, TakeAway, TableId, NumberOfGuests, Closed) VALUES (3, 1, NULL, 0, 0);
+INSERT INTO "Order" (Id, TakeAway, TableId, NumberOfGuests, OrderingDate, Closed) VALUES (1, 0, '1', 1, '2018-05-05T12:05:00', 0);
+INSERT INTO "Order" (Id, TakeAway, TableId, NumberOfGuests, OrderingDate, Closed) VALUES (2, 0, '12A', 2, '2018-05-05T12:10:00', 0);
+INSERT INTO "Order" (Id, TakeAway, TableId, NumberOfGuests, OrderingDate, Closed) VALUES (3, 1, NULL, 0, '2018-05-05T13:20:00', 0);
 
 INSERT INTO "OrderLine" (OrderId, "Index", DishId, Quantity) VALUES (1, 1, 'B1', 2);
 INSERT INTO "OrderLine" (OrderId, "Index", DishId, Quantity) VALUES (1, 2, '90' ,1);

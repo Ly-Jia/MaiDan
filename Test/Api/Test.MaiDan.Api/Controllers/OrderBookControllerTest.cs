@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using MaiDan.Api.Controllers;
@@ -10,7 +11,6 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NFluent;
 using NUnit.Framework;
-using Test.MaiDan.Billing;
 using Test.MaiDan.Ordering;
 using ADish = Test.MaiDan.Ordering.ADish;
 
@@ -110,7 +110,7 @@ namespace Test.MaiDan.Api.Controllers
         public void Http400WhenDishIsNotFoundDuringOrderUpdate()
         {
             var orderBook = new Mock<IRepository<global::MaiDan.Ordering.Domain.Order>>();
-            orderBook.Setup(o => o.Get(1)).Returns(new TakeAwayOrder(1, new[] { new Line(1, 1, new Dish("id", "Pork")) }, false));
+            orderBook.Setup(o => o.Get(1)).Returns(new AnOrder(1).With(1, new Dish("id", "Pork")).Build());
             var menu = new Mock<IRepository<Dish>>();
             menu.Setup(m => m.Get(It.IsAny<string>())).Returns((Dish)null);
             var orderBookController = CreateOrderBookController(orderBook.Object, menu.Object, defaultRoom.Object, defaultCashRegister.Object);
@@ -148,7 +148,7 @@ namespace Test.MaiDan.Api.Controllers
         {
             var tableId = "t1";
             var orderBook = new Mock<IRepository<global::MaiDan.Ordering.Domain.Order>>();
-            orderBook.Setup(o => o.Get(1)).Returns(new OnSiteOrder(1, new Table(tableId), 2, new Line[0], false));
+            orderBook.Setup(o => o.Get(1)).Returns(new OnSiteOrder(1, new Table(tableId), 2, new DateTime(2018,10,08), new Line[0], false));
             var menu = new Mock<IRepository<Dish>>();
             menu.Setup(m => m.Get(It.IsAny<string>())).Returns(new Dish("id", "name"));
             var room = new Mock<IRepository<Table>>();
@@ -164,7 +164,7 @@ namespace Test.MaiDan.Api.Controllers
         public void Http400WhenTryingToUpdateClosedOrder()
         {
             var orderBook = new Mock<IRepository<global::MaiDan.Ordering.Domain.Order>>();
-            orderBook.Setup(o => o.Get(1)).Returns(new TakeAwayOrder(1, new[] { new Line(1, 1, new Dish("S1", "Spaghetti")) }, true));
+            orderBook.Setup(o => o.Get(1)).Returns(new TakeAwayOrder(1, new DateTime(2018, 10, 08), new[] { new Line(1, 1, new Dish("S1", "Spaghetti")) }, true));
             var menu = new Mock<IRepository<Dish>>();
             menu.Setup(m => m.Get(It.IsAny<string>())).Returns(new Dish("id", "name"));
             var room = new Mock<IRepository<Table>>();

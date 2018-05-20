@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MaiDan.Api.DataContracts.Requests
 {
@@ -9,6 +10,8 @@ namespace MaiDan.Api.DataContracts.Requests
         public string TableId { get; set; }
 
         public int NumberOfGuests { get; set; }
+
+        public DateTime OrderingDate { get; set; }
         
         public List<Line> Lines { get; set; }
     }

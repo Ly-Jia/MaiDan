@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MaiDan.Ordering.Domain
@@ -9,12 +10,14 @@ namespace MaiDan.Ordering.Domain
     public abstract class Order
     {
         public int Id { get; }
+        public DateTime OrderingDate { get; }
         public IList<Line> Lines { get; private set; }
         public bool Closed { get; private set; }
 
-        public Order(int id, IList<Line> lines, bool closed)
+        public Order(int id,  DateTime orderingDate, IList<Line> lines, bool closed)
         {
             Id = id;
+            OrderingDate = orderingDate;
             Lines = lines;
             Closed = closed;
         }

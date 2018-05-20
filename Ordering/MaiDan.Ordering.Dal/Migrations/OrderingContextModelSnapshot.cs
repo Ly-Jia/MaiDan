@@ -3,9 +3,7 @@ using System;
 using MaiDan.Ordering.Dal;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MaiDan.Ordering.Dal.Migrations
 {
@@ -57,6 +55,8 @@ namespace MaiDan.Ordering.Dal.Migrations
                     b.Property<bool>("Closed");
 
                     b.Property<int>("NumberOfGuests");
+
+                    b.Property<DateTime>("OrderingDate");
 
                     b.Property<string>("TableId");
 

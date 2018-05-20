@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MaiDan.Ordering.Domain
 {
@@ -7,7 +8,7 @@ namespace MaiDan.Ordering.Domain
         public Table Table { get; }
         public int NumberOfGuests { get; }
 
-        public OnSiteOrder(int id, Table table, int numberOfGuests, IList<Line> lines, bool closed) : base(id, lines, closed)
+        public OnSiteOrder(int id, Table table, int numberOfGuests, DateTime orderingDate, IList<Line> lines, bool closed) : base(id, orderingDate, lines, closed)
         {
             Table = table;
             NumberOfGuests = numberOfGuests;

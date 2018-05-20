@@ -90,13 +90,13 @@ namespace MaiDan.Ordering.Dal.Repositories
 
             if (!(model is OnSiteOrder onSite))
             {
-                return new Order(model.Id, true, null, 0, lines, model.Closed);
+                return new Order(model.Id, true, null, 0, model.OrderingDate, lines, model.Closed);
             }
 
             var table = context.Tables.Find(onSite.Table.Id) ??
                 throw new ArgumentException($"The table {onSite.Table.Id} was not found");
 
-            return new Order(model.Id, false, table, onSite.NumberOfGuests, lines, model.Closed);
+            return new Order(model.Id, false, table, onSite.NumberOfGuests, model.OrderingDate, lines, model.Closed);
         }
 
         private Domain.Order ModelFrom(Order entity)
@@ -105,10 +105,10 @@ namespace MaiDan.Ordering.Dal.Repositories
 
             if (entity.TakeAway)
             {
-                return new TakeAwayOrder(entity.Id, lines, entity.Closed);
+                return new TakeAwayOrder(entity.Id, entity.OrderingDate, lines, entity.Closed);
             }
 
-            return new OnSiteOrder(entity.Id, new Domain.Table(entity.Table.Id), entity.NumberOfGuests, lines, entity.Closed);
+            return new OnSiteOrder(entity.Id, new Domain.Table(entity.Table.Id), entity.NumberOfGuests, entity.OrderingDate, lines, entity.Closed);
         }
     }
 }
