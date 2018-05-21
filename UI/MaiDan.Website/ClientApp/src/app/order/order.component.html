@@ -1,7 +1,7 @@
 <div *ngIf="order">
   <h2 *ngIf="order.tableId === undefined">À emporter</h2>
   <h2 *ngIf="order.tableId !== undefined">Table {{order.tableId}}, {{order.numberOfGuests}} couvert{{order.numberOfGuests > 1 ? 's' : ''}}</h2>
-  <p>Commande n°{{order.id}} - {{orderingDate}}</p>
+  <p>Commande n°{{order.id}} - {{orderingDate|date:"dd/MM/yyyy hh:mm"}}</p>
   <ul>
     <li *ngFor="let line of order.lines;let index = index;trackBy: trackByIndex">
       <input [(ngModel)]="order.lines[index].quantity" name="order-line-{{index}}-quantity" type="number" /> x {{line.dishName}} - {{line.amount}}€
