@@ -175,7 +175,7 @@ namespace Test.MaiDan.Api.Services
         {
             var dish = new ADish().Build();
             var order = new AnOrder()
-                .OnSite()
+                .OnSite("1", 2)
                 .With(1, dish)
                 .Build();
 

@@ -11,7 +11,7 @@ namespace MaiDan.Api.Services
 {
     public class CashRegister : ICashRegister
     {
-        private readonly Printer printer;
+        private readonly IPrint printer;
         private readonly IRepository<Billing.Domain.Dish> menu;
         private readonly IRepository<Order> orderBook;
         private readonly IRepository<Bill> billBook;
@@ -23,7 +23,7 @@ namespace MaiDan.Api.Services
         //@TODO set the id in config file
         private const string TAKE_AWAY_DISCOUNT_ID = "À emporter";
 
-        public CashRegister(Printer printer, IRepository<Billing.Domain.Dish> menu, IRepository<Order> orderBook, IRepository<Bill> billBook, IRepository<Tax> taxConfiguration, IRepository<Discount> discountList)
+        public CashRegister(IPrint printer, IRepository<Billing.Domain.Dish> menu, IRepository<Order> orderBook, IRepository<Bill> billBook, IRepository<Tax> taxConfiguration, IRepository<Discount> discountList)
         {
             this.printer = printer;
             this.menu = menu;
@@ -40,7 +40,7 @@ namespace MaiDan.Api.Services
             AddTakeAwayDiscount(discounts, order, lines);
             var total = lines.Sum(l => l.Amount) - discounts.Sum(d => d.Value);
             var billTaxes = CalculateBillTaxes(order, lines, discounts);
-            var bill = new Bill(order.Id, lines, discounts, total, billTaxes);
+            var bill = new Bill(order.Id, DateTime.Now, lines, discounts, total, billTaxes);
             return bill;
         }
 

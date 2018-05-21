@@ -14,7 +14,7 @@ namespace Test.MaiDan.Api
 {
     public class ACashRegister
     {
-        private Printer printer = new Mock<Printer>().Object;
+        private IPrint printer = new Mock<IPrint>().Object;
         private IRepository<Dish> menu;
         private IRepository<Order> orderbook;
         private IRepository<Bill> billbook;

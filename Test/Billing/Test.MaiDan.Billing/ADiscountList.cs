@@ -11,8 +11,8 @@ namespace Test.MaiDan.Billing
         public ADiscountList()
         {
             discountList = new Mock<IRepository<Discount>>();
-            var discount = new Discount("TA10", 0.10m, new Tax("RED", null));
-            discountList.Setup(d => d.Get("TA10")).Returns(discount);
+            var discount = new Discount("À emporter", 0.10m, new Tax("RED", null));
+            discountList.Setup(d => d.Get("À emporter")).Returns(discount);
         }
 
         public IRepository<Discount> Build()

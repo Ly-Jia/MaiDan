@@ -1,7 +1,7 @@
 ﻿using System.Drawing.Printing;
 namespace MaiDan.Infrastructure
 {
-    public class Printer
+    public class Printer : IPrint
     {
         private PrintDocument document;
 

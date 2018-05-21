@@ -17,7 +17,7 @@ namespace Test.MaiDan.Billing.Domain
             tax.TaxConfiguration.Add(new TaxRate("RED-1", tax, 5.5m, applicationStartDate, priceChangeDate.AddDays(-1)));
             tax.TaxConfiguration.Add(new TaxRate("RED-2", tax, 10m, priceChangeDate, DateTime.MaxValue));
             
-            Check.That(tax.CurrentRate).Equals(10m);
+            Check.That(tax.CurrentRate.Rate).Equals(10m);
         }
     }
 }

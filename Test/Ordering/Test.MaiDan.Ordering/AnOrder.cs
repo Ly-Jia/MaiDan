@@ -17,6 +17,7 @@ namespace Test.MaiDan.Ordering
 	    private Table table;
         private Table defaultTable = new Table("1");
 	    private DateTime orderingDate = new DateTime(2018, 08, 08);
+	    private bool closed = false;
 		
 		/// <summary>
 		/// Initialize the future order with a specific id (creation date)
@@ -78,13 +79,13 @@ namespace Test.MaiDan.Ordering
 			lines.Add(line);
 			return this;
 		}
-        
-        /// <summary>
-        /// Add a new line to the created order
-        /// </summary>
-        /// <param name="quantity"></param>
-        /// <param name="dish"></param>
-        /// <returns></returns>
+
+	    public AnOrder AlreadyPrinted()
+	    {
+	        closed = true;
+	        return this;
+
+	    }
 
 	    public AnOrder And(int quantity, Dish dish)
 	    {
@@ -100,7 +101,7 @@ namespace Test.MaiDan.Ordering
             if (takeAway)
 			    return new TakeAwayOrder(id, orderingDate, lines, false);
 
-            return new OnSiteOrder(id, table ?? defaultTable, numberOfGuests, orderingDate, lines, false);
+            return new OnSiteOrder(id, table ?? defaultTable, numberOfGuests, orderingDate, lines, closed);
 		}
         
 	}
