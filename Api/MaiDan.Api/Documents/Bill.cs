@@ -53,7 +53,7 @@ namespace MaiDan.Api.Documents
 
         private void PrintOrderType(PrintPageEventArgs e, ref RectangleF bounds)
         {
-            e.Graphics.DrawString($"Ticket n°{bill.Id} - Edité le {bill.BillingDate:dd/MM/yyyy hh:mm}", PrintingFormat.FONT, Brushes.Black, bounds,PrintingFormat.LEFT_ALIGNMENT);
+            e.Graphics.DrawString($"Ticket n°{bill.Id} - Edité le {bill.BillingDate:dd/MM/yyyy à hh:mm}", PrintingFormat.FONT, Brushes.Black, bounds,PrintingFormat.LEFT_ALIGNMENT);
 
             if (!bill.NumberOfGuests.HasValue)
             {
