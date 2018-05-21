@@ -12,6 +12,7 @@ namespace MaiDan.Billing.Dal.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false),
+                    BillingDate = table.Column<DateTime>(nullable: false),
                     Total = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>

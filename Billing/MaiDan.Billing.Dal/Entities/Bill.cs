@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MaiDan.Billing.Dal.Entities
@@ -10,9 +11,10 @@ namespace MaiDan.Billing.Dal.Entities
         {
         }
 
-        public Bill(int id, decimal total, List<Line> lines, List<BillDiscount> discounts, List<BillTax> taxes)
+        public Bill(int id, DateTime billingDate, decimal total, List<Line> lines, List<BillDiscount> discounts, List<BillTax> taxes)
         {
             Id = id;
+            BillingDate = billingDate;
             Total = total;
             Lines = lines;
             Discounts = discounts;
@@ -21,6 +23,8 @@ namespace MaiDan.Billing.Dal.Entities
 
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
+
+        public DateTime BillingDate { get; set; }
         
         public decimal Total { get; set; }
         

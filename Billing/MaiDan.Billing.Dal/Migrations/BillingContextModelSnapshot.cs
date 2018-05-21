@@ -20,6 +20,8 @@ namespace MaiDan.Billing.Dal.Migrations
                 {
                     b.Property<int>("Id");
 
+                    b.Property<DateTime>("BillingDate");
+
                     b.Property<decimal>("Total");
 
                     b.HasKey("Id");

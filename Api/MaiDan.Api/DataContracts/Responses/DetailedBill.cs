@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MaiDan.Api.DataContracts.Responses
 {
@@ -6,6 +7,8 @@ namespace MaiDan.Api.DataContracts.Responses
     {
         public DetailedBill(Ordering.Domain.Order order, Billing.Domain.Bill bill) : base(order, bill)
         {
+            BillingDate = bill.BillingDate;
+
             Taxes = new List<Tax>();
             foreach (var tax in bill.Taxes)
             {
@@ -18,6 +21,8 @@ namespace MaiDan.Api.DataContracts.Responses
                 Discounts.Add(new Discount(discount.Key.Id, discount.Key.Rate, discount.Value));
             }
         }
+
+        public DateTime BillingDate { get; set; }
 
         public IList<Tax> Taxes { get; set; }
 

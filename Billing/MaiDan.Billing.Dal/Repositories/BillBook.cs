@@ -71,7 +71,7 @@ namespace MaiDan.Billing.Dal.Repositories
             var discounts = model.Discounts.Select(d => new BillDiscount(model.Id, d.Key.Id, d.Value)).ToList();
             var taxes = model.Taxes.Select(t => new BillTax(model.Id, t.Key.Id, t.Value)).ToList();
 
-            return new Bill(model.Id, model.Total, lines, discounts, taxes);
+            return new Bill(model.Id, model.BillingDate, model.Total, lines, discounts, taxes);
         }
 
         private Domain.Bill ModelFrom(Bill entity)
@@ -80,7 +80,7 @@ namespace MaiDan.Billing.Dal.Repositories
             var discounts = entity.Discounts.ToDictionary(d => discountList.Get(d.DiscountId), d => d.Amount);
             var taxes = entity.Taxes.ToDictionary(t => taxRateList.Get(t.TaxRateId), t => t.Amount);
 
-            return new Domain.Bill(entity.Id, lines, discounts, entity.Total, taxes);
+            return new Domain.Bill(entity.Id, entity.BillingDate, lines, discounts, entity.Total, taxes);
         }
     }
 }
