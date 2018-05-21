@@ -58,7 +58,7 @@ namespace MaiDan.Api
 
             var printerName = ConfigurationReader.Get<string>("PrinterName");
             var printer = new Printer(printerName);
-            services.AddSingleton(svcs => printer);
+            services.AddSingleton<IPrint, Printer>(svcs => printer);
 
             services.AddSingleton<ICashRegister, CashRegister>();
         }
