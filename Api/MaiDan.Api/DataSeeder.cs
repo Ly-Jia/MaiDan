@@ -1,4 +1,5 @@
-﻿using MaiDan.Billing.Dal;
+﻿using MaiDan.Accounting.Dal;
+using MaiDan.Billing.Dal;
 using MaiDan.Ordering.Dal;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,9 @@ namespace MaiDan.Api
 
             var billingContext = app.ApplicationServices.GetService<BillingContext>();
             billingContext.Database.Migrate();
+
+            var accountingContext = app.ApplicationServices.GetService<AccountingContext>();
+            accountingContext.Database.Migrate();
         }
     }
 }

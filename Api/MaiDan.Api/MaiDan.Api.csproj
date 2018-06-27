@@ -11,6 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Accounting\MaiDan.Accounting.Dal\MaiDan.Accounting.Dal.csproj" />
+    <ProjectReference Include="..\..\Accounting\MaiDan.Accounting.Domain\MaiDan.Accounting.Domain.csproj" />
     <ProjectReference Include="..\..\Billing\MaiDan.Billing.Dal\MaiDan.Billing.Dal.csproj" />
     <ProjectReference Include="..\..\Billing\MaiDan.Billing.Domain\MaiDan.Billing.Domain.csproj" />
     <ProjectReference Include="..\..\Infrastructure\MaiDan.Infrastructure.Configuration\MaiDan.Infrastructure.csproj" />

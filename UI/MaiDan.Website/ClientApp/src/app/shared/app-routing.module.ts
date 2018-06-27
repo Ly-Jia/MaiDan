@@ -6,6 +6,8 @@ import { BillbookComponent } from '../billbook/billbook.component';
 import { BillComponent } from '../bill/bill.component';
 import { MenuComponent } from '../menu/menu.component';
 import { DishComponent } from '../dish/dish.component';
+import { SlipbookComponent } from '../slipbook/slipbook.component';
+import { SlipComponent } from '../slip/slip.component';
 
 const routes: Routes = [
   { path: 'orderbook', component: OrderbookComponent },
@@ -14,6 +16,8 @@ const routes: Routes = [
   { path: 'billbook/:id', component: BillComponent },
   { path: 'menu', component: MenuComponent },
   { path: 'menu/:id', component: DishComponent },
+  { path: 'slipbook', component: SlipbookComponent },
+  { path: 'slipbook/:id', component: SlipComponent }
 ];
 
 @NgModule({

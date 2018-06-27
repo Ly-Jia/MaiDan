@@ -20,9 +20,12 @@
               "src/assets",
               "src/favicon.ico"
             ],
-            "styles": [
-              "src/styles.css"
-            ],
+			"styles": [
+              "src/styles.css",
+			  "node_modules/font-awesome/css/font-awesome.css",
+			  "node_modules/primeng/resources/themes/omega/theme.css" , // or whatever theme you prefer
+			  "node_modules/primeng/resources/primeng.css"
+			],
             "scripts": []
           },
           "configurations": {

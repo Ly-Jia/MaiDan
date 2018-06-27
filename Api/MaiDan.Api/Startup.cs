@@ -1,4 +1,5 @@
-﻿using MaiDan.Api.Services;
+﻿using MaiDan.Accounting.Dal;
+using MaiDan.Api.Services;
 using MaiDan.Billing.Dal;
 using MaiDan.Infrastructure;
 using MaiDan.Infrastructure.Database;
@@ -43,6 +44,7 @@ namespace MaiDan.Api
 
             services.AddDbContext<OrderingContext>();
             services.AddDbContext<BillingContext>();
+            services.AddDbContext<AccountingContext>();
 
             // Ordering
             services.AddSingleton<IRepository<Ordering.Domain.Dish>, Ordering.Dal.Repositories.Menu>();
@@ -55,6 +57,10 @@ namespace MaiDan.Api
             services.AddSingleton<IRepository<Billing.Domain.Discount>, Billing.Dal.Repositories.DiscountList>();
             services.AddSingleton<IRepository<Billing.Domain.Dish>, Billing.Dal.Repositories.Menu>();
             services.AddSingleton<IRepository<Billing.Domain.Bill>, Billing.Dal.Repositories.BillBook>();
+
+            // Accounting
+            services.AddSingleton<IRepository<Accounting.Domain.PaymentMethod>, Accounting.Dal.Repositories.PaymentMethodList>();
+            services.AddSingleton<IRepository<Accounting.Domain.Slip>, Accounting.Dal.Repositories.SlipBook>();
 
             var printerName = ConfigurationReader.Get<string>("PrinterName");
             var printer = new Printer(printerName);

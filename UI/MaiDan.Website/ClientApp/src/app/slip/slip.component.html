@@ -1,0 +1,52 @@
+<div *ngIf="slip">
+  <h2 *ngIf="slip.tableId === undefined">À emporter</h2>
+  <h2 *ngIf="slip.tableId !== undefined">Table {{slip.tableId}}, {{slip.numberOfGuests}} couvert{{slip.numberOfGuests > 1 ? 's' : ''}}</h2>
+  <p>Addition n°{{slip.id}} - {{slip.orderingDate|date:"dd/MM/yyyy hh:mm"}} - {{slip.total}}€</p>
+  <p-table [value]="slip.payments">
+    <ng-template pTemplate="header">
+      <tr>
+        <th></th>
+        <th>Moyen de paiement</th>
+        <th>Montant</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData>
+      <tr>
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input type="text" [(ngModel)]="rowData.id">
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{rowData.id}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input type="text" [(ngModel)]="rowData.paymentMethodId">
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{rowData.paymentMethodId}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input type="text" [(ngModel)]="rowData.amount">
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{rowData.amount}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <p><button class="btn btn-primary" (click)="addPayment()">Ajouter un paiement</button>
+  </p>
+  <p><button class="btn btn-primary" (click)="savePayments()">Enregistrer le(s) paiement(s)</button>
+  </p>
+</div>

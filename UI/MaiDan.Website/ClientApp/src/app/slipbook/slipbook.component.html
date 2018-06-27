@@ -1,0 +1,6 @@
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let slip of slips">
+    <a *ngIf="slip.tableId === undefined" routerLink="{{slip.id}}">{{slip.id}} - {{slip.orderingDate|date:"dd/MM/yyyy hh:mm"}} - à emporter - {{slip.total}}€</a>
+    <a *ngIf="slip.tableId !== undefined" routerLink="{{slip.id}}">{{slip.id}} - {{slip.orderingDate|date:"dd/MM/yyyy hh:mm"}} - table {{slip.tableId}} - {{slip.total}}€</a>
+  </li>
+</ul>

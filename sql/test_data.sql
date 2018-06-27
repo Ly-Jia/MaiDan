@@ -38,4 +38,11 @@ INSERT INTO "OrderLine" (OrderId, "Index", DishId, Quantity) VALUES (3, 1, '1', 
 
 INSERT INTO "Discount" (Id, ApplicableTaxId, Rate) VALUES ('À emporter', 'RED', 0.10);
 
+INSERT INTO "PaymentMethod" (Id, Name) VALUES ('E', 'Espèces');
+INSERT INTO "PaymentMethod" (Id, Name) VALUES ('C', 'Chèque');
+INSERT INTO "PaymentMethod" (Id, Name) VALUES ('CB', 'Carte bleue');
+INSERT INTO "PaymentMethod" (Id, Name) VALUES ('TR', 'Tickets restaurant');
+INSERT INTO "PaymentMethod" (Id, Name) VALUES ('CV', 'Chèques vacances');
+INSERT INTO "PaymentMethod" (Id, Name) VALUES ('A', 'Avoir');
+
 COMMIT;
