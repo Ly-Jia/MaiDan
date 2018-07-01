@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MaiDan.Accounting.Dal.Migrations
 {
@@ -23,7 +24,8 @@ namespace MaiDan.Accounting.Dal.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    PaymentDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {

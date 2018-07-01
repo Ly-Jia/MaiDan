@@ -73,14 +73,14 @@ namespace MaiDan.Accounting.Dal.Repositories
         {
             var payments = model.Payments.Select(p => new Payment(model.Id, p.Id, context.PaymentMethods.Find(p.Method.Id), p.Amount)).ToList();
 
-            return new Slip(model.Id, payments);
+            return new Slip(model.Id, model.PaymentDate, payments);
         }
 
         public Domain.Slip ModelFrom(Slip entity)
         {
             var payments = entity.Payments.Select(p => new Domain.Payment(p.Index, paymentMethodList.Get(p.PaymentMethod.Id), p.Amount)).ToList();
 
-            return new Domain.Slip(entity.Id, payments);
+            return new Domain.Slip(entity.Id, entity.PaymentDate, payments);
         }
     }
 }

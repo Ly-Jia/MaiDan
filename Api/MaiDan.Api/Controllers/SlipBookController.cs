@@ -90,7 +90,7 @@ namespace MaiDan.Api.Controllers
                 throw new ArgumentException("One or several payment method id are unknown");
             }
 
-            return new Slip(contract.Id, payments);
+            return new Slip(contract.Id, DateTime.Now, payments);
         }
     }
 }
