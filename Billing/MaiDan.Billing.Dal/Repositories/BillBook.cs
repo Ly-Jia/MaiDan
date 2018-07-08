@@ -41,7 +41,8 @@ namespace MaiDan.Billing.Dal.Repositories
                 .ThenInclude(e => e.TaxRate)
                 .Include(e => e.Taxes)
                 .Include(e => e.Discounts)
-                .AsNoTracking();
+                .AsNoTracking()
+                .Where(e => !e.Closed);
 
             return entities.Select(ModelFrom).ToArray();
         }
@@ -56,7 +57,17 @@ namespace MaiDan.Billing.Dal.Repositories
 
         public void Update(Domain.Bill item)
         {
-            throw new NotImplementedException();
+            var entity = EntityFrom(item);
+            var existingEntity = context.Bills
+                                     .Include(e => e.Lines)
+                                     .FirstOrDefault(e => e.Id == entity.Id) ??
+                                 throw new ArgumentException($"The bill {entity.Id} was not found");
+
+            context.Entry(existingEntity).CurrentValues.SetValues(entity);
+            existingEntity.Lines.Clear();
+            existingEntity.Lines.AddRange(entity.Lines);
+
+            context.SaveChanges();
         }
 
         public bool Contains(object id)
@@ -71,7 +82,7 @@ namespace MaiDan.Billing.Dal.Repositories
             var discounts = model.Discounts.Select(d => new BillDiscount(model.Id, d.Key.Id, d.Value)).ToList();
             var taxes = model.Taxes.Select(t => new BillTax(model.Id, t.Key.Id, t.Value)).ToList();
 
-            return new Bill(model.Id, model.BillingDate, model.Total, lines, discounts, taxes);
+            return new Bill(model.Id, model.BillingDate, model.Total, lines, discounts, taxes, model.Closed);
         }
 
         private Domain.Bill ModelFrom(Bill entity)
@@ -80,7 +91,7 @@ namespace MaiDan.Billing.Dal.Repositories
             var discounts = entity.Discounts.ToDictionary(d => discountList.Get(d.DiscountId), d => d.Amount);
             var taxes = entity.Taxes.ToDictionary(t => taxRateList.Get(t.TaxRateId), t => t.Amount);
 
-            return new Domain.Bill(entity.Id, entity.BillingDate, lines, discounts, entity.Total, taxes);
+            return new Domain.Bill(entity.Id, entity.BillingDate, lines, discounts, entity.Total, taxes, entity.Closed);
         }
     }
 }

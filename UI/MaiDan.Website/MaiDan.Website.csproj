@@ -30,6 +30,7 @@
   <ItemGroup>
     <None Remove="ClientApp\src\app\billbook\billbook.service.ts~RF30b1c75.TMP" />
     <None Remove="ClientApp\src\app\payment-method-list\payment-method-list.service.ts" />
+    <None Remove="ClientApp\src\app\shared\models\bill.ts" />
     <None Remove="ClientApp\src\app\shared\models\payment-method.ts" />
     <None Remove="ClientApp\src\app\shared\models\payment.ts" />
     <None Remove="ClientApp\src\app\shared\models\slip.ts" />
@@ -37,6 +38,7 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\payment-method-list\payment-method-list.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\models\bill.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\payment-method.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\payment.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\slip.ts" />
