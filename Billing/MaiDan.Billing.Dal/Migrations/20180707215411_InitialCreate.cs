@@ -13,7 +13,8 @@ namespace MaiDan.Billing.Dal.Migrations
                 {
                     Id = table.Column<int>(nullable: false),
                     BillingDate = table.Column<DateTime>(nullable: false),
-                    Total = table.Column<decimal>(nullable: false)
+                    Total = table.Column<decimal>(nullable: false),
+                    Closed = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

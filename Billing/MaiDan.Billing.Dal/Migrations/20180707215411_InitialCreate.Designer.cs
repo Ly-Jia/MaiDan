@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MaiDan.Billing.Dal.Migrations
 {
     [DbContext(typeof(BillingContext))]
-    [Migration("20180521152107_InitialCreate")]
+    [Migration("20180707215411_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,8 @@ namespace MaiDan.Billing.Dal.Migrations
                     b.Property<int>("Id");
 
                     b.Property<DateTime>("BillingDate");
+
+                    b.Property<bool>("Closed");
 
                     b.Property<decimal>("Total");
 

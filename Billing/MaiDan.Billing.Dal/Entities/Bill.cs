@@ -11,10 +11,11 @@ namespace MaiDan.Billing.Dal.Entities
         {
         }
 
-        public Bill(int id, DateTime billingDate, decimal total, List<Line> lines, List<BillDiscount> discounts, List<BillTax> taxes)
+        public Bill(int id, DateTime billingDate, decimal total, List<Line> lines, List<BillDiscount> discounts, List<BillTax> taxes, bool closed)
         {
             Id = id;
             BillingDate = billingDate;
+            Closed = closed;
             Total = total;
             Lines = lines;
             Discounts = discounts;
@@ -25,13 +26,15 @@ namespace MaiDan.Billing.Dal.Entities
         public int Id { get; set; }
 
         public DateTime BillingDate { get; set; }
-        
+
         public decimal Total { get; set; }
-        
+
         public List<Line> Lines { get; set; }
-        
+
         public List<BillDiscount> Discounts { get; set; }
 
         public List<BillTax> Taxes { get; set; }
+
+        public bool Closed { get; set; }
     }
 }

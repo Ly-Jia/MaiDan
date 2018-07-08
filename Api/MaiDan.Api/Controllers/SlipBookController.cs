@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using MaiDan.Accounting.Domain;
+using MaiDan.Api.Services;
 using MaiDan.Billing.Domain;
 using MaiDan.Infrastructure.Database;
 using MaiDan.Ordering.Domain;
@@ -17,13 +18,15 @@ namespace MaiDan.Api.Controllers
         private IRepository<Bill> billBook;
         private IRepository<Slip> slipBook;
         private IRepository<PaymentMethod> paymentMethodList;
+        private readonly ICashRegister cashRegister;
 
-        public SlipBookController(IRepository<Order> orderBook, IRepository<Bill> billBook, IRepository<Slip> slipBook, IRepository<PaymentMethod> paymentMethodList)
+        public SlipBookController(IRepository<Order> orderBook, IRepository<Bill> billBook, IRepository<Slip> slipBook, IRepository<PaymentMethod> paymentMethodList, ICashRegister cashRegister)
         {
             this.orderBook = orderBook;
             this.billBook = billBook;
             this.slipBook = slipBook;
             this.paymentMethodList = paymentMethodList;
+            this.cashRegister = cashRegister;
         }
 
         [HttpGet("{id}")]
@@ -50,10 +53,10 @@ namespace MaiDan.Api.Controllers
         }
 
         [HttpPost]
-        public void PayBill([FromBody] int billId)
+        public void PayBill([FromBody] DataContracts.Requests.Bill contract)
         {
-            var slip = new Slip(billId);
-            slipBook.Add(slip);
+            var bill = billBook.Get(contract.Id);
+            cashRegister.Pay(bill);
         }
 
         [HttpPut]
@@ -73,7 +76,7 @@ namespace MaiDan.Api.Controllers
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return;
             }
-            slipBook.Update(slip);
+            cashRegister.AddPayments(slip);
         }
 
         private Slip ModelFromContract(DataContracts.Requests.Slip contract)

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Configuration } from '../shared/app.configuration';
+import { Bill } from '../shared/models/bill';
 import { Slip } from '../shared/models/slip';
 
 @Injectable()
@@ -22,7 +23,9 @@ export class SlipbookService {
   }
 
   payBill(billId: number): Observable<number> {
-    return this.http.post<number>(this.url, { 'billId': billId });
+    const bill = new Bill();
+    bill.id = billId;
+    return this.http.post<number>(this.url, bill);
   }
 
   updateSlip(slip: Slip): Observable<Slip> {

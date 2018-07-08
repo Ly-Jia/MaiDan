@@ -4,6 +4,7 @@ using MaiDan.Ordering.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MaiDan.Accounting.Domain;
 using MaiDan.Infrastructure;
 using Line = MaiDan.Billing.Domain.Line;
 
@@ -15,6 +16,7 @@ namespace MaiDan.Api.Services
         private readonly IRepository<Billing.Domain.Dish> menu;
         private readonly IRepository<Order> orderBook;
         private readonly IRepository<Bill> billBook;
+        private readonly IRepository<Slip> slipBook;
         private readonly IRepository<Tax> taxConfiguration;
         private readonly IRepository<Discount> discountList;
         private const string REDUCED_TAX_ID = "RED";
@@ -23,12 +25,13 @@ namespace MaiDan.Api.Services
         //@TODO set the id in config file
         private const string TAKE_AWAY_DISCOUNT_ID = "À emporter";
 
-        public CashRegister(IPrint printer, IRepository<Billing.Domain.Dish> menu, IRepository<Order> orderBook, IRepository<Bill> billBook, IRepository<Tax> taxConfiguration, IRepository<Discount> discountList)
+        public CashRegister(IPrint printer, IRepository<Billing.Domain.Dish> menu, IRepository<Order> orderBook, IRepository<Bill> billBook, IRepository<Slip> slipBook, IRepository<Tax> taxConfiguration, IRepository<Discount> discountList)
         {
             this.printer = printer;
             this.menu = menu;
             this.orderBook = orderBook;
             this.billBook = billBook;
+            this.slipBook = slipBook;
             this.taxConfiguration = taxConfiguration;
             this.discountList = discountList;
         }
@@ -40,7 +43,7 @@ namespace MaiDan.Api.Services
             AddTakeAwayDiscount(discounts, order, lines);
             var total = lines.Sum(l => l.Amount) - discounts.Sum(d => d.Value);
             var billTaxes = CalculateBillTaxes(order, lines, discounts);
-            var bill = new Bill(order.Id, DateTime.Now, lines, discounts, total, billTaxes);
+            var bill = new Bill(order.Id, DateTime.Now, lines, discounts, total, billTaxes, false);
             return bill;
         }
 
@@ -56,6 +59,22 @@ namespace MaiDan.Api.Services
             var bill = Calculate(order);
             billBook.Add(bill);
             printer.Print(new Documents.Bill(order, bill));
+        }
+
+        public void Pay(Bill bill)
+        {
+            var slip = new Slip(bill.Id);
+            slipBook.Add(slip);
+
+            CloseBillWhenIsPaid(slip, bill);
+        }
+
+        public void AddPayments(Slip slip)
+        {
+            var bill = billBook.Get(slip.Id);
+            slipBook.Update(slip);
+            
+            CloseBillWhenIsPaid(slip, bill);
         }
 
         private Line CalculateLine(Ordering.Domain.Line line)
@@ -110,6 +129,20 @@ namespace MaiDan.Api.Services
         private decimal CalculateTaxAmount(TaxRate taxRate, decimal amount)
         {
             return Math.Round((amount * taxRate.Rate) / (1 + taxRate.Rate), 2);
+        }
+
+        private void CloseBillWhenIsPaid(Slip slip, Bill bill)
+        {
+            if (BillIsPaid(bill, slip))
+            {
+                bill.Close();
+                billBook.Update(bill);
+            }
+        }
+
+        private bool BillIsPaid(Bill bill, Slip slip)
+        {
+            return slip.Payments.Sum(p => p.Amount) >= bill.Total;
         }
     }
 }

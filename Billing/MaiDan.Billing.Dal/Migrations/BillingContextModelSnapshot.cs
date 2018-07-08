@@ -22,6 +22,8 @@ namespace MaiDan.Billing.Dal.Migrations
 
                     b.Property<DateTime>("BillingDate");
 
+                    b.Property<bool>("Closed");
+
                     b.Property<decimal>("Total");
 
                     b.HasKey("Id");
