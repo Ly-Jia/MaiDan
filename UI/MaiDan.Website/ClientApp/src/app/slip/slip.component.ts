@@ -24,7 +24,7 @@ export class SlipComponent implements OnInit {
         next: value => {
           this.slip = value;
           this.payments = this.slip.payments;
-          this.payments.push(new Payment());
+          this.payments.push(new Payment(this.payments.length + 1));
         },
         error: err => { console.log(`Cannot load slip ${id}`); console.log(err); },
         complete: () => console.log(`Slip ${id} loaded`)
@@ -32,7 +32,7 @@ export class SlipComponent implements OnInit {
   }
 
   addPayment() {
-    this.slip.payments.push(new Payment());
+    this.slip.payments.push(new Payment(this.payments.length + 1));
   }
 
   savePayments() {
