@@ -1,4 +1,4 @@
 export class PaymentMethod {
-  paymentMethodId: number;
+  id: string;
   name: string;
 }

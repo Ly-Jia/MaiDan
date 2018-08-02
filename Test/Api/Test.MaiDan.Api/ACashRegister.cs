@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using MaiDan.Accounting.Domain;
 using MaiDan.Api.Services;
 using MaiDan.Billing.Domain;
 using MaiDan.Infrastructure;
@@ -18,6 +19,7 @@ namespace Test.MaiDan.Api
         private IRepository<Dish> menu;
         private IRepository<Order> orderbook;
         private IRepository<Bill> billbook;
+        private IRepository<Slip> slipbook;
         private IRepository<Tax> taxConfiguration;
         private IRepository<Discount> discountList;
 
@@ -47,13 +49,16 @@ namespace Test.MaiDan.Api
             if (billbook == null)
                 billbook = new Mock<IRepository<Bill>>().Object;
 
+            if (slipbook == null)
+                slipbook = new Mock<IRepository<Slip>>().Object;
+
             if (taxConfiguration == null)
                 taxConfiguration = new ATaxConfiguration().Build();
 
             if (discountList == null)
                 discountList = new ADiscountList().Build();
 
-            return new CashRegister(printer, menu, orderbook, billbook, taxConfiguration, discountList);
+            return new CashRegister(printer, menu, orderbook, billbook, slipbook, taxConfiguration, discountList);
         }
     }
 }

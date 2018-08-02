@@ -29,7 +29,6 @@ export class SlipbookService {
   }
 
   updateSlip(slip: Slip): Observable<Slip> {
-    slip.payments = slip.payments.filter(p => p.amount != null);
     return this.http.put<Slip>(this.url, slip);
   }
 

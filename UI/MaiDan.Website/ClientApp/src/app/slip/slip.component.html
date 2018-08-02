@@ -2,6 +2,7 @@
   <h2 *ngIf="slip.tableId === undefined">À emporter</h2>
   <h2 *ngIf="slip.tableId !== undefined">Table {{slip.tableId}}, {{slip.numberOfGuests}} couvert{{slip.numberOfGuests > 1 ? 's' : ''}}</h2>
   <p>Addition n°{{slip.id}} - {{slip.paymentDate|date:"dd/MM/yyyy hh:mm"}} - {{slip.total}}€</p>
+
   <p-table [value]="slip.payments">
     <ng-template pTemplate="header">
       <tr>
@@ -10,35 +11,35 @@
         <th>Montant</th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-rowData>
+    <ng-template pTemplate="body" let-payment>
       <tr>
+        <td>
+              {{payment.id}}
+        </td>
         <td pEditableColumn>
           <p-cellEditor>
             <ng-template pTemplate="input">
-              <input type="text" [(ngModel)]="rowData.id">
+              <mat-form-field class="example-full-width">
+                <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto" [(ngModel)]="payment.paymentMethodLabel">
+                <mat-autocomplete #auto="matAutocomplete">
+                  <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                    {{option}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
             </ng-template>
             <ng-template pTemplate="output">
-              {{rowData.id}}
+              {{payment.paymentMethodLabel}}
             </ng-template>
           </p-cellEditor>
         </td>
         <td pEditableColumn>
           <p-cellEditor>
             <ng-template pTemplate="input">
-              <input type="text" [(ngModel)]="rowData.paymentMethodId">
+              <input type="text" [(ngModel)]="payment.amount">
             </ng-template>
             <ng-template pTemplate="output">
-              {{rowData.paymentMethodId}}
-            </ng-template>
-          </p-cellEditor>
-        </td>
-        <td pEditableColumn>
-          <p-cellEditor>
-            <ng-template pTemplate="input">
-              <input type="text" [(ngModel)]="rowData.amount">
-            </ng-template>
-            <ng-template pTemplate="output">
-              {{rowData.amount}}
+              {{payment.amount}}
             </ng-template>
           </p-cellEditor>
         </td>
