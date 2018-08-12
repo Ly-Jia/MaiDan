@@ -21,7 +21,6 @@ import { Observable } from 'rxjs';
 export class SlipComponent implements OnInit {
 
   slip: Slip;
-  payments: Payment[];
   paymentMethods: PaymentMethod[];
   myControl = new FormControl();
   filteredOptions: Observable<string[]>;
@@ -43,9 +42,8 @@ export class SlipComponent implements OnInit {
       mergeMap(pm => this.slipbookService.getSlip(id)),
       map(slip => {
         this.slip = slip;
-        this.payments = slip.payments;
-        this.payments.forEach(p => p.paymentMethodLabel = this._buildPaymentMethodLabel(p.paymentMethodId));
-        this.payments.push(new Payment(this.payments.length + 1));
+        this.slip.payments.forEach(p => p.paymentMethodLabel = this._buildPaymentMethodLabel(p.paymentMethodId));
+        this.slip.payments.push(new Payment(this.slip.payments.length + 1));
       })
     ).subscribe();
      
@@ -57,7 +55,7 @@ export class SlipComponent implements OnInit {
   }
 
   addPayment() {
-    this.slip.payments.push(new Payment(this.payments.length + 1));
+    this.slip.payments.push(new Payment(this.slip.payments.length + 1));
   }
 
   savePayments() {
