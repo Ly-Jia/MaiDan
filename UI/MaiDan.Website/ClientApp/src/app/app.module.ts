@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
+import { SpinnerModule } from 'primeng/spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
@@ -45,6 +46,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     TableModule,
     DropdownModule,
+    SpinnerModule,
     BrowserAnimationsModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
