@@ -22,7 +22,7 @@ export class BillbookService {
   }
 
   printBill(orderId: number): Observable<Order> {
-    const order = new Order();
+    const order = new Order(false, [], 0);
     order.id = orderId;
     return this.http.post<Order>(this.url, order);
   }

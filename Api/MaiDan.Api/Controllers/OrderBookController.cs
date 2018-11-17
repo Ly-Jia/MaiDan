@@ -71,6 +71,7 @@ namespace MaiDan.Api.Controllers
                     throw new ArgumentException("The contract id of an order to be created must be 0");
                 }
 
+                contract.OrderingDate = DateTime.Now;
                 order = ModelFromDataContract(contract);
             }
             catch (ArgumentException)
@@ -120,6 +121,16 @@ namespace MaiDan.Api.Controllers
                 throw new ArgumentException("The contract lines cannot be null");
             }
 
+            if (contract.IsTakeAway && (contract.Table != null || contract.NumberOfGuests > 0))
+            {
+                throw new ArgumentException("A take away order should not contains on site order information");
+            }
+
+            if (!contract.IsTakeAway && (contract.Table == null || contract.NumberOfGuests == 0))
+            {
+                throw new ArgumentException("An on-site order should contains table and number of guests information");
+            }
+
             List<Line> lines = new List<Line>();
 
             foreach (var line in contract.Lines)
@@ -148,16 +159,16 @@ namespace MaiDan.Api.Controllers
                 lines.Add(new Line(line.Id, line.Quantity, dish));
             }
 
-            if (string.IsNullOrEmpty(contract.TableId))
+            if (contract.IsTakeAway)
             {
                 return new TakeAwayOrder(contract.Id, contract.OrderingDate, lines, false);
             }
 
-            Table table = room.Get(contract.TableId);
+            Table table = room.Get(contract.Table.Id);
 
             if (table == null)
             {
-                throw new ArgumentException($"The table {contract.TableId} was not found");
+                throw new ArgumentException($"The table {contract.Table.Id} was not found");
             }
 
             if (contract.NumberOfGuests <= 0)

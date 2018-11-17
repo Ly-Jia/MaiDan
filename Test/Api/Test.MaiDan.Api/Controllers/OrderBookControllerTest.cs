@@ -138,7 +138,7 @@ namespace Test.MaiDan.Api.Controllers
 
             var orderBookController = CreateOrderBookController(orderBook.Object, menu.Object, room.Object, defaultCashRegister.Object);
 
-            orderBookController.Add(new global::MaiDan.Api.DataContracts.Requests.Order { Id = 0, TableId = tableId, Lines = new List<global::MaiDan.Api.DataContracts.Requests.Line>(), NumberOfGuests = 2 });
+            orderBookController.Add(new global::MaiDan.Api.DataContracts.Requests.Order { Id = 0, Table = new global::MaiDan.Api.DataContracts.Requests.Table { Id = tableId }, Lines = new List<global::MaiDan.Api.DataContracts.Requests.Line>(), NumberOfGuests = 2 });
 
             Check.That(orderBookController.Response.StatusCode).Equals((int)HttpStatusCode.OK);
         }
@@ -155,7 +155,7 @@ namespace Test.MaiDan.Api.Controllers
             room.Setup(r => r.Get(tableId)).Returns(new Table(tableId));
             var orderBookController = CreateOrderBookController(orderBook.Object, menu.Object, room.Object, defaultCashRegister.Object);
 
-            orderBookController.Update(new global::MaiDan.Api.DataContracts.Requests.Order { Id = 1, TableId = tableId, Lines = new List<global::MaiDan.Api.DataContracts.Requests.Line>(), NumberOfGuests = 2 });
+            orderBookController.Update(new global::MaiDan.Api.DataContracts.Requests.Order { Id = 1, Table = new global::MaiDan.Api.DataContracts.Requests.Table { Id = tableId }, Lines = new List<global::MaiDan.Api.DataContracts.Requests.Line>(), NumberOfGuests = 2 });
 
             Check.That(orderBookController.Response.StatusCode).Equals((int)HttpStatusCode.OK);
         }
@@ -170,7 +170,7 @@ namespace Test.MaiDan.Api.Controllers
             var room = new Mock<IRepository<Table>>();
             var orderBookController = CreateOrderBookController(orderBook.Object, menu.Object, room.Object, defaultCashRegister.Object);
 
-            orderBookController.Update(new global::MaiDan.Api.DataContracts.Requests.Order { Id = 1, TableId = null, Lines = new List<global::MaiDan.Api.DataContracts.Requests.Line>(), NumberOfGuests = 0 });
+            orderBookController.Update(new global::MaiDan.Api.DataContracts.Requests.Order { Id = 1, Table = null, Lines = new List<global::MaiDan.Api.DataContracts.Requests.Line>(), NumberOfGuests = 0 });
 
             Check.That(orderBookController.Response.StatusCode).Equals((int)HttpStatusCode.BadRequest);
         }
