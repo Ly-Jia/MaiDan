@@ -8,7 +8,6 @@ import { Slip } from '../shared/models/slip';
 import { Payment } from '../shared/models/payment';
 import { PaymentMethod } from '../shared/models/payment-method';
 import { SelectItem } from 'primeng/api';
-import { DropdownModule } from 'primeng/dropdown';
 import { startWith, map, mergeMap } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';

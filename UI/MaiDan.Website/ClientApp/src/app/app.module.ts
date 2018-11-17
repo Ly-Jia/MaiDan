@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
 import { SpinnerModule } from 'primeng/spinner';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { FieldsetModule } from 'primeng/fieldset';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
@@ -14,6 +16,7 @@ import { Configuration } from './shared/app.configuration';
 import { OrderbookService } from './orderbook/orderbook.service';
 import { BillbookService } from './billbook/billbook.service';
 import { MenuService } from './menu/menu.service';
+import { RoomService } from './room/room.service';
 import { SlipbookService } from './slipbook/slipbook.service';
 import { PaymentMethodListService } from './payment-method-list/payment-method-list.service';
 import { OrderbookComponent } from './orderbook/orderbook.component';
@@ -47,13 +50,15 @@ import { ReactiveFormsModule } from '@angular/forms';
     TableModule,
     DropdownModule,
     SpinnerModule,
+    RadioButtonModule,
+    FieldsetModule,
     BrowserAnimationsModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule
   ],
-  providers: [Configuration, OrderbookService, BillbookService, SlipbookService, MenuService, PaymentMethodListService],
+  providers: [Configuration, OrderbookService, BillbookService, SlipbookService, MenuService, PaymentMethodListService, RoomService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -9,7 +9,6 @@ import { Order } from '../shared/models/order';
 import { OrderLine } from '../shared/models/order-line';
 import { Dish } from '../shared/models/dish';
 import { SelectItem } from 'primeng/api';
-import { DropdownModule } from 'primeng/dropdown';
 import { SpinnerModule } from 'primeng/spinner';
 import { startWith, map, mergeMap } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
@@ -55,15 +54,6 @@ export class OrderComponent implements OnInit {
         startWith(''),
         map(value => this._filter(value))
       );
-  }
-
-  add(order: Order): void {
-    this.orderbookService.addOrder(order)
-      .subscribe({
-        next: () => { },
-        error: err => { console.log(`Cannot create order`); console.log(err); },
-        complete: () => console.log(`Order created`)
-      });
   }
 
   addLine() {
