@@ -17,6 +17,7 @@ namespace MaiDan.Api.Services
         private readonly IRepository<Order> orderBook;
         private readonly IRepository<Bill> billBook;
         private readonly IRepository<Slip> slipBook;
+        private readonly IRepository<DaySlip> dayslipBook;
         private readonly IRepository<Tax> taxConfiguration;
         private readonly IRepository<Discount> discountList;
         private const string REDUCED_TAX_ID = "RED";
@@ -75,6 +76,11 @@ namespace MaiDan.Api.Services
             slipBook.Update(slip);
             
             CloseBillWhenIsPaid(slip, bill);
+        }
+
+        public void CloseDay(DaySlip daySlip)
+        {
+            dayslipBook.Add(daySlip);
         }
 
         private Line CalculateLine(Ordering.Domain.Line line)

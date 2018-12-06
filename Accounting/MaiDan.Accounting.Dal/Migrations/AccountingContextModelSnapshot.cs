@@ -16,6 +16,22 @@ namespace MaiDan.Accounting.Dal.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.0-rc1-32029");
 
+            modelBuilder.Entity("MaiDan.Accounting.Dal.Entities.DaySlip", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<decimal>("CashAmount");
+
+                    b.Property<DateTime>("ClosingDate");
+
+                    b.Property<DateTime>("Day");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DaySlip");
+                });
+
             modelBuilder.Entity("MaiDan.Accounting.Dal.Entities.Payment", b =>
                 {
                     b.Property<int>("SlipId");

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MaiDan.Accounting.Dal.Migrations
 {
     [DbContext(typeof(AccountingContext))]
-    [Migration("20180701222423_InitialCreate")]
+    [Migration("20181202235359_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -17,6 +17,22 @@ namespace MaiDan.Accounting.Dal.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.0-rc1-32029");
+
+            modelBuilder.Entity("MaiDan.Accounting.Dal.Entities.DaySlip", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<decimal>("CashAmount");
+
+                    b.Property<DateTime>("ClosingDate");
+
+                    b.Property<DateTime>("Day");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DaySlip");
+                });
 
             modelBuilder.Entity("MaiDan.Accounting.Dal.Entities.Payment", b =>
                 {

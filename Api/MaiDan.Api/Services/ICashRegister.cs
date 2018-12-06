@@ -10,5 +10,6 @@ namespace MaiDan.Api.Services
         void Print(Order order);
         void Pay(Bill bill);
         void AddPayments(Slip slip);
+        void CloseDay(DaySlip daySlip);
     }
 }

@@ -61,6 +61,7 @@ namespace MaiDan.Api
             // Accounting
             services.AddSingleton<IRepository<Accounting.Domain.PaymentMethod>, Accounting.Dal.Repositories.PaymentMethodList>();
             services.AddSingleton<IRepository<Accounting.Domain.Slip>, Accounting.Dal.Repositories.SlipBook>();
+            services.AddSingleton<IRepository<Accounting.Domain.DaySlip>, Accounting.Dal.Repositories.DaySlipBook>();
 
             var printerName = ConfigurationReader.Get<string>("PrinterName");
             var printer = new Printer(printerName);
