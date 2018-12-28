@@ -34,6 +34,23 @@ namespace MaiDan.Billing.Dal.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BillLog",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Date = table.Column<DateTime>(nullable: false),
+                    ObjectType = table.Column<string>(nullable: true),
+                    ActionType = table.Column<string>(nullable: true),
+                    OldValue = table.Column<string>(nullable: true),
+                    NewValue = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BillLog", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Discount",
                 columns: table => new
                 {
@@ -158,6 +175,9 @@ namespace MaiDan.Billing.Dal.Migrations
 
             migrationBuilder.DropTable(
                 name: "BillLine");
+
+            migrationBuilder.DropTable(
+                name: "BillLog");
 
             migrationBuilder.DropTable(
                 name: "BillTax");

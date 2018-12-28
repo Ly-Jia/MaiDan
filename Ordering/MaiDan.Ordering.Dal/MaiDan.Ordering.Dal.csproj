@@ -24,8 +24,4 @@
     <ProjectReference Include="..\MaiDan.Ordering.Domain\MaiDan.Ordering.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
-
 </Project>

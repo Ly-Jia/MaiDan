@@ -11,11 +11,13 @@ namespace MaiDan.Accounting.Dal.Repositories
     {
         private readonly AccountingContext context;
         private readonly IRepository<Domain.PaymentMethod> paymentMethodList;
+        private readonly ILogger<AccountingContext> logger;
 
-        public SlipBook(AccountingContext context, IRepository<Domain.PaymentMethod> paymentMethodList)
+        public SlipBook(AccountingContext context, IRepository<Domain.PaymentMethod> paymentMethodList, ILogger<AccountingContext> logger)
         {
             this.context = context;
             this.paymentMethodList = paymentMethodList;
+            this.logger = logger;
         }
 
         public Domain.Slip Get(object id)
@@ -44,6 +46,9 @@ namespace MaiDan.Accounting.Dal.Repositories
         public object Add(Domain.Slip item)
         {
             var entity = EntityFrom(item);
+
+            logger.Log(context, "Slip", "Add", entity);
+
             context.Slips.Add(entity);
             context.SaveChanges();
             return entity.Id;
@@ -56,11 +61,12 @@ namespace MaiDan.Accounting.Dal.Repositories
                                      .Include(e => e.Payments)
                                      .FirstOrDefault(e => e.Id == entity.Id) ??
                                  throw new ArgumentException($"The slip {entity.Id} was not found");
-            
+
+            logger.Log(context, "Slip", "Update", existingEntity, entity);
+
             context.Entry(existingEntity).CurrentValues.SetValues(entity);
             existingEntity.Payments.Clear();
             existingEntity.Payments.AddRange(entity.Payments);
-
             context.SaveChanges();
         }
 

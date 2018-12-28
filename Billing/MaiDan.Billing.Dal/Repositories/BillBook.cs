@@ -12,12 +12,14 @@ namespace MaiDan.Billing.Dal.Repositories
         private readonly BillingContext context;
         private readonly IRepository<Domain.TaxRate> taxRateList;
         private readonly IRepository<Domain.Discount> discountList;
+        private readonly ILogger<BillingContext> logger;
 
-        public BillBook(BillingContext context, IRepository<Domain.TaxRate> taxRateList, IRepository<Domain.Discount> discountList)
+        public BillBook(BillingContext context, IRepository<Domain.TaxRate> taxRateList, IRepository<Domain.Discount> discountList, ILogger<BillingContext> logger)
         {
             this.context = context;
             this.taxRateList = taxRateList;
             this.discountList = discountList;
+            this.logger = logger;
         }
 
         public Domain.Bill Get(object id)
@@ -50,6 +52,9 @@ namespace MaiDan.Billing.Dal.Repositories
         public object Add(Domain.Bill item)
         {
             var entity = EntityFrom(item);
+
+            logger.Log(context, "Bill", "Add", entity);
+
             context.Bills.Add(entity);
             context.SaveChanges();
             return entity.Id;
@@ -63,10 +68,11 @@ namespace MaiDan.Billing.Dal.Repositories
                                      .FirstOrDefault(e => e.Id == entity.Id) ??
                                  throw new ArgumentException($"The bill {entity.Id} was not found");
 
+            logger.Log(context, "Bill", "Update", existingEntity, entity);
+
             context.Entry(existingEntity).CurrentValues.SetValues(entity);
             existingEntity.Lines.Clear();
             existingEntity.Lines.AddRange(entity.Lines);
-
             context.SaveChanges();
         }
 

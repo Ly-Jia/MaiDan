@@ -8,6 +8,23 @@ namespace MaiDan.Accounting.Dal.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "AccountLog",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Date = table.Column<DateTime>(nullable: false),
+                    ObjectType = table.Column<string>(nullable: true),
+                    ActionType = table.Column<string>(nullable: true),
+                    OldValue = table.Column<string>(nullable: true),
+                    NewValue = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AccountLog", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DaySlip",
                 columns: table => new
                 {
@@ -81,6 +98,9 @@ namespace MaiDan.Accounting.Dal.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AccountLog");
+
             migrationBuilder.DropTable(
                 name: "DaySlip");
 

@@ -9,14 +9,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MaiDan.Billing.Dal.Migrations
 {
     [DbContext(typeof(BillingContext))]
-    [Migration("20180707215411_InitialCreate")]
+    [Migration("20181227224137_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.0-rc1-32029");
+                .HasAnnotation("ProductVersion", "2.2.0-rtm-35687");
 
             modelBuilder.Entity("MaiDan.Billing.Dal.Entities.Bill", b =>
                 {
@@ -101,6 +101,26 @@ namespace MaiDan.Billing.Dal.Migrations
                     b.HasIndex("TaxRateId");
 
                     b.ToTable("BillLine");
+                });
+
+            modelBuilder.Entity("MaiDan.Billing.Dal.Entities.Log", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ActionType");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<string>("NewValue");
+
+                    b.Property<string>("ObjectType");
+
+                    b.Property<string>("OldValue");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BillLog");
                 });
 
             modelBuilder.Entity("MaiDan.Billing.Dal.Entities.Price", b =>

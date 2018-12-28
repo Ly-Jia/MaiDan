@@ -12,10 +12,12 @@ namespace MaiDan.Ordering.Dal.Repositories
     public class OrderBook : IRepository<Domain.Order>
     {
         private readonly OrderingContext context;
+        private readonly ILogger<OrderingContext> logger;
 
-        public OrderBook(OrderingContext context)
+        public OrderBook(OrderingContext context, ILogger<OrderingContext> logger)
         {
             this.context = context;
+            this.logger = logger;
         }
 
         public Domain.Order Get(object id)
@@ -51,6 +53,9 @@ namespace MaiDan.Ordering.Dal.Repositories
             }
 
             var entity = EntityFrom(item);
+
+            logger.Log(context, "Order", "Add", entity);
+
             context.Orders.Add(entity);
             context.SaveChanges();
             return entity.Id;
@@ -69,11 +74,12 @@ namespace MaiDan.Ordering.Dal.Repositories
                 throw new InvalidOperationException($"The order {entity.Id} has already been closed");
             }
 
+            logger.Log(context, "Order", "Update", existingEntity, entity);
+
             context.Entry(existingEntity).CurrentValues.SetValues(entity);
             existingEntity.Table = entity.Table;
             existingEntity.Lines.Clear();
             existingEntity.Lines.AddRange(entity.Lines);
-
             context.SaveChanges();
         }
 
