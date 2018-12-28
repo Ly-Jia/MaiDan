@@ -10,10 +10,12 @@ namespace MaiDan.Ordering.Dal.Repositories
     public class Room : IRepository<Domain.Table>
     {
         private readonly OrderingContext context;
+        private readonly ILogger<OrderingContext> logger;
 
-        public Room(OrderingContext context)
+        public Room(OrderingContext context, ILogger<OrderingContext> logger)
         {
             this.context = context;
+            this.logger = logger;
         }
 
         public Domain.Table Get(object id)
@@ -37,6 +39,9 @@ namespace MaiDan.Ordering.Dal.Repositories
         public object Add(Domain.Table item)
         {
             var entity = EntityFrom(item);
+
+            logger.Log(context, "Table", "Add", entity);
+
             context.Tables.Add(entity);
             context.SaveChanges();
             return entity.Id;
@@ -48,8 +53,9 @@ namespace MaiDan.Ordering.Dal.Repositories
             var existingEntity = context.Tables.FirstOrDefault(e => e.Id == entity.Id) ??
                 throw new ArgumentException($"The table {entity.Id} was not found");
 
-            context.Entry(existingEntity).CurrentValues.SetValues(entity);
+            logger.Log(context, "Table", "Update", existingEntity, entity);
 
+            context.Entry(existingEntity).CurrentValues.SetValues(entity);
             context.SaveChanges();
         }
 

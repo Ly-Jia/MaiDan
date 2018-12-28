@@ -9,14 +9,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MaiDan.Ordering.Dal.Migrations
 {
     [DbContext(typeof(OrderingContext))]
-    [Migration("20180520213440_InitialCreate")]
+    [Migration("20181227224138_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.0-rc1-32029");
+                .HasAnnotation("ProductVersion", "2.2.0-rtm-35687");
 
             modelBuilder.Entity("MaiDan.Ordering.Dal.Entities.Dish", b =>
                 {
@@ -47,6 +47,26 @@ namespace MaiDan.Ordering.Dal.Migrations
                     b.HasIndex("DishId");
 
                     b.ToTable("OrderLine");
+                });
+
+            modelBuilder.Entity("MaiDan.Ordering.Dal.Entities.Log", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ActionType");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<string>("NewValue");
+
+                    b.Property<string>("ObjectType");
+
+                    b.Property<string>("OldValue");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OrderLog");
                 });
 
             modelBuilder.Entity("MaiDan.Ordering.Dal.Entities.Order", b =>

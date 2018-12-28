@@ -20,6 +20,23 @@ namespace MaiDan.Ordering.Dal.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "OrderLog",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Date = table.Column<DateTime>(nullable: false),
+                    ObjectType = table.Column<string>(nullable: true),
+                    ActionType = table.Column<string>(nullable: true),
+                    OldValue = table.Column<string>(nullable: true),
+                    NewValue = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderLog", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Table",
                 columns: table => new
                 {
@@ -94,6 +111,9 @@ namespace MaiDan.Ordering.Dal.Migrations
         {
             migrationBuilder.DropTable(
                 name: "OrderLine");
+
+            migrationBuilder.DropTable(
+                name: "OrderLog");
 
             migrationBuilder.DropTable(
                 name: "OrderDish");

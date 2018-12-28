@@ -10,10 +10,12 @@ namespace MaiDan.Ordering.Dal.Repositories
     public class Menu : IRepository<Domain.Dish>
     {
         private readonly OrderingContext context;
+        private readonly ILogger<OrderingContext> logger;
 
-        public Menu(OrderingContext context)
+        public Menu(OrderingContext context, ILogger<OrderingContext> logger)
         {
             this.context = context;
+            this.logger = logger;
         }
 
         public Domain.Dish Get(object id)
@@ -37,6 +39,9 @@ namespace MaiDan.Ordering.Dal.Repositories
         public object Add(Domain.Dish item)
         {
             var entity = EntityFrom(item);
+
+            logger.Log(context, "Dish", "Add", entity);
+
             context.Dishes.Add(entity);
             context.SaveChanges();
             return entity.Id;
@@ -48,8 +53,9 @@ namespace MaiDan.Ordering.Dal.Repositories
             var existingEntity = context.Dishes.FirstOrDefault(e => e.Id == entity.Id) ??
                 throw new ArgumentException($"The dish {entity.Id} was not found");
 
-            context.Entry(existingEntity).CurrentValues.SetValues(entity);
+            logger.Log(context, "Dish", "Update", existingEntity, entity);
 
+            context.Entry(existingEntity).CurrentValues.SetValues(entity);
             context.SaveChanges();
         }
 

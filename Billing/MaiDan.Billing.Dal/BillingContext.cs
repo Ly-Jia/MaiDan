@@ -14,6 +14,7 @@ namespace MaiDan.Billing.Dal
         public DbSet<BillDiscount> BillDiscounts { get; set; }
         public DbSet<TaxRate> TaxRates { get; set; }
         public DbSet<Discount> Discounts { get; set; }
+        public DbSet<Log> Logs { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

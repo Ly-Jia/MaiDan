@@ -14,7 +14,7 @@ namespace MaiDan.Billing.Dal.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.0-rc1-32029");
+                .HasAnnotation("ProductVersion", "2.2.0-rtm-35687");
 
             modelBuilder.Entity("MaiDan.Billing.Dal.Entities.Bill", b =>
                 {
@@ -99,6 +99,26 @@ namespace MaiDan.Billing.Dal.Migrations
                     b.HasIndex("TaxRateId");
 
                     b.ToTable("BillLine");
+                });
+
+            modelBuilder.Entity("MaiDan.Billing.Dal.Entities.Log", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ActionType");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<string>("NewValue");
+
+                    b.Property<string>("ObjectType");
+
+                    b.Property<string>("OldValue");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BillLog");
                 });
 
             modelBuilder.Entity("MaiDan.Billing.Dal.Entities.Price", b =>

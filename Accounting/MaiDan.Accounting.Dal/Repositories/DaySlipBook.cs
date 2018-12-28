@@ -10,10 +10,12 @@ namespace MaiDan.Accounting.Dal.Repositories
     public class DaySlipBook : IRepository<Domain.DaySlip>
     {
         private readonly AccountingContext context;
+        private readonly ILogger<AccountingContext> logger;
 
-        public DaySlipBook(AccountingContext context)
+        public DaySlipBook(AccountingContext context, ILogger<AccountingContext> logger)
         {
             this.context = context;
+            this.logger = logger;
         }
 
         public Domain.DaySlip Get(object id)
@@ -38,6 +40,9 @@ namespace MaiDan.Accounting.Dal.Repositories
         public object Add(Domain.DaySlip item)
         {
             var entity = EntityFrom(item);
+
+            logger.Log(context, "DaySlip", "Add", entity);
+
             context.DaySlips.Add(entity);
             context.SaveChanges();
             return entity.Id;
@@ -51,9 +56,10 @@ namespace MaiDan.Accounting.Dal.Repositories
                                      .FirstOrDefault(e => e.Id == entity.Id) ??
                                  throw new ArgumentException($"The dayslip {entity.Id} was not found");
 
+            logger.Log(context, "DaySlip", "Update", existingEntity, entity);
+
             context.Entry(existingEntity).CurrentValues.SetValues(entity);
             existingEntity.Payments.Clear();
-
             context.SaveChanges();
         }
 

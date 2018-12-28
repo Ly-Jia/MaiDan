@@ -10,7 +10,8 @@ namespace MaiDan.Ordering.Dal
         public DbSet<Line> Lines { get; set; }
         public DbSet<Dish> Dishes { get; set; }
         public DbSet<Table> Tables { get; set; }
-        
+        public DbSet<Log> Logs { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite(DbConfiguration.ConnectionString);
