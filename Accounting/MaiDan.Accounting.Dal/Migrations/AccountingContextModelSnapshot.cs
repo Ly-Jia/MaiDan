@@ -16,6 +16,17 @@ namespace MaiDan.Accounting.Dal.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.2.0-rtm-35687");
 
+            modelBuilder.Entity("MaiDan.Accounting.Dal.Entities.Day", b =>
+                {
+                    b.Property<DateTime>("Date");
+
+                    b.Property<bool>("Closed");
+
+                    b.HasKey("Date");
+
+                    b.ToTable("Day");
+                });
+
             modelBuilder.Entity("MaiDan.Accounting.Dal.Entities.DaySlip", b =>
                 {
                     b.Property<int>("Id")
@@ -25,9 +36,11 @@ namespace MaiDan.Accounting.Dal.Migrations
 
                     b.Property<DateTime>("ClosingDate");
 
-                    b.Property<DateTime>("Day");
+                    b.Property<DateTime?>("DayDate");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DayDate");
 
                     b.ToTable("DaySlip");
                 });
@@ -92,6 +105,13 @@ namespace MaiDan.Accounting.Dal.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Slip");
+                });
+
+            modelBuilder.Entity("MaiDan.Accounting.Dal.Entities.DaySlip", b =>
+                {
+                    b.HasOne("MaiDan.Accounting.Dal.Entities.Day", "Day")
+                        .WithMany()
+                        .HasForeignKey("DayDate");
                 });
 
             modelBuilder.Entity("MaiDan.Accounting.Dal.Entities.Payment", b =>

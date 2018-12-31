@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using MaiDan.Accounting.Dal.Repositories;
 using MaiDan.Api.Services;
 using MaiDan.Billing.Domain;
 using MaiDan.Infrastructure.Database;
@@ -19,8 +20,9 @@ namespace MaiDan.Api.Controllers
         private readonly IRepository<Dish> menu;
         private readonly IRepository<Table> room;
         private readonly ICashRegister cashRegister;
+        private readonly Calendar calendar;
 
-        public OrderBookController(IRepository<Order> orderBook, IRepository<Dish> menu, IRepository<Table> room, ICashRegister cashRegister)
+        public OrderBookController(IRepository<Order> orderBook, IRepository<Dish> menu, IRepository<Table> room, ICashRegister cashRegister, Calendar calendar)
         {
             this.orderBook = orderBook;
             this.menu = menu;
@@ -88,6 +90,17 @@ namespace MaiDan.Api.Controllers
             Order order;
             try
             {
+                var day = calendar.GetCurrentDay();
+                if (day == null)
+                {
+                    throw new InvalidOperationException("There isn't an open day available");
+                }
+
+                if (day.Date != contract.OrderingDate.Date)
+                {
+                    throw new ArgumentException($"The day {day.Date} should be closed first");
+                }
+
                 if (contract.Id <= 0)
                 {
                     throw new ArgumentException("The contract id of an order to be updated cannot be 0 or negative");
@@ -102,6 +115,11 @@ namespace MaiDan.Api.Controllers
                 order = ModelFromDataContract(contract);
             }
             catch (ArgumentException)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return;
+            }
+            catch (InvalidOperationException)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return;

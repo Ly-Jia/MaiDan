@@ -70,12 +70,12 @@ namespace MaiDan.Accounting.Dal.Repositories
 
         public DaySlip EntityFrom(Domain.DaySlip model)
         {
-            return new DaySlip(model.Id, model.Day, model.ClosingDate, model.CashAmount);
+            return new DaySlip(model.Id, new Day(model.Day.Date, model.Day.Closed), model.ClosingDate, model.CashAmount);
         }
 
         public Domain.DaySlip ModelFrom(DaySlip entity)
         {
-            return new Domain.DaySlip(entity.Id, entity.Day, entity.ClosingDate, entity.CashAmount);
+            return new Domain.DaySlip(entity.Id, new Domain.Day(entity.Day.Date, entity.Day.Closed), entity.ClosingDate, entity.CashAmount);
         }
     }
 }

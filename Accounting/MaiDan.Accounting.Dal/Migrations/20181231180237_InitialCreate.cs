@@ -25,18 +25,15 @@ namespace MaiDan.Accounting.Dal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DaySlip",
+                name: "Day",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Day = table.Column<DateTime>(nullable: false),
-                    ClosingDate = table.Column<DateTime>(nullable: false),
-                    CashAmount = table.Column<decimal>(nullable: false)
+                    Date = table.Column<DateTime>(nullable: false),
+                    Closed = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DaySlip", x => x.Id);
+                    table.PrimaryKey("PK_Day", x => x.Date);
                 });
 
             migrationBuilder.CreateTable(
@@ -62,6 +59,27 @@ namespace MaiDan.Accounting.Dal.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Slip", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DaySlip",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    DayDate = table.Column<DateTime>(nullable: true),
+                    ClosingDate = table.Column<DateTime>(nullable: false),
+                    CashAmount = table.Column<decimal>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DaySlip", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DaySlip_Day_DayDate",
+                        column: x => x.DayDate,
+                        principalTable: "Day",
+                        principalColumn: "Date",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -91,6 +109,11 @@ namespace MaiDan.Accounting.Dal.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_DaySlip_DayDate",
+                table: "DaySlip",
+                column: "DayDate");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SlipPayment_PaymentMethodId",
                 table: "SlipPayment",
                 column: "PaymentMethodId");
@@ -106,6 +129,9 @@ namespace MaiDan.Accounting.Dal.Migrations
 
             migrationBuilder.DropTable(
                 name: "SlipPayment");
+
+            migrationBuilder.DropTable(
+                name: "Day");
 
             migrationBuilder.DropTable(
                 name: "PaymentMethod");

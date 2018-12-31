@@ -7,7 +7,7 @@ namespace MaiDan.Api.DataContracts.Responses
         public DaySlip(Accounting.Domain.DaySlip daySlip)
         {
             Id = daySlip.Id;
-            Day = daySlip.Day;
+            Day = daySlip.Day.Date;
             ClosingDate = daySlip.ClosingDate;
             CashAmount = daySlip.CashAmount;
         }

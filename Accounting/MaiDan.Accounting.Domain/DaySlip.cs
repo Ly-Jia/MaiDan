@@ -4,7 +4,7 @@ namespace MaiDan.Accounting.Domain
 {
     public class DaySlip
     {
-        public DaySlip(int id, DateTime day, DateTime closingDate, decimal cashAmount)
+        public DaySlip(int id, Day day, DateTime closingDate, decimal cashAmount)
         {
             Id = id;
             Day = day;
@@ -13,7 +13,7 @@ namespace MaiDan.Accounting.Domain
         }
 
         public int Id { get; }
-        public DateTime Day { get; }
+        public Day Day { get; }
         public DateTime ClosingDate { get; }
         public decimal CashAmount { get; }
     }

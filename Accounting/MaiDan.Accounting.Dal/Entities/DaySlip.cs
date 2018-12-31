@@ -9,7 +9,7 @@ namespace MaiDan.Accounting.Dal.Entities
         public DaySlip()
         { }
 
-        public DaySlip(int id, DateTime day, DateTime closingDate, decimal cashAmount)
+        public DaySlip(int id, Day day, DateTime closingDate, decimal cashAmount)
         {
             Id = id;
             Day = day;
@@ -18,7 +18,7 @@ namespace MaiDan.Accounting.Dal.Entities
         }
 
         public int Id { get; set; }
-        public DateTime Day { get; set; }
+        public Day Day { get; set; }
         public DateTime ClosingDate { get; set; }
         public decimal CashAmount { get; set; }
     }

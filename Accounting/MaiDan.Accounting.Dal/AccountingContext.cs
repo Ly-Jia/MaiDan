@@ -10,6 +10,7 @@ namespace MaiDan.Accounting.Dal
         public DbSet<Payment> Payments { get; set; }
         public DbSet<PaymentMethod> PaymentMethods { get; set; }
         public DbSet<DaySlip> DaySlips { get; set; }
+        public DbSet<Day> Days { get; set; }
         public DbSet<Log> Logs { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
