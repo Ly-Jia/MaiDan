@@ -20,14 +20,15 @@ namespace MaiDan.Api.Controllers
         private readonly IRepository<Dish> menu;
         private readonly IRepository<Table> room;
         private readonly ICashRegister cashRegister;
-        private readonly Calendar calendar;
+        private readonly ICalendar calendar;
 
-        public OrderBookController(IRepository<Order> orderBook, IRepository<Dish> menu, IRepository<Table> room, ICashRegister cashRegister, Calendar calendar)
+        public OrderBookController(IRepository<Order> orderBook, IRepository<Dish> menu, IRepository<Table> room, ICashRegister cashRegister, ICalendar calendar)
         {
             this.orderBook = orderBook;
             this.menu = menu;
             this.room = room;
             this.cashRegister = cashRegister;
+            this.calendar = calendar;
         }
 
         [HttpGet("{id}")]
@@ -68,13 +69,28 @@ namespace MaiDan.Api.Controllers
             Order order;
             try
             {
+                var day = calendar.GetCurrentDay();
+                if (day == null)
+                {
+                    throw new InvalidOperationException("There isn't an open day available");
+                }
+
+                if (day.Date != DateTime.Today)
+                {
+                    throw new ArgumentException($"The day {day.Date} should be closed first");
+                }
+
                 if (contract.Id != 0)
                 {
                     throw new ArgumentException("The contract id of an order to be created must be 0");
                 }
-
                 contract.OrderingDate = DateTime.Now;
                 order = ModelFromDataContract(contract);
+            }
+            catch (InvalidOperationException)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return -1;
             }
             catch (ArgumentException)
             {
@@ -90,29 +106,19 @@ namespace MaiDan.Api.Controllers
             Order order;
             try
             {
-                var day = calendar.GetCurrentDay();
-                if (day == null)
-                {
-                    throw new InvalidOperationException("There isn't an open day available");
-                }
-
-                if (day.Date != contract.OrderingDate.Date)
-                {
-                    throw new ArgumentException($"The day {day.Date} should be closed first");
-                }
-
                 if (contract.Id <= 0)
                 {
                     throw new ArgumentException("The contract id of an order to be updated cannot be 0 or negative");
                 }
 
-                if (orderBook.Get(contract.Id).Closed)
+                var orderToUpdate = orderBook.Get(contract.Id);
+                if (orderToUpdate.Closed)
                 {
                     Response.StatusCode = (int)HttpStatusCode.BadRequest;
                     return;
                 }
 
-                order = ModelFromDataContract(contract);
+                order = ModelFromDataContract(contract, orderToUpdate.OrderingDate);
             }
             catch (ArgumentException)
             {
@@ -127,7 +133,8 @@ namespace MaiDan.Api.Controllers
             orderBook.Update(order);
         }
 
-        private Order ModelFromDataContract(DataContracts.Requests.Order contract)
+        // orderingDate overrides with the saved orderingDate, because it shouldn't be changed
+        private Order ModelFromDataContract(DataContracts.Requests.Order contract, DateTime? orderingDate = null)
         {
             if (contract == null)
             {
@@ -139,12 +146,12 @@ namespace MaiDan.Api.Controllers
                 throw new ArgumentException("The contract lines cannot be null");
             }
 
-            if (contract.IsTakeAway && (contract.Table != null || contract.NumberOfGuests > 0))
+            if (contract.IsTakeAway && (contract.TableId != null || contract.NumberOfGuests > 0))
             {
                 throw new ArgumentException("A take away order should not contains on site order information");
             }
 
-            if (!contract.IsTakeAway && (contract.Table == null || contract.NumberOfGuests == 0))
+            if (!contract.IsTakeAway && (contract.TableId == null || contract.NumberOfGuests == 0))
             {
                 throw new ArgumentException("An on-site order should contains table and number of guests information");
             }
@@ -177,16 +184,18 @@ namespace MaiDan.Api.Controllers
                 lines.Add(new Line(line.Id, line.Quantity, dish));
             }
 
+            var date = orderingDate.HasValue ? orderingDate.Value : contract.OrderingDate;
+
             if (contract.IsTakeAway)
             {
-                return new TakeAwayOrder(contract.Id, contract.OrderingDate, lines, false);
+                return new TakeAwayOrder(contract.Id, date, lines, false);
             }
 
-            Table table = room.Get(contract.Table.Id);
+            Table table = room.Get(contract.TableId);
 
             if (table == null)
             {
-                throw new ArgumentException($"The table {contract.Table.Id} was not found");
+                throw new ArgumentException($"The table {contract.TableId} was not found");
             }
 
             if (contract.NumberOfGuests <= 0)
@@ -194,7 +203,7 @@ namespace MaiDan.Api.Controllers
                 throw new ArgumentException("The number of guests cannot be 0 or negative");
             }
 
-            return new OnSiteOrder(contract.Id, table, contract.NumberOfGuests, contract.OrderingDate, lines, false);
+            return new OnSiteOrder(contract.Id, table, contract.NumberOfGuests, date, lines, false);
         }
     }
 }

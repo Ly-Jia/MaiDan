@@ -9,7 +9,7 @@ namespace MaiDan.Api.DataContracts.Requests
 
         public bool IsTakeAway { get; set; }
 
-        public Table Table { get; set; }
+        public string TableId { get; set; }
 
         public int NumberOfGuests { get; set; }
 

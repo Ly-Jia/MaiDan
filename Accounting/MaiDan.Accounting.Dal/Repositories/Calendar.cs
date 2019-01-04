@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace MaiDan.Accounting.Dal.Repositories
 {
-    public class Calendar
+    public class Calendar : ICalendar
     {
         private readonly AccountingContext context;
         private readonly ILogger<AccountingContext> logger;

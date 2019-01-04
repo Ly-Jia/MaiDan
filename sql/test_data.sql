@@ -45,4 +45,6 @@ INSERT INTO "PaymentMethod" (Id, Name) VALUES ('TR', 'Tickets restaurant');
 INSERT INTO "PaymentMethod" (Id, Name) VALUES ('CV', 'Chèques vacances');
 INSERT INTO "PaymentMethod" (Id, Name) VALUES ('A', 'Avoir');
 
+INSERT INTO "Day" (Date, Closed) VALUES ('2018-05-05T00:00:00', 0)
+
 COMMIT;

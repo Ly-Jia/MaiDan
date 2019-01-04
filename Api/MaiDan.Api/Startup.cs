@@ -1,4 +1,5 @@
 ﻿using MaiDan.Accounting.Dal;
+using MaiDan.Accounting.Dal.Repositories;
 using MaiDan.Api.Services;
 using MaiDan.Billing.Dal;
 using MaiDan.Infrastructure;
@@ -58,6 +59,7 @@ namespace MaiDan.Api
             services.AddSingleton<IRepository<Billing.Domain.Discount>, Billing.Dal.Repositories.DiscountList>();
             services.AddSingleton<IRepository<Billing.Domain.Dish>, Billing.Dal.Repositories.Menu>();
             services.AddSingleton<IRepository<Billing.Domain.Bill>, Billing.Dal.Repositories.BillBook>();
+            services.AddSingleton<ICalendar, Calendar>();
             services.AddSingleton<Infrastructure.Database.ILogger<BillingContext>, Billing.Dal.Logger>();
 
             // Accounting
