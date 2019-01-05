@@ -146,14 +146,14 @@ namespace MaiDan.Api.Controllers
                 throw new ArgumentException("The contract lines cannot be null");
             }
 
-            if (contract.IsTakeAway && (contract.TableId != null || contract.NumberOfGuests > 0))
+            if (contract.IsTakeAway && (contract.TableId != null || contract.NumberOfGuests != 0))
             {
-                throw new ArgumentException("A take away order should not contains on site order information");
+                throw new ArgumentException("A take away order should not contain on-site order information");
             }
 
-            if (!contract.IsTakeAway && (contract.TableId == null || contract.NumberOfGuests == 0))
+            if (!contract.IsTakeAway && (contract.TableId == null || contract.NumberOfGuests <= 0))
             {
-                throw new ArgumentException("An on-site order should contains table and number of guests information");
+                throw new ArgumentException("An on-site order should contain table and number of guests information");
             }
 
             List<Line> lines = new List<Line>();
