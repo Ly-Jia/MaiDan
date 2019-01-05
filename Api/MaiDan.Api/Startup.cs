@@ -7,6 +7,7 @@ using MaiDan.Infrastructure.Database;
 using MaiDan.Ordering.Dal;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -42,6 +43,8 @@ namespace MaiDan.Api
 
             // Add framework services.
             services.AddMvc();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddDbContext<OrderingContext>();
             services.AddDbContext<BillingContext>();

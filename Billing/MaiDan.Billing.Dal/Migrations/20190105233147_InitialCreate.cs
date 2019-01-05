@@ -40,6 +40,9 @@ namespace MaiDan.Billing.Dal.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Date = table.Column<DateTime>(nullable: false),
+                    RequestPath = table.Column<string>(nullable: true),
+                    RequestMethod = table.Column<string>(nullable: true),
+                    RequestBody = table.Column<string>(nullable: true),
                     ObjectType = table.Column<string>(nullable: true),
                     ActionType = table.Column<string>(nullable: true),
                     OldValue = table.Column<string>(nullable: true),

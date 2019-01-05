@@ -60,6 +60,12 @@ namespace MaiDan.Accounting.Dal.Migrations
 
                     b.Property<string>("OldValue");
 
+                    b.Property<string>("RequestBody");
+
+                    b.Property<string>("RequestMethod");
+
+                    b.Property<string>("RequestPath");
+
                     b.HasKey("Id");
 
                     b.ToTable("AccountLog");
