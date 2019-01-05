@@ -6,10 +6,6 @@ namespace MaiDan.Ordering.Dal.Entities
     [Table("OrderLog")]
     public class Log
     {
-        public Log()
-        {
-        }
-
         public Log(DateTime date, string objectType, string actionType, string oldValue, string newValue)
         {
             Date = date;

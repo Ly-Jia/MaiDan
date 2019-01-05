@@ -5,9 +5,6 @@ namespace MaiDan.Accounting.Dal.Entities
     [Table("PaymentMethod")]
     public class PaymentMethod
     {
-        public PaymentMethod()
-        { }
-
         public PaymentMethod(string id, string name)
         {
             Id = id;

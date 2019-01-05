@@ -5,10 +5,6 @@ namespace MaiDan.Billing.Dal.Entities
     [Table("BillDiscount")]
     public class BillDiscount
     {
-        public BillDiscount()
-        {
-        }
-
         public BillDiscount(int billId, string discountId, decimal amount)
         {
             BillId = billId;

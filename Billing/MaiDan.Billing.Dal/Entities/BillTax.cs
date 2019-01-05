@@ -6,10 +6,6 @@ namespace MaiDan.Billing.Dal.Entities
     [Table("BillTax")]
     public class BillTax
     {
-        public BillTax()
-        {
-        }
-
         public BillTax(int billId, string taxRateId, decimal amount)
         {
             BillId = billId;
