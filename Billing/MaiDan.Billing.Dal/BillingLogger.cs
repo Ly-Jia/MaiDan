@@ -1,15 +1,15 @@
-﻿using MaiDan.Infrastructure.Database;
-using MaiDan.Ordering.Dal.Entities;
+﻿using MaiDan.Billing.Dal.Entities;
+using MaiDan.Infrastructure.Database;
 using Microsoft.AspNetCore.Http;
 using System;
 
-namespace MaiDan.Ordering.Dal
+namespace MaiDan.Billing.Dal
 {
-    public class Logger : Logger<OrderingContext>
+    public class BillingLogger : Logger<BillingContext>
     {
-        public Logger(IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor) { }
+        public BillingLogger(IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor) { }
 
-        protected override void Log(OrderingContext context,
+        protected override void Log(BillingContext context,
             DateTime date,
             string requestPath,
             string requestMethod,

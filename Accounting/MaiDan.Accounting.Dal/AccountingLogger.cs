@@ -5,9 +5,9 @@ using System;
 
 namespace MaiDan.Accounting.Dal
 {
-    public class Logger : Logger<AccountingContext>
+    public class AccountingLogger : Logger<AccountingContext>
     {
-        public Logger(IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor) { }
+        public AccountingLogger(IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor) { }
 
         protected override void Log(AccountingContext context,
             DateTime date,
