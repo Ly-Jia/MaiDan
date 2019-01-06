@@ -41,10 +41,8 @@ namespace MaiDan.Infrastructure.Database
         private static string ToJson(Stream body)
         {
             body.Seek(0, SeekOrigin.Begin);
-            using (var sr = new StreamReader(body))
-            {
-                return sr.ReadToEnd();
-            }
+            var sr = new StreamReader(body);
+            return sr.ReadToEnd();
         }
 
         protected abstract void Log(TContext context,
