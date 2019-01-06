@@ -7,6 +7,7 @@ namespace MaiDan.Accounting.Dal.Entities
     public class Log
     {
         public Log(DateTime date,
+            Guid requestId,
             string requestPath,
             string requestMethod,
             string requestBody,
@@ -16,6 +17,7 @@ namespace MaiDan.Accounting.Dal.Entities
             string newValue)
         {
             Date = date;
+            RequestId = requestId;
             RequestPath = requestPath;
             RequestMethod = requestMethod;
             RequestBody = requestBody;
@@ -27,6 +29,7 @@ namespace MaiDan.Accounting.Dal.Entities
 
         public int Id { get; set; }
         public DateTime Date { get; set; }
+        public Guid RequestId { get; set; }
         public string RequestPath { get; set; }
         public string RequestMethod { get; set; }
         public string RequestBody { get; set; }

@@ -14,6 +14,7 @@ namespace MaiDan.Accounting.Dal.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Date = table.Column<DateTime>(nullable: false),
+                    RequestId = table.Column<Guid>(nullable: false),
                     RequestPath = table.Column<string>(nullable: true),
                     RequestMethod = table.Column<string>(nullable: true),
                     RequestBody = table.Column<string>(nullable: true),

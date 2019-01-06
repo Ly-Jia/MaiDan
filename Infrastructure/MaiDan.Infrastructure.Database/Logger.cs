@@ -30,12 +30,25 @@ namespace MaiDan.Infrastructure.Database
 
         private void Log(TContext context, string objectType, string actionType, string oldValue, string newValue)
         {
-            var request = _httpContextAccessor.HttpContext.Request;
+            var httpContext = _httpContextAccessor.HttpContext;
+            var request = httpContext.Request;
+            var requestId = GetRequestId(httpContext);
             var requestPath = request.Path.Value;
             var requestMethod = request.Method;
             var requestBody = ToJson(request.Body);
 
-            Log(context, DateTime.Now, requestPath, requestMethod, requestBody, objectType, actionType, oldValue, newValue);
+            Log(context, DateTime.Now, requestId, requestPath, requestMethod, requestBody, objectType, actionType, oldValue, newValue);
+        }
+
+        private static Guid GetRequestId(HttpContext httpContext)
+        {
+            if (!httpContext.Items.TryGetValue("RequestId", out var id))
+            {
+                id = Guid.NewGuid();
+                httpContext.Items.Add("RequestId", id);
+            }
+
+            return (Guid)id;
         }
 
         private static string ToJson(Stream body)
@@ -47,6 +60,7 @@ namespace MaiDan.Infrastructure.Database
 
         protected abstract void Log(TContext context,
             DateTime date,
+            Guid requestId,
             string requestPath,
             string requestMethod,
             string requestBody,

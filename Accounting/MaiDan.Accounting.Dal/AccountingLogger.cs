@@ -11,6 +11,7 @@ namespace MaiDan.Accounting.Dal
 
         protected override void Log(AccountingContext context,
             DateTime date,
+            Guid requestId,
             string requestPath,
             string requestMethod,
             string requestBody,
@@ -19,7 +20,7 @@ namespace MaiDan.Accounting.Dal
             string oldValue,
             string newValue)
         {
-            var entity = new Log(date, requestPath, requestMethod, requestBody, objectType, actionType, oldValue, newValue);
+            var entity = new Log(date, requestId, requestPath, requestMethod, requestBody, objectType, actionType, oldValue, newValue);
             context.Logs.Add(entity);
         }
     }

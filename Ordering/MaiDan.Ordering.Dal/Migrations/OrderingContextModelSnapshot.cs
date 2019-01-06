@@ -64,6 +64,8 @@ namespace MaiDan.Ordering.Dal.Migrations
 
                     b.Property<string>("RequestBody");
 
+                    b.Property<Guid>("RequestId");
+
                     b.Property<string>("RequestMethod");
 
                     b.Property<string>("RequestPath");

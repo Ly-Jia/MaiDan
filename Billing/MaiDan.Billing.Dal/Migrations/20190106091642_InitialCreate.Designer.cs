@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MaiDan.Billing.Dal.Migrations
 {
     [DbContext(typeof(BillingContext))]
-    [Migration("20190105233147_InitialCreate")]
+    [Migration("20190106091642_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -119,6 +119,8 @@ namespace MaiDan.Billing.Dal.Migrations
                     b.Property<string>("OldValue");
 
                     b.Property<string>("RequestBody");
+
+                    b.Property<Guid>("RequestId");
 
                     b.Property<string>("RequestMethod");
 
