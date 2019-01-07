@@ -1,7 +1,10 @@
 <ul class="list-group">
   <li class="list-group-item" *ngFor="let order of orders">
-    <a *ngIf="order.tableId === undefined" routerLink="{{order.id}}">{{order.id}} - {{order.orderingDate|date:"dd/MM/yyyy hh:mm"}} - à emporter</a>
-    <a *ngIf="order.tableId !== undefined" routerLink="{{order.id}}">{{order.id}} - {{order.orderingDate|date:"dd/MM/yyyy hh:mm"}} - table {{order.tableId}}</a>
+    <a routerLink="{{order.id}}">
+      {{order.id}} - {{order.orderingDate|date:"dd/MM/yyyy hh:mm"}} -
+      <ng-container *ngIf="order.tableId === undefined">à emporter</ng-container>
+      <ng-container *ngIf="order.tableId !== undefined">table {{order.tableId}}</ng-container>
+    </a>
   </li>
 </ul>
   <h4>Nouvelle commande</h4>
