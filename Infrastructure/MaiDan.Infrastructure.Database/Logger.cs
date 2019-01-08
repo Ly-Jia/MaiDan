@@ -53,6 +53,10 @@ namespace MaiDan.Infrastructure.Database
 
         private static string ToJson(Stream body)
         {
+            if (!body.CanSeek)
+            {
+                return string.Empty;
+            }
             body.Seek(0, SeekOrigin.Begin);
             var sr = new StreamReader(body);
             return sr.ReadToEnd();
