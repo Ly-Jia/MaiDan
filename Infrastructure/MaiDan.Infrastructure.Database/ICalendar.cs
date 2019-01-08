@@ -12,5 +12,7 @@ namespace MaiDan.Infrastructure.Database
         void Add(Day day);
 
         void Update(Day day);
+
+        bool Contains(DateTime date);
     }
 }

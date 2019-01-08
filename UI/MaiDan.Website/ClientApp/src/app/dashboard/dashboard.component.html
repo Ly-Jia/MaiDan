@@ -1,0 +1,9 @@
+
+<div *ngIf="day !== null">
+  <h3>Clôture de la journée du {{day | date:'MM/dd/yyyy'}}</h3>
+  <p>Montant en espèces restant en caisse</p>
+  <input pInputText type="text" [(ngModel)]="slip.cashAmount" />
+  <button class="btn" (click)="closeDay()">Clôturer la journée</button>
+</div>
+
+<p><button *ngIf="day === null" class="btn" (click)="openDay()">Démarrer la journée</button></p>

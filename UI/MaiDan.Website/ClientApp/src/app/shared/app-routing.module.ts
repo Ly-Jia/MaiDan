@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { DashboardComponent } from '../dashboard/dashboard.component';
 import { OrderbookComponent } from '../orderbook/orderbook.component';
 import { OrderComponent } from '../order/order.component';
 import { BillbookComponent } from '../billbook/billbook.component';
@@ -10,6 +11,7 @@ import { SlipbookComponent } from '../slipbook/slipbook.component';
 import { SlipComponent } from '../slip/slip.component';
 
 const routes: Routes = [
+  { path: 'dashboard', component: DashboardComponent },
   { path: 'orderbook', component: OrderbookComponent },
   { path: 'orderbook/:id', component: OrderComponent },
   { path: 'billbook', component: BillbookComponent },
@@ -18,6 +20,7 @@ const routes: Routes = [
   { path: 'menu/:id', component: DishComponent },
   { path: 'slipbook', component: SlipbookComponent },
   { path: 'slipbook/:id', component: SlipComponent }
+
 ];
 
 @NgModule({

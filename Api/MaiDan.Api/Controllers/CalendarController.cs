@@ -12,11 +12,11 @@ namespace MaiDan.Api.Controllers
     [Route("api/[controller]")]
     public class CalendarController : Controller
     {
-        private readonly Calendar calendar;
+        private readonly ICalendar calendar;
         private readonly IRepository<Bill> billBook;
         private readonly IRepository<DaySlip> daySlipBook;
 
-        public CalendarController(Calendar calendar, IRepository<Bill> billBook, IRepository<DaySlip> daySlipBook)
+        public CalendarController(ICalendar calendar, IRepository<Bill> billBook, IRepository<DaySlip> daySlipBook)
         {
             this.calendar = calendar;
             this.billBook = billBook;
@@ -24,13 +24,11 @@ namespace MaiDan.Api.Controllers
         }
 
         [HttpGet]
-        public DataContracts.Responses.Day GetCurrentDay()
+        public DateTime? GetCurrentDay()
         {
             var day = calendar.GetCurrentDay();
-            if (day == null)
-                return null;
 
-            return new DataContracts.Responses.Day(day);
+            return day?.Date;
         }
 
         [HttpPost]
@@ -41,11 +39,12 @@ namespace MaiDan.Api.Controllers
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return;
             }
+
             calendar.Add(new Day(DateTime.Today, false));
         }
 
         [HttpPut]
-        public void CloseDay(DataContracts.Requests.DaySlip contract)
+        public void CloseDay([FromBody] DataContracts.Requests.DaySlip contract)
         {
             var openedBills = billBook.GetAll();
             if (openedBills.Any())

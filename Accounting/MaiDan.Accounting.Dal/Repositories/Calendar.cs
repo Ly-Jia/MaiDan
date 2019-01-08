@@ -21,7 +21,7 @@ namespace MaiDan.Accounting.Dal.Repositories
         {
             var entity = context.Days
                 .AsNoTracking()
-                .SingleOrDefault(e => e.Date == date);
+                .SingleOrDefault(e => e.Date.Date.Equals(date));
 
             return entity == null ? null : ModelFrom(entity);
         }

@@ -6,6 +6,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { SpinnerModule } from 'primeng/spinner';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { FieldsetModule } from 'primeng/fieldset';
+import { InputTextModule } from 'primeng/inputtext';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
@@ -13,12 +14,14 @@ import { MenuComponent } from './menu/menu.component';
 import { AppRoutingModule } from './shared/app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { Configuration } from './shared/app.configuration';
+import { DashboardService } from './dashboard/dashboard.service';
 import { OrderbookService } from './orderbook/orderbook.service';
 import { BillbookService } from './billbook/billbook.service';
 import { MenuService } from './menu/menu.service';
 import { RoomService } from './room/room.service';
 import { SlipbookService } from './slipbook/slipbook.service';
 import { PaymentMethodListService } from './payment-method-list/payment-method-list.service';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { OrderbookComponent } from './orderbook/orderbook.component';
 import { BillbookComponent } from './billbook/billbook.component';
 import { SlipbookComponent } from './slipbook/slipbook.component';
@@ -33,6 +36,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
+    DashboardComponent,
     OrderbookComponent,
     BillbookComponent,
     SlipbookComponent,
@@ -56,9 +60,10 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatAutocompleteModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    InputTextModule
   ],
-  providers: [Configuration, OrderbookService, BillbookService, SlipbookService, MenuService, PaymentMethodListService, RoomService],
+  providers: [Configuration, DashboardService, OrderbookService, BillbookService, SlipbookService, MenuService, PaymentMethodListService, RoomService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

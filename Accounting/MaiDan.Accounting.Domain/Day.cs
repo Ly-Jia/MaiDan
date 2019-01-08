@@ -17,5 +17,10 @@ namespace MaiDan.Accounting.Domain
         {
             Closed = true;
         }
+
+        public void Open()
+        {
+            Closed = false;
+        }
     }
 }

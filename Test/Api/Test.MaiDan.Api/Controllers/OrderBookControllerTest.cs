@@ -20,7 +20,7 @@ namespace Test.MaiDan.Api.Controllers
     public class OrderBookControllerTest
     {
         private Table defaultTable;
-        private DateTime defaultDay = new DateTime(2018, 12, 12);
+        private DateTime defaultDay = DateTime.Today;
         private Mock<IRepository<Table>> defaultRoom;
         private Mock<ICashRegister> defaultCashRegister;
         private Mock<ICalendar> defaultCalendar;
@@ -142,7 +142,7 @@ namespace Test.MaiDan.Api.Controllers
             var room = new Mock<IRepository<Table>>();
             room.Setup(r => r.Get(tableId)).Returns(new Table(tableId));
 
-            var orderBookController = CreateOrderBookController(orderBook.Object, menu.Object, room.Object, defaultCashRegister.Object, null);
+            var orderBookController = CreateOrderBookController(orderBook.Object, menu.Object, room.Object, defaultCashRegister.Object, defaultCalendar.Object);
 
             orderBookController.Add(new global::MaiDan.Api.DataContracts.Requests.Order { Id = 0, TableId = tableId, Lines = new List<global::MaiDan.Api.DataContracts.Requests.Line>(), NumberOfGuests = 2 });
 

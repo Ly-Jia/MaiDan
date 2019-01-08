@@ -32,6 +32,7 @@
     <None Remove="ClientApp\src\app\payment-method-list\payment-method-list.service.ts" />
     <None Remove="ClientApp\src\app\room\room.service.ts" />
     <None Remove="ClientApp\src\app\shared\models\bill.ts" />
+    <None Remove="ClientApp\src\app\shared\models\day.ts" />
     <None Remove="ClientApp\src\app\shared\models\payment-method.ts" />
     <None Remove="ClientApp\src\app\shared\models\payment.ts" />
     <None Remove="ClientApp\src\app\shared\models\slip.ts" />
@@ -42,6 +43,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\payment-method-list\payment-method-list.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\room\room.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\bill.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\models\day.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\payment-method.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\payment.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\slip.ts" />
