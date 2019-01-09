@@ -1,11 +1,11 @@
 ﻿using System;
-using MaiDan.Accounting.Dal.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using MaiDan.Accounting.Domain;
 using MaiDan.Billing.Domain;
 using MaiDan.Infrastructure.Database;
 using System.Linq;
+using MaiDan.Ordering.Domain;
 
 namespace MaiDan.Api.Controllers
 {
@@ -13,12 +13,14 @@ namespace MaiDan.Api.Controllers
     public class CalendarController : Controller
     {
         private readonly ICalendar calendar;
+        private readonly IRepository<Order> orderBook;
         private readonly IRepository<Bill> billBook;
         private readonly IRepository<DaySlip> daySlipBook;
 
-        public CalendarController(ICalendar calendar, IRepository<Bill> billBook, IRepository<DaySlip> daySlipBook)
+        public CalendarController(ICalendar calendar, IRepository<Order> orderBook, IRepository<Bill> billBook, IRepository<DaySlip> daySlipBook)
         {
             this.calendar = calendar;
+            this.orderBook = orderBook;
             this.billBook = billBook;
             this.daySlipBook = daySlipBook;
         }
@@ -46,8 +48,9 @@ namespace MaiDan.Api.Controllers
         [HttpPut]
         public void CloseDay([FromBody] DataContracts.Requests.DaySlip contract)
         {
+            var openedOrders = orderBook.GetAll();
             var openedBills = billBook.GetAll();
-            if (openedBills.Any())
+            if (openedOrders.Any() || openedBills.Any())
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return;
