@@ -42,7 +42,7 @@ namespace MaiDan.Accounting.Dal.Repositories
             var entity = EntityFrom(item);
 
             logger.Log(context, "DaySlip", "Add", entity);
-
+            
             context.DaySlips.Add(entity);
             context.SaveChanges();
             return entity.Id;
@@ -70,7 +70,7 @@ namespace MaiDan.Accounting.Dal.Repositories
 
         public DaySlip EntityFrom(Domain.DaySlip model)
         {
-            return new DaySlip(model.Id, new Day(model.Day.Date, model.Day.Closed), model.ClosingDate, model.CashAmount);
+            return new DaySlip(model.Id, context.Days.Find(model.Day.Date), model.ClosingDate, model.CashAmount);
         }
 
         public Domain.DaySlip ModelFrom(DaySlip entity)
