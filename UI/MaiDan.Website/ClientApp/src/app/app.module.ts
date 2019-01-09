@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
 import { SpinnerModule } from 'primeng/spinner';
+import { CheckboxModule } from 'primeng/checkbox';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { FieldsetModule } from 'primeng/fieldset';
 import { InputTextModule } from 'primeng/inputtext';
@@ -54,6 +55,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     TableModule,
     DropdownModule,
     SpinnerModule,
+    CheckboxModule,
     RadioButtonModule,
     FieldsetModule,
     BrowserAnimationsModule,

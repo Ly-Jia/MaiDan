@@ -1,19 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderbookService } from './orderbook.service';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { Http, Response } from '@angular/http'
-import { BillbookService } from '../billbook/billbook.service';
 import { MenuService } from '../menu/menu.service';
 import { RoomService } from '../room/room.service';
 import { Order } from '../shared/models/order';
 import { OrderLine } from '../shared/models/order-line'
 import { Dish } from '../shared/models/dish';
 import { Table } from '../shared/models/table';
-import { SelectItem } from 'primeng/api';
-import { DropdownModule } from 'primeng/dropdown';
-import { SpinnerModule } from 'primeng/spinner';
-import { RadioButtonModule } from 'primeng/radiobutton';
-import { FieldsetModule } from 'primeng/fieldset';
 import { startWith, map, mergeMap } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -36,7 +28,6 @@ export class OrderbookComponent implements OnInit {
 
   constructor(
     private orderbookService: OrderbookService,
-    private billbookService: BillbookService,
     private menuService: MenuService,
     private roomService: RoomService) { }
 
@@ -56,6 +47,7 @@ export class OrderbookComponent implements OnInit {
   addLine() {
     const line = new OrderLine(this.newOrder.lines.length + 1);
     line.quantity = 1;
+    line.free = false;
     this.newOrder.lines.push(line);
   }
  

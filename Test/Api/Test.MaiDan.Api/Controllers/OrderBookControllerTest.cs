@@ -170,7 +170,7 @@ namespace Test.MaiDan.Api.Controllers
         public void Http400WhenTryingToUpdateClosedOrder()
         {
             var orderBook = new Mock<IRepository<global::MaiDan.Ordering.Domain.Order>>();
-            orderBook.Setup(o => o.Get(1)).Returns(new TakeAwayOrder(1, defaultDay, new[] { new Line(1, 1, new Dish("S1", "Spaghetti")) }, true));
+            orderBook.Setup(o => o.Get(1)).Returns(new TakeAwayOrder(1, defaultDay, new[] { new Line(1, 1, false, new Dish("S1", "Spaghetti")) }, true));
             var menu = new Mock<IRepository<Dish>>();
             menu.Setup(m => m.Get(It.IsAny<string>())).Returns(new Dish("id", "name"));
             var room = new Mock<IRepository<Table>>();

@@ -61,12 +61,24 @@ namespace Test.MaiDan.Ordering
         /// <summary>
         /// Add a new line to the created order
         /// </summary>
-        /// <param name="quantity"></param>
-        /// <param name="dish"></param>
-        /// <returns></returns>
+        /// <param name="quantity">The dish quantity</param>
+        /// <param name="dish">The dish</param>
+        /// <returns>The order</returns>
         public AnOrder With(int quantity, Dish dish)
         {
-            return With(new Line(this.lines.Count, quantity, dish));
+            return With(quantity, false, dish);
+        }
+
+        /// <summary>
+        /// Add a new line to the created order
+        /// </summary>
+        /// <param name="quantity">The dish quantity</param>
+        /// <param name="free">Is the dish free or not</param>
+        /// <param name="dish">The dish</param>
+        /// <returns>The order</returns>
+        public AnOrder With(int quantity, bool free, Dish dish)
+        {
+            return With(new Line(this.lines.Count, quantity, free, dish));
         }
 
         /// <summary>

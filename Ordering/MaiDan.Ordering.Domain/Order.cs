@@ -28,9 +28,9 @@ namespace MaiDan.Ordering.Domain
             return this;
         }
 
-        public Order Add(int quantity, Dish dish)
+        public Order Add(int quantity, bool free, Dish dish)
         {
-            return this.Add(new Line(Lines.Count, quantity, dish));
+            return this.Add(new Line(Lines.Count, quantity, free, dish));
         }
 
         public override bool Equals(object obj)

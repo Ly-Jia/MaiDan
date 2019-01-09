@@ -1,15 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { Http, Response } from '@angular/http'
 import { OrderbookService } from '../orderbook/orderbook.service';
 import { BillbookService } from '../billbook/billbook.service';
 import { MenuService } from '../menu/menu.service';
 import { Order } from '../shared/models/order';
 import { OrderLine } from '../shared/models/order-line';
 import { Dish } from '../shared/models/dish';
-import { SelectItem } from 'primeng/api';
-import { SpinnerModule } from 'primeng/spinner';
 import { startWith, map, mergeMap } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -41,7 +37,7 @@ export class OrderComponent implements OnInit {
         this.options = menu.map(dish => this._buildDishLabel(dish.id));
         return menu;
       }),
-      mergeMap(menu => this.orderbookService.getOrder(id)),
+      mergeMap(() => this.orderbookService.getOrder(id)),
       map(order => {
         this.order = order;
         this.order.lines.forEach(l => l.dishLabel = this._buildDishLabel(l.dishId));
@@ -71,10 +67,6 @@ export class OrderComponent implements OnInit {
       });
   }
 
-  trackByIndex(index: number, item: Order): number {
-    return index;
-  }
-
   print(id: number): void {
     this.billbookService.printBill(id)
       .subscribe({
@@ -89,7 +81,7 @@ export class OrderComponent implements OnInit {
 
   private _buildDishLabel(dishId: string): string {
     const dish = this.menu.find(d => d.id == dishId);
-    return dish.id + " - " + dish.name;
+    return `${dish.id} - ${dish.name}`;
   }
 
   private _getDishIdFromLabel(dishLabel: string): string {

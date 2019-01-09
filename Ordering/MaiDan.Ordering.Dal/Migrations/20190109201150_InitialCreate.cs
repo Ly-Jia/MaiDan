@@ -81,6 +81,7 @@ namespace MaiDan.Ordering.Dal.Migrations
                     OrderId = table.Column<int>(nullable: false),
                     Index = table.Column<int>(nullable: false),
                     Quantity = table.Column<int>(nullable: false),
+                    Free = table.Column<bool>(nullable: false),
                     DishId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>

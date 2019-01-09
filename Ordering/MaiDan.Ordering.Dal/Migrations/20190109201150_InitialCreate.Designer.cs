@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MaiDan.Ordering.Dal.Migrations
 {
     [DbContext(typeof(OrderingContext))]
-    [Migration("20190106091641_InitialCreate")]
+    [Migration("20190109201150_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,6 +39,8 @@ namespace MaiDan.Ordering.Dal.Migrations
 
                     b.Property<string>("DishId")
                         .IsRequired();
+
+                    b.Property<bool>("Free");
 
                     b.Property<int>("Quantity");
 

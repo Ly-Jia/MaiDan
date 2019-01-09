@@ -2,18 +2,20 @@
 {
 	public class Line
 	{
-	    public Line(int id, int quantity, Dish dish)
+	    public Line(int id, int quantity, bool free, Dish dish)
 	    {
             Id = id;
 	        Quantity = quantity;
-	        Dish = dish;
+            Free = free;
+            Dish = dish;
 	    }
 
         public int Id { get; }
 	    public int Quantity { get; }
+        public bool Free { get; }
         public Dish Dish { get; }
 
-	    public override bool Equals(object obj)
+        public override bool Equals(object obj)
 		{
 		    if (!(obj is Line other))
 				return false;

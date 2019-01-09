@@ -80,7 +80,7 @@ namespace MaiDan.Api.Services
         private Line CalculateLine(Ordering.Domain.Line line)
         {
             var dish = menu.Get(line.Dish.Id);
-            var amount = line.Quantity * dish.CurrentPrice.Value;
+            var amount = line.Free ? 0m : line.Quantity * dish.CurrentPrice.Value;
             var taxId = regularTaxedProducts.Contains(dish.Type) ? REGULAR_TAX_ID : REDUCED_TAX_ID;
             // @TODO: Make taxconfiguration returns the same object instance for a given taxRate
             var tax = taxConfiguration.Get(taxId);

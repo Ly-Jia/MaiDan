@@ -255,5 +255,51 @@ namespace Test.MaiDan.Api.Services
             Check.That(bill.Discounts).IsEmpty();
             Check.That(bill.Total).Equals(10m);
         }
+
+        [Test]
+        public void should_not_charge_for_free_dishes()
+        {
+            var dish1 = new ADish("1").Build();
+            var dish2 = new ADish("2").Build();
+            var order = new AnOrder()
+                .TakeAway()
+                .With(1, dish1)
+                .With(1, true, dish2)
+                .Build();
+
+            var menu = new Mock<IRepository<Dish>>();
+            menu.Setup(m => m.Get(dish1.Id)).Returns(new Billing.ADish(dish1.Id).Priced(12m).WithRegularTax().Build());
+            menu.Setup(m => m.Get(dish2.Id)).Returns(new Billing.ADish(dish2.Id).Priced(2m).WithRegularTax().Build());
+
+            var cashRegister = new ACashRegister(menu.Object).Build();
+
+            var bill = cashRegister.Calculate(order);
+
+            Check.That(bill.Discounts).IsEmpty();
+            Check.That(bill.Total).Equals(12m);
+        }
+
+        [Test]
+        public void should_not_charge_for_an_order_with_only_free_dishes()
+        {
+            var dish1 = new ADish("1").Build();
+            var dish2 = new ADish("2").Build();
+            var order = new AnOrder()
+                .TakeAway()
+                .With(1, true, dish1)
+                .With(1, true, dish2)
+                .Build();
+
+            var menu = new Mock<IRepository<Dish>>();
+            menu.Setup(m => m.Get(dish1.Id)).Returns(new Billing.ADish(dish1.Id).Priced(15m).WithRegularTax().Build());
+            menu.Setup(m => m.Get(dish2.Id)).Returns(new Billing.ADish(dish2.Id).Priced(8m).WithRegularTax().Build());
+
+            var cashRegister = new ACashRegister(menu.Object).Build();
+
+            var bill = cashRegister.Calculate(order);
+
+            Check.That(bill.Discounts).IsEmpty();
+            Check.That(bill.Total).Equals(0m);
+        }
     }
 }

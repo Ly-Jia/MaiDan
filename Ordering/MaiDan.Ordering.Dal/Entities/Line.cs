@@ -10,17 +10,19 @@ namespace MaiDan.Ordering.Dal.Entities
         {
         }
 
-        public Line(int orderId, int index, int quantity, Dish dish)
+        public Line(int orderId, int index, int quantity, bool free, Dish dish)
         {
             OrderId = orderId;
             Index = index;
             Quantity = quantity;
+            Free = free;
             Dish = dish;
         }
 
         public int OrderId { get; set; }
         public int Index { get; set; }
         public int Quantity { get; set; }
+        public bool Free { get; set; }
         [Required]
         public Dish Dish { get; set; }
     }

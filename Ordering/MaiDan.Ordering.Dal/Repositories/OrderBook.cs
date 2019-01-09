@@ -91,7 +91,7 @@ namespace MaiDan.Ordering.Dal.Repositories
 
         private Order EntityFrom(Domain.Order model)
         {
-            var lines = model.Lines.Select(l => new Line(model.Id, l.Id, l.Quantity, context.Dishes.Find(l.Dish.Id) ??
+            var lines = model.Lines.Select(l => new Line(model.Id, l.Id, l.Quantity, l.Free, context.Dishes.Find(l.Dish.Id) ??
                 throw new ArgumentException($"The dish {l.Dish.Id} was not found"))).ToList();
 
             if (!(model is OnSiteOrder onSite))
@@ -107,7 +107,7 @@ namespace MaiDan.Ordering.Dal.Repositories
 
         private Domain.Order ModelFrom(Order entity)
         {
-            var lines = entity.Lines.Select(l => new Domain.Line(l.Index, l.Quantity, new Domain.Dish(l.Dish.Id, l.Dish.Name))).ToList();
+            var lines = entity.Lines.Select(l => new Domain.Line(l.Index, l.Quantity, l.Free, new Domain.Dish(l.Dish.Id, l.Dish.Name))).ToList();
 
             if (entity.TakeAway)
             {

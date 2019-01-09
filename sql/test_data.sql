@@ -30,11 +30,11 @@ INSERT INTO "Order" (Id, TakeAway, TableId, NumberOfGuests, OrderingDate, Closed
 INSERT INTO "Order" (Id, TakeAway, TableId, NumberOfGuests, OrderingDate, Closed) VALUES (2, 0, '12A', 2, '2018-05-05 12:10:00', 0);
 INSERT INTO "Order" (Id, TakeAway, TableId, NumberOfGuests, OrderingDate, Closed) VALUES (3, 1, NULL, 0, '2018-05-05 13:20:00', 0);
 
-INSERT INTO "OrderLine" (OrderId, "Index", DishId, Quantity) VALUES (1, 1, 'B1', 2);
-INSERT INTO "OrderLine" (OrderId, "Index", DishId, Quantity) VALUES (1, 2, '90' ,1);
-INSERT INTO "OrderLine" (OrderId, "Index", DishId, Quantity) VALUES (2, 1, 'B2', 1);
-INSERT INTO "OrderLine" (OrderId, "Index", DishId, Quantity) VALUES (2, 2, 'W1', 1);
-INSERT INTO "OrderLine" (OrderId, "Index", DishId, Quantity) VALUES (3, 1, '1', 1);
+INSERT INTO "OrderLine" (OrderId, "Index", Quantity, Free, DishId) VALUES (1, 1, 2, 0, 'B1');
+INSERT INTO "OrderLine" (OrderId, "Index", Quantity, Free, DishId) VALUES (1, 2, 1, 0, '90');
+INSERT INTO "OrderLine" (OrderId, "Index", Quantity, Free, DishId) VALUES (2, 1, 1, 0, 'B2');
+INSERT INTO "OrderLine" (OrderId, "Index", Quantity, Free, DishId) VALUES (2, 2, 1, 0, 'W1');
+INSERT INTO "OrderLine" (OrderId, "Index", Quantity, Free, DishId) VALUES (3, 1, 1, 0, '1');
 
 INSERT INTO "Discount" (Id, ApplicableTaxId, Rate) VALUES ('À emporter', 'RED', 0.10);
 

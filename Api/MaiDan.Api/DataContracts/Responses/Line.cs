@@ -16,5 +16,6 @@
         public string DishId { get; set; }
         public string DishName { get; set; }
         public decimal Amount { get; set; }
+        public bool Free => Amount == 0m;
     }
 }

@@ -38,6 +38,8 @@ namespace MaiDan.Ordering.Dal.Migrations
                     b.Property<string>("DishId")
                         .IsRequired();
 
+                    b.Property<bool>("Free");
+
                     b.Property<int>("Quantity");
 
                     b.HasKey("OrderId", "Index");

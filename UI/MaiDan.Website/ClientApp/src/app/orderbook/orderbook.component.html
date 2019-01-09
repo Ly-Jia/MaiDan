@@ -20,6 +20,7 @@
         <th></th>
         <th>Plat</th>
         <th>Quantité</th>
+        <th>Gratuit</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-line>
@@ -51,6 +52,16 @@
             </ng-template>
             <ng-template pTemplate="output">
               {{line.quantity}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-checkbox [(ngModel)]="line.free" binary="true"></p-checkbox>
+            </ng-template>
+            <ng-template pTemplate="output">
+              <p-checkbox [(ngModel)]="line.free" binary="true"></p-checkbox>
             </ng-template>
           </p-cellEditor>
         </td>
