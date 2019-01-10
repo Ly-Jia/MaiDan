@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using MaiDan.Accounting.Domain;
+﻿using MaiDan.Accounting.Domain;
 using MaiDan.Infrastructure.Database;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MaiDan.Api.Controllers
 {

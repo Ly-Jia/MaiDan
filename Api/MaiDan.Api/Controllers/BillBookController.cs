@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using MaiDan.Api.Services;
+﻿using MaiDan.Api.Services;
 using MaiDan.Billing.Domain;
 using MaiDan.Infrastructure.Database;
 using MaiDan.Ordering.Domain;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MaiDan.Api.Controllers
 {
@@ -25,18 +24,16 @@ namespace MaiDan.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public DataContracts.Responses.DetailedBill Get(int id)
+        public ActionResult<DataContracts.Responses.DetailedBill> Get(int id)
         {
             var bill = billBook.Get(id);
 
             if (bill == null)
             {
-                Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return null;
+                return NotFound();
             }
 
             var order = orderBook.Get(id);
-            Response.StatusCode = (int)HttpStatusCode.OK;
             return new DataContracts.Responses.DetailedBill(order, bill);
         }
 
@@ -47,25 +44,17 @@ namespace MaiDan.Api.Controllers
         }
 
         [HttpPost]
-        public void Print([FromBody] DataContracts.Requests.Order contract)
+        public ActionResult Print([FromBody] DataContracts.Requests.Order contract)
         {
             var order = orderBook.Get(contract.Id);
 
             if (order.Closed)
             {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return;
+                return BadRequest();
             }
 
-            try
-            {
-                cashRegister.Print(order);
-            }
-            catch (InvalidOperationException)
-            {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return;
-            }
+            cashRegister.Print(order);
+            return Ok();
         }
     }
 }

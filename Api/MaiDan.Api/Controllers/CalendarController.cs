@@ -1,11 +1,10 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using MaiDan.Accounting.Domain;
+﻿using MaiDan.Accounting.Domain;
 using MaiDan.Billing.Domain;
 using MaiDan.Infrastructure.Database;
-using System.Linq;
 using MaiDan.Ordering.Domain;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
 
 namespace MaiDan.Api.Controllers
 {
@@ -29,42 +28,42 @@ namespace MaiDan.Api.Controllers
         public DateTime? GetCurrentDay()
         {
             var day = calendar.GetCurrentDay();
-
             return day?.Date;
         }
 
         [HttpPost]
-        public void OpenDay()
+        public IActionResult OpenDay()
         {
             if (calendar.Contains(DateTime.Today) || calendar.GetCurrentDay() != null)
             {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return;
+                return BadRequest();
             }
 
             calendar.Add(new Day(DateTime.Today, false));
+
+            return Ok();
         }
 
         [HttpPut]
-        public void CloseDay([FromBody] DataContracts.Requests.DaySlip contract)
+        public IActionResult CloseDay([FromBody] DataContracts.Requests.DaySlip contract)
         {
             var openedOrders = orderBook.GetAll();
             var openedBills = billBook.GetAll();
             if (openedOrders.Any() || openedBills.Any())
             {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return;
+                return BadRequest();
             }
             var day = calendar.Get(contract.Day);
             if (day == null || day.Closed)
             {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return;
+                return BadRequest();
             }
             var daySlip = contract.ToDaySlip(day);
             daySlipBook.Add(daySlip);
             day.Close();
             calendar.Update(day);
+
+            return Ok();
         }
     }
 }

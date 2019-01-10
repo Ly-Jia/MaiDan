@@ -19,7 +19,7 @@ namespace MaiDan.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public DataContracts.Responses.DetailedDish Get(string id)
+        public ActionResult<DataContracts.Responses.DetailedDish> Get(string id)
         {
             Ordering.Domain.Dish orderingDish;
             Billing.Domain.Dish billingDish;
@@ -28,11 +28,9 @@ namespace MaiDan.Api.Controllers
             
             if (orderingDish == null || billingDish == null)
             {
-                Response.StatusCode = (int) HttpStatusCode.NotFound;
-                return null;
+                return NotFound();
             }
 
-            Response.StatusCode = (int)HttpStatusCode.OK;
             return new DataContracts.Responses.DetailedDish(orderingDish, billingDish);
         }
 

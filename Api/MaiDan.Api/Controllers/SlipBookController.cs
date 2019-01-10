@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using MaiDan.Accounting.Domain;
+﻿using MaiDan.Accounting.Domain;
 using MaiDan.Api.Services;
 using MaiDan.Billing.Domain;
 using MaiDan.Infrastructure.Database;
 using MaiDan.Ordering.Domain;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MaiDan.Api.Controllers
 {
@@ -30,19 +29,18 @@ namespace MaiDan.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public DataContracts.Responses.Slip Get(int id)
+        public ActionResult<DataContracts.Responses.Slip> Get(int id)
         {
             var slip = slipBook.Get(id);
 
             if (slip == null)
             {
-                Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return null;
+                return NotFound();
             }
 
             var order = orderBook.Get(id);
             var bill = billBook.Get(id);
-            Response.StatusCode = (int)HttpStatusCode.OK;
+
             return new DataContracts.Responses.Slip(order, bill, slip);
         }
 
@@ -60,37 +58,36 @@ namespace MaiDan.Api.Controllers
         }
 
         [HttpPut]
-        public void Update([FromBody] DataContracts.Requests.Slip contract)
+        public IActionResult Update([FromBody] DataContracts.Requests.Slip contract)
         {
-            Slip slip;
-            try
+            if (contract.Id <= 0)
             {
-                if (contract.Id <= 0)
-                {
-                    throw new ArgumentException("The contract id of a slip to be updated cannot be 0 or negative");
-                }
-                slip = ModelFromContract(contract);
+                return BadRequest("The contract id of a slip to be updated cannot be 0 or negative");
             }
-            catch (ArgumentException)
+
+            var wrappedSlip = ModelFromContract(contract);
+            if (wrappedSlip.HasError)
             {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return;
+                return BadRequest(wrappedSlip.ErrorMessage);
             }
-            cashRegister.AddPayments(slip);
+
+            cashRegister.AddPayments(wrappedSlip.Model);
+
+            return Ok();
         }
 
-        private Slip ModelFromContract(DataContracts.Requests.Slip contract)
+        private ValidationResult<Slip> ModelFromContract(DataContracts.Requests.Slip contract)
         {
             if (contract.Payments == null)
             {
-                throw new ArgumentException("The contract payments cannot be null");
+                return "The contract payments cannot be null";
             }
 
             IList<Payment> payments = contract.Payments.Select(p => new Payment(p.Id, paymentMethodList.Get(p.PaymentMethodId), p.Amount)).ToList();
 
             if (payments.Any(p => p.Method == null))
             {
-                throw new ArgumentException("One or several payment method id are unknown");
+                return "One or several payment method id are unknown";
             }
 
             return new Slip(contract.Id, DateTime.Now, payments);
