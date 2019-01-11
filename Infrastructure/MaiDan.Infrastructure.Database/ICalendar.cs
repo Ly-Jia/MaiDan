@@ -9,6 +9,8 @@ namespace MaiDan.Infrastructure.Database
 
         Day GetCurrentDay();
 
+        bool HasOpenedDay();
+
         void Add(Day day);
 
         void Update(Day day);

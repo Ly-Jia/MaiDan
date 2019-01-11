@@ -6,4 +6,11 @@
   <button class="btn" (click)="closeDay()">Clôturer la journée</button>
 </div>
 
-<p><button *ngIf="day === null" class="btn" (click)="openDay()">Démarrer la journée</button></p>
+<p>
+  <button *ngIf="day === null" class="btn" (click)="openDay()">Démarrer la journée</button>
+</p>
+
+<ng-container *ngIf="resultMessage !== ''">
+  <div *ngIf="isError" class="alert alert-danger">{{resultMessage}}</div>
+  <div *ngIf="!isError" class="alert alert-success">{{resultMessage}}</div>
+</ng-container>

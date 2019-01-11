@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Configuration } from '../shared/app.configuration';
 import { DaySlip } from "../shared/models/day-slip";
-import { Day } from "../shared/models/day";
 
 @Injectable()
 export class DashboardService {

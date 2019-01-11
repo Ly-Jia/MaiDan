@@ -35,6 +35,13 @@ namespace MaiDan.Accounting.Dal.Repositories
             return entity == null ? null : ModelFrom(entity);
         }
 
+        public bool HasOpenedDay()
+        {
+            return context.Days
+                .AsNoTracking()
+                .Any(e => !e.Closed);
+        }
+
         public void Add(Domain.Day day)
         {
             var entity = EntityFrom(day);

@@ -34,12 +34,18 @@ namespace MaiDan.Api.Controllers
         [HttpPost]
         public IActionResult OpenDay()
         {
-            if (calendar.Contains(DateTime.Today) || calendar.GetCurrentDay() != null)
+            var today = DateTime.Today;
+            if (calendar.Contains(today))
             {
-                return BadRequest();
+                return BadRequest("TodayAlreadyOpened");
             }
 
-            calendar.Add(new Day(DateTime.Today, false));
+            if (calendar.HasOpenedDay())
+            {
+                return BadRequest("AnotherDayAlreadyOpened");
+            }
+
+            calendar.Add(new Day(today, false));
 
             return Ok();
         }
@@ -48,16 +54,28 @@ namespace MaiDan.Api.Controllers
         public IActionResult CloseDay([FromBody] DataContracts.Requests.DaySlip contract)
         {
             var openedOrders = orderBook.GetAll();
+            if (openedOrders.Any())
+            {
+                return BadRequest("OpenedOrdersPending");
+            }
+
             var openedBills = billBook.GetAll();
-            if (openedOrders.Any() || openedBills.Any())
+            if (openedBills.Any())
             {
-                return BadRequest();
+                return BadRequest("OpenedBillsPending");
             }
+
             var day = calendar.Get(contract.Day);
-            if (day == null || day.Closed)
+            if (day == null)
             {
-                return BadRequest();
+                return BadRequest("DayNotOpened");
             }
+
+            if (day.Closed)
+            {
+                return BadRequest("DayAlreadyClosed");
+            }
+
             var daySlip = contract.ToDaySlip(day);
             daySlipBook.Add(daySlip);
             day.Close();
