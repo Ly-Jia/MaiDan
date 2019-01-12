@@ -23,6 +23,8 @@ namespace MaiDan.Api.Services
         private readonly IRepository<Tax> taxConfiguration;
         private readonly IRepository<Discount> discountList;
         private readonly IEnumerable<string> regularTaxedProducts = new[] { "Alcool", "Apéritif", "Vin" };
+        private readonly Discount takeAwayDiscount;
+
         //@TODO set the id in config file
 
         public CashRegister(IPrint printer, IRepository<Billing.Domain.Dish> menu, IRepository<Order> orderBook, IRepository<Bill> billBook, IRepository<Slip> slipBook, IRepository<Tax> taxConfiguration, IRepository<Discount> discountList)
@@ -34,6 +36,7 @@ namespace MaiDan.Api.Services
             this.slipBook = slipBook;
             this.taxConfiguration = taxConfiguration;
             this.discountList = discountList;
+            this.takeAwayDiscount = discountList.Get(TakeAwayDiscountId);
         }
 
         public Bill Calculate(Order order)
@@ -101,7 +104,6 @@ namespace MaiDan.Api.Services
                 return;
             }
 
-            var takeAwayDiscount = discountList.Get(TakeAwayDiscountId);
             var discountableAmount = lines.Where(l => l.TaxRate.Tax.Id == takeAwayDiscount.ApplicableTax.Id)
                 .GroupBy(l => l.TaxRate.Tax.Id)
                 .Select(g => new { TaxId = g, Amount = g.Sum(x => x.Amount) })
@@ -116,8 +118,6 @@ namespace MaiDan.Api.Services
 
         private Dictionary<TaxRate, decimal> CalculateBillTaxes(Order order, List<Line> lines, Dictionary<Discount, decimal> discounts)
         {
-            var takeAwayDiscount = discountList.Get(TakeAwayDiscountId);
-
             var billAmountsByTax = lines.GroupBy(l => l.TaxRate.Id)
                 .Select(g => new {g.First().TaxRate, Amount = g.Sum(x => x.Amount) });
 
