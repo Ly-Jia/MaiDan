@@ -96,13 +96,18 @@ namespace MaiDan.Api.Services
 
         private void AddTakeAwayDiscount(Dictionary<Discount, decimal> discounts, Order order, List<Line> lines)
         {
+            if (!(order is TakeAwayOrder))
+            {
+                return;
+            }
+
             var takeAwayDiscount = discountList.Get(TakeAwayDiscountId);
             var discountableAmount = lines.Where(l => l.TaxRate.Tax.Id == takeAwayDiscount.ApplicableTax.Id)
                 .GroupBy(l => l.TaxRate.Tax.Id)
                 .Select(g => new { TaxId = g, Amount = g.Sum(x => x.Amount) })
                 .FirstOrDefault();
 
-            if (order is TakeAwayOrder && discountableAmount?.Amount > 0m)
+            if (discountableAmount?.Amount > 0m)
             {
                 var discountAmount = discountableAmount.Amount * takeAwayDiscount.Rate;
                 discounts.Add(takeAwayDiscount, discountAmount);
