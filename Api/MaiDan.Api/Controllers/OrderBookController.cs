@@ -40,7 +40,7 @@ namespace MaiDan.Api.Controllers
 
             var billpreview = cashRegister.Calculate(order);
 
-            return new DataContracts.Responses.DetailedOrder(order, billpreview);
+            return Ok(new DataContracts.Responses.DetailedOrder(order, billpreview));
         }
 
         [HttpGet]

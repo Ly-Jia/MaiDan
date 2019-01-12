@@ -54,13 +54,18 @@ namespace Test.MaiDan.Api.Controllers
             var cashRegister = new ACashRegister(menu.Object).Build();
             var orderBookController = CreateOrderBookController(orderBook.Object, null, defaultRoom.Object, cashRegister, defaultCalendar.Object);
 
-            var retrievedDish = orderBookController.Get(orderId);
+            var result = orderBookController.Get(orderId).Result;
 
-            Check.That(orderBookController.Response.StatusCode).Equals((int)HttpStatusCode.OK);
-            Check.That(retrievedDish.Id).Equals(orderWithTwoTacos.Id);
-            Check.That(retrievedDish.Lines.First().Quantity).Equals(two);
-            Check.That(retrievedDish.Lines.First().DishName).Equals(tacos);
-            Check.That(retrievedDish.Lines.First().Amount).Equals(2 * fiveEuros);
+            Check.That(result).IsInstanceOf<OkObjectResult>();
+            var okResult = (OkObjectResult)result;
+
+            Check.That(okResult.Value).IsInstanceOf<global::MaiDan.Api.DataContracts.Responses.DetailedOrder>();
+            var retrievedOrder = (global::MaiDan.Api.DataContracts.Responses.DetailedOrder)okResult.Value;
+
+            Check.That(retrievedOrder.Id).Equals(orderWithTwoTacos.Id);
+            Check.That(retrievedOrder.Lines.First().Quantity).Equals(two);
+            Check.That(retrievedOrder.Lines.First().DishName).Equals(tacos);
+            Check.That(retrievedOrder.Lines.First().Amount).Equals(2 * fiveEuros);
         }
 
         [Test]
@@ -70,9 +75,9 @@ namespace Test.MaiDan.Api.Controllers
             orderBook.Setup(o => o.Get(It.IsAny<string>())).Returns((Order)null);
             var orderBookController = CreateOrderBookController(orderBook.Object, null, defaultRoom.Object, defaultCashRegister.Object, null);
 
-            orderBookController.Get(1);
+            var result = orderBookController.Get(1).Result;
 
-            Check.That(orderBookController.Response.StatusCode).Equals((int)HttpStatusCode.NotFound);
+            Check.That(result).IsInstanceOf<NotFoundResult>();
         }
 
         [Test]
@@ -89,9 +94,7 @@ namespace Test.MaiDan.Api.Controllers
             var cashRegister = new ACashRegister(menu.Object).Build();
             var orderBookController = CreateOrderBookController(orderBook.Object, null, defaultRoom.Object, cashRegister, null);
 
-            orderBookController.Get(1);
-
-            Check.That(orderBookController.Response.StatusCode).Equals((int)HttpStatusCode.InternalServerError);
+            Check.ThatCode(() => orderBookController.Get(1)).Throws<InvalidOperationException>();
         }
 
         [Test]
@@ -102,13 +105,13 @@ namespace Test.MaiDan.Api.Controllers
             menu.Setup(m => m.Get(It.IsAny<string>())).Returns((Dish)null);
             var orderBookController = CreateOrderBookController(orderBook.Object, menu.Object, defaultRoom.Object, defaultCashRegister.Object, defaultCalendar.Object);
 
-            orderBookController.Add(new global::MaiDan.Api.DataContracts.Requests.Order
+            var result = orderBookController.Add(new global::MaiDan.Api.DataContracts.Requests.Order
             {
                 Id = 1,
                 Lines = new List<global::MaiDan.Api.DataContracts.Requests.Line> { new global::MaiDan.Api.DataContracts.Requests.Line { DishId = "id" } }
             });
 
-            Check.That(orderBookController.Response.StatusCode).Equals((int)HttpStatusCode.BadRequest);
+            Check.That(result).IsInstanceOf<BadRequestObjectResult>();
             orderBook.Verify((IRepository<global::MaiDan.Ordering.Domain.Order> o) => o.Add(It.IsAny<global::MaiDan.Ordering.Domain.Order>()), Times.Never);
         }
 
@@ -121,13 +124,13 @@ namespace Test.MaiDan.Api.Controllers
             menu.Setup(m => m.Get(It.IsAny<string>())).Returns((Dish)null);
             var orderBookController = CreateOrderBookController(orderBook.Object, menu.Object, defaultRoom.Object, defaultCashRegister.Object, defaultCalendar.Object);
 
-            orderBookController.Update(new global::MaiDan.Api.DataContracts.Requests.Order
+            var result = orderBookController.Update(new global::MaiDan.Api.DataContracts.Requests.Order
             {
                 Id = 1,
                 Lines = new List<global::MaiDan.Api.DataContracts.Requests.Line> { new global::MaiDan.Api.DataContracts.Requests.Line { DishId = "id" } }
             });
 
-            Check.That(orderBookController.Response.StatusCode).Equals((int)HttpStatusCode.BadRequest);
+            Check.That(result).IsInstanceOf<BadRequestObjectResult>();
             orderBook.Verify((IRepository<global::MaiDan.Ordering.Domain.Order> o) => o.Add(It.IsAny<global::MaiDan.Ordering.Domain.Order>()), Times.Never);
         }
 
@@ -144,9 +147,9 @@ namespace Test.MaiDan.Api.Controllers
 
             var orderBookController = CreateOrderBookController(orderBook.Object, menu.Object, room.Object, defaultCashRegister.Object, defaultCalendar.Object);
 
-            orderBookController.Add(new global::MaiDan.Api.DataContracts.Requests.Order { Id = 0, TableId = tableId, Lines = new List<global::MaiDan.Api.DataContracts.Requests.Line>(), NumberOfGuests = 2 });
+            var result = orderBookController.Add(new global::MaiDan.Api.DataContracts.Requests.Order { Id = 0, TableId = tableId, Lines = new List<global::MaiDan.Api.DataContracts.Requests.Line>(), NumberOfGuests = 2 });
 
-            Check.That(orderBookController.Response.StatusCode).Equals((int)HttpStatusCode.OK);
+            Check.That(result).IsInstanceOf<OkObjectResult>();
         }
 
         [Test]
@@ -161,9 +164,15 @@ namespace Test.MaiDan.Api.Controllers
             room.Setup(r => r.Get(tableId)).Returns(new Table(tableId));
             var orderBookController = CreateOrderBookController(orderBook.Object, menu.Object, room.Object, defaultCashRegister.Object, defaultCalendar.Object);
 
-            orderBookController.Update(new global::MaiDan.Api.DataContracts.Requests.Order { Id = 1, TableId = tableId, Lines = new List<global::MaiDan.Api.DataContracts.Requests.Line>(), NumberOfGuests = 2 });
+            var result = orderBookController.Update(new global::MaiDan.Api.DataContracts.Requests.Order
+            {
+                Id = 1,
+                TableId = tableId,
+                Lines = new List<global::MaiDan.Api.DataContracts.Requests.Line>(),
+                NumberOfGuests = 2
+            });
 
-            Check.That(orderBookController.Response.StatusCode).Equals((int)HttpStatusCode.OK);
+            Check.That(result).IsInstanceOf<OkResult>();
         }
 
         [Test]
@@ -176,9 +185,15 @@ namespace Test.MaiDan.Api.Controllers
             var room = new Mock<IRepository<Table>>();
             var orderBookController = CreateOrderBookController(orderBook.Object, menu.Object, room.Object, defaultCashRegister.Object, defaultCalendar.Object);
 
-            orderBookController.Update(new global::MaiDan.Api.DataContracts.Requests.Order { Id = 1, TableId = null, Lines = new List<global::MaiDan.Api.DataContracts.Requests.Line>(), NumberOfGuests = 0 });
+            var result = orderBookController.Update(new global::MaiDan.Api.DataContracts.Requests.Order
+            {
+                Id = 1,
+                TableId = null,
+                Lines = new List<global::MaiDan.Api.DataContracts.Requests.Line>(),
+                NumberOfGuests = 0
+            });
 
-            Check.That(orderBookController.Response.StatusCode).Equals((int)HttpStatusCode.BadRequest);
+            Check.That(result).IsInstanceOf<BadRequestObjectResult>();
         }
 
         private OrderBookController CreateOrderBookController(IRepository<global::MaiDan.Ordering.Domain.Order> orderBook, IRepository<Dish> menu, IRepository<Table> room, ICashRegister cashRegister, ICalendar calendar)

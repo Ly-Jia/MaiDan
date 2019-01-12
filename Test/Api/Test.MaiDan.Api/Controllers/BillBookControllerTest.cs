@@ -27,9 +27,9 @@ namespace Test.MaiDan.Api.Controllers
             var billBookController = CreateBillBookController(billBook.Object, orderBook.Object, cashRegister.Object);
             var contract = new Order { Id = id };
 
-            billBookController.Print(contract);
+            var result = billBookController.Print(contract);
 
-            Check.That(billBookController.Response.StatusCode).Equals((int)HttpStatusCode.OK);
+            Check.That(result).IsInstanceOf<OkResult>();
             orderBook.Verify(o => o.Get(id), Times.Once());
             cashRegister.Verify(cr => cr.Print(It.IsAny<global::MaiDan.Ordering.Domain.Order>()), Times.Once());
         }
@@ -46,9 +46,9 @@ namespace Test.MaiDan.Api.Controllers
             var billBookController = CreateBillBookController(billBook.Object, orderBook.Object, cashRegister.Object);
             var contract = new Order { Id = id };
 
-            billBookController.Print(contract);
+            var result = billBookController.Print(contract);
 
-            Check.That(billBookController.Response.StatusCode).Equals((int)HttpStatusCode.BadRequest);
+            Check.That(result).IsInstanceOf<BadRequestResult>();
             orderBook.Verify(o => o.Get(id), Times.Once());
             cashRegister.Verify(cr => cr.Print(It.IsAny<global::MaiDan.Ordering.Domain.Order>()), Times.Never());
         }

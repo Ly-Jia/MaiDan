@@ -31,7 +31,7 @@ namespace MaiDan.Api.Controllers
                 return NotFound();
             }
 
-            return new DataContracts.Responses.DetailedDish(orderingDish, billingDish);
+            return Ok(new DataContracts.Responses.DetailedDish(orderingDish, billingDish));
         }
 
         [HttpGet]

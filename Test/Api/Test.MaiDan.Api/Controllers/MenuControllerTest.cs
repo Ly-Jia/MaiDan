@@ -28,9 +28,14 @@ namespace Test.MaiDan.Api.Controllers
             billingMenu.Setup(m => m.Get(id)).Returns(billingDish);
             var menuController = CreateMenuController(orderingMenu.Object, billingMenu.Object);
 
-            var retrievedDish = menuController.Get(id);
-             
-            Check.That(menuController.Response.StatusCode).Equals((int)HttpStatusCode.OK);
+            var result = menuController.Get(id).Result;
+
+            Check.That(result).IsInstanceOf<OkObjectResult>();
+            var okResult = (OkObjectResult)result;
+
+            Check.That(okResult.Value).IsInstanceOf<global::MaiDan.Api.DataContracts.Responses.DetailedDish>();
+            var retrievedDish = (global::MaiDan.Api.DataContracts.Responses.DetailedDish)okResult.Value;
+
             Check.That(retrievedDish.Id).Equals(id);
             Check.That(retrievedDish.Name).Equals(name);
         }
@@ -42,9 +47,9 @@ namespace Test.MaiDan.Api.Controllers
             menu.Setup(m => m.Get(It.IsAny<string>())).Returns((global::MaiDan.Billing.Domain.Dish) null);
             var menuController = CreateMenuController(emptyOrderingMenu, menu.Object);
 
-            menuController.Get("anId");
+            var result = menuController.Get("anId");
 
-            Check.That(menuController.Response.StatusCode).Equals((int)HttpStatusCode.NotFound);
+            Check.That(result.Result).IsInstanceOf<NotFoundResult>();
         }
         
         private MenuController CreateMenuController(IRepository<global::MaiDan.Ordering.Domain.Dish> orderingMenu, IRepository<global::MaiDan.Billing.Domain.Dish> billingMenu)
