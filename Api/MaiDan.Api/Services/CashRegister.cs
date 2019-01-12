@@ -80,6 +80,12 @@ namespace MaiDan.Api.Services
         private Line CalculateLine(Ordering.Domain.Line line)
         {
             var dish = menu.Get(line.Dish.Id);
+
+            if (dish.CurrentPrice == null)
+            {
+                throw new InvalidOperationException($"Dish {dish.Id} does not have a current price");
+            }
+
             var amount = line.Free ? 0m : line.Quantity * dish.CurrentPrice.Value;
             var taxId = regularTaxedProducts.Contains(dish.Type) ? REGULAR_TAX_ID : REDUCED_TAX_ID;
             // @TODO: Make taxconfiguration returns the same object instance for a given taxRate
