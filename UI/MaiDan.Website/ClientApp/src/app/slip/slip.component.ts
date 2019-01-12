@@ -74,6 +74,7 @@ export class SlipComponent implements OnInit {
   }
 
   private _getPaymentMethodIdFromLabel(paymentMethodLabel: string): string {
+    if (paymentMethodLabel === undefined) return null;
     var regex = new RegExp("([a-zA-Z0-9]*) - .*");
     var m = regex.exec(paymentMethodLabel);
     return m[1];
