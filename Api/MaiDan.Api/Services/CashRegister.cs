@@ -12,6 +12,9 @@ namespace MaiDan.Api.Services
 {
     public class CashRegister : ICashRegister
     {
+        private const string ReducedTaxId = "RED";
+        private const string RegularTaxId = "REG";
+        private const string TakeAwayDiscountId = "À emporter";
         private readonly IPrint printer;
         private readonly IRepository<Billing.Domain.Dish> menu;
         private readonly IRepository<Order> orderBook;
@@ -19,11 +22,8 @@ namespace MaiDan.Api.Services
         private readonly IRepository<Slip> slipBook;
         private readonly IRepository<Tax> taxConfiguration;
         private readonly IRepository<Discount> discountList;
-        private const string REDUCED_TAX_ID = "RED";
-        private const string REGULAR_TAX_ID = "REG";
         private readonly IEnumerable<string> regularTaxedProducts = new[] { "Alcool", "Apéritif", "Vin" };
         //@TODO set the id in config file
-        private const string TAKE_AWAY_DISCOUNT_ID = "À emporter";
 
         public CashRegister(IPrint printer, IRepository<Billing.Domain.Dish> menu, IRepository<Order> orderBook, IRepository<Bill> billBook, IRepository<Slip> slipBook, IRepository<Tax> taxConfiguration, IRepository<Discount> discountList)
         {
@@ -87,7 +87,7 @@ namespace MaiDan.Api.Services
             }
 
             var amount = line.Free ? 0m : line.Quantity * dish.CurrentPrice.Value;
-            var taxId = regularTaxedProducts.Contains(dish.Type) ? REGULAR_TAX_ID : REDUCED_TAX_ID;
+            var taxId = regularTaxedProducts.Contains(dish.Type) ? RegularTaxId : ReducedTaxId;
             // @TODO: Make taxconfiguration returns the same object instance for a given taxRate
             var tax = taxConfiguration.Get(taxId);
             var billingLine = new Line(line.Id, amount, tax.CurrentRate);
@@ -96,7 +96,7 @@ namespace MaiDan.Api.Services
 
         private void AddTakeAwayDiscount(Dictionary<Discount, decimal> discounts, Order order, List<Line> lines)
         {
-            var takeAwayDiscount = discountList.Get(TAKE_AWAY_DISCOUNT_ID);
+            var takeAwayDiscount = discountList.Get(TakeAwayDiscountId);
             var discountableAmount = lines.Where(l => l.TaxRate.Tax.Id == takeAwayDiscount.ApplicableTax.Id)
                 .GroupBy(l => l.TaxRate.Tax.Id)
                 .Select(g => new { TaxId = g, Amount = g.Sum(x => x.Amount) })
@@ -111,7 +111,7 @@ namespace MaiDan.Api.Services
 
         private Dictionary<TaxRate, decimal> CalculateBillTaxes(Order order, List<Line> lines, Dictionary<Discount, decimal> discounts)
         {
-            var takeAwayDiscount = discountList.Get(TAKE_AWAY_DISCOUNT_ID);
+            var takeAwayDiscount = discountList.Get(TakeAwayDiscountId);
 
             var billAmountsByTax = lines.GroupBy(l => l.TaxRate.Id)
                 .Select(g => new {g.First().TaxRate, Amount = g.Sum(x => x.Amount) });
@@ -120,7 +120,7 @@ namespace MaiDan.Api.Services
             foreach (var billAmountByTax in billAmountsByTax)
             {
                 decimal taxAmount;
-                if (order is TakeAwayOrder && billAmountByTax.TaxRate.Tax.Id == REDUCED_TAX_ID &&
+                if (order is TakeAwayOrder && billAmountByTax.TaxRate.Tax.Id == ReducedTaxId &&
                     discounts.Any(d => d.Key == takeAwayDiscount))
                     taxAmount = CalculateTaxAmount(billAmountByTax.TaxRate,
                         billAmountByTax.Amount - discounts[takeAwayDiscount]);
