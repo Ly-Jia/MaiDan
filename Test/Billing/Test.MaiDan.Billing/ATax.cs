@@ -6,20 +6,19 @@ namespace Test.MaiDan.Billing
 {
     public class ATax
     {
-        public static string DEFAULT_TAX_ID = "DEF";
-
-        public static List<TaxRate> DEFAULT_TAX_CONF = new List<TaxRate>();
-        public static Tax DEFAULT_TAX = new Tax(DEFAULT_TAX_ID, DEFAULT_TAX_CONF);
-        public static TaxRate DEFAULT_TAX_RATE = new TaxRate("DEF-1", DEFAULT_TAX, 10m, new DateTime(2012, 12, 12), DateTime.MaxValue);
+        private const string DefaultTaxId = "DEF";
+        public static readonly List<TaxRate> DefaultTaxConf = new List<TaxRate>();
+        public static readonly Tax DefaultTax = new Tax(DefaultTaxId, DefaultTaxConf);
+        public static readonly TaxRate DefaultTaxRate = new TaxRate("DEF-1", DefaultTax, 10m, new DateTime(2012, 12, 12), DateTime.MaxValue);
 
         public ATax()
         {
-            DEFAULT_TAX.TaxConfiguration.Add(DEFAULT_TAX_RATE);
+            DefaultTax.TaxConfiguration.Add(DefaultTaxRate);
         }
 
         public Tax Build()
         {
-            return DEFAULT_TAX;
+            return DefaultTax;
         }
     }
 }

@@ -6,12 +6,12 @@ namespace Test.MaiDan.Billing
 {
     public class ADish
     {
-        private static readonly string DEFAULT_ID = "1";
-        private string id;
-        private List<Price> priceConfiguration = new List<Price>();
+        private const string DefaultId = "1";
+        private readonly string id;
+        private readonly List<Price> priceConfiguration = new List<Price>();
         private string type = "Starter";
 
-        public ADish() : this(DEFAULT_ID)
+        public ADish() : this(DefaultId)
         {
         }
 
@@ -63,6 +63,5 @@ namespace Test.MaiDan.Billing
         {
             return this;
         }
-
     }
 }

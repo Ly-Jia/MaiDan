@@ -4,12 +4,12 @@ namespace Test.MaiDan.Ordering
 {
     public class ADish
     {
-        private static readonly string DEFAULT_ID = "1";
-        private static readonly string DEFAULT_NAME = "Dish 1";
-        private string id;
+        private const string DefaultId = "1";
+        private const string DefaultName = "Dish 1";
+        private readonly string id;
         private string name;
 
-        public ADish() : this(DEFAULT_ID)
+        public ADish() : this(DefaultId)
         {
             
         }
@@ -21,7 +21,7 @@ namespace Test.MaiDan.Ordering
 
         public Dish Build()
         {
-            return new Dish(id, name ?? DEFAULT_NAME);
+            return new Dish(id, name ?? DefaultName);
         }
 
         public ADish Named(string name)
@@ -29,6 +29,5 @@ namespace Test.MaiDan.Ordering
             this.name = name;
             return this;
         }
-
     }
 }

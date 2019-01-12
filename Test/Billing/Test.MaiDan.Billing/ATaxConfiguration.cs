@@ -8,7 +8,7 @@ namespace Test.MaiDan.Billing
 {
     public class ATaxConfiguration
     {
-        private Mock<IRepository<Tax>> taxConfiguration;
+        private readonly Mock<IRepository<Tax>> taxConfiguration;
 
         public ATaxConfiguration()
         {

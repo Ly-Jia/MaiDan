@@ -6,7 +6,7 @@ namespace Test.MaiDan.Billing
 {
     public class ADiscountList
     {
-        private Mock<IRepository<Discount>> discountList;
+        private readonly Mock<IRepository<Discount>> discountList;
 
         public ADiscountList()
         {

@@ -9,13 +9,13 @@ namespace Test.MaiDan.Ordering
     /// </summary>
     public class AnOrder
     {
-        public static readonly int DEFAULT_ID = 1;
-        private int id;
+        private const int DefaultId = 1;
+        private static readonly Table DefaultTable = new Table("1");
+        private readonly int id;
         private List<Line> lines;
         private bool takeAway = false;
         private int numberOfGuests = 0;
         private Table table;
-        private Table defaultTable = new Table("1");
         private DateTime orderingDate = new DateTime(2018, 08, 08);
         private bool closed = false;
 
@@ -32,7 +32,7 @@ namespace Test.MaiDan.Ordering
         /// <summary>
         /// Initialize the order with a default id (DateTime : 2012/12/21)
         /// </summary>
-        public AnOrder() : this(DEFAULT_ID)
+        public AnOrder() : this(DefaultId)
         {
         }
 
@@ -112,7 +112,7 @@ namespace Test.MaiDan.Ordering
             if (takeAway)
                 return new TakeAwayOrder(id, orderingDate, lines, false);
 
-            return new OnSiteOrder(id, table ?? defaultTable, numberOfGuests, orderingDate, lines, closed);
+            return new OnSiteOrder(id, table ?? DefaultTable, numberOfGuests, orderingDate, lines, closed);
         }
     }
 }
