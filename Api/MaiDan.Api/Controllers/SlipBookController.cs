@@ -60,11 +60,6 @@ namespace MaiDan.Api.Controllers
         [HttpPut]
         public IActionResult Update([FromBody] DataContracts.Requests.Slip contract)
         {
-            if (contract.Id <= 0)
-            {
-                return BadRequest("The contract id of a slip to be updated cannot be 0 or negative");
-            }
-
             var wrappedSlip = ModelFromContract(contract);
             if (wrappedSlip.HasError)
             {
@@ -78,6 +73,11 @@ namespace MaiDan.Api.Controllers
 
         private ValidationResult<Slip> ModelFromContract(DataContracts.Requests.Slip contract)
         {
+            if (contract.Id <= 0)
+            {
+                return "The contract id of a slip to be updated cannot be 0 or negative";
+            }
+
             if (contract.Payments == null)
             {
                 return "The contract payments cannot be null";
