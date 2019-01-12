@@ -78,7 +78,7 @@ namespace Test.MaiDan.Ordering
         /// <returns>The order</returns>
         public AnOrder With(int quantity, bool free, Dish dish)
         {
-            return With(new Line(this.lines.Count, quantity, free, dish));
+            return With(new Line(this.lines.Count + 1, quantity, free, dish));
         }
 
         /// <summary>
