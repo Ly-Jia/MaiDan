@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NFluent;
 using NUnit.Framework;
-using System.Net;
 using Test.MaiDan.Ordering;
 
 namespace Test.MaiDan.Api.Controllers

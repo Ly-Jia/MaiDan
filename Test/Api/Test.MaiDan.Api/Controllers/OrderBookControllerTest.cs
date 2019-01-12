@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using MaiDan.Accounting.Domain;
+﻿using MaiDan.Accounting.Domain;
 using MaiDan.Api.Controllers;
 using MaiDan.Api.Services;
 using MaiDan.Infrastructure.Database;
@@ -12,6 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NFluent;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Test.MaiDan.Ordering;
 using ADish = Test.MaiDan.Ordering.ADish;
 

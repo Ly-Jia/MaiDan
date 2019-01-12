@@ -1,5 +1,4 @@
-﻿using System.Net;
-using MaiDan.Api.Controllers;
+﻿using MaiDan.Api.Controllers;
 using MaiDan.Infrastructure.Database;
 using MaiDan.Ordering.Domain;
 using Microsoft.AspNetCore.Http;
