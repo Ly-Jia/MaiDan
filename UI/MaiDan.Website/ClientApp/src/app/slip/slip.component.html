@@ -36,7 +36,7 @@
         <td pEditableColumn>
           <p-cellEditor>
             <ng-template pTemplate="input">
-              <input type="number" step="0.01" [(ngModel)]="payment.amount">
+              <input type="number" step="0.01" min="0.01" [(ngModel)]="payment.amount">
             </ng-template>
             <ng-template pTemplate="output">
               {{payment.amount}}
