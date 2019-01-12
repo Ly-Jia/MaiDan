@@ -83,11 +83,16 @@ namespace MaiDan.Api.Controllers
                 return "The contract payments cannot be null";
             }
 
+            if (!contract.Payments.Any())
+            {
+                return "The contract payments cannot be empty";
+            }
+
             IList<Payment> payments = contract.Payments.Select(p => new Payment(p.Id, paymentMethodList.Get(p.PaymentMethodId), p.Amount)).ToList();
 
             if (payments.Any(p => p.Method == null))
             {
-                return "One or several payment method id are unknown";
+                return "One or several payment method ids are unknown";
             }
 
             return new Slip(contract.Id, DateTime.Now, payments);
