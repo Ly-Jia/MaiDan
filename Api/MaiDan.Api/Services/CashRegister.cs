@@ -124,14 +124,13 @@ namespace MaiDan.Api.Services
             var billTaxes = new Dictionary<TaxRate, decimal>();
             foreach (var billAmountByTax in billAmountsByTax)
             {
-                decimal taxAmount;
-                if (order is TakeAwayOrder && billAmountByTax.TaxRate.Tax.Id == ReducedTaxId &&
-                    discounts.Any(d => d.Key == takeAwayDiscount))
-                    taxAmount = CalculateTaxAmount(billAmountByTax.TaxRate,
-                        billAmountByTax.Amount - discounts[takeAwayDiscount]);
-                else
-                    taxAmount = CalculateTaxAmount(billAmountByTax.TaxRate, billAmountByTax.Amount);
+                var discountAmount = 0m;
+                if (order is TakeAwayOrder && billAmountByTax.TaxRate.Tax.Id == ReducedTaxId)
+                {
+                    discounts.TryGetValue(takeAwayDiscount, out discountAmount);
+                }
 
+                var taxAmount = CalculateTaxAmount(billAmountByTax.TaxRate, billAmountByTax.Amount - discountAmount);
                 billTaxes.Add(billAmountByTax.TaxRate, taxAmount);
             }
             return billTaxes;
