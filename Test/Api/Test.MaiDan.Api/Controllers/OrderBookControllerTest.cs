@@ -11,6 +11,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Test.MaiDan.Billing;
 using Test.MaiDan.Ordering;
 using ADish = Test.MaiDan.Ordering.ADish;
 
@@ -23,7 +24,6 @@ namespace Test.MaiDan.Api.Controllers
         private Mock<IRepository<Table>> defaultRoom;
         private Mock<ICashRegister> defaultCashRegister;
         private Mock<ICalendar> defaultCalendar;
-
 
         [OneTimeSetUp]
         public void Init()
@@ -40,18 +40,18 @@ namespace Test.MaiDan.Api.Controllers
         public void Http200WhenOrderIsFound()
         {
             var orderBook = new Mock<IRepository<global::MaiDan.Ordering.Domain.Order>>();
-            var menu = new Mock<IRepository<global::MaiDan.Billing.Domain.Dish>>();
             var orderId = 1;
             var tcs = "tcs";
             var fiveEuros = 5m;
-            var dish = new Billing.ADish(tcs).Priced(fiveEuros).Build();
             var two = 2;
             var tacos = "tacos";
             var orderWithTwoTacos = new AnOrder(orderId).With(two, new ADish(tcs).Named(tacos).Build()).Build();
             orderBook.Setup(o => o.Get(orderId)).Returns(orderWithTwoTacos);
-            menu.Setup(m => m.Get(tcs)).Returns(dish);
-            var cashRegister = new ACashRegister(menu.Object).Build();
-            var orderBookController = CreateOrderBookController(orderBook.Object, null, defaultRoom.Object, cashRegister, defaultCalendar.Object);
+
+            var billForOrderWithTwoTacos = new ABill(orderId).With(fiveEuros * two).Build();
+            defaultCashRegister.Setup(cr => cr.Calculate(It.IsAny<Order>())).Returns(billForOrderWithTwoTacos);
+
+            var orderBookController = CreateOrderBookController(orderBook.Object, null, defaultRoom.Object, defaultCashRegister.Object, defaultCalendar.Object);
 
             var result = orderBookController.Get(orderId).Result;
 
@@ -84,14 +84,12 @@ namespace Test.MaiDan.Api.Controllers
         {
             var orderBook = new Mock<IRepository<global::MaiDan.Ordering.Domain.Order>>();
             orderBook.Setup(o => o.Get(It.IsAny<string>())).Returns((global::MaiDan.Ordering.Domain.Order)null);
-            var menu = new Mock<IRepository<global::MaiDan.Billing.Domain.Dish>>();
             var dishId = "mistery";
             var dish = new Billing.ADish(dishId).Build();
             var order = new AnOrder().With(2, new ADish(dishId).Build()).Build();
             orderBook.Setup(o => o.Get(It.IsAny<object>())).Returns(order);
-            menu.Setup(m => m.Get(dishId)).Returns(dish);
-            var cashRegister = new ACashRegister(menu.Object).Build();
-            var orderBookController = CreateOrderBookController(orderBook.Object, null, defaultRoom.Object, cashRegister, null);
+            defaultCashRegister.Setup(cr => cr.Calculate(It.IsAny<Order>())).Throws(new InvalidOperationException());
+            var orderBookController = CreateOrderBookController(orderBook.Object, null, defaultRoom.Object, defaultCashRegister.Object, null);
 
             Check.ThatCode(() => orderBookController.Get(1)).Throws<InvalidOperationException>();
         }
