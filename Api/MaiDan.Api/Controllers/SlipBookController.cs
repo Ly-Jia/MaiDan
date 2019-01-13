@@ -88,16 +88,21 @@ namespace MaiDan.Api.Controllers
                 return "The contract payments cannot be empty";
             }
 
+            if (contract.Payments.Any(p => p.Amount <= 0))
+            {
+                return "Payment amounts cannot be 0 or negative";
+            }
+
+            if (contract.Payments.Any(p => p.Amount % 0.01m != 0))
+            {
+                return "Payment amounts cannot have a fractional part below the cent";
+            }
+
             IList<Payment> payments = contract.Payments.Select(p => new Payment(p.Id, paymentMethodList.Get(p.PaymentMethodId), p.Amount)).ToList();
 
             if (payments.Any(p => p.Method == null))
             {
                 return "One or several payment method ids are unknown";
-            }
-
-            if (payments.Any(p => p.Amount <= 0))
-            {
-                return "Payment amounts cannot be 0 or negative";
             }
 
             return new Slip(contract.Id, DateTime.Now, payments);
