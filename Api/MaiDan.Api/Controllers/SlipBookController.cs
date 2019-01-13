@@ -95,6 +95,11 @@ namespace MaiDan.Api.Controllers
                 return "One or several payment method ids are unknown";
             }
 
+            if (payments.Any(p => p.Amount <= 0))
+            {
+                return "Payment amounts cannot be 0 or negative";
+            }
+
             return new Slip(contract.Id, DateTime.Now, payments);
         }
     }
