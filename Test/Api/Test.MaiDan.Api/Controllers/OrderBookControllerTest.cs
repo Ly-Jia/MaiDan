@@ -25,7 +25,7 @@ namespace Test.MaiDan.Api.Controllers
         private Mock<ICashRegister> defaultCashRegister;
         private Mock<ICalendar> defaultCalendar;
 
-        [OneTimeSetUp]
+        [SetUp]
         public void Init()
         {
             defaultTable = new Table("1");
