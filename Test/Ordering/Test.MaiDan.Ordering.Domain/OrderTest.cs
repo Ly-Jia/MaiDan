@@ -5,7 +5,6 @@ using NUnit.Framework;
 
 namespace Test.MaiDan.Ordering.Domain
 {
-    [TestFixture]
     public class OrderTest
     {
         [Test]

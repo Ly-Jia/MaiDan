@@ -11,7 +11,6 @@ using Dish = MaiDan.Billing.Domain.Dish;
 
 namespace Test.MaiDan.Api.Services
 {
-    [TestFixture]
     public class CashRegisterTest
     {
         [Test]

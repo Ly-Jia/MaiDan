@@ -4,7 +4,6 @@ using System;
 
 namespace Test.MaiDan.Billing.Domain
 {
-    [TestFixture]
     public class DishTest
     {
         [Test]

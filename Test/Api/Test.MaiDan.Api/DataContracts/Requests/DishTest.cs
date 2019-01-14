@@ -5,7 +5,6 @@ using NUnit.Framework;
 
 namespace Test.MaiDan.Api.DataContracts.Requests
 {
-    [TestFixture]
     public class DishTest
     {
         [Test]

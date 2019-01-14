@@ -5,7 +5,6 @@ using NUnit.Framework;
 
 namespace Test.MaiDan.Billing.Domain
 {
-    [TestFixture]
     public class PriceTest
     {
         [Test]

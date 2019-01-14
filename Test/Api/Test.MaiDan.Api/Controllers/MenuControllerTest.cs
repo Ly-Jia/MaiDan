@@ -9,7 +9,6 @@ using NUnit.Framework;
 
 namespace Test.MaiDan.Api.Controllers
 {
-    [TestFixture]
     public class MenuControllerTest
     {
         private IRepository<Dish> emptyOrderingMenu = new Mock<IRepository<global::MaiDan.Ordering.Domain.Dish>>().Object;

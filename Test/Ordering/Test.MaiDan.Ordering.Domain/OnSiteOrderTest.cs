@@ -4,10 +4,8 @@ using NUnit.Framework;
 
 namespace Test.MaiDan.Ordering.Domain
 {
-    [TestFixture]
     public class OnSiteOrderTest
     {
-
         [Test]
         public void should_be_equal_when_orders_are_the_same()
         {

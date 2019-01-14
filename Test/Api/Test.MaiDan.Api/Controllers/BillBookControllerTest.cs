@@ -11,7 +11,6 @@ using Test.MaiDan.Ordering;
 
 namespace Test.MaiDan.Api.Controllers
 {
-    [TestFixture]
     public class BillBookControllerTest
     {
         [Test]
