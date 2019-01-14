@@ -9,17 +9,17 @@ namespace MaiDan.Api.Controllers
     [Route("api/[controller]")]
     public class PaymentMethodsController : Controller
     {
-        private IRepository<PaymentMethod> paymentMethodList;
+        private IRepository<PaymentMethod> paymentMethods;
 
-        public PaymentMethodsController(IRepository<PaymentMethod> paymentMethodList)
+        public PaymentMethodsController(IRepository<PaymentMethod> paymentMethods)
         {
-            this.paymentMethodList = paymentMethodList;
+            this.paymentMethods = paymentMethods;
         }
 
         [HttpGet]
         public IEnumerable<DataContracts.Responses.PaymentMethod> Get()
         {
-            return paymentMethodList.GetAll().Select(p => new DataContracts.Responses.PaymentMethod(p.Id, p.Name));
+            return paymentMethods.GetAll().Select(p => new DataContracts.Responses.PaymentMethod(p.Id, p.Name));
         }
     }
 }

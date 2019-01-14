@@ -10,13 +10,13 @@ namespace MaiDan.Accounting.Dal.Repositories
     public class SlipBook : IRepository<Domain.Slip>
     {
         private readonly AccountingContext context;
-        private readonly IRepository<Domain.PaymentMethod> paymentMethodList;
+        private readonly IRepository<Domain.PaymentMethod> paymentMethods;
         private readonly ILogger<AccountingContext> logger;
 
-        public SlipBook(AccountingContext context, IRepository<Domain.PaymentMethod> paymentMethodList, ILogger<AccountingContext> logger)
+        public SlipBook(AccountingContext context, IRepository<Domain.PaymentMethod> paymentMethods, ILogger<AccountingContext> logger)
         {
             this.context = context;
-            this.paymentMethodList = paymentMethodList;
+            this.paymentMethods = paymentMethods;
             this.logger = logger;
         }
 
@@ -84,7 +84,7 @@ namespace MaiDan.Accounting.Dal.Repositories
 
         public Domain.Slip ModelFrom(Slip entity)
         {
-            var payments = entity.Payments.Select(p => new Domain.Payment(p.Index, paymentMethodList.Get(p.PaymentMethod.Id), p.Amount)).ToList();
+            var payments = entity.Payments.Select(p => new Domain.Payment(p.Index, paymentMethods.Get(p.PaymentMethod.Id), p.Amount)).ToList();
 
             return new Domain.Slip(entity.Id, entity.PaymentDate, payments);
         }

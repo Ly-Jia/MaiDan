@@ -66,7 +66,7 @@ namespace MaiDan.Api
             services.AddSingleton<Infrastructure.Database.ILogger<BillingContext>, Billing.Dal.BillingLogger>();
 
             // Accounting
-            services.AddSingleton<IRepository<Accounting.Domain.PaymentMethod>, Accounting.Dal.Repositories.PaymentMethodList>();
+            services.AddSingleton<IRepository<Accounting.Domain.PaymentMethod>, Accounting.Dal.Repositories.PaymentMethods>();
             services.AddSingleton<IRepository<Accounting.Domain.Slip>, Accounting.Dal.Repositories.SlipBook>();
             services.AddSingleton<IRepository<Accounting.Domain.DaySlip>, Accounting.Dal.Repositories.DaySlipBook>();
             services.AddSingleton<Infrastructure.Database.ILogger<AccountingContext>, Accounting.Dal.AccountingLogger>();

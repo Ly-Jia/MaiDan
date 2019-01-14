@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MaiDan.Accounting.Dal.Repositories
 {
-    public class PaymentMethodList : IRepository<Domain.PaymentMethod>
+    public class PaymentMethods : IRepository<Domain.PaymentMethod>
     {
         private readonly AccountingContext context;
 
-        public PaymentMethodList(AccountingContext context)
+        public PaymentMethods(AccountingContext context)
         {
             this.context = context;
         }

@@ -16,15 +16,15 @@ namespace MaiDan.Api.Controllers
         private IRepository<Order> orderBook;
         private IRepository<Bill> billBook;
         private IRepository<Slip> slipBook;
-        private IRepository<PaymentMethod> paymentMethodList;
+        private IRepository<PaymentMethod> paymentMethods;
         private readonly ICashRegister cashRegister;
 
-        public SlipBookController(IRepository<Order> orderBook, IRepository<Bill> billBook, IRepository<Slip> slipBook, IRepository<PaymentMethod> paymentMethodList, ICashRegister cashRegister)
+        public SlipBookController(IRepository<Order> orderBook, IRepository<Bill> billBook, IRepository<Slip> slipBook, IRepository<PaymentMethod> paymentMethods, ICashRegister cashRegister)
         {
             this.orderBook = orderBook;
             this.billBook = billBook;
             this.slipBook = slipBook;
-            this.paymentMethodList = paymentMethodList;
+            this.paymentMethods = paymentMethods;
             this.cashRegister = cashRegister;
         }
 
@@ -98,7 +98,7 @@ namespace MaiDan.Api.Controllers
                 return "Payment amounts cannot have a fractional part below the cent";
             }
 
-            IList<Payment> payments = contract.Payments.Select(p => new Payment(p.Id, paymentMethodList.Get(p.PaymentMethodId), p.Amount)).ToList();
+            IList<Payment> payments = contract.Payments.Select(p => new Payment(p.Id, paymentMethods.Get(p.PaymentMethodId), p.Amount)).ToList();
 
             if (payments.Any(p => p.Method == null))
             {
