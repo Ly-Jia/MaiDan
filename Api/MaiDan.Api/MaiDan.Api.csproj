@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
+    <RuntimeIdentifiers>linuxmint.18.3-x64</RuntimeIdentifiers>
   </PropertyGroup>
 
   <ItemGroup>
